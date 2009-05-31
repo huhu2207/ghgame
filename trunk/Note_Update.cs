@@ -1,29 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Audio;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.GamerServices;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Media;
-using Microsoft.Xna.Framework.Net;
-using Microsoft.Xna.Framework.Storage;
 
 namespace Chart_View
 {
     class Misc_Functions
     {
         // Updates the position of viewable notes and creates/destroys notes when necessary
-        public static void Update_Notes(double current_tick, List<Note> curr_chart, int[] note_iterators,
-                                        int iterator_num, gameObject[] Notes)
+        public static void Update_Notes(ref double current_tick, ref List<Note> curr_chart,
+                                        int note_num, ref int iterator_value,
+                                        ref gameObject[] Notes)
         {
-            // Comparison between the current tick and the next notes
-            if (current_tick > curr_chart[note_iterators[iterator_num]].Location)
+            // This check is here due to the final increment after the last note.
+            // Once the last note passes (these two are equal), we get a out of bounds error.
+            if (!(iterator_value == curr_chart.Count))
             {
-                // Draw the green IF there is a green to draw (should never fail)
-                if (note_iterators[iterator_num] < (curr_chart.Count - 1))
+                // Comparison between the current tick and the next notes
+                if (current_tick >= curr_chart[iterator_value].Location)
                 {
                     // Search for a spot for the new note
                     for (int j = 0; j < Notes.Length; j++)
@@ -31,10 +23,30 @@ namespace Chart_View
                         if (Notes[j].alive == false)
                         {
                             Notes[j].alive = true;
-                            Notes[j].position = new Vector2(300f, 0f);
+
+                            // note_num is passed so checking which chart we are really looking at 
+                            switch (note_num)
+                            {
+                                case 0:
+                                    Notes[j].position = new Vector2(200f, 0f);
+                                    break;
+                                case 1:
+                                    Notes[j].position = new Vector2(275f, 0f);
+                                    break;
+                                case 2:
+                                    Notes[j].position = new Vector2(350f, 0f);
+                                    break;
+                                case 3:
+                                    Notes[j].position = new Vector2(425f, 0f);
+                                    break;
+                                case 4:
+                                    Notes[j].position = new Vector2(500f, 0f);
+                                    break;
+                            }
+                            break;
                         }
                     }
-                    note_iterators[iterator_num]++;
+                    iterator_value++;
                 }
             }
         }

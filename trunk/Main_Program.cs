@@ -1,15 +1,7 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Audio;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Media;
-using Microsoft.Xna.Framework.Net;
-using Microsoft.Xna.Framework.Storage;
 
 namespace Chart_View
 {
@@ -26,7 +18,7 @@ namespace Chart_View
         
         gameObject[] Notes;  // Will hold every note currently on the screen
         const int Max_Notes_Onscreen = 100;  // Maximum amount of notes on screen (should never be reached)
-        const int Note_Velocity = 10;  // Current speed in which the notes will move (hyperspeed)
+        const int Note_Velocity = 9;  // Current speed in which the notes will move (hyperspeed)
         int[] note_iterators;  // These iterators are used to keep track of which note to observe next
         
         Chart main_chart;  // Create the chart file
@@ -68,8 +60,12 @@ namespace Chart_View
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
             game_font = Content.Load<SpriteFont>("Text");  // Load the font
-            main_chart = new Chart("chart.chart");  // Setup the chart 
-            ticks_per_msecond = (main_chart.BPM_Changes[0].Value * 192) / 600000;
+            main_chart = new Chart("chart.chart");  // Setup the chart
+            
+            // This turns the bpm into bps (second) and then multiplies by the chart formats
+            // default resolution (192) and finally turns the value into miliseconds.
+            // -NOTE: I'm honestly not sure why I use 50 instead of 100
+            ticks_per_msecond = (((double)main_chart.BPM_Changes[0].Value / 6000000.0) * 192.0) * 1.6;
 
             // Setup the notes appearance and velocity (both are uniform at the moment)
             for (int i = 0; i < Max_Notes_Onscreen; i++)
@@ -108,16 +104,16 @@ namespace Chart_View
                 this.Exit();
 
             // Update the notes themselves (have to specifiy each note set)
-            Misc_Functions.Update_Notes(current_tick, main_chart.Note_Charts[0].Green_Notes,
-                                        note_iterators, 0, Notes);
-            Misc_Functions.Update_Notes(current_tick, main_chart.Note_Charts[0].Red_Notes,
-                                        note_iterators, 1, Notes);
-            Misc_Functions.Update_Notes(current_tick, main_chart.Note_Charts[0].Yellow_Notes,
-                                        note_iterators, 2, Notes);
-            Misc_Functions.Update_Notes(current_tick, main_chart.Note_Charts[0].Blue_Notes,
-                                        note_iterators, 3, Notes);
-            Misc_Functions.Update_Notes(current_tick, main_chart.Note_Charts[0].Orange_Notes,
-                                        note_iterators, 4, Notes);
+            Misc_Functions.Update_Notes(ref current_tick, ref main_chart.Note_Charts[0].Green_Notes,
+                                        0, ref note_iterators[0], ref Notes);
+            Misc_Functions.Update_Notes(ref current_tick, ref main_chart.Note_Charts[0].Red_Notes,
+                                        1, ref note_iterators[1], ref Notes);
+            Misc_Functions.Update_Notes(ref current_tick, ref main_chart.Note_Charts[0].Yellow_Notes,
+                                        2, ref note_iterators[2], ref Notes);
+            Misc_Functions.Update_Notes(ref current_tick, ref main_chart.Note_Charts[0].Blue_Notes,
+                                        3, ref note_iterators[3], ref Notes);
+            Misc_Functions.Update_Notes(ref current_tick, ref main_chart.Note_Charts[0].Orange_Notes,
+                                        4, ref note_iterators[4], ref Notes);
 
             // Update the living notes
             foreach (gameObject curr_note in Notes)
@@ -130,7 +126,7 @@ namespace Chart_View
                     curr_note.alive = false;
             }
             
-            ms_timer.Update(gameTime.ElapsedGameTime.Milliseconds);  // Update the timer
+            ms_timer.Update(gameTime.TotalGameTime.Milliseconds);  // Update the timer
             current_tick += ticks_per_msecond;
             tmp = Convert.ToString(ms_timer.current_time);
             tmp2 = Convert.ToString(current_tick);
@@ -148,11 +144,11 @@ namespace Chart_View
             spriteBatch.Begin(SpriteBlendMode.AlphaBlend);
 
             Vector2 FontOrigin = game_font.MeasureString(tmp) / 2;
-            spriteBatch.DrawString(game_font, tmp, new Vector2(150f, 30f), Color.Black, 0, FontOrigin,
+            spriteBatch.DrawString(game_font, tmp, new Vector2(50f, 60f), Color.Black, 0, FontOrigin,
                                    1.0f, SpriteEffects.None, 0.5f);
 
             Vector2 FontOrigin2 = game_font.MeasureString(tmp) / 2;
-            spriteBatch.DrawString(game_font, tmp2, new Vector2(30f, 30f), Color.Black, 0, FontOrigin2,
+            spriteBatch.DrawString(game_font, tmp2, new Vector2(50f, 30f), Color.Black, 0, FontOrigin2,
                                     1.0f, SpriteEffects.None, 0.5f);
 
             //Draw the notes

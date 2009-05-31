@@ -1,5 +1,3 @@
-using System;
-using System.IO;
 
 namespace Chart_View
 {
