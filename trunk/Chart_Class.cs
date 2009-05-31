@@ -273,7 +273,7 @@ namespace Chart_View
                 curr_event.print_info();
             }
             Console.WriteLine("Press Enter to read in the notes...");
-            Console.ReadLine();
+            //Console.ReadLine();
 
             Console.WriteLine("Notes:");
             foreach (Notechart curr_notechart in Note_Charts)

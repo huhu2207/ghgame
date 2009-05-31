@@ -10,11 +10,10 @@ namespace Chart_View
         /// </summary>
         static void Main(string[] args)
         {
-            //using (Game1 game = new Game1())
-            //{
-            //    game.Run();
-            //}
-            Test_Chart_Class.test();
+            using (Main_Game game = new Main_Game())
+            {
+                game.Run();
+            }
         }
     }
 }

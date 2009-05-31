@@ -13,7 +13,7 @@ namespace Chart_View
             Chart test = new Chart("chart.chart");
             test.print_info();
             Console.WriteLine("SUCCESS!! Press enter to quit...");
-            Console.ReadLine();
+            //Console.ReadLine();
         }
     }
 }
