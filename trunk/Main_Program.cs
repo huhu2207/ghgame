@@ -20,7 +20,7 @@ namespace Chart_View
         
         gameObject[,] Notes;  // Will hold every note currently on the screen
         const int Max_Notes_Onscreen = 50;  // Maximum amount of a single note (i.e. how many reds per frame)
-        const int Note_Velocity = 9;  // Current speed in which the notes will move (hyperspeed)
+        const double Note_Velocity = 1.5;  // Current speed in which the notes will move (higher = slower)
         int[] note_iterators;  // These iterators are used to keep track of which note to observe next
         int bpm_iterator = 0;  // Keeps track of what bpm change is to come next
         
@@ -99,9 +99,8 @@ namespace Chart_View
             str_manager.Set_String(2, "Song Title:\n" + main_chart.Song_Name);
             str_manager.Set_String(3, "Artist Name:\n" + main_chart.Artist_Name);
 
-            // Add the chart's offset to the initial offset and scale for program use
-            game_offset += main_chart.Offset;
-            current_tick = -630.0;
+            // Add an offset to the current tick so the song doesn't start too fast
+            current_tick = (main_chart.Offset * (main_chart.BPM_Changes[0].Value * 192 / 60000));
 
             // Setup the window
             viewportRectangle = new Rectangle(0, 0,
@@ -129,46 +128,47 @@ namespace Chart_View
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
 
-            // Start the song at the specified time
-            if ((gameTime.TotalGameTime.TotalSeconds >= game_offset) && (audioIsPlaying == false))
+            // Update the current tpms (ticks per milisecond).  Speed up if running slow.
+            if (gameTime.IsRunningSlowly)
             {
-                audio_engine.Play2D("guitar.ogg", true);
-                audioIsPlaying = true;
+                Misc_Functions.Update_TPMS(current_tick, ref bpm_iterator, main_chart.BPM_Changes,
+                                           gameTime, ref ticks_per_msecond);
+                current_tick += ticks_per_msecond;
             }
-
-            // Update the notes themselves (have to specifiy each note set)
-            Misc_Functions.Update_Notes(current_tick, main_chart.Note_Charts[0].Green_Notes,
-                                        0, ref note_iterators[0], ref Notes);
-            Misc_Functions.Update_Notes(current_tick, main_chart.Note_Charts[0].Red_Notes,
-                                        1, ref note_iterators[1], ref Notes);
-            Misc_Functions.Update_Notes(current_tick, main_chart.Note_Charts[0].Yellow_Notes,
-                                        2, ref note_iterators[2], ref Notes);
-            Misc_Functions.Update_Notes(current_tick, main_chart.Note_Charts[0].Blue_Notes,
-                                        3, ref note_iterators[3], ref Notes);
-            Misc_Functions.Update_Notes(current_tick, main_chart.Note_Charts[0].Orange_Notes,
-                                        4, ref note_iterators[4], ref Notes);
-
-            // Update the current tpms (ticks per milisecond)
-            Misc_Functions.Update_TPMS(current_tick, ref bpm_iterator, main_chart.BPM_Changes,
-                                       gameTime, ref ticks_per_msecond);
-
-            // Update the living notes
-            for (int i = 0; i < Notes.GetLength(0); i++)
+            else
             {
-                for (int j = 0; j < Notes.GetLength(1); j++)
+
+                // Start the song at the specified time
+                if ((gameTime.TotalGameTime.TotalSeconds >= game_offset) && (audioIsPlaying == false))
                 {
-                    if (Notes[i,j].alive == true)
-                        Notes[i,j].position += Notes[i, j].velocity;
-
-                    if (!viewportRectangle.Contains(new Point((int)Notes[i, j].position.X,
-                       (int)Notes[i, j].position.Y)))
-                        Notes[i, j].alive = false;
+                    audio_engine.Play2D("guitar.ogg", true);
+                    audioIsPlaying = true;
                 }
-            }
 
-            current_tick += ticks_per_msecond;
-            str_manager.Set_String(0, "Current Tick:\n" + Convert.ToString(current_tick));
-            str_manager.Set_String(1, "TPMS:\n" + Convert.ToString(ticks_per_msecond));
+                // Update the notes themselves (have to specifiy each note set)
+                Misc_Functions.Update_Notes(current_tick, main_chart.Note_Charts[0].Green_Notes,
+                                            0, ref note_iterators[0], ref Notes, viewportRectangle,
+                                            gameTime, Note_Velocity);
+                Misc_Functions.Update_Notes(current_tick, main_chart.Note_Charts[0].Red_Notes,
+                                            1, ref note_iterators[1], ref Notes, viewportRectangle,
+                                            gameTime, Note_Velocity);
+                Misc_Functions.Update_Notes(current_tick, main_chart.Note_Charts[0].Yellow_Notes,
+                                            2, ref note_iterators[2], ref Notes, viewportRectangle,
+                                            gameTime, Note_Velocity);
+                Misc_Functions.Update_Notes(current_tick, main_chart.Note_Charts[0].Blue_Notes,
+                                            3, ref note_iterators[3], ref Notes, viewportRectangle,
+                                            gameTime, Note_Velocity);
+                Misc_Functions.Update_Notes(current_tick, main_chart.Note_Charts[0].Orange_Notes,
+                                            4, ref note_iterators[4], ref Notes, viewportRectangle,
+                                            gameTime, Note_Velocity);
+
+                Misc_Functions.Update_TPMS(current_tick, ref bpm_iterator, main_chart.BPM_Changes,
+                                               gameTime, ref ticks_per_msecond);
+                current_tick += ticks_per_msecond;
+
+                str_manager.Set_String(0, "Current Tick:\n" + Convert.ToString(current_tick));
+                str_manager.Set_String(1, "TPMS:\n" + Convert.ToString(ticks_per_msecond));
+            }
 
             base.Update(gameTime);
         }

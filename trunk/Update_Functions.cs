@@ -8,7 +8,8 @@ namespace Chart_View
         // Updates the position of viewable notes and creates/destroys notes when necessary
         public static void Update_Notes(double current_tick, List<Note> curr_chart,
                                         int note_num, ref int iterator_value,
-                                        ref gameObject[,] Notes)
+                                        ref gameObject[,] Notes, Rectangle viewportRectangle,
+                                        GameTime curr_time, double note_velocity)
         {
             // This check is here due to the final increment after the last note.
             // Once the last note passes (these two are equal), we get a out of bounds error.
@@ -31,6 +32,17 @@ namespace Chart_View
                     }
                     iterator_value++;
                 }
+            }
+
+            // Update the living note's positions and kill notes that leave the screen
+            for (int i = 0; i < Notes.GetLength(1); i++)
+            {
+                if (Notes[note_num, i].alive == true)
+                    Notes[note_num, i].position += new Vector2(0.0f, (float)(curr_time.ElapsedGameTime.TotalMilliseconds / note_velocity));
+
+                if (!viewportRectangle.Contains(new Point((int)Notes[note_num, i].position.X,
+                        (int)Notes[note_num, i].position.Y)))
+                    Notes[note_num, i].alive = false;
             }
         }
 

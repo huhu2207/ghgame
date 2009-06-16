@@ -12,6 +12,7 @@ namespace Chart_View
             using (Main_Game game = new Main_Game())
             {
                 game.IsFixedTimeStep = false;
+                //game.TargetElapsedTime = new TimeSpan(0, 0, 0, 0, 22);
                 game.Run();
             }
         }
