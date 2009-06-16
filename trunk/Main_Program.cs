@@ -1,5 +1,5 @@
 using System;
-using System.Collections.Generic;
+using IrrKlang;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -27,8 +27,11 @@ namespace Chart_View
         Chart main_chart;  // Create the chart file
         double current_tick = 0.0;  // Tracks the current tick the chart is on
         double ticks_per_msecond = 0.0;  // How many ticks pass per milisecond
-        List<GameString>  str_array;  // Stores each string and its position on the screen
-        
+        GameStringManager str_manager = new GameStringManager();  // Stores each string and its position on the screen
+
+        ISoundEngine audio_engine = new ISoundEngine();  // start the sound engine with default parameters
+        double game_offset = 0.0;  // This alters where the notes will be when they are expected to be "hit"
+        bool audioIsPlaying = false;  // So we don't play the song again every single update
 
         public Main_Game()
         {
@@ -44,9 +47,11 @@ namespace Chart_View
         /// </summary>
         protected override void Initialize()
         {
+            // Setup the strings
+            Initialize_Functions.Initialize_Strings(ref str_manager, graphics.GraphicsDevice.Viewport.Width,
+                                                    graphics.GraphicsDevice.Viewport.Height);
             // Initialize some variables
             note_iterators = new int[5];
-            str_array = new List<GameString>();
             Notes = new gameObject[5, Max_Notes_Onscreen];
             base.Initialize();
         }
@@ -90,11 +95,13 @@ namespace Chart_View
                 }
             }
 
-            // Setup the strings
-            Initialize_Functions.Initialize_Strings(ref str_array, graphics.GraphicsDevice.Viewport.Width,
-                                                    graphics.GraphicsDevice.Viewport.Height);
-            str_array[2].value = "Song Title:\n" + main_chart.Song_Name;
-            str_array[3].value = "Artist Name:\n" + main_chart.Artist_Name;
+            // Add the "Song Title" and "Artist Name" to the string manager
+            str_manager.Set_String(2, "Song Title:\n" + main_chart.Song_Name);
+            str_manager.Set_String(3, "Artist Name:\n" + main_chart.Artist_Name);
+
+            // Add the chart's offset to the initial offset and scale for program use
+            game_offset += main_chart.Offset;
+            current_tick = -630.0;
 
             // Setup the window
             viewportRectangle = new Rectangle(0, 0,
@@ -122,6 +129,13 @@ namespace Chart_View
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
 
+            // Start the song at the specified time
+            if ((gameTime.TotalGameTime.TotalSeconds >= game_offset) && (audioIsPlaying == false))
+            {
+                audio_engine.Play2D("guitar.ogg", true);
+                audioIsPlaying = true;
+            }
+
             // Update the notes themselves (have to specifiy each note set)
             Misc_Functions.Update_Notes(current_tick, main_chart.Note_Charts[0].Green_Notes,
                                         0, ref note_iterators[0], ref Notes);
@@ -136,7 +150,7 @@ namespace Chart_View
 
             // Update the current tpms (ticks per milisecond)
             Misc_Functions.Update_TPMS(current_tick, ref bpm_iterator, main_chart.BPM_Changes,
-                                       gameTime.ElapsedGameTime.Milliseconds, ref ticks_per_msecond);
+                                       gameTime, ref ticks_per_msecond);
 
             // Update the living notes
             for (int i = 0; i < Notes.GetLength(0); i++)
@@ -153,8 +167,8 @@ namespace Chart_View
             }
 
             current_tick += ticks_per_msecond;
-            str_array[0].value = "Current Tick:\n" + Convert.ToString(current_tick);
-            str_array[1].value = "TPMS:\n" + Convert.ToString(ticks_per_msecond);
+            str_manager.Set_String(0, "Current Tick:\n" + Convert.ToString(current_tick));
+            str_manager.Set_String(1, "TPMS:\n" + Convert.ToString(ticks_per_msecond));
 
             base.Update(gameTime);
         }
@@ -171,13 +185,8 @@ namespace Chart_View
             //Draw the background
             spriteBatch.Draw(backgroundTex, viewportRectangle, Color.White);
 
-            // Draw Every GameString in str_array
-            foreach (GameString curr_str in str_array)
-            {
-                Vector2 curr_origin = game_font.MeasureString(curr_str.value) / 2;
-                spriteBatch.DrawString(game_font, curr_str.value, curr_str.position, curr_str.color,
-                                       0, curr_origin, 1.0f, SpriteEffects.None, 0.5f);
-            }
+            // Draw every string in str_manager
+            str_manager.DrawStrings(spriteBatch, game_font);
 
             //Draw the notes
             for (int i = 0; i < Notes.GetLength(0); i++)

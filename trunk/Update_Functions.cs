@@ -36,14 +36,14 @@ namespace Chart_View
 
         // Updates the current ticks per milisecond (tpms) if necessary (the new value is returned
         public static void Update_TPMS(double current_tick, ref int iterator_value,
-                                       List<BPM_Change> BPM_Changes, double game_time_msec,
+                                       List<BPM_Change> BPM_Changes, GameTime gameTime,
                                        ref double current_tpms)
         {
             if (!(iterator_value == BPM_Changes.Count))
             {
-                // Update the bpm every "update frame" in case the elapsed gametime is not 16 (running slow)
+                // Update the tpms every "update frame" in case the elapsed gametime is not 16 (running slow)
                 // and assign the tpms in accordance to the current bpm and elapsed gametime
-                current_tpms = ((BPM_Changes[iterator_value].Value / 6000000.0) * 192.0) * (game_time_msec / 10.0);
+                current_tpms = ((BPM_Changes[iterator_value].Value * 192.0) / 60000000.0) * gameTime.ElapsedGameTime.TotalMilliseconds;
 
                 // IF the current bpm change is not the last, then increment the iterator
                 // (count is not zero based, and must be decremented by 1)

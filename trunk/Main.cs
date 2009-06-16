@@ -1,3 +1,4 @@
+using System;
 
 namespace Chart_View
 {
@@ -10,9 +11,9 @@ namespace Chart_View
         {
             using (Main_Game game = new Main_Game())
             {
+                game.IsFixedTimeStep = false;
                 game.Run();
             }
-            //Test_Chart_Class.test();
         }
     }
 }
