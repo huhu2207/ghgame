@@ -105,8 +105,8 @@ namespace Chart_View
             str_manager.Set_String(3, "Artist Name:\n" + main_chart.Artist_Name);
 
             // Set the offset timer's end value so the notes do not start too fast (or slow)
-            // TODO: Have the 860 magic number be dynamicaly created according to the note velocity setting
-            offset_timer.end_value = (main_chart.Offset * 1000) - 860;
+            // TODO: Have the 830 magic number be dynamicaly created according to the note velocity setting
+            offset_timer.end_value = (main_chart.Offset * 1000) - 830;
             
             // Setup the window
             viewportRectangle = new Rectangle(0, 0,
