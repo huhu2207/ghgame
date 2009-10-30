@@ -3,6 +3,7 @@ using IrrKlang;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using FMOD;
 
 namespace Chart_View
 {
@@ -29,7 +30,13 @@ namespace Chart_View
         double ticks_per_msecond = 0.0;  // How many ticks pass per milisecond
         GameStringManager str_manager = new GameStringManager();  // Stores each string and its position on the screen
 
-        ISoundEngine audio_engine = new ISoundEngine();  // start the sound engine with default parameters
+        static ISoundEngine audio_engine = new ISoundEngine();  // start the sound engine with default parameters
+
+        private FMOD.System system = new FMOD.System();
+        private FMOD.Channel channel = new FMOD.Channel();
+        private FMOD.Sound sound = new FMOD.Sound();
+        uint currentMsec = 0;
+
         bool audioIsPlaying = false;  // So we don't play the song again every single update
         Timer offset_timer = new Timer("Offset Timer");  // Holds the game from starting (while the audio plays) so the notes and audio are in sync.
 
@@ -140,7 +147,9 @@ namespace Chart_View
                 // Start the song immediately
                 if (audioIsPlaying == false)
                 {
-                    audio_engine.Play2D("guitar.ogg", true);
+                    //audio_engine.Play2D("guitar.ogg", true);
+                    system.createSound("./guitar.ogg", MODE.HARDWARE, ref sound);
+                    system.playSound(CHANNELINDEX.FREE, sound, false, ref channel);
                     audioIsPlaying = true;
                 }
 
@@ -160,7 +169,11 @@ namespace Chart_View
                 // Start the song immediately
                 if (audioIsPlaying == false)
                 {
-                    audio_engine.Play2D("guitar.ogg", true);
+                    //audio_engine.Play2D("guitar.ogg", true);
+                    FMOD.Factory.System_Create(ref system);
+                    system.init(32, INITFLAGS.NORMAL, (IntPtr)null);
+                    system.createSound("./guitar.ogg", MODE.HARDWARE, ref sound);
+                    system.playSound(CHANNELINDEX.FREE, sound, false, ref channel);
                     audioIsPlaying = true;
                 }
 
@@ -192,7 +205,8 @@ namespace Chart_View
                     current_tick += ticks_per_msecond;
                 }
 
-                str_manager.Set_String(0, "Current Tick:\n" + Convert.ToString(current_tick));
+                channel.getPosition(ref currentMsec, TIMEUNIT.MS);
+                str_manager.Set_String(0, "Current MSEC:\n" + Convert.ToString(currentMsec));
                 str_manager.Set_String(1, "TPMS:\n" + Convert.ToString(ticks_per_msecond));
             }
 

@@ -90,6 +90,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Chart_Code\Chart_Class.cs" />
+    <Compile Include="fmod.cs" />
+    <Compile Include="fmod_dsp.cs" />
     <Compile Include="Misc_Classes\GameObject_Class.cs" />
     <Compile Include="GameString_Code\GameStringManager.cs" />
     <Compile Include="GameString_Code\GameString_Class.cs" />
