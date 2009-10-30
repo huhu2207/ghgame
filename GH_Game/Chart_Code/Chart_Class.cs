@@ -109,7 +109,7 @@ namespace Chart_View
                 if (parsed_line.Length == 4)
                 {
                     if (parsed_line[2] == "B")
-                        BPM_Changes.Add(new BPM_Change(Convert.ToInt32(parsed_line[0]), Convert.ToInt64(parsed_line[3])));
+                        BPM_Changes.Add(new BPM_Change(Convert.ToUInt32(parsed_line[0]), Convert.ToInt64(parsed_line[3])));
                 }
             }
 
@@ -140,7 +140,7 @@ namespace Chart_View
                 if (parsed_line.Length >= 4)
                 {
                     if (parsed_line[2] == "E")
-                        Events.Add(new Event(Convert.ToInt32(parsed_line[0]), create_proper_string(parsed_line)));
+                        Events.Add(new Event(Convert.ToUInt32(parsed_line[0]), create_proper_string(parsed_line)));
                 }
             }
 
@@ -189,27 +189,27 @@ namespace Chart_View
                             switch (Convert.ToInt32(parsed_line[3]))
                             {
                                 case 0:
-                                    result_notechart.Green_Notes.Add(new Note(Convert.ToInt32(parsed_line[0]),
+                                    result_notechart.Green_Notes.Add(new Note(Convert.ToUInt32(parsed_line[0]),
                                                                               Convert.ToInt32(parsed_line[4])));
                                     break;
 
                                 case 1:
-                                    result_notechart.Red_Notes.Add(new Note(Convert.ToInt32(parsed_line[0]),
+                                    result_notechart.Red_Notes.Add(new Note(Convert.ToUInt32(parsed_line[0]),
                                                                             Convert.ToInt32(parsed_line[4])));
                                     break;
 
                                 case 2:
-                                    result_notechart.Yellow_Notes.Add(new Note(Convert.ToInt32(parsed_line[0]),
+                                    result_notechart.Yellow_Notes.Add(new Note(Convert.ToUInt32(parsed_line[0]),
                                                                                Convert.ToInt32(parsed_line[4])));
                                     break;
 
                                 case 3:
-                                    result_notechart.Blue_Notes.Add(new Note(Convert.ToInt32(parsed_line[0]),
+                                    result_notechart.Blue_Notes.Add(new Note(Convert.ToUInt32(parsed_line[0]),
                                                                              Convert.ToInt32(parsed_line[4])));
                                     break;
 
                                 case 4:
-                                    result_notechart.Orange_Notes.Add(new Note(Convert.ToInt32(parsed_line[0]),
+                                    result_notechart.Orange_Notes.Add(new Note(Convert.ToUInt32(parsed_line[0]),
                                                                                Convert.ToInt32(parsed_line[4])));
                                     break;
 
@@ -222,7 +222,7 @@ namespace Chart_View
 
                         // Also check for SP notes
                         if (parsed_line[2] == "S")
-                            result_notechart.SP_Notes.Add(new Note(Convert.ToInt32(parsed_line[0]),
+                            result_notechart.SP_Notes.Add(new Note(Convert.ToUInt32(parsed_line[0]),
                                                                    Convert.ToInt32(parsed_line[4])));
                     }
                 }
@@ -373,10 +373,11 @@ namespace Chart_View
         public List<Note> SP_Notes;
     }
 
-    // Base class for Note and Event
+    // Base abstract class for Note and Event
     class Entity
     {
-        public long Location;
+        public uint Location;
+        public uint TickValue;
     }
 
     // Contains information on an individual note
@@ -386,14 +387,22 @@ namespace Chart_View
         public Note()
         {
             Location = 0;
+            TickValue = 0;
             Duration = 0;
         }
 
         // Typical Constructor
-        public Note(int in_location, int in_duration)
+        public Note(uint in_location, int in_duration)
         {
             Location = in_location;
             Duration = in_duration;
+        }
+
+        public Note(uint in_location, int in_duration, uint inTickValue)
+        {
+            Location = in_location;
+            Duration = in_duration;
+            TickValue = inTickValue;
         }
 
         // Test function to view stored information
@@ -411,12 +420,13 @@ namespace Chart_View
         // Defailt Constructor
         public BPM_Change()
         {
+            
             Location = 0;
             Value = 0;
         }
 
         // Typical Constructor
-        public BPM_Change(int in_location, long in_value)
+        public BPM_Change(uint in_location, long in_value)
         {
             Location = in_location;
             Value = in_value;
@@ -442,7 +452,7 @@ namespace Chart_View
         }
 
         // typical Constructor
-        public Event(int in_location, string in_value)
+        public Event(uint in_location, string in_value)
         {
             Location = in_location;
             Value = in_value;
