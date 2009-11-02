@@ -1,6 +1,6 @@
 using System;
 
-namespace Chart_View
+namespace MinGH
 {
     static class Program
     {
@@ -9,7 +9,7 @@ namespace Chart_View
         /// </summary>
         static void Main(string[] args)
         {
-            using (Main_Game game = new Main_Game())
+            using (MinGHMain game = new MinGHMain())
             {
                 game.IsFixedTimeStep = false;
                 //game.TargetElapsedTime = new TimeSpan(0, 0, 0, 0, 22);

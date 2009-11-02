@@ -2,15 +2,15 @@ using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using GH_Game.Chart;
+using MinGH.ChartImpl;
 using FMOD;
 
-namespace Chart_View
+namespace MinGH
 {
     /// <summary>
     /// This is the main type for your game
     /// </summary>
-    public class Main_Game : Microsoft.Xna.Framework.Game
+    public class MinGHMain : Microsoft.Xna.Framework.Game
     {
         // Global Content
         GraphicsDeviceManager graphics;
@@ -23,11 +23,8 @@ namespace Chart_View
         const int Max_Notes_Onscreen = 50;  // Maximum amount of a single note (i.e. how many reds per frame)
         const double Note_Velocity = 1.5;  // Current speed in which the notes will move (higher = slower)
         int[] note_iterators;  // These iterators are used to keep track of which note to observe next
-        int bpm_iterator = 0;  // Keeps track of what bpm change is to come next
         
         Chart main_chart;  // Create the chart file
-        double current_tick = 0.0;  // Tracks the current tick the chart is on
-        double ticks_per_msecond = 0.0;  // How many ticks pass per milisecond
         GameStringManager str_manager = new GameStringManager();  // Stores each string and its position on the screen
 
         private FMOD.System system = new FMOD.System();
@@ -38,7 +35,7 @@ namespace Chart_View
         bool audioIsPlaying = false;  // So we don't play the song again every single update
         Timer offset_timer = new Timer("Offset Timer");  // Holds the game from starting (while the audio plays) so the notes and audio are in sync.
 
-        public Main_Game()
+        public MinGHMain()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
@@ -139,94 +136,47 @@ namespace Chart_View
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
 
-            // Update the current tpms (ticks per milisecond).  Speed up if running slow.
-            if (gameTime.IsRunningSlowly)
+            // Start the song immediately
+            if (audioIsPlaying == false)
             {
-                // Start the song immediately
-                if (audioIsPlaying == false)
-                {
-                    //audio_engine.Play2D("guitar.ogg", true);
-                    system.createSound("./guitar.ogg", MODE.HARDWARE, ref sound);
-                    system.playSound(CHANNELINDEX.FREE, sound, false, ref channel);
-                    audioIsPlaying = true;
-                }
+                //audio_engine.Play2D("guitar.ogg", true);
+                FMOD.Factory.System_Create(ref system);
+                system.init(32, INITFLAGS.NORMAL, (IntPtr)null);
+                system.createSound("./guitar.ogg", MODE.HARDWARE, ref sound);
+                system.playSound(CHANNELINDEX.FREE, sound, false, ref channel);
+                audioIsPlaying = true;
+            }
 
-                // Check if the timer is done and proceed accordingly
-                if (offset_timer.is_up == false)
-                    offset_timer.Update(gameTime.ElapsedGameTime.TotalMilliseconds);
-                else
-                {
-                    Misc_Functions.Update_TPMS(current_tick, ref bpm_iterator, main_chart.BPM_Changes,
-                                                  gameTime, ref ticks_per_msecond);
-                    current_tick += ticks_per_msecond;
-                }
+            // Check if the timer is done and proceed accordingly
+            if (offset_timer.is_up == false)
+            {
+                offset_timer.Update(gameTime.ElapsedGameTime.TotalMilliseconds);
             }
             else
             {
 
-                // Start the song immediately
-                if (audioIsPlaying == false)
-                {
-                    //audio_engine.Play2D("guitar.ogg", true);
-                    FMOD.Factory.System_Create(ref system);
-                    system.init(32, INITFLAGS.NORMAL, (IntPtr)null);
-                    system.createSound("./guitar.ogg", MODE.HARDWARE, ref sound);
-                    system.playSound(CHANNELINDEX.FREE, sound, false, ref channel);
-                    audioIsPlaying = true;
-                }
+                channel.getPosition(ref currentMsec, TIMEUNIT.MS);
 
-                // Check if the timer is done and proceed accordingly
-                if (offset_timer.is_up == false)
-                {
-                    offset_timer.Update(gameTime.ElapsedGameTime.TotalMilliseconds);
-                }
-                else
-                {
-
-                    // Update the notes themselves (have to specifiy each note set)
-                    //Misc_Functions.Update_Notes(current_tick, main_chart.Note_Charts[0].greenNotes,
-                    //                            0, ref note_iterators[0], ref Notes, viewportRectangle,
-                    //                            gameTime, Note_Velocity, 86);
-                    //Misc_Functions.Update_Notes(current_tick, main_chart.Note_Charts[0].redNotes,
-                    //                            1, ref note_iterators[1], ref Notes, viewportRectangle,
-                    //                            gameTime, Note_Velocity, 86);
-                    //Misc_Functions.Update_Notes(current_tick, main_chart.Note_Charts[0].yellowNotes,
-                    //                            2, ref note_iterators[2], ref Notes, viewportRectangle,
-                    //                            gameTime, Note_Velocity, 86);
-                    //Misc_Functions.Update_Notes(current_tick, main_chart.Note_Charts[0].blueNotes,
-                    //                            3, ref note_iterators[3], ref Notes, viewportRectangle,
-                    //                            gameTime, Note_Velocity, 86);
-                    //Misc_Functions.Update_Notes(current_tick, main_chart.Note_Charts[0].orangeNotes,
-                    //                            4, ref note_iterators[4], ref Notes, viewportRectangle,
-                    //                            gameTime, Note_Velocity, 86);
-
-                    channel.getPosition(ref currentMsec, TIMEUNIT.MS);
-
-                    Misc_Functions.SUpdate_Notes(main_chart.Note_Charts[0].greenNotes,
-                                                0, ref note_iterators[0], ref Notes, viewportRectangle,
-                                                gameTime, Note_Velocity, 86, currentMsec + 780);
-                    Misc_Functions.SUpdate_Notes(main_chart.Note_Charts[0].redNotes,
-                                                1, ref note_iterators[1], ref Notes, viewportRectangle,
-                                                gameTime, Note_Velocity, 86, currentMsec + 780);
-                    Misc_Functions.SUpdate_Notes(main_chart.Note_Charts[0].yellowNotes,
-                                                2, ref note_iterators[2], ref Notes, viewportRectangle,
-                                                gameTime, Note_Velocity, 86, currentMsec + 780);
-                    Misc_Functions.SUpdate_Notes(main_chart.Note_Charts[0].blueNotes,
-                                                3, ref note_iterators[3], ref Notes, viewportRectangle,
-                                                gameTime, Note_Velocity, 86, currentMsec + 780);
-                    Misc_Functions.SUpdate_Notes(main_chart.Note_Charts[0].orangeNotes,
-                                                4, ref note_iterators[4], ref Notes, viewportRectangle,
-                                                gameTime, Note_Velocity, 86, currentMsec + 780);
-
-                    //Misc_Functions.Update_TPMS(current_tick, ref bpm_iterator, main_chart.BPM_Changes,
-                    //                               gameTime, ref ticks_per_msecond);
-                    //current_tick += ticks_per_msecond;
-                }
-
-                
-                str_manager.Set_String(0, "Current MSEC:\n" + Convert.ToString(currentMsec));
-                //str_manager.Set_String(1, "TPMS:\n" + Convert.ToString(ticks_per_msecond));
+                Misc_Functions.SUpdate_Notes(main_chart.Note_Charts[0].greenNotes,
+                                            0, ref note_iterators[0], ref Notes, viewportRectangle,
+                                            gameTime, Note_Velocity, 86, currentMsec + 760);
+                Misc_Functions.SUpdate_Notes(main_chart.Note_Charts[0].redNotes,
+                                            1, ref note_iterators[1], ref Notes, viewportRectangle,
+                                            gameTime, Note_Velocity, 86, currentMsec + 760);
+                Misc_Functions.SUpdate_Notes(main_chart.Note_Charts[0].yellowNotes,
+                                            2, ref note_iterators[2], ref Notes, viewportRectangle,
+                                            gameTime, Note_Velocity, 86, currentMsec + 760);
+                Misc_Functions.SUpdate_Notes(main_chart.Note_Charts[0].blueNotes,
+                                            3, ref note_iterators[3], ref Notes, viewportRectangle,
+                                            gameTime, Note_Velocity, 86, currentMsec + 760);
+                Misc_Functions.SUpdate_Notes(main_chart.Note_Charts[0].orangeNotes,
+                                            4, ref note_iterators[4], ref Notes, viewportRectangle,
+                                            gameTime, Note_Velocity, 86, currentMsec + 760);
             }
+
+            
+            str_manager.Set_String(0, "Current MSEC:\n" + Convert.ToString(currentMsec));
+            //str_manager.Set_String(1, "TPMS:\n" + Convert.ToString(ticks_per_msecond));
 
             base.Update(gameTime);
         }

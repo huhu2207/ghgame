@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
-using GH_Game.Chart;
+using MinGH.ChartImpl;
 
-namespace Chart_View
+namespace MinGH
 {
     class Misc_Functions
     {
