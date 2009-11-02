@@ -3,6 +3,7 @@ using IrrKlang;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using GH_Game.Chart;
 using FMOD;
 
 namespace Chart_View
