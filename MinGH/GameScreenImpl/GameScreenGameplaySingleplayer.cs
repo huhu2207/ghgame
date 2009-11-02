@@ -135,7 +135,13 @@ namespace MinGH.GameScreenImpl
                                         gameTime, noteVelocityMultiplier, 86, currentMsec + noteVelocityConstant);
 
             strManager.Set_String(0, "Current MSEC:\n" + Convert.ToString(currentMsec));
-            //str_manager.Set_String(1, "TPMS:\n" + Convert.ToString(ticks_per_msecond));
+            strManager.Set_String(1, "End MSEC:\n" + Convert.ToString(mainChart.chartInfo.chartLengthMiliseconds));
+
+            // Stop playing when chart is over
+            if (currentMsec > mainChart.chartInfo.chartLengthMiliseconds)
+            {
+                channel.stop();
+            }
         }
 
         public void Draw(GameTime gameTime)

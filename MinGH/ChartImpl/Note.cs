@@ -27,7 +27,7 @@ namespace MinGH.ChartImpl
         // Test function to view stored information
         public void print_info()
         {
-            Console.WriteLine("L = '{0}' D = '{1}'", TickValue, Duration);
+            Console.WriteLine("L = '{0}' D = '{1}' T = '{2}'", TickValue, Duration, TimeValue);
         }
 
         public int Duration;

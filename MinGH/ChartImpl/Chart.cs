@@ -20,6 +20,7 @@ namespace MinGH.ChartImpl
             chartInfoManager = new ChartInfoManager();
             chartEventManager = new ChartEventManager();
             chartNotechartManager = new ChartNotechartManager();
+            chartTimeValueManager = new ChartTimeValueManager();
         }
 
         // The typical constructor
@@ -32,6 +33,7 @@ namespace MinGH.ChartImpl
             chartInfoManager = new ChartInfoManager();
             chartEventManager = new ChartEventManager();
             chartNotechartManager = new ChartNotechartManager();
+            chartTimeValueManager = new ChartTimeValueManager();
 
             // First, check if the file even exists
             if (!File.Exists(filename))
@@ -54,7 +56,8 @@ namespace MinGH.ChartImpl
                 Note_Charts.Add(chartNotechartManager.GenerateNotechart("ExpertSingle", input_file));
                 for (int i = 0; i < Note_Charts.Count; i++)
                 {
-                    Note_Charts[i] = chartNotechartManager.GenerateTimeValues(Note_Charts[i], BPM_Changes, Events, chartInfo.offset);
+                    Note_Charts[i] = chartTimeValueManager.GenerateTimeValues(Note_Charts[i], BPM_Changes,
+                                     Events, chartInfo.offset, ref chartInfo.chartLengthMiliseconds);
                 }
 
                 // Close the input stream
@@ -107,5 +110,6 @@ namespace MinGH.ChartImpl
         private ChartInfoManager chartInfoManager;
         private ChartEventManager chartEventManager;
         private ChartNotechartManager chartNotechartManager;
+        private ChartTimeValueManager chartTimeValueManager;
     }
 }
