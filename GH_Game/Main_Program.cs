@@ -1,5 +1,4 @@
 using System;
-using IrrKlang;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -30,8 +29,6 @@ namespace Chart_View
         double current_tick = 0.0;  // Tracks the current tick the chart is on
         double ticks_per_msecond = 0.0;  // How many ticks pass per milisecond
         GameStringManager str_manager = new GameStringManager();  // Stores each string and its position on the screen
-
-        static ISoundEngine audio_engine = new ISoundEngine();  // start the sound engine with default parameters
 
         private FMOD.System system = new FMOD.System();
         private FMOD.Channel channel = new FMOD.Channel();
@@ -207,28 +204,28 @@ namespace Chart_View
 
                     Misc_Functions.SUpdate_Notes(main_chart.Note_Charts[0].greenNotes,
                                                 0, ref note_iterators[0], ref Notes, viewportRectangle,
-                                                gameTime, Note_Velocity, 86, currentMsec);
+                                                gameTime, Note_Velocity, 86, currentMsec + 780);
                     Misc_Functions.SUpdate_Notes(main_chart.Note_Charts[0].redNotes,
                                                 1, ref note_iterators[1], ref Notes, viewportRectangle,
-                                                gameTime, Note_Velocity, 86, currentMsec);
+                                                gameTime, Note_Velocity, 86, currentMsec + 780);
                     Misc_Functions.SUpdate_Notes(main_chart.Note_Charts[0].yellowNotes,
                                                 2, ref note_iterators[2], ref Notes, viewportRectangle,
-                                                gameTime, Note_Velocity, 86, currentMsec);
+                                                gameTime, Note_Velocity, 86, currentMsec + 780);
                     Misc_Functions.SUpdate_Notes(main_chart.Note_Charts[0].blueNotes,
                                                 3, ref note_iterators[3], ref Notes, viewportRectangle,
-                                                gameTime, Note_Velocity, 86, currentMsec);
+                                                gameTime, Note_Velocity, 86, currentMsec + 780);
                     Misc_Functions.SUpdate_Notes(main_chart.Note_Charts[0].orangeNotes,
                                                 4, ref note_iterators[4], ref Notes, viewportRectangle,
-                                                gameTime, Note_Velocity, 86, currentMsec);
+                                                gameTime, Note_Velocity, 86, currentMsec + 780);
 
-                    Misc_Functions.Update_TPMS(current_tick, ref bpm_iterator, main_chart.BPM_Changes,
-                                                   gameTime, ref ticks_per_msecond);
-                    current_tick += ticks_per_msecond;
+                    //Misc_Functions.Update_TPMS(current_tick, ref bpm_iterator, main_chart.BPM_Changes,
+                    //                               gameTime, ref ticks_per_msecond);
+                    //current_tick += ticks_per_msecond;
                 }
 
                 
                 str_manager.Set_String(0, "Current MSEC:\n" + Convert.ToString(currentMsec));
-                str_manager.Set_String(1, "TPMS:\n" + Convert.ToString(ticks_per_msecond));
+                //str_manager.Set_String(1, "TPMS:\n" + Convert.ToString(ticks_per_msecond));
             }
 
             base.Update(gameTime);
