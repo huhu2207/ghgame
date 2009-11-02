@@ -101,6 +101,8 @@
     <Compile Include="Extensions\SubArrayExtension.cs" />
     <Compile Include="fmod.cs" />
     <Compile Include="fmod_dsp.cs" />
+    <Compile Include="GameScreenImpl\GameScreenGameplaySingleplayer.cs" />
+    <Compile Include="GameScreenImpl\IGameScreen.cs" />
     <Compile Include="GameStringImpl\GameString.cs" />
     <Compile Include="Misc_Classes\GameObject_Class.cs" />
     <Compile Include="GameStringImpl\GameStringManager.cs" />
