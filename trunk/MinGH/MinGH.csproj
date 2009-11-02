@@ -86,18 +86,18 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Chart\BPMChange.cs" />
-    <Compile Include="Chart\ChartBPMManager.cs" />
-    <Compile Include="Chart\ChartEventManager.cs" />
-    <Compile Include="Chart\ChartInfo.cs" />
-    <Compile Include="Chart\ChartInfoManager.cs" />
-    <Compile Include="Chart\ChartNotechartManager.cs" />
-    <Compile Include="Chart\Chart.cs" />
-    <Compile Include="Chart\Entity.cs" />
-    <Compile Include="Chart\Event.cs" />
-    <Compile Include="Chart\Note.cs" />
-    <Compile Include="Chart\Notechart.cs" />
-    <Compile Include="Chart\ProperStringCreator.cs" />
+    <Compile Include="ChartImpl\BPMChange.cs" />
+    <Compile Include="ChartImpl\ChartBPMManager.cs" />
+    <Compile Include="ChartImpl\ChartEventManager.cs" />
+    <Compile Include="ChartImpl\ChartInfo.cs" />
+    <Compile Include="ChartImpl\ChartInfoManager.cs" />
+    <Compile Include="ChartImpl\ChartNotechartManager.cs" />
+    <Compile Include="ChartImpl\Chart.cs" />
+    <Compile Include="ChartImpl\Entity.cs" />
+    <Compile Include="ChartImpl\Event.cs" />
+    <Compile Include="ChartImpl\Note.cs" />
+    <Compile Include="ChartImpl\Notechart.cs" />
+    <Compile Include="ChartImpl\ProperStringCreator.cs" />
     <Compile Include="Extensions\SubArrayExtension.cs" />
     <Compile Include="fmod.cs" />
     <Compile Include="fmod_dsp.cs" />
@@ -108,7 +108,7 @@
     <Compile Include="Main.cs" />
     <Compile Include="Main_Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Chart\Test_Chart_Class.cs" />
+    <Compile Include="ChartImpl\Test_Chart_Class.cs" />
     <Compile Include="Misc_Classes\Timer_Class.cs" />
     <Compile Include="Update_Functions.cs" />
   </ItemGroup>
