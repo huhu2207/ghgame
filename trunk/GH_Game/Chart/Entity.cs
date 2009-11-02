@@ -8,7 +8,7 @@ namespace GH_Game.Chart
     // Base abstract class for Note and Event
     class Entity
     {
-        public uint Location;
         public uint TickValue;
+        public uint TimeValue;
     }
 }

@@ -13,7 +13,7 @@ namespace GH_Game.Chart
         public Chart()
         {
             chartInfo = new ChartInfo();
-            BPM_Changes = new List<BPM_Change>();
+            BPM_Changes = new List<BPMChange>();
             Events = new List<Event>();
             Note_Charts = new List<Notechart>();
             chartBPMManager = new ChartBPMManager();
@@ -25,7 +25,7 @@ namespace GH_Game.Chart
         // The typical constructor
         public Chart(string filename)
         {
-            BPM_Changes = new List<BPM_Change>();
+            BPM_Changes = new List<BPMChange>();
             Events = new List<Event>();
             Note_Charts = new List<Notechart>();
             chartBPMManager = new ChartBPMManager();
@@ -52,16 +52,14 @@ namespace GH_Game.Chart
 
                 // Adds just the expert notechart, can make a sneaky way of doing all avaliable charts later
                 Note_Charts.Add(chartNotechartManager.GenerateNotechart("ExpertSingle", input_file));
+                for (int i = 0; i < Note_Charts.Count; i++)
+                {
+                    Note_Charts[i] = chartNotechartManager.GenerateTimeValues(Note_Charts[i], BPM_Changes, Events, chartInfo.offset);
+                }
 
                 // Close the input stream
                 input_stream.Close();
             }
-        }
-
-        // Generate the milisecond time values for each note
-        public void generateTimeValuesFromTickValues()
-        {
-
         }
 
         // Test function to view stored information
@@ -73,7 +71,7 @@ namespace GH_Game.Chart
             Console.WriteLine("");
 
             Console.WriteLine("BPM Changes:");
-            foreach (BPM_Change curr_change in BPM_Changes)
+            foreach (BPMChange curr_change in BPM_Changes)
             {
                 curr_change.print_info();
             }
@@ -98,7 +96,7 @@ namespace GH_Game.Chart
         public ChartInfo chartInfo;
 
         // Various chart data lists
-        public List<BPM_Change> BPM_Changes;
+        public List<BPMChange> BPM_Changes;
         public List<Event> Events;
 
         // The list of possible charts (i.e. Easy Single Guitar, Expert Bass, Medium Lead)

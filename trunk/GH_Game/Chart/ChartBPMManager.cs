@@ -11,9 +11,9 @@ namespace GH_Game.Chart
     {
         // Reads in the bpm changes of a chart file (can pass either the whole input file
         // or the desired part)
-        public List<BPM_Change> AddBPMChanges(string inputFile)
+        public List<BPMChange> AddBPMChanges(string inputFile)
         {
-            List<BPM_Change> BPMChangeListToReturn = new List<BPM_Change>();
+            List<BPMChange> BPMChangeListToReturn = new List<BPMChange>();
 
             // Single out the BPM section via regular expressions
             string pattern = Regex.Escape("[") + "SyncTrack]\\s*" + Regex.Escape("{") + "[^}]*";
@@ -34,7 +34,7 @@ namespace GH_Game.Chart
                 if (parsed_line.Length == 4)
                 {
                     if (parsed_line[2] == "B")
-                        BPMChangeListToReturn.Add(new BPM_Change(Convert.ToUInt32(parsed_line[0]), Convert.ToInt64(parsed_line[3])));
+                        BPMChangeListToReturn.Add(new BPMChange(Convert.ToUInt32(parsed_line[0]), Convert.ToInt64(parsed_line[3])));
                 }
             }
 

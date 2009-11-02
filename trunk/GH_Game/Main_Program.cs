@@ -180,33 +180,53 @@ namespace Chart_View
 
                 // Check if the timer is done and proceed accordingly
                 if (offset_timer.is_up == false)
+                {
                     offset_timer.Update(gameTime.ElapsedGameTime.TotalMilliseconds);
+                }
                 else
                 {
 
                     // Update the notes themselves (have to specifiy each note set)
-                    Misc_Functions.Update_Notes(current_tick, main_chart.Note_Charts[0].Green_Notes,
+                    //Misc_Functions.Update_Notes(current_tick, main_chart.Note_Charts[0].greenNotes,
+                    //                            0, ref note_iterators[0], ref Notes, viewportRectangle,
+                    //                            gameTime, Note_Velocity, 86);
+                    //Misc_Functions.Update_Notes(current_tick, main_chart.Note_Charts[0].redNotes,
+                    //                            1, ref note_iterators[1], ref Notes, viewportRectangle,
+                    //                            gameTime, Note_Velocity, 86);
+                    //Misc_Functions.Update_Notes(current_tick, main_chart.Note_Charts[0].yellowNotes,
+                    //                            2, ref note_iterators[2], ref Notes, viewportRectangle,
+                    //                            gameTime, Note_Velocity, 86);
+                    //Misc_Functions.Update_Notes(current_tick, main_chart.Note_Charts[0].blueNotes,
+                    //                            3, ref note_iterators[3], ref Notes, viewportRectangle,
+                    //                            gameTime, Note_Velocity, 86);
+                    //Misc_Functions.Update_Notes(current_tick, main_chart.Note_Charts[0].orangeNotes,
+                    //                            4, ref note_iterators[4], ref Notes, viewportRectangle,
+                    //                            gameTime, Note_Velocity, 86);
+
+                    channel.getPosition(ref currentMsec, TIMEUNIT.MS);
+
+                    Misc_Functions.SUpdate_Notes(main_chart.Note_Charts[0].greenNotes,
                                                 0, ref note_iterators[0], ref Notes, viewportRectangle,
-                                                gameTime, Note_Velocity, 86);
-                    Misc_Functions.Update_Notes(current_tick, main_chart.Note_Charts[0].Red_Notes,
+                                                gameTime, Note_Velocity, 86, currentMsec);
+                    Misc_Functions.SUpdate_Notes(main_chart.Note_Charts[0].redNotes,
                                                 1, ref note_iterators[1], ref Notes, viewportRectangle,
-                                                gameTime, Note_Velocity, 86);
-                    Misc_Functions.Update_Notes(current_tick, main_chart.Note_Charts[0].Yellow_Notes,
+                                                gameTime, Note_Velocity, 86, currentMsec);
+                    Misc_Functions.SUpdate_Notes(main_chart.Note_Charts[0].yellowNotes,
                                                 2, ref note_iterators[2], ref Notes, viewportRectangle,
-                                                gameTime, Note_Velocity, 86);
-                    Misc_Functions.Update_Notes(current_tick, main_chart.Note_Charts[0].Blue_Notes,
+                                                gameTime, Note_Velocity, 86, currentMsec);
+                    Misc_Functions.SUpdate_Notes(main_chart.Note_Charts[0].blueNotes,
                                                 3, ref note_iterators[3], ref Notes, viewportRectangle,
-                                                gameTime, Note_Velocity, 86);
-                    Misc_Functions.Update_Notes(current_tick, main_chart.Note_Charts[0].Orange_Notes,
+                                                gameTime, Note_Velocity, 86, currentMsec);
+                    Misc_Functions.SUpdate_Notes(main_chart.Note_Charts[0].orangeNotes,
                                                 4, ref note_iterators[4], ref Notes, viewportRectangle,
-                                                gameTime, Note_Velocity, 86);
+                                                gameTime, Note_Velocity, 86, currentMsec);
 
                     Misc_Functions.Update_TPMS(current_tick, ref bpm_iterator, main_chart.BPM_Changes,
                                                    gameTime, ref ticks_per_msecond);
                     current_tick += ticks_per_msecond;
                 }
 
-                channel.getPosition(ref currentMsec, TIMEUNIT.MS);
+                
                 str_manager.Set_String(0, "Current MSEC:\n" + Convert.ToString(currentMsec));
                 str_manager.Set_String(1, "TPMS:\n" + Convert.ToString(ticks_per_msecond));
             }
