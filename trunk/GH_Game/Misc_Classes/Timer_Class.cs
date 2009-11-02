@@ -1,5 +1,5 @@
 ﻿
-namespace Chart_View
+namespace MinGH
 {
     // Timer class that counts via miliseconds
     class Timer
