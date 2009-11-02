@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.IO;
+using GH_Game.Extensions;
 
 namespace GH_Game.Chart
 {
@@ -33,10 +34,10 @@ namespace GH_Game.Chart
 
                 // Check for various song infos and parse accordingly
                 if (parsed_line[0] == "Name")
-                    chartInfoToReturn.songName = properStringCreator.createProperString(parsed_line);
+                    chartInfoToReturn.songName = properStringCreator.createProperString(parsed_line.SubArray(2, parsed_line.Length));
 
                 if (parsed_line[0] == "Artist")
-                    chartInfoToReturn.artistName = properStringCreator.createProperString(parsed_line);
+                    chartInfoToReturn.artistName = properStringCreator.createProperString(parsed_line.SubArray(2, parsed_line.Length));
 
                 if (parsed_line[0] == "Offset")
                     chartInfoToReturn.offset = float.Parse(parsed_line[2]);

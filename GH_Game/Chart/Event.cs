@@ -11,21 +11,23 @@ namespace GH_Game.Chart
         // Default Constructor
         public Event()
         {
-            Location = 0;
+            TimeValue = 0;
+            TickValue = 0;
             Value = "default";
         }
 
         // typical Constructor
         public Event(uint in_location, string in_value)
         {
-            Location = in_location;
+            TimeValue = 0;
+            TickValue = in_location;
             Value = in_value;
         }
 
         // Test function to view stored information
         public void print_info()
         {
-            Console.WriteLine("L = '{0}' V = '{1}'", Location, Value);
+            Console.WriteLine("L = '{0}' V = '{1}'", TickValue, Value);
         }
 
         public string Value;

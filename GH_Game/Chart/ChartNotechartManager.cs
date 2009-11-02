@@ -29,7 +29,7 @@ namespace GH_Game.Chart
             if (!(matched_section.Success))
             {
                 result_notechart.Chart_Name = chartname;
-                result_notechart.Green_Notes.Add(new Note());
+                result_notechart.greenNotes.Add(new Note());
             }
 
             // Else, read in all the chart information
@@ -50,27 +50,27 @@ namespace GH_Game.Chart
                             switch (Convert.ToInt32(parsed_line[3]))
                             {
                                 case 0:
-                                    result_notechart.Green_Notes.Add(new Note(Convert.ToUInt32(parsed_line[0]),
+                                    result_notechart.greenNotes.Add(new Note(Convert.ToUInt32(parsed_line[0]),
                                                                               Convert.ToInt32(parsed_line[4])));
                                     break;
 
                                 case 1:
-                                    result_notechart.Red_Notes.Add(new Note(Convert.ToUInt32(parsed_line[0]),
+                                    result_notechart.redNotes.Add(new Note(Convert.ToUInt32(parsed_line[0]),
                                                                             Convert.ToInt32(parsed_line[4])));
                                     break;
 
                                 case 2:
-                                    result_notechart.Yellow_Notes.Add(new Note(Convert.ToUInt32(parsed_line[0]),
+                                    result_notechart.yellowNotes.Add(new Note(Convert.ToUInt32(parsed_line[0]),
                                                                                Convert.ToInt32(parsed_line[4])));
                                     break;
 
                                 case 3:
-                                    result_notechart.Blue_Notes.Add(new Note(Convert.ToUInt32(parsed_line[0]),
+                                    result_notechart.blueNotes.Add(new Note(Convert.ToUInt32(parsed_line[0]),
                                                                              Convert.ToInt32(parsed_line[4])));
                                     break;
 
                                 case 4:
-                                    result_notechart.Orange_Notes.Add(new Note(Convert.ToUInt32(parsed_line[0]),
+                                    result_notechart.orangeNotes.Add(new Note(Convert.ToUInt32(parsed_line[0]),
                                                                                Convert.ToInt32(parsed_line[4])));
                                     break;
 
@@ -83,7 +83,7 @@ namespace GH_Game.Chart
 
                         // Also check for SP notes
                         if (parsed_line[2] == "S")
-                            result_notechart.SP_Notes.Add(new Note(Convert.ToUInt32(parsed_line[0]),
+                            result_notechart.SPNotes.Add(new Note(Convert.ToUInt32(parsed_line[0]),
                                                                    Convert.ToInt32(parsed_line[4])));
                     }
                 }
@@ -93,6 +93,119 @@ namespace GH_Game.Chart
             pattern_stream.Close();
 
             return result_notechart;
+        }
+
+        // Generate the milisecond time values for each note in a notechart
+        // by simulating a runthrough of the song using the tick and bpm values
+        public Notechart GenerateTimeValues(Notechart inputNotechart, List<BPMChange> inputBPMChanges,
+                                           List<Event> inputEvents, float chartOffset)
+        {
+            double currentTick = 0.0;
+            double currentTicksPerMilisecond = 0.0;
+            uint currentMilisecond = (uint)(chartOffset * 1000);  // Convert the chart offset into flat miliseconds
+
+            int[] notechartIterators = {0, 0, 0, 0, 0, 0};
+            int eventIterator = 0;
+            int BPMChangeIterator = 0;
+
+            Notechart noteChartToReturn = inputNotechart;
+
+            // Keep working until the end event is encountered
+            while (inputEvents[eventIterator].Value != "end")
+            {
+                // Update the event iterator
+                if (eventIterator < inputEvents.Count)
+                {
+                    if (currentTick >= inputEvents[eventIterator].TickValue)
+                    {
+                        eventIterator++;
+                    }
+                }
+
+                // Update the notes themselves (have to specifiy each note set)
+                if (notechartIterators[0] < inputNotechart.greenNotes.Count)
+                {
+                    if (currentTick >= inputNotechart.greenNotes[notechartIterators[0]].TickValue)
+                    {
+                        inputNotechart.greenNotes[notechartIterators[0]].TimeValue = currentMilisecond;
+                        notechartIterators[0]++;
+                    }
+                }
+
+                // Update the notes themselves (have to specifiy each note set)
+                if (notechartIterators[1] < inputNotechart.redNotes.Count)
+                {
+                    if (currentTick >= inputNotechart.redNotes[notechartIterators[1]].TickValue)
+                    {
+                        inputNotechart.redNotes[notechartIterators[1]].TimeValue = currentMilisecond;
+                        notechartIterators[1]++;
+                    }
+                }
+
+                // Update the notes themselves (have to specifiy each note set)
+                if (notechartIterators[2] < inputNotechart.yellowNotes.Count)
+                {
+                    if (currentTick >= inputNotechart.yellowNotes[notechartIterators[2]].TickValue)
+                    {
+                        inputNotechart.yellowNotes[notechartIterators[2]].TimeValue = currentMilisecond;
+                        notechartIterators[2]++;
+                    }
+                }
+
+                // Update the notes themselves (have to specifiy each note set)
+                if (notechartIterators[3] < inputNotechart.blueNotes.Count)
+                {
+                    if (currentTick >= inputNotechart.blueNotes[notechartIterators[3]].TickValue)
+                    {
+                        inputNotechart.blueNotes[notechartIterators[3]].TimeValue = currentMilisecond;
+                        notechartIterators[3]++;
+                    }
+                }
+
+                // Update the notes themselves (have to specifiy each note set)
+                if (notechartIterators[4] < inputNotechart.orangeNotes.Count)
+                {
+                    if (currentTick >= inputNotechart.orangeNotes[notechartIterators[4]].TickValue)
+                    {
+                        inputNotechart.orangeNotes[notechartIterators[4]].TimeValue = currentMilisecond;
+                        notechartIterators[4]++;
+                    }
+                }
+
+                // Update the notes themselves (have to specifiy each note set)
+                if (notechartIterators[5] < inputNotechart.SPNotes.Count)
+                {
+                    if (currentTick >= inputNotechart.SPNotes[notechartIterators[5]].TickValue)
+                    {
+                        inputNotechart.SPNotes[notechartIterators[5]].TimeValue = currentMilisecond;
+                        notechartIterators[5]++;
+                    }
+                }
+
+                if (!(BPMChangeIterator == inputBPMChanges.Count))
+                {
+                    // Update the tpms every "update frame" in case the elapsed gametime is not 16 (running slow)
+                    // and assign the tpms in accordance to the current bpm and elapsed gametime
+                    // -TODO: 192 is an assumed magic number.  Edit Chart class so it contains the resolution of the
+                    //        chart (192 is the standard, but others exist).
+                    currentTicksPerMilisecond = ((inputBPMChanges[BPMChangeIterator].BPMValue * 192.0) / 60000000.0);
+
+                    // IF the current bpm change is not the last, then increment the iterator
+                    // (count is not zero based, and must be decremented by 1)
+                    if (BPMChangeIterator < (inputBPMChanges.Count - 1))
+                    {
+                        if ((currentTick >= inputBPMChanges[BPMChangeIterator + 1].TickValue))
+                        {
+                            BPMChangeIterator++;
+                        }
+                    }
+                }
+
+                currentTick += currentTicksPerMilisecond;
+                currentMilisecond++;
+            }
+
+            return noteChartToReturn;
         }
     }
 }

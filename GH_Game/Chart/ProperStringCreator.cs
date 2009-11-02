@@ -13,7 +13,7 @@ namespace GH_Game.Chart
             string result = "";  // Create the return string
 
             // Concenate the result string together
-            for (int i = 2; i < input.Length; i++)
+            for (int i = 0; i < input.Length; i++)
             {
                 result = result + " " + input[i];
             }

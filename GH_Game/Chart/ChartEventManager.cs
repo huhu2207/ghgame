@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.IO;
+using GH_Game.Extensions;
 
 namespace GH_Game.Chart
 {
@@ -37,7 +38,7 @@ namespace GH_Game.Chart
                     if (parsed_line[2] == "E")
                     {
                         eventListToReturn.Add(new Event(Convert.ToUInt32(parsed_line[0]),
-                                              properStringCreator.createProperString(parsed_line)));
+                                              properStringCreator.createProperString(parsed_line.SubArray(3, parsed_line.Length))));
                     }
                 }
             }

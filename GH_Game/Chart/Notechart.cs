@@ -12,24 +12,24 @@ namespace GH_Game.Chart
         public Notechart()
         {
             Chart_Name = "default";
-            Green_Notes = new List<Note>();
-            Red_Notes = new List<Note>();
-            Yellow_Notes = new List<Note>();
-            Blue_Notes = new List<Note>();
-            Orange_Notes = new List<Note>();
-            SP_Notes = new List<Note>();
+            greenNotes = new List<Note>();
+            redNotes = new List<Note>();
+            yellowNotes = new List<Note>();
+            blueNotes = new List<Note>();
+            orangeNotes = new List<Note>();
+            SPNotes = new List<Note>();
         }
 
         // The typical constructor
         public Notechart(string in_name)
         {
             Chart_Name = in_name;
-            Green_Notes = new List<Note>();
-            Red_Notes = new List<Note>();
-            Yellow_Notes = new List<Note>();
-            Blue_Notes = new List<Note>();
-            Orange_Notes = new List<Note>();
-            SP_Notes = new List<Note>();
+            greenNotes = new List<Note>();
+            redNotes = new List<Note>();
+            yellowNotes = new List<Note>();
+            blueNotes = new List<Note>();
+            orangeNotes = new List<Note>();
+            SPNotes = new List<Note>();
         }
 
         // Generate the milisecond time values for each note
@@ -41,37 +41,37 @@ namespace GH_Game.Chart
         // Test function to view stored information
         public void print_info()
         {
-            foreach (Note curr_note in Green_Notes)
+            foreach (Note curr_note in greenNotes)
             {
                 Console.Write("Green: - ");
                 curr_note.print_info();
             }
 
-            foreach (Note curr_note in Red_Notes)
+            foreach (Note curr_note in redNotes)
             {
                 Console.Write("Red: - ");
                 curr_note.print_info();
             }
 
-            foreach (Note curr_note in Yellow_Notes)
+            foreach (Note curr_note in yellowNotes)
             {
                 Console.Write("Yellow: - ");
                 curr_note.print_info();
             }
 
-            foreach (Note curr_note in Blue_Notes)
+            foreach (Note curr_note in blueNotes)
             {
                 Console.Write("Blue: - ");
                 curr_note.print_info();
             }
 
-            foreach (Note curr_note in Orange_Notes)
+            foreach (Note curr_note in orangeNotes)
             {
                 Console.Write("Orange: - ");
                 curr_note.print_info();
             }
 
-            foreach (Note curr_note in SP_Notes)
+            foreach (Note curr_note in SPNotes)
             {
                 Console.Write("SP: - ");
                 curr_note.print_info();
@@ -81,11 +81,11 @@ namespace GH_Game.Chart
         public string Chart_Name; // The name of the chart itself (i.e. ExpertSingle)
 
         // The note data lists
-        public List<Note> Green_Notes;
-        public List<Note> Red_Notes;
-        public List<Note> Yellow_Notes;
-        public List<Note> Blue_Notes;
-        public List<Note> Orange_Notes;
-        public List<Note> SP_Notes;
+        public List<Note> greenNotes;
+        public List<Note> redNotes;
+        public List<Note> yellowNotes;
+        public List<Note> blueNotes;
+        public List<Note> orangeNotes;
+        public List<Note> SPNotes;
     }
 }
