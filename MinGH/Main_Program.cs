@@ -35,6 +35,7 @@ namespace MinGH
         /// </summary>
         protected override void Initialize()
         {
+            Window.Title = "MinGH";
             singlePlayerGameScreen.Initialize(graphics);
             base.Initialize();
         }
