@@ -18,13 +18,15 @@ namespace MinGH.GameScreenImpl
         Texture2D backgroundTex;  // The background texture
         SpriteFont game_font;  // The font the game will use
         gameObject[,] Notes;  // Will hold every note currently on the screen
-        const int Max_Notes_Onscreen = 50;  // Maximum amount of a single note (i.e. how many reds per frame)
-        const double Note_Velocity = 1.5;  // Current speed in which the notes will move (higher = slower)
-        int[] note_iterators;  // These iterators are used to keep track of which note to observe next
+        const int maxNotesOnscreen = 50;  // Maximum amount of a single note (i.e. how many reds per frame)
+        const double noteVelocityMultiplier = 0.7;  // Current speed in which the notes will move (higher = slower)
+        double noteVelocityConstant = 490;  // The number of miliseconds to speed up the notes so they appear on time (will change with the noteVelocityMultiplier) 
+        int[] noteIterators;  // These iterators are used to keep track of which note to observe next
 
-        Chart main_chart;  // Create the chart file
-        GameStringManager str_manager = new GameStringManager();  // Stores each string and its position on the screen
+        Chart mainChart;  // Create the chart file
+        GameStringManager strManager = new GameStringManager();  // Stores each string and its position on the screen
 
+        // Variables related to the audio playing and note syncing
         private FMOD.System system = new FMOD.System();
         private FMOD.Channel channel = new FMOD.Channel();
         private FMOD.Sound sound = new FMOD.Sound();
@@ -34,19 +36,23 @@ namespace MinGH.GameScreenImpl
         public void Initialize(GraphicsDeviceManager graphics)
         {
             // Setup the strings
-            Initialize_Functions.Initialize_Strings(ref str_manager, graphics.GraphicsDevice.Viewport.Width,
+            Initialize_Functions.Initialize_Strings(ref strManager, graphics.GraphicsDevice.Viewport.Width,
                                                     graphics.GraphicsDevice.Viewport.Height);
             // Initialize some variables
-            note_iterators = new int[5];
-            Notes = new gameObject[5, Max_Notes_Onscreen];
+            noteIterators = new int[5];
+            Notes = new gameObject[5, maxNotesOnscreen];
 
+            // Create the sprite bacth
             spriteBatch = new SpriteBatch(graphics.GraphicsDevice);
+
+            // Setup the note velocity constant (HYPERSPEEDS!!)
+            noteVelocityConstant /= noteVelocityMultiplier;
         }
 
         public void LoadContent(ContentManager content, GraphicsDeviceManager graphics)
         {
             game_font = content.Load<SpriteFont>("Arial");  // Load the font
-            main_chart = new Chart("chart.chart");  // Setup the chart
+            mainChart = new Chart("chart.chart");  // Setup the chart
             backgroundTex = content.Load<Texture2D>("Backgrounds\\GH_Background");
 
             // Setup the notes appearance and velocity
@@ -77,17 +83,13 @@ namespace MinGH.GameScreenImpl
                                           new Rectangle(404, 32, 86, 36));
                             break;
                     }
-                    Notes[i,j].velocity = new Vector2(0.0f, (float)Note_Velocity);
+                    Notes[i,j].velocity = new Vector2(0.0f, (float)noteVelocityMultiplier);
                 }
             }
 
             // Add the "Song Title" and "Artist Name" to the string manager
-            str_manager.Set_String(2, "Song Title:\n" + main_chart.chartInfo.songName);
-            str_manager.Set_String(3, "Artist Name:\n" + main_chart.chartInfo.artistName);
-
-            // Set the offset timer's end value so the notes do not start too fast (or slow)
-            // TODO: Have the 830 magic number be dynamicaly created according to the note velocity setting
-            //offset_timer.end_value = (main_chart.chartInfo.offset * 1000) - 830;
+            strManager.Set_String(2, "Song Title:\n" + mainChart.chartInfo.songName);
+            strManager.Set_String(3, "Artist Name:\n" + mainChart.chartInfo.artistName);
             
             // Setup the window
             viewportRectangle = new Rectangle(0, 0,
@@ -114,23 +116,23 @@ namespace MinGH.GameScreenImpl
 
             channel.getPosition(ref currentMsec, TIMEUNIT.MS);
 
-            Misc_Functions.SUpdate_Notes(main_chart.Note_Charts[0].greenNotes,
-                                        0, ref note_iterators[0], ref Notes, viewportRectangle,
-                                        gameTime, Note_Velocity, 86, currentMsec + 760);
-            Misc_Functions.SUpdate_Notes(main_chart.Note_Charts[0].redNotes,
-                                        1, ref note_iterators[1], ref Notes, viewportRectangle,
-                                        gameTime, Note_Velocity, 86, currentMsec + 760);
-            Misc_Functions.SUpdate_Notes(main_chart.Note_Charts[0].yellowNotes,
-                                        2, ref note_iterators[2], ref Notes, viewportRectangle,
-                                        gameTime, Note_Velocity, 86, currentMsec + 760);
-            Misc_Functions.SUpdate_Notes(main_chart.Note_Charts[0].blueNotes,
-                                        3, ref note_iterators[3], ref Notes, viewportRectangle,
-                                        gameTime, Note_Velocity, 86, currentMsec + 760);
-            Misc_Functions.SUpdate_Notes(main_chart.Note_Charts[0].orangeNotes,
-                                        4, ref note_iterators[4], ref Notes, viewportRectangle,
-                                        gameTime, Note_Velocity, 86, currentMsec + 760);
+            Misc_Functions.updateNotes(mainChart.Note_Charts[0].greenNotes,
+                                        0, ref noteIterators[0], ref Notes, viewportRectangle,
+                                        gameTime, noteVelocityMultiplier, 86, currentMsec + noteVelocityConstant);
+            Misc_Functions.updateNotes(mainChart.Note_Charts[0].redNotes,
+                                        1, ref noteIterators[1], ref Notes, viewportRectangle,
+                                        gameTime, noteVelocityMultiplier, 86, currentMsec + noteVelocityConstant);
+            Misc_Functions.updateNotes(mainChart.Note_Charts[0].yellowNotes,
+                                        2, ref noteIterators[2], ref Notes, viewportRectangle,
+                                        gameTime, noteVelocityMultiplier, 86, currentMsec + noteVelocityConstant);
+            Misc_Functions.updateNotes(mainChart.Note_Charts[0].blueNotes,
+                                        3, ref noteIterators[3], ref Notes, viewportRectangle,
+                                        gameTime, noteVelocityMultiplier, 86, currentMsec + noteVelocityConstant);
+            Misc_Functions.updateNotes(mainChart.Note_Charts[0].orangeNotes,
+                                        4, ref noteIterators[4], ref Notes, viewportRectangle,
+                                        gameTime, noteVelocityMultiplier, 86, currentMsec + noteVelocityConstant);
 
-            str_manager.Set_String(0, "Current MSEC:\n" + Convert.ToString(currentMsec));
+            strManager.Set_String(0, "Current MSEC:\n" + Convert.ToString(currentMsec));
             //str_manager.Set_String(1, "TPMS:\n" + Convert.ToString(ticks_per_msecond));
         }
 
@@ -142,7 +144,7 @@ namespace MinGH.GameScreenImpl
             spriteBatch.Draw(backgroundTex, viewportRectangle, Color.White);
 
             // Draw every string in str_manager
-            str_manager.DrawStrings(spriteBatch, game_font);
+            strManager.DrawStrings(spriteBatch, game_font);
 
             //Draw the notes
             for (int i = 0; i < Notes.GetLength(0); i++)
