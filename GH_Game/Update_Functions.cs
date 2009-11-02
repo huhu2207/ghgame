@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
+using GH_Game.Chart;
 
 namespace Chart_View
 {

@@ -76,6 +76,7 @@
     <Reference Include="System">
       <Private>False</Private>
     </Reference>
+    <Reference Include="System.Data" />
     <Reference Include="System.Xml">
       <Private>False</Private>
     </Reference>
@@ -89,7 +90,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Chart_Code\Chart_Class.cs" />
+    <Compile Include="Chart\BPMChange.cs" />
+    <Compile Include="Chart\Chart_Class.cs" />
+    <Compile Include="Chart\Entity.cs" />
+    <Compile Include="Chart\Event.cs" />
+    <Compile Include="Chart\Note.cs" />
     <Compile Include="fmod.cs" />
     <Compile Include="fmod_dsp.cs" />
     <Compile Include="Misc_Classes\GameObject_Class.cs" />
@@ -99,7 +104,7 @@
     <Compile Include="Main.cs" />
     <Compile Include="Main_Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Chart_Code\Test_Chart_Class.cs" />
+    <Compile Include="Chart\Test_Chart_Class.cs" />
     <Compile Include="Misc_Classes\Timer_Class.cs" />
     <Compile Include="Update_Functions.cs" />
   </ItemGroup>
