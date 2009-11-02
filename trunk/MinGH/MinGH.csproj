@@ -31,6 +31,8 @@
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <StartupObject>
+    </StartupObject>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
@@ -93,6 +95,8 @@
     <Compile Include="ChartImpl\ChartInfoManager.cs" />
     <Compile Include="ChartImpl\ChartNotechartManager.cs" />
     <Compile Include="ChartImpl\Chart.cs" />
+    <Compile Include="ChartImpl\ChartTimeValueManager.cs" />
+    <Compile Include="ChartImpl\EndofChartCondition.cs" />
     <Compile Include="ChartImpl\Entity.cs" />
     <Compile Include="ChartImpl\Event.cs" />
     <Compile Include="ChartImpl\Note.cs" />
