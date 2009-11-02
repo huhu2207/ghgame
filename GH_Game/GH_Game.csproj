@@ -91,10 +91,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Chart\BPMChange.cs" />
+    <Compile Include="Chart\ChartBPMManager.cs" />
+    <Compile Include="Chart\ChartEventManager.cs" />
+    <Compile Include="Chart\ChartInfo.cs" />
+    <Compile Include="Chart\ChartInfoManager.cs" />
+    <Compile Include="Chart\ChartNotechartManager.cs" />
     <Compile Include="Chart\Chart_Class.cs" />
     <Compile Include="Chart\Entity.cs" />
     <Compile Include="Chart\Event.cs" />
     <Compile Include="Chart\Note.cs" />
+    <Compile Include="Chart\Notechart.cs" />
+    <Compile Include="Chart\ProperStringCreator.cs" />
     <Compile Include="fmod.cs" />
     <Compile Include="fmod_dsp.cs" />
     <Compile Include="Misc_Classes\GameObject_Class.cs" />
