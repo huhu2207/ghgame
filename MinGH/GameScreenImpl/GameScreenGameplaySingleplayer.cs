@@ -19,8 +19,10 @@ namespace MinGH.GameScreenImpl
         SpriteFont game_font;  // The font the game will use
         gameObject[,] Notes;  // Will hold every note currently on the screen
         const int maxNotesOnscreen = 50;  // Maximum amount of a single note (i.e. how many reds per frame)
-        const double noteVelocityMultiplier = 0.7;  // Current speed in which the notes will move (higher = slower)
-        double noteVelocityConstant = 490;  // The number of miliseconds to speed up the notes so they appear on time (will change with the noteVelocityMultiplier) 
+        const double noteVelocityMultiplier = 0.7;  // Current speed in which the notes will move
+        // The number of miliseconds to speed up the notes so they appear on time
+        // NOTE: 490 is the magic number constant for a 1.0 multiplier, it gets adjusted to the current multiplier in Initialization()
+        double noteVelocityConstant = 490;
         int[] noteIterators;  // These iterators are used to keep track of which note to observe next
 
         Chart mainChart;  // Create the chart file
