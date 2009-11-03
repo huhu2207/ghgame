@@ -5,6 +5,7 @@ using MinGH.GameStringImpl;
 using Microsoft.Xna.Framework.Content;
 using FMOD;
 using System;
+using MinGH.GameScreenImpl.GameScreenGameplaySinglePlayerImpl;
 
 namespace MinGH.GameScreenImpl
 {
@@ -24,6 +25,9 @@ namespace MinGH.GameScreenImpl
         // NOTE: 490 is the magic number constant for a 1.0 multiplier, it gets adjusted to the current multiplier in Initialization()
         double noteVelocityConstant = 490;
         int[] noteIterators;  // These iterators are used to keep track of which note to observe next
+        
+        // Variables unique to this game screen
+        NoteUpdater noteUpdater = new NoteUpdater();
 
         Chart mainChart;  // Create the chart file
         GameStringManager strManager = new GameStringManager();  // Stores each string and its position on the screen
@@ -118,21 +122,8 @@ namespace MinGH.GameScreenImpl
 
             channel.getPosition(ref currentMsec, TIMEUNIT.MS);
 
-            Misc_Functions.updateNotes(mainChart.Note_Charts[0].greenNotes,
-                                        0, ref noteIterators[0], ref Notes, viewportRectangle,
-                                        gameTime, noteVelocityMultiplier, 86, currentMsec + noteVelocityConstant);
-            Misc_Functions.updateNotes(mainChart.Note_Charts[0].redNotes,
-                                        1, ref noteIterators[1], ref Notes, viewportRectangle,
-                                        gameTime, noteVelocityMultiplier, 86, currentMsec + noteVelocityConstant);
-            Misc_Functions.updateNotes(mainChart.Note_Charts[0].yellowNotes,
-                                        2, ref noteIterators[2], ref Notes, viewportRectangle,
-                                        gameTime, noteVelocityMultiplier, 86, currentMsec + noteVelocityConstant);
-            Misc_Functions.updateNotes(mainChart.Note_Charts[0].blueNotes,
-                                        3, ref noteIterators[3], ref Notes, viewportRectangle,
-                                        gameTime, noteVelocityMultiplier, 86, currentMsec + noteVelocityConstant);
-            Misc_Functions.updateNotes(mainChart.Note_Charts[0].orangeNotes,
-                                        4, ref noteIterators[4], ref Notes, viewportRectangle,
-                                        gameTime, noteVelocityMultiplier, 86, currentMsec + noteVelocityConstant);
+            noteUpdater.updateNotes(mainChart.Note_Charts[0], ref noteIterators, ref Notes, viewportRectangle,
+                                    gameTime, noteVelocityMultiplier, 86, currentMsec + noteVelocityConstant);
 
             strManager.Set_String(0, "Current MSEC:\n" + Convert.ToString(currentMsec));
             strManager.Set_String(1, "End MSEC:\n" + Convert.ToString(mainChart.chartInfo.chartLengthMiliseconds));
