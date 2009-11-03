@@ -6,6 +6,10 @@ using Microsoft.Xna.Framework.Content;
 using FMOD;
 using System;
 using MinGH.GameScreenImpl.GameScreenGameplaySinglePlayerImpl;
+using ProjectMercury.Emitters;
+using ProjectMercury;
+using ProjectMercury.Renderers;
+using ProjectMercury.Modifiers;
 
 namespace MinGH.GameScreenImpl
 {
@@ -39,6 +43,11 @@ namespace MinGH.GameScreenImpl
         uint currentMsec = 0;
         bool audioIsPlaying = false;  // So we don't play the song again every single update
 
+        // Project Mercury Particle Engine related variables
+        Emitter emitter = new CircleEmitter();
+        PointSpriteRenderer renderer = new PointSpriteRenderer();
+        ColorModifier modifier = new ColorModifier();
+
         public void Initialize(GraphicsDeviceManager graphics)
         {
             // Setup the strings
@@ -53,6 +62,19 @@ namespace MinGH.GameScreenImpl
 
             // Setup the note velocity constant (HYPERSPEEDS!!)
             noteVelocityConstant /= noteVelocityMultiplier;
+
+            emitter.Budget = 10000;
+            //emitter.Radiate = true;
+            //emitter.Radius = 10f;
+            emitter.ReleaseQuantity = 1000;
+            emitter.ReleaseScale = 10f;
+            emitter.ReleaseSpeed = new VariableFloat { Anchor = 50f, Variation = 5f };
+            emitter.ReleaseColour = Color.Yellow.ToVector3();
+            emitter.ReleaseOpacity = 1f;
+            //emitter.Ring = false;
+            emitter.Term = 3f;
+            emitter.ParticleTextureAssetName = "Particles\\FlowerBurst";
+            emitter.Initialize();
         }
 
         public void LoadContent(ContentManager content, GraphicsDeviceManager graphics)
@@ -101,6 +123,13 @@ namespace MinGH.GameScreenImpl
             viewportRectangle = new Rectangle(0, 0,
                 graphics.GraphicsDevice.Viewport.Width,
                 graphics.GraphicsDevice.Viewport.Height);
+
+            
+            renderer.GraphicsDeviceService = graphics;
+            renderer.BlendMode = SpriteBlendMode.Additive;
+            renderer.LoadContent(content);
+            
+            emitter.LoadContent(content);
         }
 
         public void UnloadContent()
@@ -133,6 +162,9 @@ namespace MinGH.GameScreenImpl
             {
                 channel.stop();
             }
+            emitter.Trigger(new Vector2(10f, 10f));
+
+            emitter.Update((float)gameTime.TotalGameTime.TotalSeconds, (float)gameTime.ElapsedGameTime.TotalSeconds);
         }
 
         public void Draw(GameTime gameTime)
@@ -156,7 +188,10 @@ namespace MinGH.GameScreenImpl
                     }
                 }
             }
+
+            
             spriteBatch.End();
+            renderer.RenderEmitter(emitter);
         }
     }
 }

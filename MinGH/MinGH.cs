@@ -81,6 +81,7 @@ namespace MinGH
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
+
             singlePlayerGameScreen.Draw(gameTime);
 
             base.Draw(gameTime);
