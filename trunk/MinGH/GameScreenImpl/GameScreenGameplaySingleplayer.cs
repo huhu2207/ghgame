@@ -29,6 +29,9 @@ namespace MinGH.GameScreenImpl
         // NOTE: 490 is the magic number constant for a 1.0 multiplier, it gets adjusted to the current multiplier in Initialization()
         double noteVelocityConstant = 490;
         int[] noteIterators;  // These iterators are used to keep track of which note to observe next
+        const int noteLeftPadding = 196;  // How far from the left the green note is placed in pixels
+        const int noteWidth = 86;  // How far each note is from each other in pixels
+        const int hitBarYValue = 506;  // How far down the hit bar is on the gamescreen in pixels
         
         // Variables unique to this game screen
         NoteUpdater noteUpdater = new NoteUpdater();
@@ -44,7 +47,7 @@ namespace MinGH.GameScreenImpl
         bool audioIsPlaying = false;  // So we don't play the song again every single update
 
         // Project Mercury Particle Engine related variables
-        Emitter emitter = new CircleEmitter();
+        NoteParticleExplosionEmitters noteParticleExplosionEmitters = new NoteParticleExplosionEmitters();
         PointSpriteRenderer renderer = new PointSpriteRenderer();
         ColorModifier modifier = new ColorModifier();
 
@@ -63,18 +66,12 @@ namespace MinGH.GameScreenImpl
             // Setup the note velocity constant (HYPERSPEEDS!!)
             noteVelocityConstant /= noteVelocityMultiplier;
 
-            emitter.Budget = 10000;
-            //emitter.Radiate = true;
-            //emitter.Radius = 10f;
-            emitter.ReleaseQuantity = 1000;
-            emitter.ReleaseScale = 10f;
-            emitter.ReleaseSpeed = new VariableFloat { Anchor = 50f, Variation = 5f };
-            emitter.ReleaseColour = Color.Yellow.ToVector3();
-            emitter.ReleaseOpacity = 1f;
-            //emitter.Ring = false;
-            emitter.Term = 3f;
-            emitter.ParticleTextureAssetName = "Particles\\FlowerBurst";
-            emitter.Initialize();
+            noteParticleExplosionEmitters.initalizeEmitters();
+            noteParticleExplosionEmitters.initializeLocations(noteLeftPadding, noteWidth, hitBarYValue);
+            foreach (Emitter emitter in noteParticleExplosionEmitters.emitterList)
+            {
+                emitter.Initialize();
+            }
         }
 
         public void LoadContent(ContentManager content, GraphicsDeviceManager graphics)
@@ -128,8 +125,11 @@ namespace MinGH.GameScreenImpl
             renderer.GraphicsDeviceService = graphics;
             renderer.BlendMode = SpriteBlendMode.Additive;
             renderer.LoadContent(content);
-            
-            emitter.LoadContent(content);
+
+            foreach (Emitter emitter in noteParticleExplosionEmitters.emitterList)
+            {
+                emitter.LoadContent(content);
+            }
         }
 
         public void UnloadContent()
@@ -152,7 +152,8 @@ namespace MinGH.GameScreenImpl
             channel.getPosition(ref currentMsec, TIMEUNIT.MS);
 
             noteUpdater.updateNotes(mainChart.Note_Charts[0], ref noteIterators, ref Notes, viewportRectangle,
-                                    gameTime, noteVelocityMultiplier, 86, currentMsec + noteVelocityConstant);
+                                    gameTime, noteVelocityMultiplier, noteWidth, currentMsec + noteVelocityConstant,
+                                    noteParticleExplosionEmitters, hitBarYValue);
 
             strManager.Set_String(0, "Current MSEC:\n" + Convert.ToString(currentMsec));
             strManager.Set_String(1, "End MSEC:\n" + Convert.ToString(mainChart.chartInfo.chartLengthMiliseconds));
@@ -162,9 +163,11 @@ namespace MinGH.GameScreenImpl
             {
                 channel.stop();
             }
-            emitter.Trigger(new Vector2(10f, 10f));
 
-            emitter.Update((float)gameTime.TotalGameTime.TotalSeconds, (float)gameTime.ElapsedGameTime.TotalSeconds);
+            foreach (Emitter emitter in noteParticleExplosionEmitters.emitterList)
+            {
+                emitter.Update((float)gameTime.TotalGameTime.TotalSeconds, (float)gameTime.ElapsedGameTime.TotalSeconds);
+            }
         }
 
         public void Draw(GameTime gameTime)
@@ -189,9 +192,12 @@ namespace MinGH.GameScreenImpl
                 }
             }
 
-            
             spriteBatch.End();
-            renderer.RenderEmitter(emitter);
+
+            foreach (Emitter emitter in noteParticleExplosionEmitters.emitterList)
+            {
+                renderer.RenderEmitter(emitter);
+            }
         }
     }
 }
