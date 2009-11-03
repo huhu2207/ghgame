@@ -103,8 +103,8 @@
     <Compile Include="ChartImpl\Notechart.cs" />
     <Compile Include="ChartImpl\ProperStringCreator.cs" />
     <Compile Include="Extensions\SubArrayExtension.cs" />
-    <Compile Include="fmod.cs" />
-    <Compile Include="fmod_dsp.cs" />
+    <Compile Include="FMOD\fmod.cs" />
+    <Compile Include="FMOD\fmod_dsp.cs" />
     <Compile Include="GameScreenImpl\GameScreenGameplaySingleplayer.cs" />
     <Compile Include="GameScreenImpl\GameScreenGameplaySinglePlayerImpl\NoteUpdater.cs" />
     <Compile Include="GameScreenImpl\GameScreenGameplaySinglePlayerImpl\StringInitializer.cs" />
@@ -112,9 +112,8 @@
     <Compile Include="GameStringImpl\GameString.cs" />
     <Compile Include="Misc_Classes\GameObject_Class.cs" />
     <Compile Include="GameStringImpl\GameStringManager.cs" />
-    <Compile Include="Initialize_Functions.cs" />
     <Compile Include="Main.cs" />
-    <Compile Include="Main_Program.cs" />
+    <Compile Include="MinGH.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ChartImpl\Test_Chart_Class.cs" />
     <Compile Include="Misc_Classes\Timer_Class.cs" />
