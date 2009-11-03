@@ -1,13 +1,17 @@
-﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using MinGH.GameStringImpl;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
-namespace MinGH
+namespace MinGH.GameScreenImpl.GameScreenGameplaySinglePlayerImpl
 {
-    class Initialize_Functions
+    class StringInitializer
     {
         // This is where the programmer will initialize all strings used in the program
-        public static void Initialize_Strings(ref GameStringManager str_manager, int screen_width,
+        public static void initializeStrings(ref GameStringManager str_manager, int screen_width,
                                               int screen_height)
         {
             /* Current Organization of Strings (the value will be added when possible):

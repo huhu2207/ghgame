@@ -42,8 +42,8 @@ namespace MinGH.GameScreenImpl
         public void Initialize(GraphicsDeviceManager graphics)
         {
             // Setup the strings
-            Initialize_Functions.Initialize_Strings(ref strManager, graphics.GraphicsDevice.Viewport.Width,
-                                                    graphics.GraphicsDevice.Viewport.Height);
+            StringInitializer.initializeStrings(ref strManager, graphics.GraphicsDevice.Viewport.Width,
+                               graphics.GraphicsDevice.Viewport.Height);
             // Initialize some variables
             noteIterators = new int[5];
             Notes = new gameObject[5, maxNotesOnscreen];
