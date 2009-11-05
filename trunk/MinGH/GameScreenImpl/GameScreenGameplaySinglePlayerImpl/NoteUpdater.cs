@@ -16,13 +16,12 @@ namespace MinGH.GameScreenImpl.GameScreenGameplaySinglePlayerImpl
         public void updateNotes(Notechart inputNotechart, ref int[] inputNoteIterators,
                                 ref gameObject[,] physicalNotes, Rectangle viewportRectangle,
                                 GameTime currTime, double noteVelocity,
-                                int noteSize, double currentMsec,
-                                NoteParticleExplosionEmitters noteParticleExplosionEmitters, int hitBarYValue)
+                                int noteSize, double currentMsec)
         {
             List<Note> currentNoteList = new List<Note>();
 
             // Change the current note list to look at according to the current loop iteration
-            for (int currentNoteset = 0; currentNoteset < 5; currentNoteset++)
+            for (int currentNoteset = 0; currentNoteset < physicalNotes.GetLength(0); currentNoteset++)
             {
                 switch (currentNoteset)
                 {
@@ -76,15 +75,6 @@ namespace MinGH.GameScreenImpl.GameScreenGameplaySinglePlayerImpl
                         physicalNotes[currentNoteset, i].position += new Vector2(0.0f, (float)(currTime.ElapsedGameTime.TotalMilliseconds * noteVelocity));
                     }
 
-                    //// Kill note if it passes the hit line and EXPLODE
-                    //// Adjust the y value by a magic number to give it a slightly earlier hit
-                    //if ((physicalNotes[currentNoteset, i].position.Y > (hitBarYValue - 12)) &&
-                    //    (physicalNotes[currentNoteset, i].alive == true))
-                    //{
-                    //    noteParticleExplosionEmitters.emitterList[currentNoteset].Trigger(noteParticleExplosionEmitters.explosionLocations[currentNoteset]);
-                    //    physicalNotes[currentNoteset, i].alive = false;
-                    //}
-
                     // Kill any notes that managed to get past the previous check and left the screen
                     if (!viewportRectangle.Contains(new Point((int)physicalNotes[currentNoteset, i].position.X,
                             (int)physicalNotes[currentNoteset, i].position.Y)))
@@ -93,6 +83,6 @@ namespace MinGH.GameScreenImpl.GameScreenGameplaySinglePlayerImpl
                     }
                 }
             }
-        }
+        }                                   
     }
 }
