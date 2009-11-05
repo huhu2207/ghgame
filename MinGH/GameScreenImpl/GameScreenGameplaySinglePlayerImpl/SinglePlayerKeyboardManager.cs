@@ -16,10 +16,22 @@ namespace MinGH.GameScreenImpl.GameScreenGameplaySinglePlayerImpl
             previousState = new KeyboardState();
         }
 
-        void processInput(KeyboardState inputState)
+        public void processKeyboardState(KeyboardState inputState)
         {
             previousState = currentState;
             currentState = inputState;
+        }
+
+        public bool keyWasHit(Keys key)
+        {
+            if ((currentState.IsKeyDown(key) && previousState.IsKeyUp(key)))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }

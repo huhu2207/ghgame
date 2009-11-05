@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace MinGH
 {
+    // This gameobject is geared towards a spritesheet system
     class gameObject
     {
         //Constructor
@@ -12,15 +13,20 @@ namespace MinGH
         {
             rotation = 0;
             position = Vector2.Zero;
-            sprite = loadedTex;
-            center = new Vector2(sprite.Width / 2, sprite.Height / 2);
+            spriteSheet = loadedTex;
             velocity = Vector2.Zero;
             alive = false;
             spriteSheetPosition = spritePos;
+            center = new Vector2(spritePos.Width / 2, spritePos.Height / 2);
+        }
+
+        public Vector2 getCenterPosition()
+        {
+            return new Vector2(position.X + center.X, position.Y + center.Y);
         }
 
         //Public data members
-        public Texture2D sprite;
+        public Texture2D spriteSheet;
         public Vector2 position;
         public float rotation;
         public Vector2 center;

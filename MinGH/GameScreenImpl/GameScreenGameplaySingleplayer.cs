@@ -10,6 +10,7 @@ using ProjectMercury.Emitters;
 using ProjectMercury;
 using ProjectMercury.Renderers;
 using ProjectMercury.Modifiers;
+using Microsoft.Xna.Framework.Input;
 
 namespace MinGH.GameScreenImpl
 {
@@ -25,16 +26,18 @@ namespace MinGH.GameScreenImpl
         gameObject[,] Notes;  // Will hold every note currently on the screen
         const int maxNotesOnscreen = 50;  // Maximum amount of a single note (i.e. how many reds per frame)
         const double noteVelocityMultiplier = 0.7;  // Current speed in which the notes will move
-        // The number of miliseconds to speed up the notes so they appear on time
+        // The number of miliseconds to speed up the notes so they appear on time (Global Offset)
         // NOTE: 505 is the magic number constant for a 1.0 multiplier, it gets adjusted to the current multiplier in Initialization()
-        double noteVelocityConstant = 505;
+        double noteVelocityConstant = 490;
         int[] noteIterators;  // These iterators are used to keep track of which note to observe next
         const int noteLeftPadding = 196;  // How far from the left the green note is placed in pixels
         const int noteWidth = 86;  // How far each note is from each other in pixels
-        const int hitBarYValue = 506;  // How far down the hit bar is on the gamescreen in pixels
         
         // Variables unique to this game screen
         NoteUpdater noteUpdater = new NoteUpdater();
+        IKeyboardInputManager keyboardInputManager = new SinglePlayerKeyboardManager();
+        HorizontalHitBox hitBox;
+        PlayerInputManager playerInputManager = new PlayerInputManager();
 
         Chart mainChart;  // Create the chart file
         GameStringManager strManager = new GameStringManager();  // Stores each string and its position on the screen
@@ -66,8 +69,14 @@ namespace MinGH.GameScreenImpl
             // Setup the note velocity constant (HYPERSPEEDS!!)
             noteVelocityConstant /= noteVelocityMultiplier;
 
+            // Create the hitbox
+            hitBox = new HorizontalHitBox(new Rectangle(0, 0,
+                                          graphics.GraphicsDevice.Viewport.Width,
+                                          graphics.GraphicsDevice.Viewport.Height));
+
+            // Set up the particle explosions
             noteParticleExplosionEmitters.initalizeEmitters();
-            noteParticleExplosionEmitters.initializeLocations(noteLeftPadding, noteWidth, hitBarYValue);
+            noteParticleExplosionEmitters.initializeLocations(noteLeftPadding, noteWidth, hitBox.centerLocation);
             foreach (Emitter emitter in noteParticleExplosionEmitters.emitterList)
             {
                 emitter.Initialize();
@@ -151,12 +160,35 @@ namespace MinGH.GameScreenImpl
 
             channel.getPosition(ref currentMsec, TIMEUNIT.MS);
 
+            keyboardInputManager.processKeyboardState(Keyboard.GetState());
+
+            if (keyboardInputManager.keyWasHit(Keys.A))
+            {
+                playerInputManager.processPlayerInput(ref Notes, noteParticleExplosionEmitters, keyboardInputManager, hitBox, 0);
+            }
+            if (keyboardInputManager.keyWasHit(Keys.S))
+            {
+                playerInputManager.processPlayerInput(ref Notes, noteParticleExplosionEmitters, keyboardInputManager, hitBox, 1);
+            }
+            if (keyboardInputManager.keyWasHit(Keys.D))
+            {
+                playerInputManager.processPlayerInput(ref Notes, noteParticleExplosionEmitters, keyboardInputManager, hitBox, 2);
+            }
+            if (keyboardInputManager.keyWasHit(Keys.F))
+            {
+                playerInputManager.processPlayerInput(ref Notes, noteParticleExplosionEmitters, keyboardInputManager, hitBox, 3);
+            }
+            if (keyboardInputManager.keyWasHit(Keys.G))
+            {
+                playerInputManager.processPlayerInput(ref Notes, noteParticleExplosionEmitters, keyboardInputManager, hitBox, 4);
+            }
+
             noteUpdater.updateNotes(mainChart.Note_Charts[0], ref noteIterators, ref Notes, viewportRectangle,
-                                    gameTime, noteVelocityMultiplier, noteWidth, currentMsec + noteVelocityConstant,
-                                    noteParticleExplosionEmitters, hitBarYValue);
+                                    gameTime, noteVelocityMultiplier, noteWidth, currentMsec + noteVelocityConstant);
 
             strManager.Set_String(0, "Current MSEC:\n" + Convert.ToString(currentMsec));
-            strManager.Set_String(1, "End MSEC:\n" + Convert.ToString(mainChart.chartInfo.chartLengthMiliseconds));
+            //strManager.Set_String(1, "End MSEC:\n" + Convert.ToString(mainChart.chartInfo.chartLengthMiliseconds));
+            strManager.Set_String(1, "End MSEC:\n" + Convert.ToString(hitBox.centerLocation));
 
             // Stop playing music when chart is over
             if (currentMsec > mainChart.chartInfo.chartLengthMiliseconds)
@@ -188,7 +220,7 @@ namespace MinGH.GameScreenImpl
                 {
                     if (Notes[i, j].alive)
                     {
-                        spriteBatch.Draw(Notes[i, j].sprite, Notes[i, j].position, Notes[i, j].spriteSheetPosition, Color.White);
+                        spriteBatch.Draw(Notes[i, j].spriteSheet, Notes[i, j].position, Notes[i, j].spriteSheetPosition, Color.White);
                     }
                 }
             }

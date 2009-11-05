@@ -8,6 +8,7 @@ namespace MinGH.GameScreenImpl
 {
     public interface IKeyboardInputManager
     {
-        void processInput(KeyboardState inputState);
+        void processKeyboardState(KeyboardState inputState);
+        bool keyWasHit(Keys key);
     }
 }

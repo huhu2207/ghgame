@@ -113,6 +113,7 @@
     <Compile Include="GameScreenImpl\GameScreenGameplaySinglePlayerImpl\HorizontalHitBox.cs" />
     <Compile Include="GameScreenImpl\GameScreenGameplaySinglePlayerImpl\NoteParticleExplosionEmitters.cs" />
     <Compile Include="GameScreenImpl\GameScreenGameplaySinglePlayerImpl\NoteUpdater.cs" />
+    <Compile Include="GameScreenImpl\GameScreenGameplaySinglePlayerImpl\PlayerInputManager.cs" />
     <Compile Include="GameScreenImpl\GameScreenGameplaySinglePlayerImpl\SinglePlayerKeyboardManager.cs" />
     <Compile Include="GameScreenImpl\GameScreenGameplaySinglePlayerImpl\StringInitializer.cs" />
     <Compile Include="GameScreenImpl\IGameScreen.cs" />
