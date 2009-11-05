@@ -158,12 +158,13 @@ namespace MinGH.GameScreenImpl
             strManager.Set_String(0, "Current MSEC:\n" + Convert.ToString(currentMsec));
             strManager.Set_String(1, "End MSEC:\n" + Convert.ToString(mainChart.chartInfo.chartLengthMiliseconds));
 
-            // Stop playing when chart is over
+            // Stop playing music when chart is over
             if (currentMsec > mainChart.chartInfo.chartLengthMiliseconds)
             {
                 channel.stop();
             }
 
+            // Update every particle explosion
             foreach (Emitter emitter in noteParticleExplosionEmitters.emitterList)
             {
                 emitter.Update((float)gameTime.TotalGameTime.TotalSeconds, (float)gameTime.ElapsedGameTime.TotalSeconds);

@@ -110,10 +110,13 @@
     <Compile Include="FMOD\fmod.cs" />
     <Compile Include="FMOD\fmod_dsp.cs" />
     <Compile Include="GameScreenImpl\GameScreenGameplaySingleplayer.cs" />
+    <Compile Include="GameScreenImpl\GameScreenGameplaySinglePlayerImpl\HorizontalHitBox.cs" />
     <Compile Include="GameScreenImpl\GameScreenGameplaySinglePlayerImpl\NoteParticleExplosionEmitters.cs" />
     <Compile Include="GameScreenImpl\GameScreenGameplaySinglePlayerImpl\NoteUpdater.cs" />
+    <Compile Include="GameScreenImpl\GameScreenGameplaySinglePlayerImpl\SinglePlayerKeyboardManager.cs" />
     <Compile Include="GameScreenImpl\GameScreenGameplaySinglePlayerImpl\StringInitializer.cs" />
     <Compile Include="GameScreenImpl\IGameScreen.cs" />
+    <Compile Include="GameScreenImpl\IKeyboardInputManager.cs" />
     <Compile Include="GameStringImpl\GameString.cs" />
     <Compile Include="Misc_Classes\GameObject_Class.cs" />
     <Compile Include="GameStringImpl\GameStringManager.cs" />
