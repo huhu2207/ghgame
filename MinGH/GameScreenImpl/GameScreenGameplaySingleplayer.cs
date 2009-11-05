@@ -11,6 +11,7 @@ using ProjectMercury;
 using ProjectMercury.Renderers;
 using ProjectMercury.Modifiers;
 using Microsoft.Xna.Framework.Input;
+using MinGH.Misc_Classes;
 
 namespace MinGH.GameScreenImpl
 {
@@ -23,7 +24,7 @@ namespace MinGH.GameScreenImpl
         Rectangle viewportRectangle;  // The window itself
         Texture2D backgroundTex;  // The background texture
         SpriteFont game_font;  // The font the game will use
-        gameObject[,] Notes;  // Will hold every note currently on the screen
+        Note[,] Notes;  // Will hold every note currently on the screen
         const int maxNotesOnscreen = 50;  // Maximum amount of a single note (i.e. how many reds per frame)
         const double noteVelocityMultiplier = 0.7;  // Current speed in which the notes will move
         // The number of miliseconds to speed up the notes so they appear on time (Global Offset)
@@ -38,6 +39,7 @@ namespace MinGH.GameScreenImpl
         IKeyboardInputManager keyboardInputManager = new SinglePlayerKeyboardManager();
         HorizontalHitBox hitBox;
         PlayerInputManager playerInputManager = new PlayerInputManager();
+        PlayerInformation playerInformation = new PlayerInformation();
 
         Chart mainChart;  // Create the chart file
         GameStringManager strManager = new GameStringManager();  // Stores each string and its position on the screen
@@ -57,11 +59,11 @@ namespace MinGH.GameScreenImpl
         public void Initialize(GraphicsDeviceManager graphics)
         {
             // Setup the strings
-            StringInitializer.initializeStrings(ref strManager, graphics.GraphicsDevice.Viewport.Width,
+            SinglePlayerStringInitializer.initializeStrings(ref strManager, graphics.GraphicsDevice.Viewport.Width,
                                graphics.GraphicsDevice.Viewport.Height);
             // Initialize some variables
             noteIterators = new int[5];
-            Notes = new gameObject[5, maxNotesOnscreen];
+            Notes = new Note[5, maxNotesOnscreen];
 
             // Create the sprite bacth
             spriteBatch = new SpriteBatch(graphics.GraphicsDevice);
@@ -97,23 +99,23 @@ namespace MinGH.GameScreenImpl
                     switch (i)
                     {
                         case 0:  // Green Notes
-                            Notes[i, j] = new gameObject(content.Load<Texture2D>("Sprites\\GH_Sprites"),
+                            Notes[i, j] = new Note(content.Load<Texture2D>("Sprites\\GH_Sprites"),
                                           new Rectangle(6, 32, 86, 36));
                             break;
                         case 1:  // Red Notes
-                            Notes[i, j] = new gameObject(content.Load<Texture2D>("Sprites\\GH_Sprites"),
+                            Notes[i, j] = new Note(content.Load<Texture2D>("Sprites\\GH_Sprites"),
                                           new Rectangle(108, 32, 86, 36));
                             break;
                         case 2:  // Yellow Notes
-                            Notes[i, j] = new gameObject(content.Load<Texture2D>("Sprites\\GH_Sprites"),
+                            Notes[i, j] = new Note(content.Load<Texture2D>("Sprites\\GH_Sprites"),
                                           new Rectangle(207, 32, 86, 36));
                             break;
                         case 3:  // Blue Notes
-                            Notes[i, j] = new gameObject(content.Load<Texture2D>("Sprites\\GH_Sprites"),
+                            Notes[i, j] = new Note(content.Load<Texture2D>("Sprites\\GH_Sprites"),
                                           new Rectangle(305, 32, 86, 36));
                             break;
                         case 4:  // Orange Notes
-                            Notes[i, j] = new gameObject(content.Load<Texture2D>("Sprites\\GH_Sprites"),
+                            Notes[i, j] = new Note(content.Load<Texture2D>("Sprites\\GH_Sprites"),
                                           new Rectangle(404, 32, 86, 36));
                             break;
                     }
@@ -160,35 +162,40 @@ namespace MinGH.GameScreenImpl
 
             channel.getPosition(ref currentMsec, TIMEUNIT.MS);
 
+            // Get the current keyboard state
             keyboardInputManager.processKeyboardState(Keyboard.GetState());
-
             if (keyboardInputManager.keyWasHit(Keys.A))
             {
-                playerInputManager.processPlayerInput(ref Notes, noteParticleExplosionEmitters, keyboardInputManager, hitBox, 0);
+                playerInputManager.processPlayerInput(ref Notes, noteParticleExplosionEmitters, keyboardInputManager, hitBox, 0, ref playerInformation);
             }
             if (keyboardInputManager.keyWasHit(Keys.S))
             {
-                playerInputManager.processPlayerInput(ref Notes, noteParticleExplosionEmitters, keyboardInputManager, hitBox, 1);
+                playerInputManager.processPlayerInput(ref Notes, noteParticleExplosionEmitters, keyboardInputManager, hitBox, 1, ref playerInformation);
             }
             if (keyboardInputManager.keyWasHit(Keys.D))
             {
-                playerInputManager.processPlayerInput(ref Notes, noteParticleExplosionEmitters, keyboardInputManager, hitBox, 2);
+                playerInputManager.processPlayerInput(ref Notes, noteParticleExplosionEmitters, keyboardInputManager, hitBox, 2, ref playerInformation);
             }
             if (keyboardInputManager.keyWasHit(Keys.F))
             {
-                playerInputManager.processPlayerInput(ref Notes, noteParticleExplosionEmitters, keyboardInputManager, hitBox, 3);
+                playerInputManager.processPlayerInput(ref Notes, noteParticleExplosionEmitters, keyboardInputManager, hitBox, 3, ref playerInformation);
             }
             if (keyboardInputManager.keyWasHit(Keys.G))
             {
-                playerInputManager.processPlayerInput(ref Notes, noteParticleExplosionEmitters, keyboardInputManager, hitBox, 4);
+                playerInputManager.processPlayerInput(ref Notes, noteParticleExplosionEmitters, keyboardInputManager, hitBox, 4, ref playerInformation);
             }
 
             noteUpdater.updateNotes(mainChart.Note_Charts[0], ref noteIterators, ref Notes, viewportRectangle,
-                                    gameTime, noteVelocityMultiplier, noteWidth, currentMsec + noteVelocityConstant);
+                                    gameTime, noteVelocityMultiplier, noteWidth, currentMsec + noteVelocityConstant,
+                                    playerInformation);
 
+            // Update varous strings
             strManager.Set_String(0, "Current MSEC:\n" + Convert.ToString(currentMsec));
-            //strManager.Set_String(1, "End MSEC:\n" + Convert.ToString(mainChart.chartInfo.chartLengthMiliseconds));
-            strManager.Set_String(1, "End MSEC:\n" + Convert.ToString(hitBox.centerLocation));
+            strManager.Set_String(1, "End MSEC:\n" + Convert.ToString(mainChart.chartInfo.chartLengthMiliseconds));
+            strManager.Set_String(4, "Score: " + playerInformation.currentScore.ToString() + "\n\n" +
+                                     "Multiplier : " + playerInformation.currentMultiplier.ToString() + "\n\n" +
+                                     "Combo :" + playerInformation.currentCombo.ToString());
+            strManager.Set_String(5, "Health: " + playerInformation.currentHealth.ToString());
 
             // Stop playing music when chart is over
             if (currentMsec > mainChart.chartInfo.chartLengthMiliseconds)

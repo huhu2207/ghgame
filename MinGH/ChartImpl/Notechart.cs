@@ -12,24 +12,24 @@ namespace MinGH.ChartImpl
         public Notechart()
         {
             Chart_Name = "default";
-            greenNotes = new List<Note>();
-            redNotes = new List<Note>();
-            yellowNotes = new List<Note>();
-            blueNotes = new List<Note>();
-            orangeNotes = new List<Note>();
-            SPNotes = new List<Note>();
+            greenNotes = new List<ChartNote>();
+            redNotes = new List<ChartNote>();
+            yellowNotes = new List<ChartNote>();
+            blueNotes = new List<ChartNote>();
+            orangeNotes = new List<ChartNote>();
+            SPNotes = new List<ChartNote>();
         }
 
         // The typical constructor
         public Notechart(string in_name)
         {
             Chart_Name = in_name;
-            greenNotes = new List<Note>();
-            redNotes = new List<Note>();
-            yellowNotes = new List<Note>();
-            blueNotes = new List<Note>();
-            orangeNotes = new List<Note>();
-            SPNotes = new List<Note>();
+            greenNotes = new List<ChartNote>();
+            redNotes = new List<ChartNote>();
+            yellowNotes = new List<ChartNote>();
+            blueNotes = new List<ChartNote>();
+            orangeNotes = new List<ChartNote>();
+            SPNotes = new List<ChartNote>();
         }
 
         // Generate the milisecond time values for each note
@@ -41,37 +41,37 @@ namespace MinGH.ChartImpl
         // Test function to view stored information
         public void print_info()
         {
-            foreach (Note curr_note in greenNotes)
+            foreach (ChartNote curr_note in greenNotes)
             {
                 Console.Write("Green: - ");
                 curr_note.print_info();
             }
 
-            foreach (Note curr_note in redNotes)
+            foreach (ChartNote curr_note in redNotes)
             {
                 Console.Write("Red: - ");
                 curr_note.print_info();
             }
 
-            foreach (Note curr_note in yellowNotes)
+            foreach (ChartNote curr_note in yellowNotes)
             {
                 Console.Write("Yellow: - ");
                 curr_note.print_info();
             }
 
-            foreach (Note curr_note in blueNotes)
+            foreach (ChartNote curr_note in blueNotes)
             {
                 Console.Write("Blue: - ");
                 curr_note.print_info();
             }
 
-            foreach (Note curr_note in orangeNotes)
+            foreach (ChartNote curr_note in orangeNotes)
             {
                 Console.Write("Orange: - ");
                 curr_note.print_info();
             }
 
-            foreach (Note curr_note in SPNotes)
+            foreach (ChartNote curr_note in SPNotes)
             {
                 Console.Write("SP: - ");
                 curr_note.print_info();
@@ -81,11 +81,11 @@ namespace MinGH.ChartImpl
         public string Chart_Name; // The name of the chart itself (i.e. ExpertSingle)
 
         // The note data lists
-        public List<Note> greenNotes;
-        public List<Note> redNotes;
-        public List<Note> yellowNotes;
-        public List<Note> blueNotes;
-        public List<Note> orangeNotes;
-        public List<Note> SPNotes;
+        public List<ChartNote> greenNotes;
+        public List<ChartNote> redNotes;
+        public List<ChartNote> yellowNotes;
+        public List<ChartNote> blueNotes;
+        public List<ChartNote> orangeNotes;
+        public List<ChartNote> SPNotes;
     }
 }

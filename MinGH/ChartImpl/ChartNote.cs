@@ -6,10 +6,10 @@ using System.Text;
 namespace MinGH.ChartImpl
 {
     // Contains information on an individual note
-    class Note : Entity
+    class ChartNote : Entity
     {
         // Defailt Constructor
-        public Note()
+        public ChartNote()
         {
             TimeValue = 0;
             TickValue = 0;
@@ -17,7 +17,7 @@ namespace MinGH.ChartImpl
         }
 
         // Typical Constructor
-        public Note(uint in_location, int in_duration)
+        public ChartNote(uint in_location, int in_duration)
         {
             TimeValue = 0;
             TickValue = in_location;

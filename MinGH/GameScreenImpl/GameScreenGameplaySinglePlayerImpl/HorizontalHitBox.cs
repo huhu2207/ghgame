@@ -12,6 +12,7 @@ namespace MinGH.GameScreenImpl.GameScreenGameplaySinglePlayerImpl
     {
         public Rectangle physicalHitbox;
         public int centerLocation;  // We are only concerned with the y axis, so no need for a point structure
+        public const int perfectThreshold = 25; // // How far away from the center a perfectgfdfggfdsgfdsagfd hit will be
         public const int greatThreshold = 50;  // How far away from the center a great hit will be
 
         // How far away from the center a good hit will be
