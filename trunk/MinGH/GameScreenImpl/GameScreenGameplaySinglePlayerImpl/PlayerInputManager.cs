@@ -1,21 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.Xna.Framework.Input;
-using MinGH.ChartImpl;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
+using MinGH.Misc_Classes;
 
 namespace MinGH.GameScreenImpl.GameScreenGameplaySinglePlayerImpl
 {
     class PlayerInputManager
     {
 
-        public void processPlayerInput(ref gameObject[,] physicalNotes,
+        public void processPlayerInput(ref Note[,] physicalNotes,
                                        NoteParticleExplosionEmitters noteParticleExplosionEmitters,
                                        IKeyboardInputManager keyboardInputManager,
                                        HorizontalHitBox hitBox,
-                                       int noteColumn)
+                                       int noteColumn, ref PlayerInformation playerInformation)
         {
             Point currentPoint = new Point();
             int farthestNoteIndex = -1;
@@ -43,10 +38,11 @@ namespace MinGH.GameScreenImpl.GameScreenGameplaySinglePlayerImpl
             {
                 noteParticleExplosionEmitters.emitterList[noteColumn].Trigger(noteParticleExplosionEmitters.explosionLocations[noteColumn]);
                 physicalNotes[noteColumn, farthestNoteIndex].alive = false;
+                playerInformation.hitNote();
             }
             else
             {
-                // NOTE WAS MISSED
+                playerInformation.missNote();
             }
         }
     }

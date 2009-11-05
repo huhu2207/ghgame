@@ -5,6 +5,7 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using MinGH.ChartImpl;
 using ProjectMercury.Emitters;
+using MinGH.Misc_Classes;
 
 namespace MinGH.GameScreenImpl.GameScreenGameplaySinglePlayerImpl
 {
@@ -14,11 +15,11 @@ namespace MinGH.GameScreenImpl.GameScreenGameplaySinglePlayerImpl
         // NOTE: note_num is a simple 0-4 loop
         // NOTE: ...clean up these parameters sometime
         public void updateNotes(Notechart inputNotechart, ref int[] inputNoteIterators,
-                                ref gameObject[,] physicalNotes, Rectangle viewportRectangle,
+                                ref Note[,] physicalNotes, Rectangle viewportRectangle,
                                 GameTime currTime, double noteVelocity,
-                                int noteSize, double currentMsec)
+                                int noteSize, double currentMsec, PlayerInformation playerInformation)
         {
-            List<Note> currentNoteList = new List<Note>();
+            List<ChartNote> currentNoteList = new List<ChartNote>();
 
             // Change the current note list to look at according to the current loop iteration
             for (int currentNoteset = 0; currentNoteset < physicalNotes.GetLength(0); currentNoteset++)
@@ -76,9 +77,11 @@ namespace MinGH.GameScreenImpl.GameScreenGameplaySinglePlayerImpl
                     }
 
                     // Kill any notes that managed to get past the previous check and left the screen
-                    if (!viewportRectangle.Contains(new Point((int)physicalNotes[currentNoteset, i].position.X,
-                            (int)physicalNotes[currentNoteset, i].position.Y)))
+                    // Also tell the player he missed a note.
+                    if ((!viewportRectangle.Contains(new Point((int)physicalNotes[currentNoteset, i].position.X,
+                            (int)physicalNotes[currentNoteset, i].position.Y))) && (physicalNotes[currentNoteset, i].alive))
                     {
+                        playerInformation.missNote();
                         physicalNotes[currentNoteset, i].alive = false;
                     }
                 }

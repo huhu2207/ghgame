@@ -6,10 +6,10 @@ using Microsoft.Xna.Framework.Graphics;
 namespace MinGH
 {
     // This gameobject is geared towards a spritesheet system
-    class gameObject
+    public class GameObject
     {
         //Constructor
-        public gameObject(Texture2D loadedTex, Rectangle spritePos)
+        public GameObject(Texture2D loadedTex, Rectangle spritePos)
         {
             rotation = 0;
             position = Vector2.Zero;

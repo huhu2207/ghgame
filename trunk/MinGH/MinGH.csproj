@@ -103,7 +103,7 @@
     <Compile Include="ChartImpl\EndofChartCondition.cs" />
     <Compile Include="ChartImpl\Entity.cs" />
     <Compile Include="ChartImpl\Event.cs" />
-    <Compile Include="ChartImpl\Note.cs" />
+    <Compile Include="ChartImpl\ChartNote.cs" />
     <Compile Include="ChartImpl\Notechart.cs" />
     <Compile Include="ChartImpl\ProperStringCreator.cs" />
     <Compile Include="Extensions\SubArrayExtension.cs" />
@@ -115,17 +115,19 @@
     <Compile Include="GameScreenImpl\GameScreenGameplaySinglePlayerImpl\NoteUpdater.cs" />
     <Compile Include="GameScreenImpl\GameScreenGameplaySinglePlayerImpl\PlayerInputManager.cs" />
     <Compile Include="GameScreenImpl\GameScreenGameplaySinglePlayerImpl\SinglePlayerKeyboardManager.cs" />
-    <Compile Include="GameScreenImpl\GameScreenGameplaySinglePlayerImpl\StringInitializer.cs" />
+    <Compile Include="GameScreenImpl\GameScreenGameplaySinglePlayerImpl\SinglePlayerStringInitializer.cs" />
     <Compile Include="GameScreenImpl\IGameScreen.cs" />
     <Compile Include="GameScreenImpl\IKeyboardInputManager.cs" />
     <Compile Include="GameStringImpl\GameString.cs" />
-    <Compile Include="Misc_Classes\GameObject_Class.cs" />
+    <Compile Include="Misc_Classes\GameObject.cs" />
     <Compile Include="GameStringImpl\GameStringManager.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="MinGH.cs" />
+    <Compile Include="Misc_Classes\Note.cs" />
+    <Compile Include="Misc_Classes\PlayerInformation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ChartImpl\Test_Chart_Class.cs" />
-    <Compile Include="Misc_Classes\Timer_Class.cs" />
+    <Compile Include="Misc_Classes\Timer.cs" />
   </ItemGroup>
   <ItemGroup>
     <NestedContentProject Include="Content\Content.contentproj">

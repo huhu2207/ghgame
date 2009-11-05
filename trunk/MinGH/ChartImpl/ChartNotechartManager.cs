@@ -29,7 +29,7 @@ namespace MinGH.ChartImpl
             if (!(matched_section.Success))
             {
                 result_notechart.Chart_Name = chartname;
-                result_notechart.greenNotes.Add(new Note());
+                result_notechart.greenNotes.Add(new ChartNote());
             }
 
             // Else, read in all the chart information
@@ -50,27 +50,27 @@ namespace MinGH.ChartImpl
                             switch (Convert.ToInt32(parsed_line[3]))
                             {
                                 case 0:
-                                    result_notechart.greenNotes.Add(new Note(Convert.ToUInt32(parsed_line[0]),
+                                    result_notechart.greenNotes.Add(new ChartNote(Convert.ToUInt32(parsed_line[0]),
                                                                               Convert.ToInt32(parsed_line[4])));
                                     break;
 
                                 case 1:
-                                    result_notechart.redNotes.Add(new Note(Convert.ToUInt32(parsed_line[0]),
+                                    result_notechart.redNotes.Add(new ChartNote(Convert.ToUInt32(parsed_line[0]),
                                                                             Convert.ToInt32(parsed_line[4])));
                                     break;
 
                                 case 2:
-                                    result_notechart.yellowNotes.Add(new Note(Convert.ToUInt32(parsed_line[0]),
+                                    result_notechart.yellowNotes.Add(new ChartNote(Convert.ToUInt32(parsed_line[0]),
                                                                                Convert.ToInt32(parsed_line[4])));
                                     break;
 
                                 case 3:
-                                    result_notechart.blueNotes.Add(new Note(Convert.ToUInt32(parsed_line[0]),
+                                    result_notechart.blueNotes.Add(new ChartNote(Convert.ToUInt32(parsed_line[0]),
                                                                              Convert.ToInt32(parsed_line[4])));
                                     break;
 
                                 case 4:
-                                    result_notechart.orangeNotes.Add(new Note(Convert.ToUInt32(parsed_line[0]),
+                                    result_notechart.orangeNotes.Add(new ChartNote(Convert.ToUInt32(parsed_line[0]),
                                                                                Convert.ToInt32(parsed_line[4])));
                                     break;
 
@@ -83,7 +83,7 @@ namespace MinGH.ChartImpl
 
                         // Also check for SP notes
                         if (parsed_line[2] == "S")
-                            result_notechart.SPNotes.Add(new Note(Convert.ToUInt32(parsed_line[0]),
+                            result_notechart.SPNotes.Add(new ChartNote(Convert.ToUInt32(parsed_line[0]),
                                                                    Convert.ToInt32(parsed_line[4])));
                     }
                 }
