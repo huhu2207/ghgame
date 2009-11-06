@@ -33,6 +33,7 @@ namespace MinGH.GameScreenImpl
         int[] noteIterators;  // These iterators are used to keep track of which note to observe next
         const int noteLeftPadding = 196;  // How far from the left the green note is placed in pixels
         const int noteWidth = 86;  // How far each note is from each other in pixels
+        const bool useStrumming = false;  // Wether strumming is used or not
         
         // Variables unique to this game screen
         NoteUpdater noteUpdater = new NoteUpdater();
@@ -164,26 +165,9 @@ namespace MinGH.GameScreenImpl
 
             // Get the current keyboard state
             keyboardInputManager.processKeyboardState(Keyboard.GetState());
-            if (keyboardInputManager.keyWasHit(Keys.A))
-            {
-                playerInputManager.processPlayerInput(ref Notes, noteParticleExplosionEmitters, keyboardInputManager, hitBox, 0, ref playerInformation);
-            }
-            if (keyboardInputManager.keyWasHit(Keys.S))
-            {
-                playerInputManager.processPlayerInput(ref Notes, noteParticleExplosionEmitters, keyboardInputManager, hitBox, 1, ref playerInformation);
-            }
-            if (keyboardInputManager.keyWasHit(Keys.D))
-            {
-                playerInputManager.processPlayerInput(ref Notes, noteParticleExplosionEmitters, keyboardInputManager, hitBox, 2, ref playerInformation);
-            }
-            if (keyboardInputManager.keyWasHit(Keys.F))
-            {
-                playerInputManager.processPlayerInput(ref Notes, noteParticleExplosionEmitters, keyboardInputManager, hitBox, 3, ref playerInformation);
-            }
-            if (keyboardInputManager.keyWasHit(Keys.G))
-            {
-                playerInputManager.processPlayerInput(ref Notes, noteParticleExplosionEmitters, keyboardInputManager, hitBox, 4, ref playerInformation);
-            }
+            
+            playerInputManager.processPlayerInput(ref Notes, noteParticleExplosionEmitters, hitBox,
+                                                  ref playerInformation, useStrumming, keyboardInputManager);
 
             noteUpdater.updateNotes(mainChart.Note_Charts[0], ref noteIterators, ref Notes, viewportRectangle,
                                     gameTime, noteVelocityMultiplier, noteWidth, currentMsec + noteVelocityConstant,

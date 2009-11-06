@@ -33,5 +33,18 @@ namespace MinGH.GameScreenImpl.GameScreenGameplaySinglePlayerImpl
                 return false;
             }
         }
+
+        public bool keyWasHeld(Keys key)
+        {
+            // Check is the key was either already held down, or just hit
+            if ((currentState.IsKeyDown(key) && previousState.IsKeyDown(key)) || keyWasHit(key))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
     }
 }
