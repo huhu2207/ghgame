@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
+﻿
 namespace MinGH.ChartImpl
 {
     // This class allows me to put the numerous conditions for finding the end of a chart into

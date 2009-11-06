@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using MinGH.ChartImpl;
-using ProjectMercury.Emitters;
 using MinGH.Misc_Classes;
 
 namespace MinGH.GameScreenImpl.GameScreenGameplaySinglePlayerImpl

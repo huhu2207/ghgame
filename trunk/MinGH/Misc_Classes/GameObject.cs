@@ -1,5 +1,4 @@
 ﻿// The classes and functions for the various game objects used
-
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 

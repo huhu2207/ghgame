@@ -1,6 +1,3 @@
-using System;
-using MinGH.ChartImpl;
-
 namespace MinGH
 {
     static class Program
