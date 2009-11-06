@@ -14,46 +14,46 @@ namespace MinGH.GameScreenImpl.GameScreenGameplaySinglePlayerImpl
         {
             if (useStrumming == false)
             {
-                if (keyboardInputManager.keyWasHit(Keys.Enter) && keyboardInputManager.keyWasHeld(Keys.A))
+                if (keyboardInputManager.keyIsHit(Keys.Enter) && keyboardInputManager.keyIsHeld(Keys.A))
                 {
                     triggerInput(ref physicalNotes, noteParticleExplosionEmitters, hitBox, 0, ref playerInformation);
                 }
-                if (keyboardInputManager.keyWasHit(Keys.Enter) && keyboardInputManager.keyWasHeld(Keys.S))
+                if (keyboardInputManager.keyIsHit(Keys.Enter) && keyboardInputManager.keyIsHeld(Keys.S))
                 {
                     triggerInput(ref physicalNotes, noteParticleExplosionEmitters, hitBox, 1, ref playerInformation);
                 }
-                if (keyboardInputManager.keyWasHit(Keys.Enter) && keyboardInputManager.keyWasHeld(Keys.D))
+                if (keyboardInputManager.keyIsHit(Keys.Enter) && keyboardInputManager.keyIsHeld(Keys.D))
                 {
                     triggerInput(ref physicalNotes, noteParticleExplosionEmitters, hitBox, 2, ref playerInformation);
                 }
-                if (keyboardInputManager.keyWasHit(Keys.Enter) && keyboardInputManager.keyWasHeld(Keys.F))
+                if (keyboardInputManager.keyIsHit(Keys.Enter) && keyboardInputManager.keyIsHeld(Keys.F))
                 {
                     triggerInput(ref physicalNotes, noteParticleExplosionEmitters, hitBox, 3, ref playerInformation);
                 }
-                if (keyboardInputManager.keyWasHit(Keys.Enter) && keyboardInputManager.keyWasHeld(Keys.G))
+                if (keyboardInputManager.keyIsHit(Keys.Enter) && keyboardInputManager.keyIsHeld(Keys.G))
                 {
                     triggerInput(ref physicalNotes, noteParticleExplosionEmitters, hitBox, 4, ref playerInformation);
                 }
             }
             else
             {
-                if (keyboardInputManager.keyWasHit(Keys.A))
+                if (keyboardInputManager.keyIsHit(Keys.A))
                 {
                     triggerInput(ref physicalNotes, noteParticleExplosionEmitters, hitBox, 0, ref playerInformation);
                 }
-                if (keyboardInputManager.keyWasHit(Keys.S))
+                if (keyboardInputManager.keyIsHit(Keys.S))
                 {
                     triggerInput(ref physicalNotes, noteParticleExplosionEmitters, hitBox, 1, ref playerInformation);
                 }
-                if (keyboardInputManager.keyWasHit(Keys.D))
+                if (keyboardInputManager.keyIsHit(Keys.D))
                 {
                     triggerInput(ref physicalNotes, noteParticleExplosionEmitters, hitBox, 2, ref playerInformation);
                 }
-                if (keyboardInputManager.keyWasHit(Keys.F))
+                if (keyboardInputManager.keyIsHit(Keys.F))
                 {
                     triggerInput(ref physicalNotes, noteParticleExplosionEmitters, hitBox, 3, ref playerInformation);
                 }
-                if (keyboardInputManager.keyWasHit(Keys.G))
+                if (keyboardInputManager.keyIsHit(Keys.G))
                 {
                     triggerInput(ref physicalNotes, noteParticleExplosionEmitters, hitBox, 4, ref playerInformation);
                 }
@@ -65,23 +65,23 @@ namespace MinGH.GameScreenImpl.GameScreenGameplaySinglePlayerImpl
                                   HorizontalHitBox hitBox,
                                   int noteColumn, ref PlayerInformation playerInformation)
         {
-            Point currentPoint = new Point();
+            Point currentCenterPoint = new Point();
             int farthestNoteIndex = -1;
             int farthestNoteDistance = -1;
 
             // Scan all noteColumn (green, red, etc.) notes...
             for (int i = 0; i < physicalNotes.GetLength(1); i++)
             {
-                currentPoint = new Point((int)physicalNotes[noteColumn, i].getCenterPosition().X, (int)physicalNotes[noteColumn, i].getCenterPosition().Y);
+                currentCenterPoint = new Point((int)physicalNotes[noteColumn, i].getCenterPosition().X, (int)physicalNotes[noteColumn, i].getCenterPosition().Y);
 
                 // If the current green note is in the hitBox and is alive
-                if (hitBox.physicalHitbox.Contains(currentPoint) && physicalNotes[noteColumn, i].alive)
+                if (hitBox.physicalHitbox.Contains(currentCenterPoint) && physicalNotes[noteColumn, i].alive)
                 {
                     // and has the farthest distance from the top
-                    if (currentPoint.Y > farthestNoteDistance)
+                    if (currentCenterPoint.Y > farthestNoteDistance)
                     {
                         // set it to be the note to explode
-                        farthestNoteDistance = currentPoint.Y;
+                        farthestNoteDistance = currentCenterPoint.Y;
                         farthestNoteIndex = i;
                     }
                 }
