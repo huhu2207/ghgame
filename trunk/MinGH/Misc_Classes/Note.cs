@@ -5,8 +5,8 @@ namespace MinGH
 {
     public class Note : GameObject
     {
-        public Note(Texture2D loadedTex, Rectangle spritePos)
-            : base(loadedTex, spritePos)
+        public Note(Texture2D loadedTex, Rectangle spritePos, int offset)
+            : base(loadedTex, spritePos, offset)
         {
         }
 

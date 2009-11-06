@@ -55,8 +55,8 @@ namespace MinGH.GameScreenImpl.GameScreenGameplaySinglePlayerImpl
                             {
                                 // And draw it
                                 physicalNotes[currentNoteset, i].alive = true;
-                                float new_note_pos = 196 + (noteSize * currentNoteset);
-                                physicalNotes[currentNoteset, i].position = new Vector2(new_note_pos, 0f);
+                                float newNotePos = physicalNotes[currentNoteset, i].spriteSheetOffset + 196 + (noteSize * currentNoteset);
+                                physicalNotes[currentNoteset, i].position = new Vector2(newNotePos, 0f);
                                 break;
                             }
                         }
