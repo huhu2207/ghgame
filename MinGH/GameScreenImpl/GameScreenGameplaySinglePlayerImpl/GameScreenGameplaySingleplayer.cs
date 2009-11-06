@@ -31,8 +31,12 @@ namespace MinGH.GameScreenImpl
         double noteVelocityConstant = 490;
         int[] noteIterators;  // These iterators are used to keep track of which note to observe next
         const int noteLeftPadding = 196;  // How far from the left the green note is placed in pixels
-        const int noteWidth = 86;  // How far each note is from each other in pixels
+        const int noteWidth = 86;  // How far each lane is on the background
         const bool useStrumming = false;  // Wether strumming is used or not
+
+        // Sprite Sheet Variables
+        const int noteSpriteSheetOffset = 6;  // How many pixels pad the left side of a note on the sprite sheet
+        const int noteSpriteSheetSize = 99;  // How large each sprite is in the spritesheet (including the offset padding)
         
         // Variables unique to this game screen
         NoteUpdater noteUpdater = new NoteUpdater();
@@ -100,23 +104,23 @@ namespace MinGH.GameScreenImpl
                     {
                         case 0:  // Green Notes
                             Notes[i, j] = new Note(content.Load<Texture2D>("Sprites\\GH_Sprites"),
-                                          new Rectangle(6, 32, 86, 36));
+                                          new Rectangle(noteSpriteSheetSize * i, 0, noteSpriteSheetSize, noteSpriteSheetSize), -noteSpriteSheetOffset);
                             break;
                         case 1:  // Red Notes
                             Notes[i, j] = new Note(content.Load<Texture2D>("Sprites\\GH_Sprites"),
-                                          new Rectangle(108, 32, 86, 36));
+                                          new Rectangle(noteSpriteSheetSize * i, 0, noteSpriteSheetSize, noteSpriteSheetSize), -noteSpriteSheetOffset);
                             break;
                         case 2:  // Yellow Notes
                             Notes[i, j] = new Note(content.Load<Texture2D>("Sprites\\GH_Sprites"),
-                                          new Rectangle(207, 32, 86, 36));
+                                          new Rectangle(noteSpriteSheetSize * i, 0, noteSpriteSheetSize, noteSpriteSheetSize), -noteSpriteSheetOffset);
                             break;
                         case 3:  // Blue Notes
                             Notes[i, j] = new Note(content.Load<Texture2D>("Sprites\\GH_Sprites"),
-                                          new Rectangle(305, 32, 86, 36));
+                                          new Rectangle(noteSpriteSheetSize * i, 0, noteSpriteSheetSize, noteSpriteSheetSize), -noteSpriteSheetOffset);
                             break;
                         case 4:  // Orange Notes
                             Notes[i, j] = new Note(content.Load<Texture2D>("Sprites\\GH_Sprites"),
-                                          new Rectangle(404, 32, 86, 36));
+                                          new Rectangle(noteSpriteSheetSize * i, 0, noteSpriteSheetSize, noteSpriteSheetSize), -noteSpriteSheetOffset);
                             break;
                     }
                     Notes[i,j].velocity = new Vector2(0.0f, (float)noteVelocityMultiplier);
@@ -210,7 +214,7 @@ namespace MinGH.GameScreenImpl
                 {
                     if (Notes[i, j].alive)
                     {
-                        spriteBatch.Draw(Notes[i, j].spriteSheet, Notes[i, j].position, Notes[i, j].spriteSheetPosition, Color.White);
+                        spriteBatch.Draw(Notes[i, j].spriteSheet, Notes[i, j].position, Notes[i, j].spriteSheetRectangle, Color.White);
                     }
                 }
             }
