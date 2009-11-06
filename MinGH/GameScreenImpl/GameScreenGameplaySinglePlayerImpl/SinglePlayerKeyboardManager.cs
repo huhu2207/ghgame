@@ -18,7 +18,7 @@ namespace MinGH.GameScreenImpl.GameScreenGameplaySinglePlayerImpl
             currentState = inputState;
         }
 
-        public bool keyWasHit(Keys key)
+        public bool keyIsHit(Keys key)
         {
             if ((currentState.IsKeyDown(key) && previousState.IsKeyUp(key)))
             {
@@ -30,10 +30,22 @@ namespace MinGH.GameScreenImpl.GameScreenGameplaySinglePlayerImpl
             }
         }
 
-        public bool keyWasHeld(Keys key)
+        public bool keyIsHeld(Keys key)
         {
             // Check is the key was either already held down, or just hit
-            if ((currentState.IsKeyDown(key) && previousState.IsKeyDown(key)) || keyWasHit(key))
+            if ((currentState.IsKeyDown(key) && previousState.IsKeyDown(key)) || keyIsHit(key))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public bool keyWasHeld(Keys key)
+        {
+            if (currentState.IsKeyUp(key) && previousState.IsKeyDown(key))
             {
                 return true;
             }
