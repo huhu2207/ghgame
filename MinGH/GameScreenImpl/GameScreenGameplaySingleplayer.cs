@@ -1,17 +1,16 @@
-﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using MinGH.ChartImpl;
-using MinGH.GameStringImpl;
-using Microsoft.Xna.Framework.Content;
+﻿using System;
 using FMOD;
-using System;
-using MinGH.GameScreenImpl.GameScreenGameplaySinglePlayerImpl;
-using ProjectMercury.Emitters;
-using ProjectMercury;
-using ProjectMercury.Renderers;
-using ProjectMercury.Modifiers;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using MinGH.ChartImpl;
+using MinGH.GameScreenImpl.GameScreenGameplaySinglePlayerImpl;
+using MinGH.GameStringImpl;
 using MinGH.Misc_Classes;
+using ProjectMercury.Emitters;
+using ProjectMercury.Modifiers;
+using ProjectMercury.Renderers;
 
 namespace MinGH.GameScreenImpl
 {

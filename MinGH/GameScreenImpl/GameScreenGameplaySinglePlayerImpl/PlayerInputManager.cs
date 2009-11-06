@@ -1,7 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
-using MinGH.Misc_Classes;
 using Microsoft.Xna.Framework.Input;
-using MinGH.GameScreenImpl;
+using MinGH.Misc_Classes;
 
 namespace MinGH.GameScreenImpl.GameScreenGameplaySinglePlayerImpl
 {
