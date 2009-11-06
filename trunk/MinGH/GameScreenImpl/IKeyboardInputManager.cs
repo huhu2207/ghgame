@@ -10,5 +10,6 @@ namespace MinGH.GameScreenImpl
     {
         void processKeyboardState(KeyboardState inputState);
         bool keyWasHit(Keys key);
+        bool keyWasHeld(Keys key);
     }
 }
