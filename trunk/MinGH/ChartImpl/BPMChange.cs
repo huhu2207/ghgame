@@ -2,10 +2,14 @@
 
 namespace MinGH.ChartImpl
 {
-    // Contains information on a BPM Change
+    /// <remarks>
+    /// Contains information on a BPM Change.  Is derived from the Entity class.
+    /// </remarks>
     class BPMChange : Entity
     {
-        // Defailt Constructor
+        /// <summary>
+        /// Default Constructor.
+        /// </summary>
         public BPMChange()
         {
             TimeValue = 0;
@@ -13,20 +17,35 @@ namespace MinGH.ChartImpl
             BPMValue = 0;
         }
 
-        // Typical Constructor
-        public BPMChange(uint in_location, long in_value)
+        /// <summary>
+        /// Creates a BPMChange with a valid location and value.
+        /// </summary>
+        /// <param name="inTickValue">
+        /// The tick value (location) associated with the new BPM change.
+        /// </param>
+        /// <param name="inValue">
+        /// The actual value of the BPM change.
+        /// </param>
+        public BPMChange(uint inTickValue, long inValue)
         {
             TimeValue = 0;
-            TickValue = in_location;
-            BPMValue = in_value;
+            TickValue = inTickValue;
+            BPMValue = inValue;
         }
 
-        // Test function to view stored information
+        /// <summary>
+        /// Prints the TickValue and BPMValue of this BPM change.
+        /// </summary>
         public void print_info()
         {
             Console.WriteLine("L = '{0}' V = '{1}'", TickValue, BPMValue);
         }
 
+		/// <summary>
+		/// The actual value of the BPM Change (i.e. 185 BPM).
+		/// Note that this project follows the *.chart specification where all
+		/// BPM change values must be 6 digits long (i.e. 185000 BPM).
+		/// </summary>
         public long BPMValue;
     }
 }

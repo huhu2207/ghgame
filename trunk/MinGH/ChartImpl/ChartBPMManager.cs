@@ -5,10 +5,23 @@ using System.Text.RegularExpressions;
 
 namespace MinGH.ChartImpl
 {
+	/// <remarks>
+	/// A manager class that will read and store all BPM changes in a chart in an
+	/// organized manner.
+	/// </remarks>
     class ChartBPMManager
     {
-        // Reads in the bpm changes of a chart file (can pass either the whole input file
-        // or the desired part)
+        /// <summary>
+        /// Opens a specified chart and reads in all the valid BPM changes 
+        /// (i.e. 23232 = B 162224) and returns a populated list.
+        /// </summary>
+        /// <param name="inputFile">
+        /// The whole *.chart file stored in one massive string.
+        /// </param>
+        /// <returns>
+        /// A list containing every valid BPM change from the chart.  Due to the nature
+        /// of the *.chart specification, these BPM changes will be in proper order.
+        /// </returns>
         public List<BPMChange> AddBPMChanges(string inputFile)
         {
             List<BPMChange> BPMChangeListToReturn = new List<BPMChange>();

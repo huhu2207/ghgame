@@ -2,10 +2,14 @@
 
 namespace MinGH.ChartImpl
 {
-    // Contains information on an individual event
+    /// <remarks>
+    /// Contains information of an event from a chart.
+    /// </remarks>
     class Event : Entity
     {
-        // Default Constructor
+        /// <summary>
+        /// Default constructor.
+        /// </summary>
         public Event()
         {
             TimeValue = 0;
@@ -13,20 +17,33 @@ namespace MinGH.ChartImpl
             Value = "default";
         }
 
-        // typical Constructor
-        public Event(uint in_location, string in_value)
+        /// <summary>
+        /// The genral constructor using a given tick and string value.
+        /// </summary>
+        /// <param name="inTickValue">
+        /// The location value in ticks (a notation used in the MIDI arcetecture).
+        /// </param>
+        /// <param name="inValue">
+        /// The string value that details the specific event.
+        /// </param>
+        public Event(uint inTickValue, string inValue)
         {
             TimeValue = 0;
-            TickValue = in_location;
-            Value = in_value;
+            TickValue = inTickValue;
+            Value = inValue;
         }
 
-        // Test function to view stored information
+        /// <summary>
+        /// A debugging function that prints out the various values of the event.
+        /// </summary>
         public void print_info()
         {
             Console.WriteLine("L = '{0}' V = '{1}'", TickValue, Value);
         }
 
+		/// <summary>
+		/// The details pertaining to this event (i.e. 131904 = E "end").
+		/// </summary>
         public string Value;
     }
 }

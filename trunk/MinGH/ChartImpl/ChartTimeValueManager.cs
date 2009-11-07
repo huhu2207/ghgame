@@ -2,13 +2,44 @@
 
 namespace MinGH.ChartImpl
 {
+	/// <remarks>
+	/// A manager class that calculates the milisecond value for each note within a notechart.
+	/// </remarks>
     class ChartTimeValueManager
     {
-        // Generate the milisecond time values for each note in a notechart
-        // by simulating a runthrough of the song using the tick and bpm values
-        // -The ref uint is a last minute hack.
+        /// <summary>
+        /// Simulates a chart playthrough and adds a milisecond value to each note and event within the
+        /// current notechart. This is necessary because the *.chart file specification does not
+        /// provide the user a specific time value.  It works by calulating how many ticks are to pass
+        /// for every milisecond in relation to the current BPM (see formula below), and adds that to a
+        /// total tick value.  Every iteration, 1 is added to the current milisecond.  When a note or event's
+        /// tick value becomes less than the total tick value, its milisecond value is set to the current
+        /// milisecond. 
+        /// </summary>
+        /// <param name="inputNotechart">
+        /// The notechart that will be scanned.  A pass by refrence may be more efficent...
+        /// </param>
+        /// <param name="inputBPMChanges">
+        /// The list of BPM changes that apply to the notechart.
+        /// </param>
+        /// <param name="inputEvents">
+        /// The event list that will be scanned.  This list also gets its time values calculated, so a pass
+        /// by refrence is necrssary.
+        /// </param>
+        /// <param name="chartOffset">
+        /// The general offset of the chart in seconds.  This value will be first converted to flat miliseconds
+        /// and then added to the current milisecond.  This effectively adds the offset to every note and event.
+        /// See the ChartInfo class for more information on the offset.
+        /// </param>
+        /// <param name="chartLengthMiliseconds">
+        /// This is the total length of the chart as a whole.  This value also needs to be returned,
+        /// so it is passed by refrenced.
+        /// </param>
+        /// <returns>
+        /// A notechart that is the same as the input notechart, but every note has a milisecond value filled out.
+        /// </returns>
         public Notechart GenerateTimeValues(Notechart inputNotechart, List<BPMChange> inputBPMChanges,
-                                           List<Event> inputEvents, float chartOffset, ref uint chartLengthMiliseconds)
+                                           ref List<Event> inputEvents, float chartOffset, ref uint chartLengthMiliseconds)
         {
             double currentTick = 0.0;
             double currentTicksPerMilisecond = 0.0;
