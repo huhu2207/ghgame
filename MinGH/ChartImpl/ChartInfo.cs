@@ -1,9 +1,14 @@
 ﻿
 namespace MinGH.ChartImpl
 {
+	/// <remarks>
+	/// Stores the various data on the chart that have single instances (only appear once).
+	/// </remarks>
     class ChartInfo
     {
-        // Default Constructor
+        /// <summary>
+        /// Default constructor.
+        /// </summary>
         public ChartInfo()
         {
             songName = "default";
@@ -12,10 +17,25 @@ namespace MinGH.ChartImpl
             chartLengthMiliseconds = 0;
         }
 
-        // Various chart info variables
-        public string songName;  // The name of the associated song
-        public string artistName;  // The name of the assiciated artist
-        public float offset;  // Stores the offset of the chart
-        public uint chartLengthMiliseconds;  // How long the chart is (miliseconds)
+        /// <summary>
+        /// The name of the song associated with the chart (i.e. Freebird).
+        /// </summary>
+        public string songName;
+		 
+		/// <summary>
+		/// The name of the associated artist (i.e. Lynyrd Skynyrd).
+		/// </summary>
+        public string artistName;
+		
+		/// <summary>
+		/// Stores the offset of the chart in seconds (i.e. 1.42 seconds before the song starts).
+		/// </summary>
+        public float offset;
+		
+		/// <summary>
+		/// The total length of the chart in miliseconds.  This value is currently calculated
+		/// from the last event or note in the chart.
+		/// </summary>
+        public uint chartLengthMiliseconds; 
     }
 }

@@ -6,10 +6,23 @@ using MinGH.Extensions;
 
 namespace MinGH.ChartImpl
 {
+	/// <remarks>
+	/// A manager class that will read and store all Events in a chart in an
+	/// organized manner.
+	/// </remarks>
     class ChartEventManager
     {
-        // Reads in the events of a chart file (can pass either the whole input file
-        // or the desired part)
+        /// <summary>
+        /// Opens a specified chart and reads in all the valid events 
+        /// (i.e 14208 = E "section Verse 1a") and returns a populated list.
+        /// </summary>
+        /// <param name="input_string">
+        /// The whole *.chart file stored in one massive string.
+        /// </param>
+        /// <returns>
+        /// A list containing every valid event from the chart.  Due to the nature
+        /// of the *.chart specification, these events will be in proper order.
+        /// </returns>
         public List<Event> AddEvents(string input_string)
         {
             List<Event> eventListToReturn = new List<Event>();

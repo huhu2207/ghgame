@@ -4,10 +4,24 @@ using System.Text.RegularExpressions;
 
 namespace MinGH.ChartImpl
 {
+	/// <remarks>
+	/// A manager class that reads in all notes from a specific notechart within a *.chart file.
+	/// </remarks>
     class ChartNotechartManager
     {
-        // Adds a notechart(from the specified chartname) to the chart from an input string.
-        // Chartname must be a valid chart type (i.e. ExpertSingle)
+		/// <summary>
+		/// Creates a notechart from the specified file and the actual charttype
+		/// (i.e. ExpertSingle from Freebird.chart)
+		/// </summary>
+		/// <param name="chartname">
+		/// The specific notechart to be taken from the *.chart file (i.e. ExpertSingle).
+		/// </param>
+		/// <param name="input_string">
+		/// The whole *.chart file stored in one massive string.
+		/// </param>
+		/// <returns>
+		/// A filled out Notechart containing the needed information from the *.chart file
+		/// </returns>
         public Notechart GenerateNotechart(string chartname, string input_string)
         {
             // Single out the specified section via regular expressions

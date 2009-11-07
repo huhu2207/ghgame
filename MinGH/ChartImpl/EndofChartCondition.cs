@@ -1,10 +1,14 @@
 ﻿
 namespace MinGH.ChartImpl
 {
-    // This class allows me to put the numerous conditions for finding the end of a chart into
-    // one easy to edit place.
+    /// <remarks>
+    /// A class that allows for easy checking for "end of notechart" when doing a time manager run through.
+    /// </remarks>
     class EndofChartCondition
     {
+		/// <summary>
+		/// Various boolean values that get set off if no more values of a specific type are avaliable
+		/// </summary>
         public bool noMoreEvents;
         public bool noMoreGreenNotes;
         public bool noMoreRedNotes;
@@ -13,6 +17,9 @@ namespace MinGH.ChartImpl
         public bool noMoreOrangeNotes;
         public bool noMoreSPNotes;
 
+		/// <summary>
+		/// Default constructor
+		/// </summary>
         public EndofChartCondition()
         {
             noMoreEvents = false;
@@ -24,7 +31,15 @@ namespace MinGH.ChartImpl
             noMoreSPNotes = false;
         }
 
-        // This object is false (aka done with) when all its members are true
+        /// <summary>
+        /// The overloading of the true operator.  This class is true when all boolean member values are true.
+        /// </summary>
+        /// <param name="myCondition">
+        /// The end of chart condition to be testing.
+        /// </param>
+        /// <returns>
+        /// True or False.
+        /// </returns>
         public static bool operator true(EndofChartCondition myCondition)
         {
             if ((myCondition.noMoreEvents == true) &&
@@ -43,7 +58,15 @@ namespace MinGH.ChartImpl
             }
         }
 
-        // This object is false (aka still active) when any of its members are false
+        /// <summary>
+        /// The overloading of the true operator.  This class is false when any boolean member value is false.
+        /// </summary>
+        /// <param name="myCondition">
+        /// The end of chart condition to be testing.
+        /// </param>
+        /// <returns>
+        /// True or False.
+        /// </returns>
         public static bool operator false(EndofChartCondition myCondition)
         {
             if ((myCondition.noMoreEvents == true) &&

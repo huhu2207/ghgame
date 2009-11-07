@@ -3,10 +3,15 @@ using System.Collections.Generic;
 
 namespace MinGH.ChartImpl
 {
-    // Stores information on a specific notechart (a full chart contains multiple notecharts)
+	/// <remarks>
+	/// Stores information on a specific notechart.
+	/// A Chart can have multiple Notecharts (i.e. easy, medium).
+	/// </remarks>
     class Notechart
     {
-        // The default constructor
+        /// <summary>
+        /// Default Constructor.
+        /// </summary>
         public Notechart()
         {
             Chart_Name = "default";
@@ -18,7 +23,12 @@ namespace MinGH.ChartImpl
             SPNotes = new List<ChartNote>();
         }
 
-        // The typical constructor
+        /// <summary>
+        /// A constructor that takes in a specified chart name
+        /// </summary>
+        /// <param name="in_name">
+        /// The actual name of the chart (i.e. ExpertSingle)
+        /// </param>
         public Notechart(string in_name)
         {
             Chart_Name = in_name;
@@ -30,13 +40,9 @@ namespace MinGH.ChartImpl
             SPNotes = new List<ChartNote>();
         }
 
-        // Generate the milisecond time values for each note
-        public void generateNotechartTimeValuesFromTickValues()
-        {
-
-        }
-
-        // Test function to view stored information
+        /// <summary>
+        /// Debug function that prints out the values for every single note within the notechart.
+        /// </summary>
         public void print_info()
         {
             foreach (ChartNote curr_note in greenNotes)
@@ -76,9 +82,14 @@ namespace MinGH.ChartImpl
             }
         }
 
-        public string Chart_Name; // The name of the chart itself (i.e. ExpertSingle)
+		/// <summary>
+		/// The actual name the of notechart (i.e. ExpertDoubleGuitar)
+		/// </summary>
+        public string Chart_Name;
 
-        // The note data lists
+        /// <summary>
+        /// Lists that contain every single note in the chart.  There is also a list for every star power note.
+        /// </summary>
         public List<ChartNote> greenNotes;
         public List<ChartNote> redNotes;
         public List<ChartNote> yellowNotes;

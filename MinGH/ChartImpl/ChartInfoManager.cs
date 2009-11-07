@@ -4,18 +4,31 @@ using MinGH.Extensions;
 
 namespace MinGH.ChartImpl
 {
+	/// <remarks>
+	/// A manager class that will read and store some of the chart information in an
+	/// organized manner.
+	/// </remarks>
     class ChartInfoManager
     {
-        // Adds the song info to the chart variable (can pass either the whole input file
-        // or the desired part)
-        public ChartInfo Add_Song_Info(string input_string)
+        /// <summary>
+        /// Opens a specified chart and reads in the usable chart information
+        /// (i.e. Artist = "Bullet for my Valentine")
+        /// </summary>
+        /// <param name="inputFile">
+        /// The whole *.chart file stored in one massive string.
+        /// </param>
+        /// <returns>
+        /// A chart info class that has every field filled out with information from
+        /// the input chart file.
+        /// </returns>
+        public ChartInfo Add_Song_Info(string inputFile)
         {
             ChartInfo chartInfoToReturn = new ChartInfo();
             ProperStringCreator properStringCreator = new ProperStringCreator();
 
             // Single out the song section via regular expressions
             string pattern = Regex.Escape("[") + "Song]\\s*" + Regex.Escape("{") + "[^}]*";
-            Match matched_section = Regex.Match(input_string, pattern);
+            Match matched_section = Regex.Match(inputFile, pattern);
 
             // Create the stream from the singled out section of the input string
             StringReader pattern_stream = new StringReader(matched_section.ToString());

@@ -1,14 +1,17 @@
-﻿// Classes that store the various data from a *.chart file
 using System;
 using System.Collections.Generic;
 using System.IO;
 
 namespace MinGH.ChartImpl
 {
-    // The master chart class (where everything is ultimately kept)
+    /// <remarks>
+    /// The master chart class.  All data pertaining to a particular chart is located here.
+    /// </remarks>
     class Chart
     {
-        // The default constructor
+        /// <summary>
+        /// Default Constructor.  Should never be used since no input function exists yet.
+        /// </summary>
         public Chart()
         {
             chartInfo = new ChartInfo();
@@ -22,7 +25,13 @@ namespace MinGH.ChartImpl
             chartTimeValueManager = new ChartTimeValueManager();
         }
 
-        // The typical constructor
+        /// <summary>
+        /// Creates a chart file from a specified input filename.
+        /// </summary>
+        /// <param name="filename">
+        /// The path to a valid *.chart file.  The constructor creates the
+        /// input stream using this string.
+        /// </param>
         public Chart(string filename)
         {
             BPM_Changes = new List<BPMChange>();
@@ -56,7 +65,7 @@ namespace MinGH.ChartImpl
                 for (int i = 0; i < Note_Charts.Count; i++)
                 {
                     Note_Charts[i] = chartTimeValueManager.GenerateTimeValues(Note_Charts[i], BPM_Changes,
-                                     Events, chartInfo.offset, ref chartInfo.chartLengthMiliseconds);
+                                     ref Events, chartInfo.offset, ref chartInfo.chartLengthMiliseconds);
                 }
 
                 // Close the input stream
@@ -64,7 +73,10 @@ namespace MinGH.ChartImpl
             }
         }
 
-        // Test function to view stored information
+        /// <summary>
+        /// A debugging function that will print out alll relavent data from the chart
+        /// onto the console.
+        /// </summary>
         public void print_info()
         {
             Console.WriteLine("Song Name = {0}", chartInfo.songName);
@@ -94,17 +106,32 @@ namespace MinGH.ChartImpl
             }
         }
 
-        // The basic information on the chart
+        /// <summary>
+        /// Stores metadata on the chart.  See the ChartInfo class for more.
+        /// </summary>
         public ChartInfo chartInfo;
 
-        // Various chart data lists
+        /// <summary>
+        /// A list of every BPM change in the chart.
+        /// </summary>
         public List<BPMChange> BPM_Changes;
+		
+		/// <summary>
+		/// A list of every event in the chart.
+		/// </summary>
         public List<Event> Events;
 
-        // The list of possible charts (i.e. Easy Single Guitar, Expert Bass, Medium Lead)
+        /// <summary>
+        /// A list of every avaliable notechart (i.e. ExpertSingle, MediumDoubleGuitar).
+        /// The string constructor, at the moment, does not intelligently pick out every
+        /// valid chart within that particular file.  It only chooses ExpertSingle for now.
+        /// </summary>
         public List<Notechart> Note_Charts;
 
-        // Input information managers
+        /// <summary>
+        /// The various manager classes that make filling out the chart information
+        /// easier.  See thier respective class pages for more information.
+        /// </summary>
         private ChartBPMManager chartBPMManager;
         private ChartInfoManager chartInfoManager;
         private ChartEventManager chartEventManager;

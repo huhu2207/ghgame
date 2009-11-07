@@ -2,10 +2,14 @@
 
 namespace MinGH.ChartImpl
 {
-    // Contains information on an individual note
+    /// <remarks>
+    /// The class that stores information.  Is derived from the Entity class.
+    /// </remarks>
     class ChartNote : Entity
     {
-        // Defailt Constructor
+        /// <summary>
+        /// Default constructor.
+        /// </summary>
         public ChartNote()
         {
             TimeValue = 0;
@@ -13,20 +17,33 @@ namespace MinGH.ChartImpl
             Duration = 0;
         }
 
-        // Typical Constructor
-        public ChartNote(uint in_location, int in_duration)
+        /// <summary>
+        /// Creates a ChartNote with a valid location and duration.
+        /// </summary>
+        /// <param name="inTickValue">
+        /// The tick value (location) associated with the new BPM change.
+        /// </param>
+        /// <param name="inDuration">
+        /// The duration of the new note.
+        /// </param>
+        public ChartNote(uint inTickValue, int inDuration)
         {
             TimeValue = 0;
-            TickValue = in_location;
-            Duration = in_duration;
+            TickValue = inTickValue;
+            Duration = inDuration;
         }
 
-        // Test function to view stored information
+        /// <summary>
+        /// Prints the various information this note contains.
+        /// </summary>
         public void print_info()
         {
             Console.WriteLine("L = '{0}' D = '{1}' T = '{2}'", TickValue, Duration, TimeValue);
         }
 
+		/// <summary>
+		/// The actual length of the note (i.e. how long the player will have to hold the proper button down).
+		/// </summary>
         public int Duration;
     }
 }
