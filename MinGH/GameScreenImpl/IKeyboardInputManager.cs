@@ -2,22 +2,51 @@
 
 namespace MinGH.GameScreenImpl
 {
+	/// <remarks>
+	/// A wrapper that allows for easy checking for keyboard keys
+	/// </remarks>
     public interface IKeyboardInputManager
     {
-        // Copies currentState into the previousState
-        // and sets inputState as currentState
+        /// <summary>
+        /// Simply moves the currentState into the previousState and puts inputState
+        /// into currentState.
+        /// </summary>
+        /// <param name="inputState">
+        /// The new state for the keyboard.
+        /// </param>e
         void processKeyboardState(KeyboardState inputState);
 
-        // Returns true if a key was not down in the previous state,
-        // but is down in the current state
+        /// <summary>
+        /// Checks if key was hit during the check.
+        /// </summary>
+        /// <param name="key">
+        /// The key the user wishes to check for.
+        /// </param>
+        /// <returns>
+        /// True or False.
+        /// </returns>
         bool keyIsHit(Keys key);
         
-        // Returns true if either KeyIsHit is true, or if a key is down in both
-        // previousState and currentState
+        /// <summary>
+        /// Checks if key was hit and held down during the check.
+        /// </summary>
+        /// <param name="key">
+        /// The key the user wishes to check for.
+        /// </param>
+        /// <returns>
+        /// True or False.
+        /// </returns>
         bool keyIsHeld(Keys key);
 
-        // Returns true if a key was down in the previous state, but is up in the
-        // current state.  Can double as a keyWasHit function.
+        /// <summary>
+        /// Checks if key was held down immediately before the check.
+        /// </summary>
+        /// <param name="key">
+        /// The key the user wishes to check for.
+        /// </param>
+        /// <returns>
+        /// True or False.
+        /// </returns>
         bool keyWasHeld(Keys key);
     }
 }
