@@ -1,10 +1,14 @@
 ﻿
 namespace MinGH
 {
-    // Timer class that counts via miliseconds
+    /// <remarks>
+    /// A basic timer class.
+    /// </remarks>
     class Timer
     {
-        // Default constructor
+        /// <summary>
+        /// Default constructor.
+        /// </summary>
         public Timer()
         {
             timer_name = "default";
@@ -13,7 +17,12 @@ namespace MinGH
             is_up = false;
         }
 
-        // Typical constructor
+        /// <summary>
+        /// A constructor that initializes the timer's name
+        /// </summary>
+        /// <param name="input_name">
+        /// The name for the new timer.
+        /// </param>
         public Timer(string input_name)
         {
             timer_name = input_name;
@@ -22,7 +31,12 @@ namespace MinGH
             is_up = false;
         }
 
-        // Updates the counter
+        /// <summary>
+        /// Updates the counter according to the input value.
+        /// </summary>
+        /// <param name="in_time">
+        /// The value to be added to the current time.
+        /// </param>
         public void Update(double in_time)
         {
             current_time += in_time;
@@ -32,9 +46,24 @@ namespace MinGH
                 is_up = true;
         }
 
-        public string timer_name;  // The name/description of the timer
-        public double current_time;  // The current value of the timer
-        public double end_value;  // When the timer is considered "done"
-        public bool is_up;  // Shows if the timer is done counting
+		/// <summary>
+		/// The name/description of the timer.
+		/// </summary>
+        public string timer_name;
+		
+		/// <summary>
+		/// The current value of the timer.
+		/// </summary>
+        public double current_time;
+		
+		/// <summary>
+		/// The upper bound to the timer.
+		/// </summary>
+        public double end_value;
+		
+		/// <summary>
+		/// Tells the programmer if the timer is up.
+		/// </summary>
+        public bool is_up;  
     }
 }
