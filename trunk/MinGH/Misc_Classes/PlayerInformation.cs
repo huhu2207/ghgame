@@ -1,20 +1,63 @@
 ﻿
 namespace MinGH.Misc_Classes
 {
+	/// <remarks>
+	/// Contains all information on a player during a MinGH session.
+	/// </remarks>
     class PlayerInformation
     {
+		/// <summary>
+		/// The maximum allowed health.
+		/// </summary>
         public const int maxHealth = 100;
-        public const int multiplierThreshold = 10;  // How many sequential note hits before multiplier is incremented
+		
+		/// <summary>
+		/// How many sequential notes must be hit before the multiplier is increased
+		/// </summary>
+        public const int multiplierThreshold = 10;
+		
+		/// <summary>
+		/// The highest possible multiplier this player can obtain.
+		/// </summary>
         public const int maxMultiplier = 4;
+		
+		/// <summary>
+		/// The penalty to the players health when a note is missed (or the player attempts
+		/// to hit a note that is not there).
+		/// </summary>
         public const int missHealthPenalty = 8;
+		
+		/// <summary>
+		/// The reward a player gets added to his current health when a note is successfully
+		/// hit.
+		/// </summary>
         public const int hitHealthReward = 2;
 
+		
+		/// <summary>
+		/// The players current health.  If this number drops below 1, the player loses.
+		/// </summary>
         public int currentHealth;
+		
+		/// <summary>
+		/// The current amount of notes the player has hit without miss.
+		/// </summary>
         public int currentCombo;
+		
+		/// <summary>
+		/// The current multiplier the player has.  The multiplier will multiply the note's
+		/// base score and add the resulting value to the users current score.
+		/// </summary>
         public int currentMultiplier;
+		
+		/// <summary>
+		/// The current score the user has.
+		/// </summary>
         public uint currentScore;
 
-        // Default Constructor
+        /// <summary>
+        /// Default constructor.
+        /// </summary>
         public PlayerInformation()
         {
             currentHealth = maxHealth / 2;
@@ -23,6 +66,10 @@ namespace MinGH.Misc_Classes
             currentScore = 0;
         }
 
+		
+		/// <summary>
+		/// If the program deems the player missed a note, this function should be called.
+		/// </summary>
         public void missNote()
         {
             currentCombo = 0;
@@ -30,6 +77,10 @@ namespace MinGH.Misc_Classes
             currentHealth -= missHealthPenalty;
         }
 
+		
+		/// <summary>
+		/// If the program deems the player hit a note, this function should be called.
+		/// </summary>
         public void hitNote()
         {
             currentCombo++;
