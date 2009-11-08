@@ -6,12 +6,30 @@ using ProjectMercury.Emitters;
 
 namespace MinGH.GameScreenImpl.GameScreenGameplaySinglePlayerImpl
 {
-    // Keeps track of the particle emitters themselves and thier explosion locations
+    /// <remarks>
+    /// A manager class that generates and stores the particle emitters for the
+    /// note explosion animation.
+    /// </remarks>
     class NoteParticleExplosionEmitters
     {
+		/// <summary>
+		/// The list of the actual emitters.  There should only be 5 for MinGH, but a list
+		/// is used in case of future note additions.
+		/// </summary>
         public List<CircleEmitter> emitterList = new List<CircleEmitter>();
+		
+		/// <summary>
+		/// A list that mirrors the emitterList, but instead stores the locations for each
+		/// particle emitter.  The two lists should be encapsulated into one list contating
+		/// a custom class...
+		/// </summary>
         public List<Vector2> explosionLocations = new List<Vector2>();
 
+		/// <summary>
+		/// Initializes each of the emitters and adds them to the emitter list.
+		/// To know more about the emitters themselves, look at the Mercury
+		/// Particle Engine documentation.
+		/// </summary>
         public void initalizeEmitters()
         {
             CircleEmitter emitterToAdd;
@@ -54,7 +72,25 @@ namespace MinGH.GameScreenImpl.GameScreenGameplaySinglePlayerImpl
             }
         }
 
-        // NOTE: Fix the 47 magic number sometime
+      
+		/// <summary>
+		/// Generates the locations for all the emitters according to a padding, noteWidth
+		/// and the hitbar's Y value
+		/// </summary>
+		/// <param name="noteLeftPadding">
+		/// The amount of padding before the actual scoring area is hit on the game screen.
+		/// In MinGH's case, this is how much space is inbetween the left side of the screen,
+		/// and the left side of the green note's lane
+		/// (i.e. the blank space where the players health is displayed)
+		/// </param>
+		/// <param name="noteWidth">
+		/// How far each note lane is spread apart (which should be set to fit the notes
+		/// themselves).
+		/// </param>
+		/// <param name="hitBarYValue">
+		/// The center of the hitbox/hitbar on the gamescreen.  This is so the explosions
+		/// don't appear too high or too low.
+		/// </param>
         public void initializeLocations(int noteLeftPadding, int noteWidth, int hitBarYValue)
         {
             for (int i = 0; i < 5; i++)
