@@ -32,7 +32,7 @@ namespace MinGH.GameScreenImpl
         int noteIterator;  // These iterators are used to keep track of which note to observe next
         const int noteLeftPadding = 196;  // How far from the left the green note is placed in pixels
         const int noteWidth = 86;  // How far each lane is on the background
-        const bool useStrumming = false;  // Wether strumming is used or not
+        const bool useStrumming = true;  // Wether strumming is used or not
 
         // Sprite Sheet Variables
         const int noteSpriteSheetOffset = 6;  // How many pixels pad the left side of a note on the sprite sheet
@@ -172,9 +172,9 @@ namespace MinGH.GameScreenImpl
             playerInputManager.processPlayerInput(ref Notes, noteParticleExplosionEmitters, hitBox,
                                                   ref playerInformation, useStrumming, keyboardInputManager);
 
-            noteUpdater.updateNotes(mainChart.Note_Charts[0], ref noteIterator, ref Notes, viewportRectangle,
+            noteUpdater.updateNotes(mainChart.noteCharts[0], ref noteIterator, ref Notes, viewportRectangle,
                                     gameTime, noteVelocityMultiplier, noteWidth, currentMsec + noteVelocityConstant,
-                                    playerInformation);
+                                    playerInformation, noteSpriteSheetSize);
 
             // Update varous strings
             strManager.Set_String(0, "Current MSEC:\n" + Convert.ToString(currentMsec));

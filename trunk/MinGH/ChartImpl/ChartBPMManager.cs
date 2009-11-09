@@ -22,7 +22,7 @@ namespace MinGH.ChartImpl
         /// A list containing every valid BPM change from the chart.  Due to the nature
         /// of the *.chart specification, these BPM changes will be in proper order.
         /// </returns>
-        public List<BPMChange> AddBPMChanges(string inputFile)
+        public static List<BPMChange> AddBPMChanges(string inputFile)
         {
             List<BPMChange> BPMChangeListToReturn = new List<BPMChange>();
 

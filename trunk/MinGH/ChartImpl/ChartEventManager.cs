@@ -23,7 +23,7 @@ namespace MinGH.ChartImpl
         /// A list containing every valid event from the chart.  Due to the nature
         /// of the *.chart specification, these events will be in proper order.
         /// </returns>
-        public List<Event> AddEvents(string input_string)
+        public static List<Event> AddEvents(string input_string)
         {
             List<Event> eventListToReturn = new List<Event>();
             ProperStringCreator properStringCreator = new ProperStringCreator();

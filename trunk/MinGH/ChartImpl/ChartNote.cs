@@ -16,6 +16,7 @@ namespace MinGH.ChartImpl
             TickValue = 0;
             Duration = 0;
             noteType = NoteType.Green;
+            isHOPO = false;
         }
 
         /// <summary>
@@ -52,5 +53,15 @@ namespace MinGH.ChartImpl
         /// What kind of note this is (i.e. Red, Blue, SP, etc.).
         /// </summary>
         public NoteType noteType;
+
+        /// <summary>
+        /// Is this note a hammeron/pulloff?
+        /// </summary>
+        public bool isHOPO;
+
+        /// <summary>
+        /// Is this note a part of a chord?
+        /// </summary>
+        public bool isChord;
     }
 }

@@ -15,14 +15,9 @@ namespace MinGH.ChartImpl
         public Chart()
         {
             chartInfo = new ChartInfo();
-            BPM_Changes = new List<BPMChange>();
-            Events = new List<Event>();
-            Note_Charts = new List<Notechart>();
-            chartBPMManager = new ChartBPMManager();
-            chartInfoManager = new ChartInfoManager();
-            chartEventManager = new ChartEventManager();
-            chartNotechartManager = new ChartNotechartManager();
-            chartTimeValueManager = new ChartTimeValueManager();
+            BPMChanges = new List<BPMChange>();
+            events = new List<Event>();
+            noteCharts = new List<Notechart>();
         }
 
         /// <summary>
@@ -34,14 +29,9 @@ namespace MinGH.ChartImpl
         /// </param>
         public Chart(string filename)
         {
-            BPM_Changes = new List<BPMChange>();
-            Events = new List<Event>();
-            Note_Charts = new List<Notechart>();
-            chartBPMManager = new ChartBPMManager();
-            chartInfoManager = new ChartInfoManager();
-            chartEventManager = new ChartEventManager();
-            chartNotechartManager = new ChartNotechartManager();
-            chartTimeValueManager = new ChartTimeValueManager();
+            BPMChanges = new List<BPMChange>();
+            events = new List<Event>();
+            noteCharts = new List<Notechart>();
 
             // First, check if the file even exists
             if (!File.Exists(filename))
@@ -56,16 +46,19 @@ namespace MinGH.ChartImpl
                 string input_file = input_stream.ReadToEnd();
 
                 // Add in all the various chart information
-                chartInfo = chartInfoManager.Add_Song_Info(input_file);
-                BPM_Changes = chartBPMManager.AddBPMChanges(input_file);
-                Events = chartEventManager.AddEvents(input_file);
+                chartInfo = ChartInfoManager.AddSongInfo(input_file);
+                BPMChanges = ChartBPMManager.AddBPMChanges(input_file);
+                events = ChartEventManager.AddEvents(input_file);
 
                 // Adds just the expert notechart, can make a sneaky way of doing all avaliable charts later
-                Note_Charts.Add(chartNotechartManager.GenerateNotechart("ExpertSingle", input_file));
-                for (int i = 0; i < Note_Charts.Count; i++)
+                noteCharts.Add(ChartNotechartManager.GenerateNotechart("ExpertSingle", input_file));
+                for (int i = 0; i < noteCharts.Count; i++)
                 {
-                    Note_Charts[i] = chartTimeValueManager.GenerateTimeValues(Note_Charts[i], BPM_Changes,
-                                     ref Events, chartInfo.offset, ref chartInfo.chartLengthMiliseconds);
+                    noteCharts[i] = ChartTimeValueManager.GenerateTimeValues(noteCharts[i], BPMChanges,
+                                     ref events, chartInfo.offset, ref chartInfo.chartLengthMiliseconds);
+
+                    noteCharts[i] = ChartHOPOManager.AssignHOPOS(noteCharts[i], chartInfo);
+                    noteCharts[i] = ChartChordManager.AssignChords(noteCharts[i]);
                 }
 
                 // Close the input stream
@@ -85,14 +78,14 @@ namespace MinGH.ChartImpl
             Console.WriteLine("");
 
             Console.WriteLine("BPM Changes:");
-            foreach (BPMChange curr_change in BPM_Changes)
+            foreach (BPMChange curr_change in BPMChanges)
             {
                 curr_change.print_info();
             }
             Console.WriteLine("");
 
             Console.WriteLine("Events:");
-            foreach (Event curr_event in Events)
+            foreach (Event curr_event in events)
             {
                 curr_event.print_info();
             }
@@ -100,7 +93,7 @@ namespace MinGH.ChartImpl
             //Console.ReadLine();
 
             Console.WriteLine("Notes:");
-            foreach (Notechart curr_notechart in Note_Charts)
+            foreach (Notechart curr_notechart in noteCharts)
             {
                 curr_notechart.print_info();
             }
@@ -114,28 +107,18 @@ namespace MinGH.ChartImpl
         /// <summary>
         /// A list of every BPM change in the chart.
         /// </summary>
-        public List<BPMChange> BPM_Changes;
+        public List<BPMChange> BPMChanges;
 		
 		/// <summary>
 		/// A list of every event in the chart.
 		/// </summary>
-        public List<Event> Events;
+        public List<Event> events;
 
         /// <summary>
         /// A list of every avaliable notechart (i.e. ExpertSingle, MediumDoubleGuitar).
         /// The string constructor, at the moment, does not intelligently pick out every
         /// valid chart within that particular file.  It only chooses ExpertSingle for now.
         /// </summary>
-        public List<Notechart> Note_Charts;
-
-        /// <summary>
-        /// The various manager classes that make filling out the chart information
-        /// easier.  See thier respective class pages for more information.
-        /// </summary>
-        private ChartBPMManager chartBPMManager;
-        private ChartInfoManager chartInfoManager;
-        private ChartEventManager chartEventManager;
-        private ChartNotechartManager chartNotechartManager;
-        private ChartTimeValueManager chartTimeValueManager;
+        public List<Notechart> noteCharts;
     }
 }
