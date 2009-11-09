@@ -45,12 +45,12 @@ namespace MinGH.ChartImpl
             double currentTicksPerMilisecond = 0.0;
             uint currentMilisecond = (uint)(chartOffset * 1000);  // Convert the chart offset into flat miliseconds
 
-            int[] notechartIterators = {0, 0, 0, 0, 0, 0};
+            int notechartIterator = 0;
+            int SPNoteIterator = 0;
             int eventIterator = 0;
             int BPMChangeIterator = 0;
 
             EndofChartCondition endofChartCondition = new EndofChartCondition();
-
             Notechart noteChartToReturn = inputNotechart;
 
             // Keep working until no more events or notes are found
@@ -70,83 +70,27 @@ namespace MinGH.ChartImpl
                     endofChartCondition.noMoreEvents = true;
                 }
 
-                // Update the notes themselves (have to specifiy each note set)
-                if (notechartIterators[0] < inputNotechart.greenNotes.Count)
+                // Update the notes themselves
+                if (notechartIterator < inputNotechart.notes.Count)
                 {
-                    if (currentTick >= inputNotechart.greenNotes[notechartIterators[0]].TickValue)
+                    while ((notechartIterator < inputNotechart.notes.Count) && (currentTick >= inputNotechart.notes[notechartIterator].TickValue))
                     {
-                        inputNotechart.greenNotes[notechartIterators[0]].TimeValue = currentMilisecond;
-                        notechartIterators[0]++;
+                        inputNotechart.notes[notechartIterator].TimeValue = currentMilisecond;
+                        notechartIterator++;
                     }
                 }
                 else
                 {
-                    endofChartCondition.noMoreGreenNotes = true;
+                    endofChartCondition.noMoreNotes = true;
                 }
 
-                // Update the notes themselves (have to specifiy each note set)
-                if (notechartIterators[1] < inputNotechart.redNotes.Count)
+                // Update the Star Power notes
+                if (SPNoteIterator < inputNotechart.SPNotes.Count)
                 {
-                    if (currentTick >= inputNotechart.redNotes[notechartIterators[1]].TickValue)
+                    if (currentTick >= inputNotechart.SPNotes[SPNoteIterator].TickValue)
                     {
-                        inputNotechart.redNotes[notechartIterators[1]].TimeValue = currentMilisecond;
-                        notechartIterators[1]++;
-                    }
-                }
-                else
-                {
-                    endofChartCondition.noMoreRedNotes = true;
-                }
-
-                // Update the notes themselves (have to specifiy each note set)
-                if (notechartIterators[2] < inputNotechart.yellowNotes.Count)
-                {
-                    if (currentTick >= inputNotechart.yellowNotes[notechartIterators[2]].TickValue)
-                    {
-                        inputNotechart.yellowNotes[notechartIterators[2]].TimeValue = currentMilisecond;
-                        notechartIterators[2]++;
-                    }
-                }
-                else
-                {
-                    endofChartCondition.noMoreYellowNotes = true;
-                }
-
-                // Update the notes themselves (have to specifiy each note set)
-                if (notechartIterators[3] < inputNotechart.blueNotes.Count)
-                {
-                    if (currentTick >= inputNotechart.blueNotes[notechartIterators[3]].TickValue)
-                    {
-                        inputNotechart.blueNotes[notechartIterators[3]].TimeValue = currentMilisecond;
-                        notechartIterators[3]++;
-                    }
-                }
-                else
-                {
-                    endofChartCondition.noMoreBlueNotes = true;
-                }
-
-                // Update the notes themselves (have to specifiy each note set)
-                if (notechartIterators[4] < inputNotechart.orangeNotes.Count)
-                {
-                    if (currentTick >= inputNotechart.orangeNotes[notechartIterators[4]].TickValue)
-                    {
-                        inputNotechart.orangeNotes[notechartIterators[4]].TimeValue = currentMilisecond;
-                        notechartIterators[4]++;
-                    }
-                }
-                else
-                {
-                    endofChartCondition.noMoreOrangeNotes = true;
-                }
-
-                // Update the notes themselves (have to specifiy each note set)
-                if (notechartIterators[5] < inputNotechart.SPNotes.Count)
-                {
-                    if (currentTick >= inputNotechart.SPNotes[notechartIterators[5]].TickValue)
-                    {
-                        inputNotechart.SPNotes[notechartIterators[5]].TimeValue = currentMilisecond;
-                        notechartIterators[5]++;
+                        inputNotechart.SPNotes[SPNoteIterator].TimeValue = currentMilisecond;
+                        SPNoteIterator++;
                     }
                 }
                 else
@@ -154,6 +98,7 @@ namespace MinGH.ChartImpl
                     endofChartCondition.noMoreSPNotes = true;
                 }
 
+                // Update the BPM changes
                 if (!(BPMChangeIterator == inputBPMChanges.Count))
                 {
                     // -TODO: 192 is an assumed magic number.  Edit Chart class so it contains the resolution of the

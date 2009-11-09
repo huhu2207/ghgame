@@ -15,11 +15,12 @@ namespace MinGH.ChartImpl
         public Notechart()
         {
             Chart_Name = "default";
-            greenNotes = new List<ChartNote>();
-            redNotes = new List<ChartNote>();
-            yellowNotes = new List<ChartNote>();
-            blueNotes = new List<ChartNote>();
-            orangeNotes = new List<ChartNote>();
+            //greenNotes = new List<ChartNote>();
+            //redNotes = new List<ChartNote>();
+            //yellowNotes = new List<ChartNote>();
+            //blueNotes = new List<ChartNote>();
+            //orangeNotes = new List<ChartNote>();
+            notes = new List<ChartNote>();
             SPNotes = new List<ChartNote>();
         }
 
@@ -32,11 +33,12 @@ namespace MinGH.ChartImpl
         public Notechart(string in_name)
         {
             Chart_Name = in_name;
-            greenNotes = new List<ChartNote>();
-            redNotes = new List<ChartNote>();
-            yellowNotes = new List<ChartNote>();
-            blueNotes = new List<ChartNote>();
-            orangeNotes = new List<ChartNote>();
+            //greenNotes = new List<ChartNote>();
+            //redNotes = new List<ChartNote>();
+            //yellowNotes = new List<ChartNote>();
+            //blueNotes = new List<ChartNote>();
+            //orangeNotes = new List<ChartNote>();
+            notes = new List<ChartNote>();
             SPNotes = new List<ChartNote>();
         }
 
@@ -45,34 +47,39 @@ namespace MinGH.ChartImpl
         /// </summary>
         public void print_info()
         {
-            foreach (ChartNote curr_note in greenNotes)
-            {
-                Console.Write("Green: - ");
-                curr_note.print_info();
-            }
+            //foreach (ChartNote curr_note in greenNotes)
+            //{
+            //    Console.Write("Green: - ");
+            //    curr_note.print_info();
+            //}
 
-            foreach (ChartNote curr_note in redNotes)
-            {
-                Console.Write("Red: - ");
-                curr_note.print_info();
-            }
+            //foreach (ChartNote curr_note in redNotes)
+            //{
+            //    Console.Write("Red: - ");
+            //    curr_note.print_info();
+            //}
 
-            foreach (ChartNote curr_note in yellowNotes)
-            {
-                Console.Write("Yellow: - ");
-                curr_note.print_info();
-            }
+            //foreach (ChartNote curr_note in yellowNotes)
+            //{
+            //    Console.Write("Yellow: - ");
+            //    curr_note.print_info();
+            //}
 
-            foreach (ChartNote curr_note in blueNotes)
-            {
-                Console.Write("Blue: - ");
-                curr_note.print_info();
-            }
+            //foreach (ChartNote curr_note in blueNotes)
+            //{
+            //    Console.Write("Blue: - ");
+            //    curr_note.print_info();
+            //}
 
-            foreach (ChartNote curr_note in orangeNotes)
+            //foreach (ChartNote curr_note in orangeNotes)
+            //{
+            //    Console.Write("Orange: - ");
+            //    curr_note.print_info();
+            //}
+
+            foreach (ChartNote curr_note in notes)
             {
-                Console.Write("Orange: - ");
-                curr_note.print_info();
+                Console.Write(curr_note.noteType.ToString() + ": - ");
             }
 
             foreach (ChartNote curr_note in SPNotes)
@@ -90,11 +97,12 @@ namespace MinGH.ChartImpl
         /// <summary>
         /// Lists that contain every single note in the chart.  There is also a list for every star power note.
         /// </summary>
-        public List<ChartNote> greenNotes;
+        /*public List<ChartNote> greenNotes;
         public List<ChartNote> redNotes;
         public List<ChartNote> yellowNotes;
         public List<ChartNote> blueNotes;
-        public List<ChartNote> orangeNotes;
+        public List<ChartNote> orangeNotes;*/
+        public List<ChartNote> notes;
         public List<ChartNote> SPNotes;
     }
 }
