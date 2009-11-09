@@ -1,69 +1,70 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using MinGH.Misc_Classes;
+using MinGH.ChartImpl;
 
 namespace MinGH.GameScreenImpl.GameScreenGameplaySinglePlayerImpl
 {
     class PlayerInputManager
     {
-
-        public void processPlayerInput(ref Note[,] physicalNotes,
-                                       NoteParticleExplosionEmitters noteParticleExplosionEmitters,
-                                       HorizontalHitBox hitBox, ref PlayerInformation playerInformation,
-                                       bool useStrumming, IKeyboardInputManager keyboardInputManager)
+        public static void processPlayerInput(Note[,] physicalNotes,
+                                              NoteParticleExplosionEmitters noteParticleExplosionEmitters,
+                                              HorizontalHitBox hitBox, PlayerInformation playerInformation,
+                                              bool useStrumming, IKeyboardInputManager keyboardInputManager,
+                                              Notechart inputNotechart)
         {
             if (useStrumming == true)
             {
-                if (keyboardInputManager.keyIsHit(Keys.Enter) && keyboardInputManager.keyIsHeld(Keys.A))
-                {
-                    triggerInput(ref physicalNotes, noteParticleExplosionEmitters, hitBox, 0, ref playerInformation);
-                }
-                if (keyboardInputManager.keyIsHit(Keys.Enter) && keyboardInputManager.keyIsHeld(Keys.S))
-                {
-                    triggerInput(ref physicalNotes, noteParticleExplosionEmitters, hitBox, 1, ref playerInformation);
-                }
-                if (keyboardInputManager.keyIsHit(Keys.Enter) && keyboardInputManager.keyIsHeld(Keys.D))
-                {
-                    triggerInput(ref physicalNotes, noteParticleExplosionEmitters, hitBox, 2, ref playerInformation);
-                }
-                if (keyboardInputManager.keyIsHit(Keys.Enter) && keyboardInputManager.keyIsHeld(Keys.F))
-                {
-                    triggerInput(ref physicalNotes, noteParticleExplosionEmitters, hitBox, 3, ref playerInformation);
-                }
                 if (keyboardInputManager.keyIsHit(Keys.Enter) && keyboardInputManager.keyIsHeld(Keys.G))
                 {
-                    triggerInput(ref physicalNotes, noteParticleExplosionEmitters, hitBox, 4, ref playerInformation);
+                    triggerInput(physicalNotes, noteParticleExplosionEmitters, hitBox, 4, playerInformation);
+                }
+                else if (keyboardInputManager.keyIsHit(Keys.Enter) && keyboardInputManager.keyIsHeld(Keys.F))
+                {
+                    triggerInput(physicalNotes, noteParticleExplosionEmitters, hitBox, 3, playerInformation);
+                }
+                else if (keyboardInputManager.keyIsHit(Keys.Enter) && keyboardInputManager.keyIsHeld(Keys.D))
+                {
+                    triggerInput(physicalNotes, noteParticleExplosionEmitters, hitBox, 2, playerInformation);
+                }
+                else if (keyboardInputManager.keyIsHit(Keys.Enter) && keyboardInputManager.keyIsHeld(Keys.S))
+                {
+                    triggerInput(physicalNotes, noteParticleExplosionEmitters, hitBox, 1, playerInformation);
+                }
+                else if (keyboardInputManager.keyIsHit(Keys.Enter) && keyboardInputManager.keyIsHeld(Keys.A))
+                {
+                    triggerInput(physicalNotes, noteParticleExplosionEmitters, hitBox, 0, playerInformation);
                 }
             }
             else
             {
                 if (keyboardInputManager.keyIsHit(Keys.A))
                 {
-                    triggerInput(ref physicalNotes, noteParticleExplosionEmitters, hitBox, 0, ref playerInformation);
+                    triggerInput(physicalNotes, noteParticleExplosionEmitters, hitBox, 0, playerInformation);
                 }
                 if (keyboardInputManager.keyIsHit(Keys.S))
                 {
-                    triggerInput(ref physicalNotes, noteParticleExplosionEmitters, hitBox, 1, ref playerInformation);
+                    triggerInput(physicalNotes, noteParticleExplosionEmitters, hitBox, 1, playerInformation);
                 }
                 if (keyboardInputManager.keyIsHit(Keys.D))
                 {
-                    triggerInput(ref physicalNotes, noteParticleExplosionEmitters, hitBox, 2, ref playerInformation);
+                    triggerInput(physicalNotes, noteParticleExplosionEmitters, hitBox, 2, playerInformation);
                 }
                 if (keyboardInputManager.keyIsHit(Keys.F))
                 {
-                    triggerInput(ref physicalNotes, noteParticleExplosionEmitters, hitBox, 3, ref playerInformation);
+                    triggerInput(physicalNotes, noteParticleExplosionEmitters, hitBox, 3, playerInformation);
                 }
                 if (keyboardInputManager.keyIsHit(Keys.G))
                 {
-                    triggerInput(ref physicalNotes, noteParticleExplosionEmitters, hitBox, 4, ref playerInformation);
+                    triggerInput(physicalNotes, noteParticleExplosionEmitters, hitBox, 4, playerInformation);
                 }
             }
         }
 
-        private void triggerInput(ref Note[,] physicalNotes,
-                                  NoteParticleExplosionEmitters noteParticleExplosionEmitters,
-                                  HorizontalHitBox hitBox,
-                                  int noteColumn, ref PlayerInformation playerInformation)
+        private static void triggerInput(Note[,] physicalNotes,
+                                         NoteParticleExplosionEmitters noteParticleExplosionEmitters,
+                                         HorizontalHitBox hitBox,
+                                         int noteColumn, PlayerInformation playerInformation)
         {
             Point currentCenterPoint = new Point();
             int farthestNoteIndex = -1;
@@ -91,7 +92,7 @@ namespace MinGH.GameScreenImpl.GameScreenGameplaySinglePlayerImpl
             {
                 noteParticleExplosionEmitters.emitterList[noteColumn].Trigger(noteParticleExplosionEmitters.explosionLocations[noteColumn]);
                 physicalNotes[noteColumn, farthestNoteIndex].alive = false;
-                playerInformation.hitNote(physicalNotes[noteColumn, farthestNoteIndex].precedesHopo);
+                playerInformation.hitNote(false);
             }
             else
             {

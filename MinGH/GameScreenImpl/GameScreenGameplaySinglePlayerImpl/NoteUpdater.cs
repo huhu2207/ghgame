@@ -10,11 +10,11 @@ namespace MinGH.GameScreenImpl.GameScreenGameplaySinglePlayerImpl
         // Updates the position of viewable notes and creates/destroys notes when necessary
         // NOTE: note_num is a simple 0-4 loop
         // NOTE: ...clean up these parameters sometime
-        public void updateNotes(Notechart inputNotechart, ref int inputNoteIterator,
-                                ref Note[,] physicalNotes, Rectangle viewportRectangle,
-                                GameTime currTime, double noteVelocity,
-                                int noteSize, double currentMsec, PlayerInformation playerInformation,
-                                int spriteSheetSize)
+        public static void updateNotes(Notechart inputNotechart, ref int inputNoteIterator,
+                                       Note[,] physicalNotes, Rectangle viewportRectangle,
+                                       GameTime currTime, double noteVelocity,
+                                       int noteSize, double currentMsec, PlayerInformation playerInformation,
+                                       int spriteSheetSize)
         {
             int currentNoteset = 0;
             // This check is here due to the final increment after the last note.
@@ -31,32 +31,19 @@ namespace MinGH.GameScreenImpl.GameScreenGameplaySinglePlayerImpl
                     {
                         if (physicalNotes[currentNoteset, i].alive == false)
                         {
-                            physicalNotes[currentNoteset, i].noteType = inputNotechart.notes[inputNoteIterator].noteType;
 
                             if (inputNotechart.notes[inputNoteIterator].isHOPO == true)
                             {
-                                // Move the sprite sheet rectangle to the hopo texture immediately below
-                                // the normal note texture.
                                 physicalNotes[currentNoteset, i].spriteSheetRectangle.Y = spriteSheetSize;
-                                physicalNotes[currentNoteset, i].isHopo = true;
-                            }
-                            else if(inputNotechart.notes[inputNoteIterator].isChord == true)
-                            {
-                                physicalNotes[currentNoteset, i].spriteSheetRectangle.Y = spriteSheetSize * 2;
-                                physicalNotes[currentNoteset, i].isChord = true;
                             }
                             else
                             {
-                                // Reset the note texture back to the basic note texture
                                 physicalNotes[currentNoteset, i].spriteSheetRectangle.Y = 0;
                             }
 
-                            if (inputNotechart.notes[inputNoteIterator + 1].isHOPO == true)
-                            {
-                                physicalNotes[currentNoteset, i].precedesHopo = true;
-                            }
-
                             physicalNotes[currentNoteset, i].alive = true;
+                            physicalNotes[currentNoteset, i].noteChartIndex = inputNoteIterator;
+
                             float newNotePos = physicalNotes[currentNoteset, i].spriteSheetOffset + 196 + (noteSize * currentNoteset);
                             physicalNotes[currentNoteset, i].position = new Vector2(newNotePos, 0f);
                             break;

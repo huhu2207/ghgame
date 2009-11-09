@@ -32,7 +32,6 @@ namespace MinGH.Misc_Classes
 		/// hit.
 		/// </summary>
         public const int hitHealthReward = 2;
-
 		
 		/// <summary>
 		/// The players current health.  If this number drops below 1, the player loses.
@@ -59,6 +58,12 @@ namespace MinGH.Misc_Classes
         /// If the user is currently playing hopos (and is not missing any).
         /// </summary>
         public bool inHOPOState;
+
+        /// <summary>
+        /// The index of the next hammer on note (so the player doesnt hammer on notes
+        /// he shouldnt be allowed to).
+        /// </summary>
+        public int nextExpectedHammerOnIndex;
 
         /// <summary>
         /// Default constructor.

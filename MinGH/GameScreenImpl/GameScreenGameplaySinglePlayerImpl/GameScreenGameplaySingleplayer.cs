@@ -42,7 +42,6 @@ namespace MinGH.GameScreenImpl
         NoteUpdater noteUpdater = new NoteUpdater();
         IKeyboardInputManager keyboardInputManager = new SinglePlayerKeyboardManager();
         HorizontalHitBox hitBox;
-        PlayerInputManager playerInputManager = new PlayerInputManager();
         PlayerInformation playerInformation = new PlayerInformation();
 
         Chart mainChart;  // Create the chart file
@@ -169,10 +168,11 @@ namespace MinGH.GameScreenImpl
             // Get the current keyboard state
             keyboardInputManager.processKeyboardState(Keyboard.GetState());
             
-            playerInputManager.processPlayerInput(ref Notes, noteParticleExplosionEmitters, hitBox,
-                                                  ref playerInformation, useStrumming, keyboardInputManager);
+            PlayerInputManager.processPlayerInput(Notes, noteParticleExplosionEmitters, hitBox,
+                                                  playerInformation, useStrumming, keyboardInputManager,
+                                                  mainChart.noteCharts[0]);
 
-            noteUpdater.updateNotes(mainChart.noteCharts[0], ref noteIterator, ref Notes, viewportRectangle,
+            NoteUpdater.updateNotes(mainChart.noteCharts[0], ref noteIterator, Notes, viewportRectangle,
                                     gameTime, noteVelocityMultiplier, noteWidth, currentMsec + noteVelocityConstant,
                                     playerInformation, noteSpriteSheetSize);
 
