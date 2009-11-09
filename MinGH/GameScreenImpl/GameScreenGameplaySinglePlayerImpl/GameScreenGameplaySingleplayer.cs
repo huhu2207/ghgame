@@ -29,7 +29,7 @@ namespace MinGH.GameScreenImpl
         // The number of miliseconds to speed up the notes so they appear on time (Global Offset)
         // NOTE: 505 is the magic number constant for a 1.0 multiplier, it gets adjusted to the current multiplier in Initialization()
         double noteVelocityConstant = 490;
-        int[] noteIterators;  // These iterators are used to keep track of which note to observe next
+        int noteIterator;  // These iterators are used to keep track of which note to observe next
         const int noteLeftPadding = 196;  // How far from the left the green note is placed in pixels
         const int noteWidth = 86;  // How far each lane is on the background
         const bool useStrumming = false;  // Wether strumming is used or not
@@ -66,7 +66,7 @@ namespace MinGH.GameScreenImpl
             SinglePlayerStringInitializer.initializeStrings(ref strManager, graphics.GraphicsDevice.Viewport.Width,
                                graphics.GraphicsDevice.Viewport.Height);
             // Initialize some variables
-            noteIterators = new int[5];
+            noteIterator = 0;
             Notes = new Note[5, maxNotesOnscreen];
 
             // Create the sprite bacth
@@ -172,7 +172,7 @@ namespace MinGH.GameScreenImpl
             playerInputManager.processPlayerInput(ref Notes, noteParticleExplosionEmitters, hitBox,
                                                   ref playerInformation, useStrumming, keyboardInputManager);
 
-            noteUpdater.updateNotes(mainChart.Note_Charts[0], ref noteIterators, ref Notes, viewportRectangle,
+            noteUpdater.updateNotes(mainChart.Note_Charts[0], ref noteIterator, ref Notes, viewportRectangle,
                                     gameTime, noteVelocityMultiplier, noteWidth, currentMsec + noteVelocityConstant,
                                     playerInformation);
 

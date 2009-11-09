@@ -13,7 +13,7 @@ namespace MinGH.GameScreenImpl
         /// </summary>
         /// <param name="inputState">
         /// The new state for the keyboard.
-        /// </param>e
+        /// </param>
         void processKeyboardState(KeyboardState inputState);
 
         /// <summary>

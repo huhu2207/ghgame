@@ -15,6 +15,7 @@ namespace MinGH.ChartImpl
             TimeValue = 0;
             TickValue = 0;
             Duration = 0;
+            noteType = NoteType.Green;
         }
 
         /// <summary>
@@ -26,11 +27,12 @@ namespace MinGH.ChartImpl
         /// <param name="inDuration">
         /// The duration of the new note.
         /// </param>
-        public ChartNote(uint inTickValue, int inDuration)
+        public ChartNote(uint inTickValue, int inDuration, NoteType inNoteType)
         {
             TimeValue = 0;
             TickValue = inTickValue;
             Duration = inDuration;
+            noteType = inNoteType;
         }
 
         /// <summary>
@@ -45,5 +47,10 @@ namespace MinGH.ChartImpl
 		/// The actual length of the note (i.e. how long the player will have to hold the proper button down).
 		/// </summary>
         public int Duration;
+
+        /// <summary>
+        /// What kind of note this is (i.e. Red, Blue, SP, etc.).
+        /// </summary>
+        public NoteType noteType;
     }
 }

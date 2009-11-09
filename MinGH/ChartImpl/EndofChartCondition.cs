@@ -10,11 +10,7 @@ namespace MinGH.ChartImpl
 		/// Various boolean values that get set off if no more values of a specific type are avaliable
 		/// </summary>
         public bool noMoreEvents;
-        public bool noMoreGreenNotes;
-        public bool noMoreRedNotes;
-        public bool noMoreYellowNotes;
-        public bool noMoreBlueNotes;
-        public bool noMoreOrangeNotes;
+        public bool noMoreNotes;
         public bool noMoreSPNotes;
 
 		/// <summary>
@@ -23,11 +19,7 @@ namespace MinGH.ChartImpl
         public EndofChartCondition()
         {
             noMoreEvents = false;
-            noMoreGreenNotes = false;
-            noMoreRedNotes = false;
-            noMoreYellowNotes = false;
-            noMoreBlueNotes = false;
-            noMoreOrangeNotes = false;
+            noMoreNotes = false;
             noMoreSPNotes = false;
         }
 
@@ -43,11 +35,7 @@ namespace MinGH.ChartImpl
         public static bool operator true(EndofChartCondition myCondition)
         {
             if ((myCondition.noMoreEvents == true) &&
-                (myCondition.noMoreGreenNotes == true) &&
-                (myCondition.noMoreRedNotes == true) &&
-                (myCondition.noMoreYellowNotes == true) &&
-                (myCondition.noMoreBlueNotes == true) &&
-                (myCondition.noMoreOrangeNotes == true) &&
+                (myCondition.noMoreNotes == true) &&
                 (myCondition.noMoreSPNotes == true))
             {
                 return false;
@@ -70,11 +58,7 @@ namespace MinGH.ChartImpl
         public static bool operator false(EndofChartCondition myCondition)
         {
             if ((myCondition.noMoreEvents == true) &&
-                (myCondition.noMoreGreenNotes == true) &&
-                (myCondition.noMoreRedNotes == true) &&
-                (myCondition.noMoreYellowNotes == true) &&
-                (myCondition.noMoreBlueNotes == true) &&
-                (myCondition.noMoreOrangeNotes == true) &&
+                (myCondition.noMoreNotes == true) &&
                 (myCondition.noMoreSPNotes == true))
             {
                 return true;

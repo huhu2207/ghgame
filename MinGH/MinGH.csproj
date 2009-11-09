@@ -105,6 +105,7 @@
     <Compile Include="ChartImpl\Event.cs" />
     <Compile Include="ChartImpl\ChartNote.cs" />
     <Compile Include="ChartImpl\Notechart.cs" />
+    <Compile Include="ChartImpl\NoteType.cs" />
     <Compile Include="ChartImpl\ProperStringCreator.cs" />
     <Compile Include="Extensions\SubArrayExtension.cs" />
     <Compile Include="FMOD\fmod.cs" />

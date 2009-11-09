@@ -10,75 +10,54 @@ namespace MinGH.GameScreenImpl.GameScreenGameplaySinglePlayerImpl
         // Updates the position of viewable notes and creates/destroys notes when necessary
         // NOTE: note_num is a simple 0-4 loop
         // NOTE: ...clean up these parameters sometime
-        public void updateNotes(Notechart inputNotechart, ref int[] inputNoteIterators,
+        public void updateNotes(Notechart inputNotechart, ref int inputNoteIterator,
                                 ref Note[,] physicalNotes, Rectangle viewportRectangle,
                                 GameTime currTime, double noteVelocity,
                                 int noteSize, double currentMsec, PlayerInformation playerInformation)
         {
-            List<ChartNote> currentNoteList = new List<ChartNote>();
-
-            // Change the current note list to look at according to the current loop iteration
-            for (int currentNoteset = 0; currentNoteset < physicalNotes.GetLength(0); currentNoteset++)
+            int currentNoteset = 0;
+            // This check is here due to the final increment after the last note.
+            // Once the last note passes (these two are equal), we get a out of bounds error.
+            if (!(inputNoteIterator >= inputNotechart.notes.Count))
             {
-                switch (currentNoteset)
+                // If the current time > the next note to be drawn...
+                while (currentMsec >= inputNotechart.notes[inputNoteIterator].TimeValue)
                 {
-                    case 0:
-                        currentNoteList = inputNotechart.greenNotes;
-                        break;
-                    case 1:
-                        currentNoteList = inputNotechart.redNotes;
-                        break;
-                    case 2:
-                        currentNoteList = inputNotechart.yellowNotes;
-                        break;
-                    case 3:
-                        currentNoteList = inputNotechart.blueNotes;
-                        break;
-                    case 4:
-                        currentNoteList = inputNotechart.orangeNotes;
-                        break;
-                    default:
-                        break;
-                }
+                    currentNoteset = (int)inputNotechart.notes[inputNoteIterator].noteType;
 
-                // This check is here due to the final increment after the last note.
-                // Once the last note passes (these two are equal), we get a out of bounds error.
-                if (!(inputNoteIterators[currentNoteset] == currentNoteList.Count))
-                {
-                    // If the current tick > the next note to be drawn...
-                    if (currentMsec >= currentNoteList[inputNoteIterators[currentNoteset]].TimeValue)
+                    // Look for a spot to draw the note
+                    for (int i = 0; i < physicalNotes.GetLength(1); i++)
                     {
-                        // Look for a spot to draw the note
-                        for (int i = 0; i < physicalNotes.GetLength(1); i++)
+                        if (physicalNotes[currentNoteset, i].alive == false)
                         {
-                            if (physicalNotes[currentNoteset, i].alive == false)
-                            {
-                                // And draw it
-                                physicalNotes[currentNoteset, i].alive = true;
-                                float newNotePos = physicalNotes[currentNoteset, i].spriteSheetOffset + 196 + (noteSize * currentNoteset);
-                                physicalNotes[currentNoteset, i].position = new Vector2(newNotePos, 0f);
-                                break;
-                            }
+                            // And draw it
+                            physicalNotes[currentNoteset, i].alive = true;
+                            float newNotePos = physicalNotes[currentNoteset, i].spriteSheetOffset + 196 + (noteSize * currentNoteset);
+                            physicalNotes[currentNoteset, i].position = new Vector2(newNotePos, 0f);
+                            break;
                         }
-                        inputNoteIterators[currentNoteset]++;
                     }
+                    inputNoteIterator++;
                 }
+            }
 
-                // Update the living note's positions and kill notes that leave the screen
-                for (int i = 0; i < physicalNotes.GetLength(1); i++)
+            // Update the living note's positions and kill notes that leave the screen
+            for (int i = 0; i < physicalNotes.GetLength(0); i++)
+            {
+                for (int j = 0; j < physicalNotes.GetLength(1); j++)
                 {
-                    if (physicalNotes[currentNoteset, i].alive == true)
+                    if (physicalNotes[i, j].alive == true)
                     {
-                        physicalNotes[currentNoteset, i].position += new Vector2(0.0f, (float)(currTime.ElapsedGameTime.TotalMilliseconds * noteVelocity));
+                        physicalNotes[i, j].position += new Vector2(0.0f, (float)(currTime.ElapsedGameTime.TotalMilliseconds * noteVelocity));
                     }
 
                     // Kill any notes that managed to get past the previous check and left the screen
                     // Also tell the player he missed a note.
-                    if ((!viewportRectangle.Contains(new Point((int)physicalNotes[currentNoteset, i].position.X,
-                            (int)physicalNotes[currentNoteset, i].position.Y))) && (physicalNotes[currentNoteset, i].alive))
+                    if ((!viewportRectangle.Contains(new Point((int)physicalNotes[i, j].position.X,
+                            (int)physicalNotes[i, j].position.Y))) && (physicalNotes[i, j].alive))
                     {
                         playerInformation.missNote();
-                        physicalNotes[currentNoteset, i].alive = false;
+                        physicalNotes[i, j].alive = false;
                     }
                 }
             }

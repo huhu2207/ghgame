@@ -34,13 +34,13 @@ namespace MinGH.ChartImpl
             string[] parsed_line;
 
             // Create the resulting notechart and prep for input
-            Notechart result_notechart = new Notechart(chartname);
+            Notechart notechartToReturn = new Notechart(chartname);
 
             //If specific notechart is not found, return a generic one
             if (!(matched_section.Success))
             {
-                result_notechart.Chart_Name = chartname;
-                result_notechart.greenNotes.Add(new ChartNote());
+                notechartToReturn.Chart_Name = chartname;
+                notechartToReturn.notes.Add(new ChartNote());
             }
 
             // Else, read in all the chart information
@@ -61,28 +61,33 @@ namespace MinGH.ChartImpl
                             switch (Convert.ToInt32(parsed_line[3]))
                             {
                                 case 0:
-                                    result_notechart.greenNotes.Add(new ChartNote(Convert.ToUInt32(parsed_line[0]),
-                                                                              Convert.ToInt32(parsed_line[4])));
+                                    notechartToReturn.notes.Add(new ChartNote(Convert.ToUInt32(parsed_line[0]),
+                                                                              Convert.ToInt32(parsed_line[4]),
+                                                                              NoteType.Green));
                                     break;
 
                                 case 1:
-                                    result_notechart.redNotes.Add(new ChartNote(Convert.ToUInt32(parsed_line[0]),
-                                                                            Convert.ToInt32(parsed_line[4])));
+                                    notechartToReturn.notes.Add(new ChartNote(Convert.ToUInt32(parsed_line[0]),
+                                                                              Convert.ToInt32(parsed_line[4]),
+                                                                              NoteType.Red));
                                     break;
 
                                 case 2:
-                                    result_notechart.yellowNotes.Add(new ChartNote(Convert.ToUInt32(parsed_line[0]),
-                                                                               Convert.ToInt32(parsed_line[4])));
+                                    notechartToReturn.notes.Add(new ChartNote(Convert.ToUInt32(parsed_line[0]),
+                                                                              Convert.ToInt32(parsed_line[4]),
+                                                                              NoteType.Yellow));
                                     break;
 
                                 case 3:
-                                    result_notechart.blueNotes.Add(new ChartNote(Convert.ToUInt32(parsed_line[0]),
-                                                                             Convert.ToInt32(parsed_line[4])));
+                                    notechartToReturn.notes.Add(new ChartNote(Convert.ToUInt32(parsed_line[0]),
+                                                                              Convert.ToInt32(parsed_line[4]),
+                                                                              NoteType.Blue));
                                     break;
 
                                 case 4:
-                                    result_notechart.orangeNotes.Add(new ChartNote(Convert.ToUInt32(parsed_line[0]),
-                                                                               Convert.ToInt32(parsed_line[4])));
+                                    notechartToReturn.notes.Add(new ChartNote(Convert.ToUInt32(parsed_line[0]),
+                                                                              Convert.ToInt32(parsed_line[4]),
+                                                                              NoteType.Orange));
                                     break;
 
                                 default:
@@ -94,8 +99,9 @@ namespace MinGH.ChartImpl
 
                         // Also check for SP notes
                         if (parsed_line[2] == "S")
-                            result_notechart.SPNotes.Add(new ChartNote(Convert.ToUInt32(parsed_line[0]),
-                                                                   Convert.ToInt32(parsed_line[4])));
+                            notechartToReturn.SPNotes.Add(new ChartNote(Convert.ToUInt32(parsed_line[0]),
+                                                                        Convert.ToInt32(parsed_line[4]),
+                                                                        NoteType.SP));
                     }
                 }
             }
@@ -103,7 +109,7 @@ namespace MinGH.ChartImpl
             // Close the string stream
             pattern_stream.Close();
 
-            return result_notechart;
+            return notechartToReturn;
         }
     }
 }
