@@ -21,7 +21,7 @@ namespace MinGH.ChartImpl
         /// A chart info class that has every field filled out with information from
         /// the input chart file.
         /// </returns>
-        public ChartInfo Add_Song_Info(string inputFile)
+        public static ChartInfo AddSongInfo(string inputFile)
         {
             ChartInfo chartInfoToReturn = new ChartInfo();
             ProperStringCreator properStringCreator = new ProperStringCreator();
@@ -43,13 +43,29 @@ namespace MinGH.ChartImpl
 
                 // Check for various song infos and parse accordingly
                 if (parsed_line[0] == "Name")
+                {
                     chartInfoToReturn.songName = properStringCreator.createProperString(parsed_line.SubArray(2, parsed_line.Length));
+                }
 
-                if (parsed_line[0] == "Artist")
+                else if (parsed_line[0] == "Artist")
+                {
                     chartInfoToReturn.artistName = properStringCreator.createProperString(parsed_line.SubArray(2, parsed_line.Length));
+                }
 
-                if (parsed_line[0] == "Offset")
+                else if (parsed_line[0] == "Offset")
+                {
                     chartInfoToReturn.offset = float.Parse(parsed_line[2]);
+                }
+
+                else if (parsed_line[0] == "Resolution")
+                {
+                    chartInfoToReturn.resolution = int.Parse(parsed_line[2]);
+                }
+
+                else if (parsed_line[0] == "hopo_note")
+                {
+                    chartInfoToReturn.HOPOThreshold = int.Parse(parsed_line[2]);
+                }
             }
 
             // Close the string stream

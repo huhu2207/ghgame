@@ -94,7 +94,9 @@
   <ItemGroup>
     <Compile Include="ChartImpl\BPMChange.cs" />
     <Compile Include="ChartImpl\ChartBPMManager.cs" />
+    <Compile Include="ChartImpl\ChartChordManager.cs" />
     <Compile Include="ChartImpl\ChartEventManager.cs" />
+    <Compile Include="ChartImpl\ChartHOPOManager.cs" />
     <Compile Include="ChartImpl\ChartInfo.cs" />
     <Compile Include="ChartImpl\ChartInfoManager.cs" />
     <Compile Include="ChartImpl\ChartNotechartManager.cs" />

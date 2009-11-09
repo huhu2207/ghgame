@@ -22,7 +22,7 @@ namespace MinGH.ChartImpl
 		/// <returns>
 		/// A filled out Notechart containing the needed information from the *.chart file
 		/// </returns>
-        public Notechart GenerateNotechart(string chartname, string input_string)
+        public static Notechart GenerateNotechart(string chartname, string input_string)
         {
             // Single out the specified section via regular expressions
             string pattern = Regex.Escape("[") + chartname + "]\\s*" + Regex.Escape("{") + "[^}]*";

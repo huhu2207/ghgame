@@ -12,7 +12,7 @@ namespace MinGH.GameScreenImpl.GameScreenGameplaySinglePlayerImpl
                                        HorizontalHitBox hitBox, ref PlayerInformation playerInformation,
                                        bool useStrumming, IKeyboardInputManager keyboardInputManager)
         {
-            if (useStrumming == false)
+            if (useStrumming == true)
             {
                 if (keyboardInputManager.keyIsHit(Keys.Enter) && keyboardInputManager.keyIsHeld(Keys.A))
                 {
@@ -91,7 +91,7 @@ namespace MinGH.GameScreenImpl.GameScreenGameplaySinglePlayerImpl
             {
                 noteParticleExplosionEmitters.emitterList[noteColumn].Trigger(noteParticleExplosionEmitters.explosionLocations[noteColumn]);
                 physicalNotes[noteColumn, farthestNoteIndex].alive = false;
-                playerInformation.hitNote();
+                playerInformation.hitNote(physicalNotes[noteColumn, farthestNoteIndex].precedesHopo);
             }
             else
             {

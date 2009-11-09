@@ -56,6 +56,11 @@ namespace MinGH.Misc_Classes
         public uint currentScore;
 
         /// <summary>
+        /// If the user is currently playing hopos (and is not missing any).
+        /// </summary>
+        public bool inHOPOState;
+
+        /// <summary>
         /// Default constructor.
         /// </summary>
         public PlayerInformation()
@@ -64,6 +69,7 @@ namespace MinGH.Misc_Classes
             currentCombo = 0;
             currentMultiplier = 1;
             currentScore = 0;
+            inHOPOState = false;
         }
 
 		
@@ -72,6 +78,7 @@ namespace MinGH.Misc_Classes
 		/// </summary>
         public void missNote()
         {
+            inHOPOState = false;
             currentCombo = 0;
             currentMultiplier = 1;
             currentHealth -= missHealthPenalty;
@@ -81,9 +88,10 @@ namespace MinGH.Misc_Classes
 		/// <summary>
 		/// If the program deems the player hit a note, this function should be called.
 		/// </summary>
-        public void hitNote()
+        public void hitNote(bool nextNoteisHOPO)
         {
             currentCombo++;
+            inHOPOState = nextNoteisHOPO;
 
             if (currentHealth < maxHealth)
             {

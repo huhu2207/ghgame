@@ -15,6 +15,8 @@ namespace MinGH.ChartImpl
             artistName = "default";
             offset = 0.0f;
             chartLengthMiliseconds = 0;
+            HOPOThreshold = 12;
+            resolution = 192;
         }
 
         /// <summary>
@@ -36,6 +38,16 @@ namespace MinGH.ChartImpl
 		/// The total length of the chart in miliseconds.  This value is currently calculated
 		/// from the last event or note in the chart.
 		/// </summary>
-        public uint chartLengthMiliseconds; 
+        public uint chartLengthMiliseconds;
+
+        /// <summary>
+        /// What speed of notes will be hammerons (i.e. eights notes, quarter notes, etc.)
+        /// </summary>
+        public int HOPOThreshold;
+
+        /// <summary>
+        /// The number of ticks between two quarter notes (is almost always 192)
+        /// </summary>
+        public int resolution;
     }
 }

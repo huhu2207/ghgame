@@ -38,7 +38,7 @@ namespace MinGH.ChartImpl
         /// <returns>
         /// A notechart that is the same as the input notechart, but every note has a milisecond value filled out.
         /// </returns>
-        public Notechart GenerateTimeValues(Notechart inputNotechart, List<BPMChange> inputBPMChanges,
+        public static Notechart GenerateTimeValues(Notechart inputNotechart, List<BPMChange> inputBPMChanges,
                                            ref List<Event> inputEvents, float chartOffset, ref uint chartLengthMiliseconds)
         {
             double currentTick = 0.0;

@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MinGH.ChartImpl;
 
 namespace MinGH
 {
@@ -27,6 +28,10 @@ namespace MinGH
         public Note(Texture2D loadedTex, Rectangle spritePos, int offset)
             : base(loadedTex, spritePos, offset)
         {
+            isHopo = false;
+            precedesHopo = false;
+            isChord = false;
+            noteType = NoteType.Green;
         }
 
 		/// <summary>
@@ -34,5 +39,9 @@ namespace MinGH
 		/// but I'll keep it there for now).
 		/// </summary>
         public const int pointValue = 50;
+        public bool isHopo;
+        public bool precedesHopo;
+        public bool isChord;
+        public NoteType noteType;
     }
 }
