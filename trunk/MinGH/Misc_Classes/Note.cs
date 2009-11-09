@@ -28,10 +28,8 @@ namespace MinGH
         public Note(Texture2D loadedTex, Rectangle spritePos, int offset)
             : base(loadedTex, spritePos, offset)
         {
-            isHopo = false;
-            precedesHopo = false;
-            isChord = false;
-            noteType = NoteType.Green;
+            noteChartIndex = 0;
+
         }
 
 		/// <summary>
@@ -39,9 +37,10 @@ namespace MinGH
 		/// but I'll keep it there for now).
 		/// </summary>
         public const int pointValue = 50;
-        public bool isHopo;
-        public bool precedesHopo;
-        public bool isChord;
-        public NoteType noteType;
+
+        /// <summary>
+        /// Where the note is located on the currently playing notechart.
+        /// </summary>
+        public int noteChartIndex;
     }
 }
