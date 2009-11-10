@@ -126,6 +126,7 @@
     <Compile Include="GameStringImpl\GameStringManager.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="MinGH.cs" />
+    <Compile Include="Misc_Classes\KeyboardConfiguration.cs" />
     <Compile Include="Misc_Classes\Note.cs" />
     <Compile Include="Misc_Classes\PlayerInformation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

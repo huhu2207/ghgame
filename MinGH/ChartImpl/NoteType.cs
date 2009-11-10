@@ -7,6 +7,7 @@
         Yellow,
         Blue,
         Orange,
-        SP
+        SP,
+        None
     }
 }

@@ -29,7 +29,7 @@ namespace MinGH
             : base(loadedTex, spritePos, offset)
         {
             noteChartIndex = 0;
-
+            precedsHOPO = false;
         }
 
 		/// <summary>
@@ -42,5 +42,7 @@ namespace MinGH
         /// Where the note is located on the currently playing notechart.
         /// </summary>
         public int noteChartIndex;
+
+        public bool precedsHOPO;
     }
 }

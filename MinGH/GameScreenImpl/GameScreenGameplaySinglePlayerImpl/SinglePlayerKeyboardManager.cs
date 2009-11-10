@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework.Input;
+using MinGH.Misc_Classes;
 
 namespace MinGH.GameScreenImpl.GameScreenGameplaySinglePlayerImpl
 {
@@ -54,5 +55,38 @@ namespace MinGH.GameScreenImpl.GameScreenGameplaySinglePlayerImpl
                 return false;
             }
         }
+
+        public Keys getHighestHeldKey()
+        {
+            if (keyIsHeld(KeyboardConfiguration.orange))
+            {
+                return KeyboardConfiguration.orange;
+            }
+            else if (keyIsHeld(KeyboardConfiguration.blue))
+            {
+                return KeyboardConfiguration.blue;
+            }
+            else if (keyIsHeld(KeyboardConfiguration.yellow))
+            {
+                return KeyboardConfiguration.yellow;
+            }
+            else if (keyIsHeld(KeyboardConfiguration.red))
+            {
+                return KeyboardConfiguration.red;
+            }
+            else if (keyIsHeld(KeyboardConfiguration.green))
+            {
+                return KeyboardConfiguration.green;
+            }
+            else 
+            {
+                return Keys.None;
+            }
+        }
+
+        //public Keys getHighestHitKey()
+        //{
+
+        //}
     }
 }
