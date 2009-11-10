@@ -44,10 +44,14 @@ namespace MinGH.GameScreenImpl.GameScreenGameplaySinglePlayerImpl
                             physicalNotes[currentNoteset, i].alive = true;
                             physicalNotes[currentNoteset, i].noteChartIndex = inputNoteIterator;
 
-                            if ((inputNoteIterator != inputNotechart.notes.Count - 1) && 
+                            if ((inputNoteIterator != inputNotechart.notes.Count - 1) &&
                                 (inputNotechart.notes[inputNoteIterator + 1].isHOPO == true))
                             {
                                 physicalNotes[currentNoteset, i].precedsHOPO = true;
+                            }
+                            else
+                            {
+                                physicalNotes[currentNoteset, i].precedsHOPO = false;
                             }
 
                             float newNotePos = physicalNotes[currentNoteset, i].spriteSheetOffset + 196 + (noteSize * currentNoteset);
