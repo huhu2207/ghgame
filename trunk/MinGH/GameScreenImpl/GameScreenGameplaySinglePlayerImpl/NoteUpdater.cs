@@ -20,10 +20,11 @@ namespace MinGH.GameScreenImpl.GameScreenGameplaySinglePlayerImpl
             int currentNoteset = 0;
             // This check is here due to the final increment after the last note.
             // Once the last note passes (these two are equal), we get a out of bounds error.
-            if (!(inputNoteIterator >= inputNotechart.notes.Count))
+            
+            // If the current time > the next note to be drawn...
+            while (currentMsec >= inputNotechart.notes[inputNoteIterator].TimeValue)
             {
-                // If the current time > the next note to be drawn...
-                while (currentMsec >= inputNotechart.notes[inputNoteIterator].TimeValue)
+                if (!(inputNoteIterator >= inputNotechart.notes.Count))
                 {
                     currentNoteset = (int)inputNotechart.notes[inputNoteIterator].noteType;
 
