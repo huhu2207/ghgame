@@ -60,12 +60,6 @@ namespace MinGH.Misc_Classes
         public bool inHOPOState;
 
         /// <summary>
-        /// The index of the next hammer on note (so the player doesnt hammer on notes
-        /// he shouldnt be allowed to).
-        /// </summary>
-        public int nextExpectedHammerOnIndex;
-
-        /// <summary>
         /// Default constructor.
         /// </summary>
         public PlayerInformation()
@@ -93,10 +87,9 @@ namespace MinGH.Misc_Classes
 		/// <summary>
 		/// If the program deems the player hit a note, this function should be called.
 		/// </summary>
-        public void hitNote(bool nextNoteisHOPO)
+        public void hitNote()
         {
             currentCombo++;
-            inHOPOState = nextNoteisHOPO;
 
             if (currentHealth < maxHealth)
             {
@@ -115,7 +108,7 @@ namespace MinGH.Misc_Classes
                 currentMultiplier = (currentCombo / multiplierThreshold) + 1;
             }
 
-            currentScore += (uint)(currentMultiplier * (int)Note.pointValue);
+            currentScore += (uint)(currentMultiplier * Note.pointValue);
         }
     }
 }

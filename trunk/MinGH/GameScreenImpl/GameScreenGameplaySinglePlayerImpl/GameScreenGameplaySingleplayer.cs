@@ -32,7 +32,6 @@ namespace MinGH.GameScreenImpl
         int noteIterator;  // These iterators are used to keep track of which note to observe next
         const int noteLeftPadding = 196;  // How far from the left the green note is placed in pixels
         const int noteWidth = 86;  // How far each lane is on the background
-        const bool useStrumming = true;  // Wether strumming is used or not
 
         // Sprite Sheet Variables
         const int noteSpriteSheetOffset = 6;  // How many pixels pad the left side of a note on the sprite sheet
@@ -43,6 +42,7 @@ namespace MinGH.GameScreenImpl
         IKeyboardInputManager keyboardInputManager = new SinglePlayerKeyboardManager();
         HorizontalHitBox hitBox;
         PlayerInformation playerInformation = new PlayerInformation();
+        KeyboardConfiguration keyboardConfig = new KeyboardConfiguration();
 
         Chart mainChart;  // Create the chart file
         GameStringManager strManager = new GameStringManager();  // Stores each string and its position on the screen
@@ -169,16 +169,16 @@ namespace MinGH.GameScreenImpl
             keyboardInputManager.processKeyboardState(Keyboard.GetState());
             
             PlayerInputManager.processPlayerInput(Notes, noteParticleExplosionEmitters, hitBox,
-                                                  playerInformation, useStrumming, keyboardInputManager,
+                                                  playerInformation, keyboardInputManager,
                                                   mainChart.noteCharts[0]);
 
             NoteUpdater.updateNotes(mainChart.noteCharts[0], ref noteIterator, Notes, viewportRectangle,
                                     gameTime, noteVelocityMultiplier, noteWidth, currentMsec + noteVelocityConstant,
-                                    playerInformation, noteSpriteSheetSize);
+                                    noteSpriteSheetSize, playerInformation);
 
             // Update varous strings
             strManager.Set_String(0, "Current MSEC:\n" + Convert.ToString(currentMsec));
-            strManager.Set_String(1, "End MSEC:\n" + Convert.ToString(mainChart.chartInfo.chartLengthMiliseconds));
+            strManager.Set_String(1, "HOPO?:\n" + Convert.ToString(playerInformation.inHOPOState));
             strManager.Set_String(4, "Score: " + playerInformation.currentScore.ToString() + "\n\n" +
                                      "Multiplier : " + playerInformation.currentMultiplier.ToString() + "\n\n" +
                                      "Combo :" + playerInformation.currentCombo.ToString());

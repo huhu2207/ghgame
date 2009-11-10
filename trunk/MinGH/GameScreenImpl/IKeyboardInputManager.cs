@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework.Input;
+using MinGH.Misc_Classes;
 
 namespace MinGH.GameScreenImpl
 {
@@ -48,5 +49,7 @@ namespace MinGH.GameScreenImpl
         /// True or False.
         /// </returns>
         bool keyWasHeld(Keys key);
+
+        Keys getHighestHeldKey();
     }
 }
