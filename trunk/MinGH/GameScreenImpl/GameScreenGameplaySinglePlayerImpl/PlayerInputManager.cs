@@ -13,7 +13,7 @@ namespace MinGH.GameScreenImpl.GameScreenGameplaySinglePlayerImpl
                                               IKeyboardInputManager keyboardInputManager,
                                               Notechart inputNotechart)
         {
-            if (playerInformation.inHOPOState)
+            if (playerInformation.HOPOState)
             {
                 if (keyboardInputManager.getHighestHeldKey() != Keys.None)
                 {
@@ -96,16 +96,14 @@ namespace MinGH.GameScreenImpl.GameScreenGameplaySinglePlayerImpl
                     noteParticleExplosionEmitters.emitterList[farthestNoteColumn].Trigger(noteParticleExplosionEmitters.explosionLocations[farthestNoteColumn]);
                     physicalNotes[farthestNoteColumn, farthestNoteIndex].alive = false;
 
-                    if (physicalNotes[farthestNoteColumn, farthestNoteIndex].precedsHOPO == true)
+                    if (physicalNotes[farthestNoteColumn, farthestNoteIndex].precedsHOPO)
                     {
-                        playerInformation.inHOPOState = true;
+                        playerInformation.hitNote(true);
                     }
                     else
                     {
-                        playerInformation.inHOPOState = false;
+                        playerInformation.hitNote(false);
                     }
-
-                    playerInformation.hitNote();
                 }
             }
             else
