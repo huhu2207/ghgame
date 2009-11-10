@@ -178,7 +178,7 @@ namespace MinGH.GameScreenImpl
 
             // Update varous strings
             strManager.Set_String(0, "Current MSEC:\n" + Convert.ToString(currentMsec));
-            strManager.Set_String(1, "HOPO?:\n" + Convert.ToString(playerInformation.inHOPOState));
+            strManager.Set_String(1, "HOPO?:\n" + Convert.ToString(playerInformation.HOPOState));
             strManager.Set_String(4, "Score: " + playerInformation.currentScore.ToString() + "\n\n" +
                                      "Multiplier : " + playerInformation.currentMultiplier.ToString() + "\n\n" +
                                      "Combo :" + playerInformation.currentCombo.ToString());
