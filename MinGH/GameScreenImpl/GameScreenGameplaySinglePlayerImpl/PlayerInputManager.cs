@@ -40,28 +40,28 @@ namespace MinGH.GameScreenImpl.GameScreenGameplaySinglePlayerImpl
             int farthestNoteIndex = -1;
             int farthestNoteDistance = -1;
             int farthestNoteColumn = -1;
-            int currentNote = -1;
+            int hitNote = -1;
 
             // Convert the current key to a note type (maybe make a cast for this?)
             if (currentKey == KeyboardConfiguration.green)
             {
-                currentNote = 0;
+                hitNote = 0;
             }
             else if (currentKey == KeyboardConfiguration.red)
             {
-                currentNote = 1;
+                hitNote = 1;
             }
             else if (currentKey == KeyboardConfiguration.yellow)
             {
-                currentNote = 2;
+                hitNote = 2;
             }
             else if (currentKey == KeyboardConfiguration.blue)
             {
-                currentNote = 3;
+                hitNote = 3;
             }
             else if (currentKey == KeyboardConfiguration.orange)
             {
-                currentNote = 4;
+                hitNote = 4;
             }
 
             // Scan every physical note...
@@ -91,7 +91,7 @@ namespace MinGH.GameScreenImpl.GameScreenGameplaySinglePlayerImpl
 
             if ((farthestNoteIndex != -1) && (farthestNoteColumn != -1))
             {
-                if (currentNote == farthestNoteColumn)
+                if (hitNote == farthestNoteColumn)
                 {
                     noteParticleExplosionEmitters.emitterList[farthestNoteColumn].Trigger(noteParticleExplosionEmitters.explosionLocations[farthestNoteColumn]);
                     physicalNotes[farthestNoteColumn, farthestNoteIndex].alive = false;
