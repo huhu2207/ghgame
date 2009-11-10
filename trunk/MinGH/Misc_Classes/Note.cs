@@ -30,6 +30,18 @@ namespace MinGH
         {
             noteChartIndex = 0;
             precedsHOPO = false;
+            isUnhittable = false;
+        }
+
+        /// <summary>
+        /// Resets the note specific information for future use.
+        /// </summary>
+        public void ResetNote()
+        {
+            noteChartIndex = 0;
+            precedsHOPO = false;
+            isUnhittable = false;
+            spriteSheetRectangle.Y = 0;
         }
 
 		/// <summary>
@@ -43,6 +55,14 @@ namespace MinGH
         /// </summary>
         public int noteChartIndex;
 
+        /// <summary>
+        /// If the note is followed by a hammeron/pulloff.
+        /// </summary>
         public bool precedsHOPO;
+
+        /// <summary>
+        /// If the note is past the timing window and is not hittable
+        /// </summary>
+        public bool isUnhittable;
     }
 }
