@@ -14,7 +14,8 @@ namespace MinGH.GameScreenImpl.GameScreenGameplaySinglePlayerImpl
                                        Note[,] physicalNotes, Rectangle viewportRectangle,
                                        GameTime currTime, double noteVelocity,
                                        int noteSize, double currentMsec,
-                                       int spriteSheetSize, PlayerInformation playerInfo)
+                                       int spriteSheetSize, PlayerInformation playerInfo,
+                                       HorizontalHitBox hitBox)
         {
             int currentNoteset = 0;
             // This check is here due to the final increment after the last note.
@@ -31,14 +32,10 @@ namespace MinGH.GameScreenImpl.GameScreenGameplaySinglePlayerImpl
                     {
                         if (physicalNotes[currentNoteset, i].alive == false)
                         {
-
+                            physicalNotes[currentNoteset, i].ResetNote();
                             if (inputNotechart.notes[inputNoteIterator].isHOPO == true)
                             {
                                 physicalNotes[currentNoteset, i].spriteSheetRectangle.Y = spriteSheetSize;
-                            }
-                            else
-                            {
-                                physicalNotes[currentNoteset, i].spriteSheetRectangle.Y = 0;
                             }
 
                             physicalNotes[currentNoteset, i].alive = true;
@@ -48,10 +45,6 @@ namespace MinGH.GameScreenImpl.GameScreenGameplaySinglePlayerImpl
                                 (inputNotechart.notes[inputNoteIterator + 1].isHOPO == true))
                             {
                                 physicalNotes[currentNoteset, i].precedsHOPO = true;
-                            }
-                            else
-                            {
-                                physicalNotes[currentNoteset, i].precedsHOPO = false;
                             }
 
                             float newNotePos = physicalNotes[currentNoteset, i].spriteSheetOffset + 196 + (noteSize * currentNoteset);
@@ -73,12 +66,17 @@ namespace MinGH.GameScreenImpl.GameScreenGameplaySinglePlayerImpl
                         physicalNotes[i, j].position += new Vector2(0.0f, (float)(currTime.ElapsedGameTime.TotalMilliseconds * noteVelocity));
                     }
 
-                    // Kill any notes that managed to get past the previous check and left the screen
-                    // Also tell the player he missed a note.
+                    if ((physicalNotes[i, j].getCenterPosition().Y >= hitBox.centerLocation + HorizontalHitBox.goodThreshold) &&
+                        (physicalNotes[i, j].isUnhittable == false))
+                    {
+                        playerInfo.missNote();
+                        physicalNotes[i, j].isUnhittable = true;
+                    }
+
+                    // Actually kill the notes that leave the screen
                     if ((!viewportRectangle.Contains(new Point((int)physicalNotes[i, j].position.X,
                             (int)physicalNotes[i, j].position.Y))) && (physicalNotes[i, j].alive))
                     {
-                        playerInfo.missNote();
                         physicalNotes[i, j].alive = false;
                     }
                 }

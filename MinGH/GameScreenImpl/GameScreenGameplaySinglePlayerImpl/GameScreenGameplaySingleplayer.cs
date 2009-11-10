@@ -174,7 +174,7 @@ namespace MinGH.GameScreenImpl
 
             NoteUpdater.updateNotes(mainChart.noteCharts[0], ref noteIterator, Notes, viewportRectangle,
                                     gameTime, noteVelocityMultiplier, noteWidth, currentMsec + noteVelocityConstant,
-                                    noteSpriteSheetSize, playerInformation);
+                                    noteSpriteSheetSize, playerInformation, hitBox);
 
             // Update varous strings
             strManager.Set_String(0, "Current MSEC:\n" + Convert.ToString(currentMsec));
