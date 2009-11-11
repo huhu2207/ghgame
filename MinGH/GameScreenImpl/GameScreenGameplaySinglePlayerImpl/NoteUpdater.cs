@@ -26,6 +26,7 @@ namespace MinGH.GameScreenImpl.GameScreenGameplaySinglePlayerImpl
             {
                 if (!(inputNoteIterator >= inputNotechart.notes.Count))
                 {
+                    Point currentRoot = new Point(-1, -1);
                     for (int j = 0; j < inputNotechart.notes[inputNoteIterator].getNoteCount(); j++)
                     {
                         currentNoteset = inputNotechart.notes[inputNoteIterator].getNthNote(j);
@@ -54,6 +55,16 @@ namespace MinGH.GameScreenImpl.GameScreenGameplaySinglePlayerImpl
                                 if (inputNotechart.notes[inputNoteIterator].isChord)
                                 {
                                     physicalNotes[currentNoteset, i].isChord = true;
+                                    if (currentRoot == new Point(-1, -1))
+                                    {
+                                        physicalNotes[currentNoteset, i].rootNote = currentRoot;
+                                        currentRoot = new Point(currentNoteset, i);
+                                    }
+                                    else
+                                    {
+                                        physicalNotes[currentNoteset, i].rootNote = currentRoot;
+                                        currentRoot = new Point(currentNoteset, i);
+                                    }
                                 }
 
                                 float newNotePos = physicalNotes[currentNoteset, i].spriteSheetOffset + 196 + (noteSize * currentNoteset);

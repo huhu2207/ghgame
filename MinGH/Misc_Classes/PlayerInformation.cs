@@ -87,7 +87,7 @@ namespace MinGH.Misc_Classes
 		/// <summary>
 		/// If the program deems the player hit a note, this function should be called.
 		/// </summary>
-        public void hitNote(bool newHOPOState)
+        public void hitNote(bool newHOPOState, int pointValue)
         {
             currentCombo++;
             HOPOState = newHOPOState;
@@ -109,7 +109,7 @@ namespace MinGH.Misc_Classes
                 currentMultiplier = (currentCombo / multiplierThreshold) + 1;
             }
 
-            currentScore += (uint)(currentMultiplier * Note.pointValue);
+            currentScore += (uint)(currentMultiplier * pointValue);
         }
     }
 }
