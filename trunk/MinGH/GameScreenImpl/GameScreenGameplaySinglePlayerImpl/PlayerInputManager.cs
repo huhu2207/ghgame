@@ -43,8 +43,7 @@ namespace MinGH.GameScreenImpl.GameScreenGameplaySinglePlayerImpl
             int farthestNoteColumn = -1;
             int hitNote = -1;
             Keys currentKey = keyboardInputManager.getHighestHeldKey();
-            List<Point> hitboxNoteIndicies = new List<Point>();  // I use point as a 2 int struct
-
+         
             // Convert the current key to a note type (maybe make a cast for this?)
             if (currentKey == KeyboardConfiguration.green)
             {
@@ -79,11 +78,8 @@ namespace MinGH.GameScreenImpl.GameScreenGameplaySinglePlayerImpl
                         // If the current physical note is alive and inside the hitbox...
                         if (hitBox.physicalHitbox.Contains(currentCenterPoint))
                         {
-                            // Store every note in the hitbox incase a chord is hit
-                            hitboxNoteIndicies.Add(new Point(i, j));
-
                             // and has the farthest distance from the top
-                            if (currentCenterPoint.Y > farthestNoteDistance)
+                            if (currentCenterPoint.Y >= farthestNoteDistance)
                             {
                                 // set it to be the note to explode
                                 farthestNoteDistance = currentCenterPoint.Y;
@@ -106,17 +102,64 @@ namespace MinGH.GameScreenImpl.GameScreenGameplaySinglePlayerImpl
                        (farthestNoteDistance > hitBox.centerLocation) ||
                        (wasStrummed))
                     {
-                        noteParticleExplosionEmitters.emitterList[farthestNoteColumn].Trigger(noteParticleExplosionEmitters.explosionLocations[farthestNoteColumn]);
-                        physicalNotes[farthestNoteColumn, farthestNoteIndex].alive = false;
-
-                        if (physicalNotes[farthestNoteColumn, farthestNoteIndex].precedsHOPO)
+                        if (physicalNotes[farthestNoteColumn, farthestNoteIndex].rootNote != new Point(-1, -1))
                         {
-                            playerInformation.hitNote(true);
+                            int chordDegree = 1;
+                            bool missedChord = false;
+                            Point currentRoot = physicalNotes[farthestNoteColumn, farthestNoteIndex].rootNote;
+
+                            while (currentRoot != new Point(-1, -1))
+                            {
+                                if (keyboardInputManager.keyIsHeld(KeyboardConfiguration.getKey(currentRoot.X)))
+                                {
+                                    currentRoot = physicalNotes[currentRoot.X, currentRoot.Y].rootNote;
+                                }
+                                else
+                                {
+                                    missedChord = true;
+                                    break;
+                                }
+                                chordDegree++;
+                            }
+
+                            if (!missedChord)
+                            {
+                                noteParticleExplosionEmitters.emitterList[farthestNoteColumn].Trigger(noteParticleExplosionEmitters.explosionLocations[farthestNoteColumn]);
+                                physicalNotes[farthestNoteColumn, farthestNoteIndex].alive = false;
+
+                                currentRoot = physicalNotes[farthestNoteColumn, farthestNoteIndex].rootNote;
+                                while (currentRoot != new Point(-1, -1))
+                                {
+                                    noteParticleExplosionEmitters.emitterList[currentRoot.X].Trigger(noteParticleExplosionEmitters.explosionLocations[currentRoot.X]);
+                                    physicalNotes[currentRoot.X, currentRoot.Y].alive = false;
+                                    currentRoot = physicalNotes[currentRoot.X, currentRoot.Y].rootNote;
+                                }
+
+                                if (physicalNotes[farthestNoteColumn, farthestNoteIndex].precedsHOPO)
+                                {
+                                    playerInformation.hitNote(true, Note.pointValue * chordDegree);
+                                }
+                                else
+                                {
+                                    playerInformation.hitNote(false, Note.pointValue * chordDegree);
+                                }
+                            }
                         }
                         else
                         {
-                            playerInformation.hitNote(false);
+                            noteParticleExplosionEmitters.emitterList[farthestNoteColumn].Trigger(noteParticleExplosionEmitters.explosionLocations[farthestNoteColumn]);
+                            physicalNotes[farthestNoteColumn, farthestNoteIndex].alive = false;
+
+                            if (physicalNotes[farthestNoteColumn, farthestNoteIndex].precedsHOPO)
+                            {
+                                playerInformation.hitNote(true, Note.pointValue);
+                            }
+                            else
+                            {
+                                playerInformation.hitNote(false, Note.pointValue);
+                            }
                         }
+
                     }
                 }
             }

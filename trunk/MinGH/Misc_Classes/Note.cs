@@ -32,6 +32,7 @@ namespace MinGH
             precedsHOPO = false;
             isUnhittable = false;
             isChord = false;
+            rootNote = new Point();
         }
 
         /// <summary>
@@ -44,6 +45,7 @@ namespace MinGH
             isUnhittable = false;
             isChord = false;
             spriteSheetRectangle.Y = 0;
+            rootNote = new Point(-1 , -1);
         }
 
 		/// <summary>
@@ -71,5 +73,12 @@ namespace MinGH
         /// Is this note part of a chord.
         /// </summary>
         public bool isChord;
+
+        /// <summary>
+        /// The next lower placed note in a chord (emulates a linked list where the highest
+        /// note points to the 2nd highest and so on).
+        /// NOTE: -1, -1 is used to mean that this note IS the root note (or a single note).
+        /// </summary>
+        public Point rootNote;
     }
 }
