@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Input;
 using MinGH.Misc_Classes;
 using MinGH.ChartImpl;
+using System.Collections.Generic;
 
 namespace MinGH.GameScreenImpl.GameScreenGameplaySinglePlayerImpl
 {
@@ -17,7 +18,7 @@ namespace MinGH.GameScreenImpl.GameScreenGameplaySinglePlayerImpl
             {
                 if (keyboardInputManager.getHighestHeldKey() != Keys.None)
                 {
-                    triggerInput(physicalNotes, noteParticleExplosionEmitters, hitBox, keyboardInputManager.getHighestHeldKey(), playerInformation, inputNotechart, false);
+                    triggerInput(physicalNotes, noteParticleExplosionEmitters, hitBox, keyboardInputManager, playerInformation, inputNotechart, false);
                 }
             }
             else
@@ -25,15 +26,15 @@ namespace MinGH.GameScreenImpl.GameScreenGameplaySinglePlayerImpl
                 if (keyboardInputManager.keyIsHit(KeyboardConfiguration.strum) &&
                     (keyboardInputManager.getHighestHeldKey() != Keys.None))
                 {
-                    triggerInput(physicalNotes, noteParticleExplosionEmitters, hitBox, keyboardInputManager.getHighestHeldKey(), playerInformation, inputNotechart, true);
+                    triggerInput(physicalNotes, noteParticleExplosionEmitters, hitBox, keyboardInputManager, playerInformation, inputNotechart, true);
                 }
             }
         }
 
         private static void triggerInput(Note[,] physicalNotes,
                                          NoteParticleExplosionEmitters noteParticleExplosionEmitters,
-                                         HorizontalHitBox hitBox,
-                                         Keys currentKey, PlayerInformation playerInformation,
+                                         HorizontalHitBox hitBox, IKeyboardInputManager keyboardInputManager, 
+                                         PlayerInformation playerInformation,
                                          Notechart inputNotechart, bool wasStrummed)
         {
             Point currentCenterPoint = new Point();
@@ -41,6 +42,8 @@ namespace MinGH.GameScreenImpl.GameScreenGameplaySinglePlayerImpl
             int farthestNoteDistance = -1;
             int farthestNoteColumn = -1;
             int hitNote = -1;
+            Keys currentKey = keyboardInputManager.getHighestHeldKey();
+            List<Point> hitboxNoteIndicies = new List<Point>();  // I use point as a 2 int struct
 
             // Convert the current key to a note type (maybe make a cast for this?)
             if (currentKey == KeyboardConfiguration.green)
@@ -76,6 +79,9 @@ namespace MinGH.GameScreenImpl.GameScreenGameplaySinglePlayerImpl
                         // If the current physical note is alive and inside the hitbox...
                         if (hitBox.physicalHitbox.Contains(currentCenterPoint))
                         {
+                            // Store every note in the hitbox incase a chord is hit
+                            hitboxNoteIndicies.Add(new Point(i, j));
+
                             // and has the farthest distance from the top
                             if (currentCenterPoint.Y > farthestNoteDistance)
                             {
@@ -89,20 +95,28 @@ namespace MinGH.GameScreenImpl.GameScreenGameplaySinglePlayerImpl
                 }
             }
 
+            // If a note was found, process the players input.
             if ((farthestNoteIndex != -1) && (farthestNoteColumn != -1))
             {
                 if (hitNote == farthestNoteColumn)
                 {
-                    noteParticleExplosionEmitters.emitterList[farthestNoteColumn].Trigger(noteParticleExplosionEmitters.explosionLocations[farthestNoteColumn]);
-                    physicalNotes[farthestNoteColumn, farthestNoteIndex].alive = false;
+                    // Dont hit the note if the player was holding prior to the note entering the hit window
+                    // unless they strummed (or explicitly hit the note)
+                    if (keyboardInputManager.keyIsHit(KeyboardConfiguration.getKey(hitNote)) ||
+                       (farthestNoteDistance > hitBox.centerLocation) ||
+                       (wasStrummed))
+                    {
+                        noteParticleExplosionEmitters.emitterList[farthestNoteColumn].Trigger(noteParticleExplosionEmitters.explosionLocations[farthestNoteColumn]);
+                        physicalNotes[farthestNoteColumn, farthestNoteIndex].alive = false;
 
-                    if (physicalNotes[farthestNoteColumn, farthestNoteIndex].precedsHOPO)
-                    {
-                        playerInformation.hitNote(true);
-                    }
-                    else
-                    {
-                        playerInformation.hitNote(false);
+                        if (physicalNotes[farthestNoteColumn, farthestNoteIndex].precedsHOPO)
+                        {
+                            playerInformation.hitNote(true);
+                        }
+                        else
+                        {
+                            playerInformation.hitNote(false);
+                        }
                     }
                 }
             }

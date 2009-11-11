@@ -19,6 +19,11 @@ namespace MinGH.GameScreenImpl.GameScreenGameplaySinglePlayerImpl
             currentState = inputState;
         }
 
+        public KeyboardState getCurrentState()
+        {
+            return currentState;
+        }
+
         public bool keyIsHit(Keys key)
         {
             if ((currentState.IsKeyDown(key) && previousState.IsKeyUp(key)))
