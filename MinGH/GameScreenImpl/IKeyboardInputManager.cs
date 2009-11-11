@@ -18,6 +18,14 @@ namespace MinGH.GameScreenImpl
         void processKeyboardState(KeyboardState inputState);
 
         /// <summary>
+        /// Returns the current keyboard state.
+        /// </summary>
+        /// <returns>
+        /// currentState.
+        /// </returns>
+        KeyboardState getCurrentState();
+
+        /// <summary>
         /// Checks if key was hit during the check.
         /// </summary>
         /// <param name="key">

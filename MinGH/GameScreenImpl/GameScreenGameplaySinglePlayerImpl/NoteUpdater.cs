@@ -26,31 +26,40 @@ namespace MinGH.GameScreenImpl.GameScreenGameplaySinglePlayerImpl
             {
                 if (!(inputNoteIterator >= inputNotechart.notes.Count))
                 {
-                    currentNoteset = (int)inputNotechart.notes[inputNoteIterator].noteType;
-
-                    // Look for a spot to draw the note
-                    for (int i = 0; i < physicalNotes.GetLength(1); i++)
+                    for (int j = 0; j < inputNotechart.notes[inputNoteIterator].getNoteCount(); j++)
                     {
-                        if (physicalNotes[currentNoteset, i].alive == false)
+                        currentNoteset = inputNotechart.notes[inputNoteIterator].getNthNote(j);
+
+                        // Look for a spot to draw the note
+                        for (int i = 0; i < physicalNotes.GetLength(1); i++)
                         {
-                            physicalNotes[currentNoteset, i].ResetNote();
-                            if (inputNotechart.notes[inputNoteIterator].isHOPO == true)
+                            if (physicalNotes[currentNoteset, i].alive == false)
                             {
-                                physicalNotes[currentNoteset, i].spriteSheetRectangle.Y = spriteSheetSize;
+                                // Reset the note and apply the various properties
+                                physicalNotes[currentNoteset, i].ResetNote();
+                                if (inputNotechart.notes[inputNoteIterator].isHOPO == true)
+                                {
+                                    physicalNotes[currentNoteset, i].spriteSheetRectangle.Y = spriteSheetSize;
+                                }
+
+                                physicalNotes[currentNoteset, i].alive = true;
+                                physicalNotes[currentNoteset, i].noteChartIndex = inputNoteIterator;
+
+                                if ((inputNoteIterator != inputNotechart.notes.Count - 1) &&
+                                    (inputNotechart.notes[inputNoteIterator + 1].isHOPO == true))
+                                {
+                                    physicalNotes[currentNoteset, i].precedsHOPO = true;
+                                }
+
+                                if (inputNotechart.notes[inputNoteIterator].isChord)
+                                {
+                                    physicalNotes[currentNoteset, i].isChord = true;
+                                }
+
+                                float newNotePos = physicalNotes[currentNoteset, i].spriteSheetOffset + 196 + (noteSize * currentNoteset);
+                                physicalNotes[currentNoteset, i].position = new Vector2(newNotePos, 0f);
+                                break;
                             }
-
-                            physicalNotes[currentNoteset, i].alive = true;
-                            physicalNotes[currentNoteset, i].noteChartIndex = inputNoteIterator;
-
-                            if ((inputNoteIterator != inputNotechart.notes.Count - 1) &&
-                                (inputNotechart.notes[inputNoteIterator + 1].isHOPO == true))
-                            {
-                                physicalNotes[currentNoteset, i].precedsHOPO = true;
-                            }
-
-                            float newNotePos = physicalNotes[currentNoteset, i].spriteSheetOffset + 196 + (noteSize * currentNoteset);
-                            physicalNotes[currentNoteset, i].position = new Vector2(newNotePos, 0f);
-                            break;
                         }
                     }
                     inputNoteIterator++;

@@ -58,7 +58,6 @@ namespace MinGH.ChartImpl
                                      ref events, chartInfo.offset, ref chartInfo.chartLengthMiliseconds);
 
                     noteCharts[i] = ChartHOPOManager.AssignHOPOS(noteCharts[i], chartInfo);
-                    noteCharts[i] = ChartChordManager.AssignChords(noteCharts[i]);
                 }
 
                 // Close the input stream

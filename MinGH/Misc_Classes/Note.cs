@@ -31,6 +31,7 @@ namespace MinGH
             noteChartIndex = 0;
             precedsHOPO = false;
             isUnhittable = false;
+            isChord = false;
         }
 
         /// <summary>
@@ -41,6 +42,7 @@ namespace MinGH
             noteChartIndex = 0;
             precedsHOPO = false;
             isUnhittable = false;
+            isChord = false;
             spriteSheetRectangle.Y = 0;
         }
 
@@ -64,5 +66,10 @@ namespace MinGH
         /// If the note is past the timing window and is not hittable
         /// </summary>
         public bool isUnhittable;
+
+        /// <summary>
+        /// Is this note part of a chord.
+        /// </summary>
+        public bool isChord;
     }
 }

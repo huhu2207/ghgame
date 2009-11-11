@@ -4,24 +4,24 @@ using System.Text.RegularExpressions;
 
 namespace MinGH.ChartImpl
 {
-	/// <remarks>
-	/// A manager class that reads in all notes from a specific notechart within a *.chart file.
-	/// </remarks>
+    /// <remarks>
+    /// A manager class that reads in all notes from a specific notechart within a *.chart file.
+    /// </remarks>
     class ChartNotechartManager
     {
-		/// <summary>
-		/// Creates a notechart from the specified file and the actual charttype
-		/// (i.e. ExpertSingle from Freebird.chart)
-		/// </summary>
-		/// <param name="chartname">
-		/// The specific notechart to be taken from the *.chart file (i.e. ExpertSingle).
-		/// </param>
-		/// <param name="input_string">
-		/// The whole *.chart file stored in one massive string.
-		/// </param>
-		/// <returns>
-		/// A filled out Notechart containing the needed information from the *.chart file
-		/// </returns>
+        /// <summary>
+        /// Creates a notechart from the specified file and the actual charttype
+        /// (i.e. ExpertSingle from Freebird.chart)
+        /// </summary>
+        /// <param name="chartname">
+        /// The specific notechart to be taken from the *.chart file (i.e. ExpertSingle).
+        /// </param>
+        /// <param name="input_string">
+        /// The whole *.chart file stored in one massive string.
+        /// </param>
+        /// <returns>
+        /// A filled out Notechart containing the needed information from the *.chart file
+        /// </returns>
         public static Notechart GenerateNotechart(string chartname, string input_string)
         {
             // Single out the specified section via regular expressions
@@ -46,6 +46,7 @@ namespace MinGH.ChartImpl
             // Else, read in all the chart information
             else
             {
+                int i = 0;
                 while ((current_line = pattern_stream.ReadLine()) != null)
                 {
                     // Trim and split the line to retrieve information
@@ -57,58 +58,89 @@ namespace MinGH.ChartImpl
                     {
                         if (parsed_line[2] == "N")
                         {
-                            // Find out which note the current line is, and add it to the respective list
-                            switch (Convert.ToInt32(parsed_line[3]))
+                            if ((notechartToReturn.notes.Count > 0) &&
+                                (Convert.ToUInt32(parsed_line[0]) == notechartToReturn.notes[notechartToReturn.notes.Count - 1].TickValue))
                             {
-                                case 0:
-                                    notechartToReturn.notes.Add(new ChartNote(Convert.ToUInt32(parsed_line[0]),
-                                                                              Convert.ToInt32(parsed_line[4]),
-                                                                              NoteType.Green));
-                                    break;
+                                switch (Convert.ToInt32(parsed_line[3]))
+                                {
+                                    case 0:
+                                        notechartToReturn.notes[notechartToReturn.notes.Count - 1].addNote(0);
+                                        break;
 
-                                case 1:
-                                    notechartToReturn.notes.Add(new ChartNote(Convert.ToUInt32(parsed_line[0]),
-                                                                              Convert.ToInt32(parsed_line[4]),
-                                                                              NoteType.Red));
-                                    break;
+                                    case 1:
+                                        notechartToReturn.notes[notechartToReturn.notes.Count - 1].addNote(1);
+                                        break;
 
-                                case 2:
-                                    notechartToReturn.notes.Add(new ChartNote(Convert.ToUInt32(parsed_line[0]),
-                                                                              Convert.ToInt32(parsed_line[4]),
-                                                                              NoteType.Yellow));
-                                    break;
+                                    case 2:
+                                        notechartToReturn.notes[notechartToReturn.notes.Count - 1].addNote(2);
+                                        break;
 
-                                case 3:
-                                    notechartToReturn.notes.Add(new ChartNote(Convert.ToUInt32(parsed_line[0]),
-                                                                              Convert.ToInt32(parsed_line[4]),
-                                                                              NoteType.Blue));
-                                    break;
+                                    case 3:
+                                        notechartToReturn.notes[notechartToReturn.notes.Count - 1].addNote(3);
+                                        break;
 
-                                case 4:
-                                    notechartToReturn.notes.Add(new ChartNote(Convert.ToUInt32(parsed_line[0]),
-                                                                              Convert.ToInt32(parsed_line[4]),
-                                                                              NoteType.Orange));
-                                    break;
+                                    case 4:
+                                        notechartToReturn.notes[notechartToReturn.notes.Count - 1].addNote(4);
+                                        break;
 
-                                default:
-                                    Console.WriteLine("ERROR: Invalid Note Detcted.  Skipping...");
-                                    break;
+                                    default:
+                                        Console.WriteLine("ERROR: Invalid Note Detcted.  Skipping...");
+                                        break;
+                                }
                             }
+                            else
+                            {
+                                // Find out which note the current line is, and add it to the respective list
+                                switch (Convert.ToInt32(parsed_line[3]))
+                                {
+                                    case 0:
+                                        notechartToReturn.notes.Add(new ChartNote(Convert.ToUInt32(parsed_line[0]),
+                                                                                  Convert.ToInt32(parsed_line[4]),
+                                                                                  0));
+                                        break;
 
+                                    case 1:
+                                        notechartToReturn.notes.Add(new ChartNote(Convert.ToUInt32(parsed_line[0]),
+                                                                                  Convert.ToInt32(parsed_line[4]),
+                                                                                  1));
+                                        break;
+
+                                    case 2:
+                                        notechartToReturn.notes.Add(new ChartNote(Convert.ToUInt32(parsed_line[0]),
+                                                                                  Convert.ToInt32(parsed_line[4]),
+                                                                                  2));
+                                        break;
+
+                                    case 3:
+                                        notechartToReturn.notes.Add(new ChartNote(Convert.ToUInt32(parsed_line[0]),
+                                                                                  Convert.ToInt32(parsed_line[4]),
+                                                                                  3));
+                                        break;
+
+                                    case 4:
+                                        notechartToReturn.notes.Add(new ChartNote(Convert.ToUInt32(parsed_line[0]),
+                                                                                  Convert.ToInt32(parsed_line[4]),
+                                                                                  4));
+                                        break;
+
+                                    default:
+                                        Console.WriteLine("ERROR: Invalid Note Detcted.  Skipping...");
+                                        break;
+                                }
+                            }
                         }
-
                         // Also check for SP notes
-                        if (parsed_line[2] == "S")
+                        else if (parsed_line[2] == "S")
                             notechartToReturn.SPNotes.Add(new ChartNote(Convert.ToUInt32(parsed_line[0]),
                                                                         Convert.ToInt32(parsed_line[4]),
-                                                                        NoteType.SP));
+                                                                        5));
                     }
+                    i++;
                 }
             }
 
             // Close the string stream
             pattern_stream.Close();
-
             return notechartToReturn;
         }
     }
