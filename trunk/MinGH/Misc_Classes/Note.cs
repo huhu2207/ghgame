@@ -33,6 +33,7 @@ namespace MinGH
             isUnhittable = false;
             isChord = false;
             rootNote = new Point();
+            wasTicked = false;
         }
 
         /// <summary>
@@ -46,6 +47,7 @@ namespace MinGH
             isChord = false;
             spriteSheetRectangle.Y = 0;
             rootNote = new Point(-1 , -1);
+            wasTicked = false;
         }
 
 		/// <summary>
@@ -80,5 +82,11 @@ namespace MinGH
         /// NOTE: -1, -1 is used to mean that this note IS the root note (or a single note).
         /// </summary>
         public Point rootNote;
+
+        /// <summary>
+        /// Just a checker for when tick mode is on.  Don't want the tick to shoot off
+        /// repeatedly after passing the center.
+        /// </summary>
+        public bool wasTicked;
     }
 }
