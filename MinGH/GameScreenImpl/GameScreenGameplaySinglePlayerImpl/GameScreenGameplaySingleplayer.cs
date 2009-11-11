@@ -28,7 +28,7 @@ namespace MinGH.GameScreenImpl
         const double noteVelocityMultiplier = 0.7;  // Current speed in which the notes will move
         // The number of miliseconds to speed up the notes so they appear on time (Global Offset)
         // NOTE: 505 is the magic number constant for a 1.0 multiplier, it gets adjusted to the current multiplier in Initialization()
-        double noteVelocityConstant = 490;
+        double noteVelocityConstant = 475;
         int noteIterator;  // These iterators are used to keep track of which note to observe next
         const int noteLeftPadding = 196;  // How far from the left the green note is placed in pixels
         const int noteWidth = 86;  // How far each lane is on the background
@@ -49,10 +49,14 @@ namespace MinGH.GameScreenImpl
 
         // Variables related to the audio playing and note syncing
         private FMOD.System system = new FMOD.System();
-        private FMOD.Channel channel = new FMOD.Channel();
-        private FMOD.Sound sound = new FMOD.Sound();
+        private FMOD.Channel musicChannel = new FMOD.Channel();
+        private FMOD.Channel tickChannel = new FMOD.Channel();
+        private FMOD.Sound musicSound = new FMOD.Sound();
+        private FMOD.Sound tickSound = new FMOD.Sound();
+        RESULT result = new RESULT();
         uint currentMsec = 0;
         bool audioIsPlaying = false;  // So we don't play the song again every single update
+        bool useAudioTicker = false;
 
         // Project Mercury Particle Engine related variables
         NoteParticleExplosionEmitters noteParticleExplosionEmitters = new NoteParticleExplosionEmitters();
@@ -158,12 +162,29 @@ namespace MinGH.GameScreenImpl
                 //audio_engine.Play2D("guitar.ogg", true);
                 FMOD.Factory.System_Create(ref system);
                 system.init(32, INITFLAGS.NORMAL, (IntPtr)null);
-                system.createSound("./guitar.ogg", MODE.HARDWARE, ref sound);
-                system.playSound(CHANNELINDEX.FREE, sound, false, ref channel);
+                system.createSound("./guitar.ogg", MODE.HARDWARE, ref musicSound);
+                system.playSound(CHANNELINDEX.FREE, musicSound, false, ref musicChannel);
                 audioIsPlaying = true;
+                system.createSound("./tick.ogg", MODE.HARDWARE, ref tickSound);
             }
 
-            channel.getPosition(ref currentMsec, TIMEUNIT.MS);
+            musicChannel.getPosition(ref currentMsec, TIMEUNIT.MS);
+
+            // Update audio ticker
+            if (useAudioTicker)
+            {
+                for (int i = 0; i < Notes.GetLength(0); i++)
+                {
+                    for (int j = 0; j < Notes.GetLength(1); j++)
+                    {
+                        if ((!Notes[i, j].wasTicked) && (Notes[i, j].getCenterPosition().Y > hitBox.centerLocation))
+                        {
+                            result = system.playSound(CHANNELINDEX.FREE, tickSound, false, ref tickChannel);
+                            Notes[i, j].wasTicked = true;
+                        }
+                    }
+                }
+            }
 
             // Get the current keyboard state
             keyboardInputManager.processKeyboardState(Keyboard.GetState());
@@ -184,10 +205,13 @@ namespace MinGH.GameScreenImpl
                                      "Combo :" + playerInformation.currentCombo.ToString());
             strManager.Set_String(5, "Health: " + playerInformation.currentHealth.ToString());
 
+            // Update the FMOD system
+            system.update();
+
             // Stop playing music when chart is over
             if (currentMsec > mainChart.chartInfo.chartLengthMiliseconds)
             {
-                channel.stop();
+                musicChannel.stop();
             }
 
             // Update every particle explosion
