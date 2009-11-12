@@ -111,6 +111,9 @@
     <Compile Include="Extensions\SubArrayExtension.cs" />
     <Compile Include="FMOD\fmod.cs" />
     <Compile Include="FMOD\fmod_dsp.cs" />
+    <Compile Include="GameScreenImpl\BlankScreen\BlankScreen.cs" />
+    <Compile Include="GameScreenImpl\BlankScreen\BlankScreenStringInitalizer.cs" />
+    <Compile Include="GameScreenImpl\GameScreenEnum.cs" />
     <Compile Include="GameScreenImpl\GameScreenGameplaySinglePlayerImpl\GameScreenGameplaySingleplayer.cs" />
     <Compile Include="GameScreenImpl\GameScreenGameplaySinglePlayerImpl\HorizontalHitBox.cs" />
     <Compile Include="GameScreenImpl\GameScreenGameplaySinglePlayerImpl\NoteParticleExplosionEmitters.cs" />
@@ -118,7 +121,7 @@
     <Compile Include="GameScreenImpl\GameScreenGameplaySinglePlayerImpl\PlayerInputManager.cs" />
     <Compile Include="GameScreenImpl\GameScreenGameplaySinglePlayerImpl\SinglePlayerKeyboardManager.cs" />
     <Compile Include="GameScreenImpl\GameScreenGameplaySinglePlayerImpl\SinglePlayerStringInitializer.cs" />
-    <Compile Include="GameScreenImpl\IGameScreen.cs" />
+    <Compile Include="GameScreenImpl\GameScreen.cs" />
     <Compile Include="GameScreenImpl\IKeyboardInputManager.cs" />
     <Compile Include="GameStringImpl\GameString.cs" />
     <Compile Include="Misc_Classes\GameObject.cs" />

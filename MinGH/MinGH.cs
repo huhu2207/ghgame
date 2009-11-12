@@ -2,6 +2,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using MinGH.GameScreenImpl;
+using System.Collections.Generic;
+using MinGH.GameScreenImpl.BlankScreen;
 
 namespace MinGH
 {
@@ -12,11 +14,12 @@ namespace MinGH
     {
         // Global Content
         GraphicsDeviceManager graphics;
-        IGameScreen singlePlayerGameScreen;
+        List<GameScreen> gameScreenList = new List<GameScreen>();
 
         public MinGHMain()
         {
-            singlePlayerGameScreen = new GameScreenGameplaySingleplayer();
+            gameScreenList.Add(new GameScreenGameplaySingleplayer());
+            gameScreenList.Add(new BlankScreen());
 
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
@@ -31,7 +34,10 @@ namespace MinGH
         protected override void Initialize()
         {
             Window.Title = "MinGH";
-            singlePlayerGameScreen.Initialize(graphics);
+            foreach (GameScreen currScreen in gameScreenList)
+            {
+                currScreen.Initialize(graphics);
+            }
             base.Initialize();
         }
 
@@ -41,7 +47,13 @@ namespace MinGH
         /// </summary>
         protected override void LoadContent()
         {
-            singlePlayerGameScreen.LoadContent(Content, graphics);
+            foreach (GameScreen currScreen in gameScreenList)
+            {
+                if (currScreen.isActive)
+                {
+                    currScreen.LoadContent(Content, graphics);
+                }
+            }
         }
 
         /// <summary>
@@ -50,7 +62,10 @@ namespace MinGH
         /// </summary>
         protected override void UnloadContent()
         {
-            singlePlayerGameScreen.UnloadContent();
+            foreach (GameScreen currScreen in gameScreenList)
+            {
+                currScreen.UnloadContent();
+            }
         }
 
         /// <summary>
@@ -64,7 +79,13 @@ namespace MinGH
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
 
-            singlePlayerGameScreen.Update(gameTime);
+            foreach (GameScreen currScreen in gameScreenList)
+            {
+                if (currScreen.isActive)
+                {
+                    currScreen.Update(gameTime);
+                }
+            }
 
             base.Update(gameTime);
         }
@@ -77,8 +98,13 @@ namespace MinGH
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            singlePlayerGameScreen.Draw(gameTime);
-
+            foreach (GameScreen currScreen in gameScreenList)
+            {
+                if (currScreen.isActive)
+                {
+                    currScreen.Draw(gameTime);
+                }
+            }
             base.Draw(gameTime);
         }
     }
