@@ -17,7 +17,7 @@ namespace MinGH.GameScreenImpl
     /// <summary>
     /// Contains all functionality and data to display a single player session of MinGH
     /// </summary>
-    class GameScreenGameplaySingleplayer : IGameScreen
+    class GameScreenGameplaySingleplayer : GameScreen
     {
         SpriteBatch spriteBatch;  // Draws the shapes
         Rectangle viewportRectangle;  // The window itself
@@ -63,8 +63,11 @@ namespace MinGH.GameScreenImpl
         PointSpriteRenderer renderer = new PointSpriteRenderer();
         ColorModifier modifier = new ColorModifier();
 
-        public void Initialize(GraphicsDeviceManager graphics)
+        public override void Initialize(GraphicsDeviceManager graphics)
         {
+            gameScreenType = GameScreenEnum.GameplaySinglePlayer;
+            isActive = true;
+
             // Setup the strings
             SinglePlayerStringInitializer.initializeStrings(ref strManager, graphics.GraphicsDevice.Viewport.Width,
                                graphics.GraphicsDevice.Viewport.Height);
@@ -92,7 +95,7 @@ namespace MinGH.GameScreenImpl
             }
         }
 
-        public void LoadContent(ContentManager content, GraphicsDeviceManager graphics)
+        public override void LoadContent(ContentManager content, GraphicsDeviceManager graphics)
         {
             game_font = content.Load<SpriteFont>("Arial");  // Load the font
             mainChart = new Chart("chart.chart");  // Setup the chart
@@ -150,11 +153,11 @@ namespace MinGH.GameScreenImpl
             }
         }
 
-        public void UnloadContent()
+        public override void UnloadContent()
         {
         }
 
-        public void Update(GameTime gameTime)
+        public override void Update(GameTime gameTime)
         {
             // Start the song immediately
             if (audioIsPlaying == false)
@@ -208,8 +211,9 @@ namespace MinGH.GameScreenImpl
             // Update the FMOD system
             system.update();
 
-            // Stop playing music when chart is over
-            if (currentMsec > mainChart.chartInfo.chartLengthMiliseconds)
+            // Stop playing music when chart is over or when the screen goes inactive
+            if ((currentMsec > mainChart.chartInfo.chartLengthMiliseconds) ||
+                (!isActive))
             {
                 musicChannel.stop();
             }
@@ -221,7 +225,7 @@ namespace MinGH.GameScreenImpl
             }
         }
 
-        public void Draw(GameTime gameTime)
+        public override void Draw(GameTime gameTime)
         {
             spriteBatch.Begin(SpriteBlendMode.AlphaBlend);
 
