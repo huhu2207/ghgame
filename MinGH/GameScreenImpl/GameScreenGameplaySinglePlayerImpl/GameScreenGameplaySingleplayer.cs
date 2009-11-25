@@ -24,11 +24,11 @@ namespace MinGH.GameScreenImpl
         Texture2D backgroundTex;  // The background texture
         SpriteFont game_font;  // The font the game will use
         Note[,] Notes;  // Will hold every note currently on the screen
-        const int maxNotesOnscreen = 50;  // Maximum amount of a single note (i.e. how many reds per frame)
+        const int maxNotesOnscreen = 20;  // Maximum amount of a single note (i.e. how many reds per frame)
         const double noteVelocityMultiplier = 0.7;  // Current speed in which the notes will move
         // The number of miliseconds to speed up the notes so they appear on time (Global Offset)
         // NOTE: 505 is the magic number constant for a 1.0 multiplier, it gets adjusted to the current multiplier in Initialization()
-        double noteVelocityConstant = 475;
+        double noteVelocityConstant = 505;
         int noteIterator;  // These iterators are used to keep track of which note to observe next
         const int noteLeftPadding = 196;  // How far from the left the green note is placed in pixels
         const int noteWidth = 86;  // How far each lane is on the background
@@ -168,10 +168,12 @@ namespace MinGH.GameScreenImpl
                 system.createSound("./guitar.ogg", MODE.HARDWARE, ref musicSound);
                 system.playSound(CHANNELINDEX.FREE, musicSound, false, ref musicChannel);
                 audioIsPlaying = true;
-                system.createSound("./tick.ogg", MODE.HARDWARE, ref tickSound);
+                system.createSound("./tick.wav", MODE.HARDWARE, ref tickSound);
             }
 
             musicChannel.getPosition(ref currentMsec, TIMEUNIT.MS);
+
+            string bla = "...";
 
             // Update audio ticker
             if (useAudioTicker)
@@ -180,14 +182,18 @@ namespace MinGH.GameScreenImpl
                 {
                     for (int j = 0; j < Notes.GetLength(1); j++)
                     {
-                        if ((!Notes[i, j].wasTicked) && (Notes[i, j].getCenterPosition().Y > hitBox.centerLocation))
+                        if ((!Notes[i, j].wasTicked) && (Notes[i, j].getCenterPosition().Y >= hitBox.centerLocation))
                         {
                             result = system.playSound(CHANNELINDEX.FREE, tickSound, false, ref tickChannel);
                             Notes[i, j].wasTicked = true;
+                            bla = "YEA!!";
                         }
                     }
                 }
             }
+
+            // Update the FMOD system
+            system.update();
 
             // Get the current keyboard state
             keyboardInputManager.processKeyboardState(Keyboard.GetState());
@@ -201,15 +207,12 @@ namespace MinGH.GameScreenImpl
                                     noteSpriteSheetSize, playerInformation, hitBox);
 
             // Update varous strings
-            strManager.Set_String(0, "Current MSEC:\n" + Convert.ToString(currentMsec));
+            strManager.Set_String(0, "Current MSEC:\n" + bla);
             strManager.Set_String(1, "HOPO?:\n" + Convert.ToString(playerInformation.HOPOState));
             strManager.Set_String(4, "Score: " + playerInformation.currentScore.ToString() + "\n\n" +
                                      "Multiplier : " + playerInformation.currentMultiplier.ToString() + "\n\n" +
                                      "Combo :" + playerInformation.currentCombo.ToString());
             strManager.Set_String(5, "Health: " + playerInformation.currentHealth.ToString());
-
-            // Update the FMOD system
-            system.update();
 
             // Stop playing music when chart is over or when the screen goes inactive
             if ((currentMsec > mainChart.chartInfo.chartLengthMiliseconds) ||

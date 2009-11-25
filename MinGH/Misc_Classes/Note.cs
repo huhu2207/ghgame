@@ -79,6 +79,7 @@ namespace MinGH
         /// <summary>
         /// The next lower placed note in a chord (emulates a linked list where the highest
         /// note points to the 2nd highest and so on).
+        /// NOTE: The point structure is used just to have two int values, not as a real point per se.
         /// NOTE: -1, -1 is used to mean that this note IS the root note (or a single note).
         /// </summary>
         public Point rootNote;
