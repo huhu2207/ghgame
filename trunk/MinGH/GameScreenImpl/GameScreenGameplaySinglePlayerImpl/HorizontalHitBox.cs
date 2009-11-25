@@ -27,13 +27,13 @@ namespace MinGH.GameScreenImpl.GameScreenGameplaySinglePlayerImpl
 		/// "real" threshold for a perfect hit is 50 pixels.  This applies for all 3
 		/// grading values.
 		/// </summary>
-        public const int perfectThreshold = 15;
+        public const int perfectThreshold = 20;
 		
 		/// <summary>
 		/// How many pixels away from the center value can the note be hit and considered
 		/// a great hit.  This is a grading mechanism for the user's accuracy.
 		/// </summary>
-        public const int greatThreshold = 30;
+        public const int greatThreshold = 40;
 
         /// <summary>
         /// The final threshold before the player will simply miss the note.  This value is
@@ -41,7 +41,7 @@ namespace MinGH.GameScreenImpl.GameScreenGameplaySinglePlayerImpl
         /// range.  The actual bounding rectangle will have a total height of
         /// goodThreshold * 2.
         /// </summary>
-        public const int goodThreshold = 60;
+        public const int goodThreshold = 80;
 
         /// <summary>
         /// Default Constructor.  Doesn't really serve any purpose, but will be kept for
