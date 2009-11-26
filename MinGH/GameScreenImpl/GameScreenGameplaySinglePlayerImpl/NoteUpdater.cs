@@ -22,7 +22,8 @@ namespace MinGH.GameScreenImpl.GameScreenGameplaySinglePlayerImpl
             // Once the last note passes (these two are equal), we get a out of bounds error.
             
             // If the current time > the next note to be drawn...
-            while (currentMsec >= inputNotechart.notes[inputNoteIterator].TimeValue)
+            while ((inputNoteIterator < inputNotechart.notes.Count) &&
+                   (currentMsec >= inputNotechart.notes[inputNoteIterator].TimeValue))
             {
                 if (!(inputNoteIterator >= inputNotechart.notes.Count))
                 {
