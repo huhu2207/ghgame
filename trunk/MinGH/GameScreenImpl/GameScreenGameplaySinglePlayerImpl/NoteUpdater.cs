@@ -88,7 +88,7 @@ namespace MinGH.GameScreenImpl.GameScreenGameplaySinglePlayerImpl
                         physicalNotes[i, j].position += new Vector2(0.0f, (float)(currTime.ElapsedGameTime.TotalMilliseconds * noteVelocity));
                     }
 
-                    if ((physicalNotes[i, j].getCenterPosition().Y >= hitBox.centerLocation + HorizontalHitBox.goodThreshold) &&
+                    if ((physicalNotes[i, j].getCenterPosition().Y >= hitBox.centerLocation +  hitBox.goodThreshold) &&
                         (physicalNotes[i, j].isUnhittable == false))
                     {
                         playerInfo.missNote();

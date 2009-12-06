@@ -38,7 +38,7 @@ namespace MinGH.GameScreenImpl.GameScreenGameplaySinglePlayerImpl
             {
                 emitterToAdd = new CircleEmitter();
 
-                emitterToAdd.Budget = 1000;
+                emitterToAdd.Budget = 3000;
                 emitterToAdd.ReleaseQuantity = 500;
                 emitterToAdd.ReleaseScale = new VariableFloat { Anchor = 40f, Variation = 0.5f };
                 emitterToAdd.ReleaseSpeed = new VariableFloat { Anchor = 200f, Variation = 1f };
