@@ -20,7 +20,7 @@ namespace MinGH.GameScreenImpl
     class GameScreenGameplaySingleplayer : GameScreen
     {
         // User variables
-        int hyperSpeedSetting = 0;  // Selects the speed in which the notes come
+        int hyperSpeedSetting = 5;  // Selects the speed in which the notes come
         int milisecondOffsetFineTune = 0;  // Use to adjust the timing of the notes
 
         SpriteBatch spriteBatch;  // Draws the shapes
@@ -59,7 +59,7 @@ namespace MinGH.GameScreenImpl
         RESULT result = new RESULT();
         uint currentMsec = 0;
         bool audioIsPlaying = false;  // So we don't play the song again every single update
-        bool useAudioTicker = true;
+        bool useAudioTicker = false;
 
         // Project Mercury Particle Engine related variables
         NoteParticleExplosionEmitters noteParticleExplosionEmitters = new NoteParticleExplosionEmitters();
@@ -93,7 +93,8 @@ namespace MinGH.GameScreenImpl
             // Create the hitbox
             hitBox = new HorizontalHitBox(new Rectangle(0, 0,
                                           graphics.GraphicsDevice.Viewport.Width,
-                                          graphics.GraphicsDevice.Viewport.Height));
+                                          graphics.GraphicsDevice.Viewport.Height),
+                                          hyperSpeedList.theList[hyperSpeedSetting]);
 
             // Set up the particle explosions
             noteParticleExplosionEmitters.initalizeEmitters();
@@ -182,8 +183,6 @@ namespace MinGH.GameScreenImpl
 
             musicChannel.getPosition(ref currentMsec, TIMEUNIT.MS);
 
-            string bla = "...";
-
             // Update audio ticker
             if (useAudioTicker)
             {
@@ -195,7 +194,6 @@ namespace MinGH.GameScreenImpl
                         {
                             result = system.playSound(CHANNELINDEX.FREE, tickSound, false, ref tickChannel);
                             Notes[i, j].wasTicked = true;
-                            bla = "YEA!!";
                         }
                     }
                 }
@@ -216,7 +214,7 @@ namespace MinGH.GameScreenImpl
                                     noteSpriteSheetSize, playerInformation, hitBox);
 
             // Update varous strings
-            strManager.Set_String(0, "Current MSEC:\n" + bla);
+            strManager.Set_String(0, "Current MSEC:\n" + hitBox.physicalHitbox.Y);
             strManager.Set_String(1, "HOPO?:\n" + Convert.ToString(playerInformation.HOPOState));
             strManager.Set_String(4, "Score: " + playerInformation.currentScore.ToString() + "\n\n" +
                                      "Multiplier : " + playerInformation.currentMultiplier.ToString() + "\n\n" +
