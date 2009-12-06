@@ -19,19 +19,22 @@ namespace MinGH.GameScreenImpl
     /// </summary>
     class GameScreenGameplaySingleplayer : GameScreen
     {
+        // User variables
+        int hyperSpeedSetting = 0;  // Selects the speed in which the notes come
+        int milisecondOffsetFineTune = 0;  // Use to adjust the timing of the notes
+
         SpriteBatch spriteBatch;  // Draws the shapes
         Rectangle viewportRectangle;  // The window itself
         Texture2D backgroundTex;  // The background texture
         SpriteFont game_font;  // The font the game will use
         Note[,] Notes;  // Will hold every note currently on the screen
         const int maxNotesOnscreen = 20;  // Maximum amount of a single note (i.e. how many reds per frame)
-        const double noteVelocityMultiplier = 0.7;  // Current speed in which the notes will move
-        // The number of miliseconds to speed up the notes so they appear on time (Global Offset)
-        // NOTE: 505 is the magic number constant for a 1.0 multiplier, it gets adjusted to the current multiplier in Initialization()
-        double noteVelocityConstant = 505;
+        HyperSpeedList hyperSpeedList = new HyperSpeedList();
         int noteIterator;  // These iterators are used to keep track of which note to observe next
         const int noteLeftPadding = 196;  // How far from the left the green note is placed in pixels
         const int noteWidth = 86;  // How far each lane is on the background
+        double currentNoteVelocityMultiplier = 0.0;  // Used to calculate the speed of a note
+        int currentMilisecondOffset = 0;  // The number of miliseconds a note must come early
 
         // Sprite Sheet Variables
         const int noteSpriteSheetOffset = 6;  // How many pixels pad the left side of a note on the sprite sheet
@@ -56,7 +59,7 @@ namespace MinGH.GameScreenImpl
         RESULT result = new RESULT();
         uint currentMsec = 0;
         bool audioIsPlaying = false;  // So we don't play the song again every single update
-        bool useAudioTicker = false;
+        bool useAudioTicker = true;
 
         // Project Mercury Particle Engine related variables
         NoteParticleExplosionEmitters noteParticleExplosionEmitters = new NoteParticleExplosionEmitters();
@@ -79,7 +82,13 @@ namespace MinGH.GameScreenImpl
             spriteBatch = new SpriteBatch(graphics.GraphicsDevice);
 
             // Setup the note velocity constant (HYPERSPEEDS!!)
-            noteVelocityConstant /= noteVelocityMultiplier;
+            if ((hyperSpeedSetting < 0) || (hyperSpeedSetting > hyperSpeedList.theList.Count))
+            {
+                hyperSpeedSetting = 0;
+            }
+            currentMilisecondOffset = hyperSpeedList.theList[hyperSpeedSetting].milisecondOffset +
+                                      milisecondOffsetFineTune;
+            currentNoteVelocityMultiplier = hyperSpeedList.theList[hyperSpeedSetting].noteVelocityMultiplier;
 
             // Create the hitbox
             hitBox = new HorizontalHitBox(new Rectangle(0, 0,
@@ -129,7 +138,7 @@ namespace MinGH.GameScreenImpl
                                           new Rectangle(noteSpriteSheetSize * i, 0, noteSpriteSheetSize, noteSpriteSheetSize), -noteSpriteSheetOffset);
                             break;
                     }
-                    Notes[i,j].velocity = new Vector2(0.0f, (float)noteVelocityMultiplier);
+                    Notes[i,j].velocity = new Vector2(0.0f, (float)currentNoteVelocityMultiplier);
                 }
             }
 
@@ -203,7 +212,7 @@ namespace MinGH.GameScreenImpl
                                                   mainChart.noteCharts[0]);
 
             NoteUpdater.updateNotes(mainChart.noteCharts[0], ref noteIterator, Notes, viewportRectangle,
-                                    gameTime, noteVelocityMultiplier, noteWidth, currentMsec + noteVelocityConstant,
+                                    gameTime, currentNoteVelocityMultiplier, noteWidth, currentMsec + currentMilisecondOffset,
                                     noteSpriteSheetSize, playerInformation, hitBox);
 
             // Update varous strings
