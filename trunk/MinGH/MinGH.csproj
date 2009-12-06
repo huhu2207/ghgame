@@ -116,6 +116,8 @@
     <Compile Include="GameScreenImpl\GameScreenEnum.cs" />
     <Compile Include="GameScreenImpl\GameScreenGameplaySinglePlayerImpl\GameScreenGameplaySingleplayer.cs" />
     <Compile Include="GameScreenImpl\GameScreenGameplaySinglePlayerImpl\HorizontalHitBox.cs" />
+    <Compile Include="GameScreenImpl\GameScreenGameplaySinglePlayerImpl\HyperSpeedValue.cs" />
+    <Compile Include="GameScreenImpl\GameScreenGameplaySinglePlayerImpl\HyperSpeedList.cs" />
     <Compile Include="GameScreenImpl\GameScreenGameplaySinglePlayerImpl\NoteParticleExplosionEmitters.cs" />
     <Compile Include="GameScreenImpl\GameScreenGameplaySinglePlayerImpl\NoteUpdater.cs" />
     <Compile Include="GameScreenImpl\GameScreenGameplaySinglePlayerImpl\PlayerInputManager.cs" />
