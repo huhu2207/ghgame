@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace MinGH.GameStringImpl
+namespace MinGH.GameString
 {
 	/// <remarks>
 	/// A generic class that encapsulates the process of drawing strings on an XNA screen

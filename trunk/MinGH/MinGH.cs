@@ -1,9 +1,10 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using MinGH.GameScreenImpl;
+using MinGH.GameScreen;
 using System.Collections.Generic;
-using MinGH.GameScreenImpl.BlankScreen;
+using MinGH.GameScreen.BlankScreen;
+using MinGH.GameScreen.SinglePlayer;
 
 namespace MinGH
 {
@@ -14,12 +15,11 @@ namespace MinGH
     {
         // Global Content
         GraphicsDeviceManager graphics;
-        List<GameScreen> gameScreenList = new List<GameScreen>();
 
         public MinGHMain()
         {
-            gameScreenList.Add(new GameScreenGameplaySingleplayer());
-            gameScreenList.Add(new BlankScreen());
+            //gameScreenList.Add(new GameScreenGameplaySingleplayer());
+            //gameScreenList.Add(new BlankScreen());
 
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
@@ -34,10 +34,12 @@ namespace MinGH
         protected override void Initialize()
         {
             Window.Title = "MinGH";
-            foreach (GameScreen currScreen in gameScreenList)
-            {
-                currScreen.Initialize(graphics);
-            }
+            this.Components.Add(new SinglePlayerScreen(this, graphics));
+            this.Components.Add(new BlankScreen(this, graphics));
+            //foreach (GameScreen currScreen in gameScreenList)
+            //{
+            //    currScreen.Initialize(graphics);
+            //}
             base.Initialize();
         }
 
@@ -47,13 +49,13 @@ namespace MinGH
         /// </summary>
         protected override void LoadContent()
         {
-            foreach (GameScreen currScreen in gameScreenList)
-            {
-                if (currScreen.isActive)
-                {
-                    currScreen.LoadContent(Content, graphics);
-                }
-            }
+            //foreach (GameScreen currScreen in gameScreenList)
+            //{
+            //    if (currScreen.isActive)
+            //    {
+            //        currScreen.LoadContent(Content, graphics);
+            //    }
+            //}
         }
 
         /// <summary>
@@ -62,10 +64,10 @@ namespace MinGH
         /// </summary>
         protected override void UnloadContent()
         {
-            foreach (GameScreen currScreen in gameScreenList)
-            {
-                currScreen.UnloadContent();
-            }
+            //foreach (GameScreen currScreen in gameScreenList)
+            //{
+            //    currScreen.UnloadContent();
+            //}
         }
 
         /// <summary>
@@ -79,13 +81,13 @@ namespace MinGH
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
 
-            foreach (GameScreen currScreen in gameScreenList)
-            {
-                if (currScreen.isActive)
-                {
-                    currScreen.Update(gameTime);
-                }
-            }
+            //foreach (GameScreen currScreen in gameScreenList)
+            //{
+            //    if (currScreen.isActive)
+            //    {
+            //        currScreen.Update(gameTime);
+            //    }
+            //}
 
             base.Update(gameTime);
         }
@@ -98,13 +100,13 @@ namespace MinGH
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            foreach (GameScreen currScreen in gameScreenList)
-            {
-                if (currScreen.isActive)
-                {
-                    currScreen.Draw(gameTime);
-                }
-            }
+            //foreach (GameScreen currScreen in gameScreenList)
+            //{
+            //    if (currScreen.isActive)
+            //    {
+            //        currScreen.Draw(gameTime);
+            //    }
+            //}
             base.Draw(gameTime);
         }
     }
