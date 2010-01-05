@@ -18,9 +18,6 @@ namespace MinGH
 
         public MinGHMain()
         {
-            //gameScreenList.Add(new GameScreenGameplaySingleplayer());
-            //gameScreenList.Add(new BlankScreen());
-
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
         }
@@ -36,10 +33,6 @@ namespace MinGH
             Window.Title = "MinGH";
             this.Components.Add(new SinglePlayerScreen(this, graphics));
             this.Components.Add(new BlankScreen(this, graphics));
-            //foreach (GameScreen currScreen in gameScreenList)
-            //{
-            //    currScreen.Initialize(graphics);
-            //}
             base.Initialize();
         }
 
@@ -49,13 +42,6 @@ namespace MinGH
         /// </summary>
         protected override void LoadContent()
         {
-            //foreach (GameScreen currScreen in gameScreenList)
-            //{
-            //    if (currScreen.isActive)
-            //    {
-            //        currScreen.LoadContent(Content, graphics);
-            //    }
-            //}
         }
 
         /// <summary>
@@ -64,10 +50,6 @@ namespace MinGH
         /// </summary>
         protected override void UnloadContent()
         {
-            //foreach (GameScreen currScreen in gameScreenList)
-            //{
-            //    currScreen.UnloadContent();
-            //}
         }
 
         /// <summary>
@@ -80,15 +62,6 @@ namespace MinGH
             // Allows the game to exit
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
-
-            //foreach (GameScreen currScreen in gameScreenList)
-            //{
-            //    if (currScreen.isActive)
-            //    {
-            //        currScreen.Update(gameTime);
-            //    }
-            //}
-
             base.Update(gameTime);
         }
 
@@ -99,14 +72,6 @@ namespace MinGH
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-
-            //foreach (GameScreen currScreen in gameScreenList)
-            //{
-            //    if (currScreen.isActive)
-            //    {
-            //        currScreen.Draw(gameTime);
-            //    }
-            //}
             base.Draw(gameTime);
         }
     }
