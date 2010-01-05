@@ -28,7 +28,7 @@ namespace MinGH.GameScreen.SinglePlayer
         Texture2D backgroundTex;  // The background texture
         SpriteFont game_font;  // The font the game will use
         Note[,] Notes;  // Will hold every note currently on the screen
-        const int maxNotesOnscreen = 1000;  // Maximum amount of a single note (i.e. how many reds per frame)
+        const int maxNotesOnscreen = 50;  // Maximum amount of a single note (i.e. how many reds per frame)
         HyperSpeedList hyperSpeedList = new HyperSpeedList();
         int noteIterator;  // These iterators are used to keep track of which note to observe next
         const int noteLeftPadding = 196;  // How far from the left the green note is placed in pixels
