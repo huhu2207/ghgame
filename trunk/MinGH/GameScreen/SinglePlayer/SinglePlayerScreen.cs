@@ -149,8 +149,8 @@ namespace MinGH.GameScreen.SinglePlayer
             }
 
             // Add the "Song Title" and "Artist Name" to the string manager
-            strManager.Set_String(2, "Song Title:\n" + mainChart.chartInfo.songName);
-            strManager.Set_String(3, "Artist Name:\n" + mainChart.chartInfo.artistName);
+            strManager.SetString(2, "Song Title:\n" + mainChart.chartInfo.songName);
+            strManager.SetString(3, "Artist Name:\n" + mainChart.chartInfo.artistName);
             
             // Setup the window
             viewportRectangle = new Rectangle(0, 0,
@@ -172,6 +172,7 @@ namespace MinGH.GameScreen.SinglePlayer
 
         protected override void UnloadContent()
         {
+            system.close();
         }
 
         public override void Update(GameTime gameTime)
@@ -221,12 +222,12 @@ namespace MinGH.GameScreen.SinglePlayer
                                     noteSpriteSheetSize, playerInformation, hitBox);
 
             // Update varous strings
-            strManager.Set_String(0, "Current MSEC:\n" + hitBox.physicalHitbox.Y);
-            strManager.Set_String(1, "HOPO?:\n" + Convert.ToString(playerInformation.HOPOState));
-            strManager.Set_String(4, "Score: " + playerInformation.currentScore.ToString() + "\n\n" +
+            strManager.SetString(0, "Current MSEC:\n" + hitBox.physicalHitbox.Y);
+            strManager.SetString(1, "HOPO?:\n" + Convert.ToString(playerInformation.HOPOState));
+            strManager.SetString(4, "Score: " + playerInformation.currentScore.ToString() + "\n\n" +
                                      "Multiplier : " + playerInformation.currentMultiplier.ToString() + "\n\n" +
                                      "Combo :" + playerInformation.currentCombo.ToString());
-            strManager.Set_String(5, "Health: " + playerInformation.currentHealth.ToString());
+            strManager.SetString(5, "Health: " + playerInformation.currentHealth.ToString());
 
             // Stop playing music when chart is over or when the screen goes inactive
             if (currentMsec > mainChart.chartInfo.chartLengthMiliseconds)

@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using MinGH.GameScreen;
 using System.Collections.Generic;
-using MinGH.GameScreen.BlankScreen;
+using MinGH.GameScreen.MainMenu;
 using MinGH.GameScreen.SinglePlayer;
 
 namespace MinGH
@@ -15,6 +15,7 @@ namespace MinGH
     {
         // Global Content
         GraphicsDeviceManager graphics;
+        bool game = false;
 
         public MinGHMain()
         {
@@ -31,8 +32,8 @@ namespace MinGH
         protected override void Initialize()
         {
             Window.Title = "MinGH";
-            this.Components.Add(new SinglePlayerScreen(this, graphics));
-            this.Components.Add(new BlankScreen(this, graphics));
+            //Components.Add(new SinglePlayerScreen(this, graphics));
+            Components.Add(new MainMenuScreen(this, graphics));
             base.Initialize();
         }
 
@@ -62,6 +63,18 @@ namespace MinGH
             // Allows the game to exit
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
+            if (Keyboard.GetState().IsKeyDown(Keys.P) && !game)
+            {
+                Components.Clear();
+                Components.Add(new SinglePlayerScreen(this, graphics));
+                game = true;
+            }
+            else if (Keyboard.GetState().IsKeyDown(Keys.P) && game)
+            {
+                Components.Clear();
+                Components.Add(new MainMenuScreen(this, graphics));
+                game = false;
+            }
             base.Update(gameTime);
         }
 

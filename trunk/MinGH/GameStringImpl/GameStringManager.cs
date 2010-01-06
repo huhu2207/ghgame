@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework;
 
 namespace MinGH.GameStringImpl
 {
@@ -57,14 +58,43 @@ namespace MinGH.GameStringImpl
         /// <param name="input">
         /// The new value for the desired string.
         /// </param>
-        public void Set_String(int place, string input)
+        public void SetString(int place, string input)
         {
             strings[place].value = input;
+        }
+
+        /// <summary>
+        /// Sets the color of a specified string.
+        /// </summary>
+        /// <param name="place">The place of the string to change.</param>
+        /// <param name="inputColor">The new color of the string.</param>
+        public void SetColor(int place, Color inputColor)
+        {
+            strings[place].color = inputColor;
+        }
+
+        /// <summary>
+        /// Sets the position of a specified string.
+        /// </summary>
+        /// <param name="place">The place of the string to change.</param>
+        /// <param name="newPosition">The new position of the string.</param>
+        public void SetStringPosition(int place, Vector2 newPosition)
+        {
+            strings[place].position = newPosition;
+        }
+
+        /// <summary>
+        /// Gets the number of different strings within the string manager.
+        /// </summary>
+        /// <returns>Number of strings.</returns>
+        public int GetNumberOfStrings()
+        {
+            return strings.Count;
         }
 
 		/// <summary>
 		/// A list of gamestrings.
 		/// </summary>
-        private List<GameString> strings;
+        public List<GameString> strings { get; set; }
     }
 }
