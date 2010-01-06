@@ -120,7 +120,7 @@
     <Compile Include="GameScreen\SinglePlayer\NoteParticleExplosionEmitters.cs" />
     <Compile Include="GameScreen\SinglePlayer\NoteUpdater.cs" />
     <Compile Include="GameScreen\SinglePlayer\PlayerInputManager.cs" />
-    <Compile Include="GameScreen\SinglePlayer\SinglePlayerKeyboardManager.cs" />
+    <Compile Include="GameScreen\KeyboardInputManager.cs" />
     <Compile Include="GameScreen\SinglePlayer\SinglePlayerStringInitializer.cs" />
     <Compile Include="GameScreen\IKeyboardInputManager.cs" />
     <Compile Include="GameStringImpl\GameString.cs" />

@@ -15,7 +15,7 @@ namespace MinGH.GameStringImpl
         /// <summary>
         /// Specifies the currently selected option
         /// </summary>
-        int currentlySelectedOption { get; set; }
+        int currentlySelectedEntry { get; set; }
 
         /// <summary>
         /// The vertical pixel size of the font being used (do not apply scaling to this value)
@@ -90,26 +90,31 @@ namespace MinGH.GameStringImpl
         }
         private Vector2 _location;
 
+        public Color defaultEntryColor { get; set; }
+        public Color selectedEntryColor { get; set; }
+
         /// <summary>
         /// The string manager that holds all of the menu data.
         /// </summary>
         private GameStringManager stringManager { get; set; }
 
         /// <summary>
-        /// Typical constructor.
+        /// Initializes a new menu in the middle
         /// </summary>
         /// <param name="titleValue">The title for the new menu.</param>
-        /// <param name="screenWidth">The width of the screen to draw the menu on.</param>
-        /// <param name="screenHeight">The height of the screen to draw the menu on.</param>
-        public Menu(string titleValue, int screenWidth, int screenHeight)
+        /// <param name="initialLocation">The starting location of the menu.</param>
+        public Menu(string titleValue, Vector2 initialLocation)
         {
             fontSize = 15;
             entryPadding = 5;
             titlePadding = 15;
+            currentlySelectedEntry = 0;
+            defaultEntryColor = Color.White;
+            selectedEntryColor = Color.Yellow;
 
             stringManager = new GameStringManager();
-            location = new Vector2(screenWidth / 2f, screenHeight / 4f);
-            GameString titleGameString = new GameString(location, Color.White, titleValue);
+            location = initialLocation;
+            GameString titleGameString = new GameString(location, defaultEntryColor, titleValue);
             stringManager.Add(titleGameString);
             titleScaling = new Vector2(1.0f, 1.0f);
             entryScaling = new Vector2(1.0f, 1.0f);
@@ -138,6 +143,48 @@ namespace MinGH.GameStringImpl
             GameString stringToAdd = new GameString(new Vector2(newEntryPositionX, newEntryPositionY), Color.White, newEntryValue);
             stringToAdd.scale = entryScaling;
             stringManager.Add(stringToAdd);
+
+            SelectNthEntry(1);  // If an entry is added, there is atleast one option to highlight
+        }
+
+        public void SelectNextEntry()
+        {
+            if (stringManager.strings.Count > 0)
+            {
+                if (currentlySelectedEntry == stringManager.strings.Count - 1)
+                {
+                    SelectNthEntry(1);
+                }
+                else
+                {
+                    SelectNthEntry(currentlySelectedEntry + 1);
+                }
+            }
+        }
+
+        public void SelectPreviousEntry()
+        {
+            if (stringManager.strings.Count > 0)
+            {
+                if (currentlySelectedEntry == 1)
+                {
+                    SelectNthEntry(stringManager.strings.Count - 1);
+                }
+                else
+                {
+                    SelectNthEntry(currentlySelectedEntry - 1);
+                }
+            }
+        }
+
+        private void SelectNthEntry(int n)
+        {
+            if (currentlySelectedEntry > 0)
+            {
+                stringManager.strings[currentlySelectedEntry].color = defaultEntryColor;
+            }
+            stringManager.strings[n].color = selectedEntryColor;
+            currentlySelectedEntry = n;
         }
     }
 }

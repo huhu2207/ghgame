@@ -1,13 +1,13 @@
 ﻿using Microsoft.Xna.Framework.Input;
 using MinGH.Misc_Classes;
 
-namespace MinGH.GameScreen.SinglePlayer
+namespace MinGH.GameScreen
 {
-    class SinglePlayerKeyboardManager : IKeyboardInputManager
+    class KeyboardInputManager : IKeyboardInputManager
     {
         KeyboardState currentState, previousState;
 
-        public SinglePlayerKeyboardManager()
+        public KeyboardInputManager()
         {
             currentState = new KeyboardState();
             previousState = new KeyboardState();
@@ -26,39 +26,18 @@ namespace MinGH.GameScreen.SinglePlayer
 
         public bool keyIsHit(Keys key)
         {
-            if ((currentState.IsKeyDown(key) && previousState.IsKeyUp(key)))
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return ((currentState.IsKeyDown(key) && previousState.IsKeyUp(key)));
         }
 
         public bool keyIsHeld(Keys key)
         {
             // Check is the key was either already held down, or just hit
-            if ((currentState.IsKeyDown(key) && previousState.IsKeyDown(key)) || keyIsHit(key))
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return ((currentState.IsKeyDown(key) && previousState.IsKeyDown(key)) || keyIsHit(key));
         }
 
         public bool keyWasHeld(Keys key)
         {
-            if (currentState.IsKeyUp(key) && previousState.IsKeyDown(key))
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return (currentState.IsKeyUp(key) && previousState.IsKeyDown(key));
         }
 
         public Keys getHighestHeldKey()
@@ -88,10 +67,5 @@ namespace MinGH.GameScreen.SinglePlayer
                 return Keys.None;
             }
         }
-
-        //public Keys getHighestHitKey()
-        //{
-
-        //}
     }
 }
