@@ -60,10 +60,35 @@ namespace MinGH.GameStringImpl
         }
 
         /// <summary>
-        /// The location of the menu as a whole.
-        /// NOTE: The menu is currently center justified.
+        /// Gets and sets the location of the menu.
+        /// NOTE: The menu font is center justified.
         /// </summary>
-        public Vector2 location { get; set; }
+        public Vector2 location
+        {
+            get
+            {
+                return _location;
+            }
+            set
+            {
+                _location = value;
+                for (int i = 0; i < stringManager.strings.Count; i++)
+                {
+                    if (i == 0)
+                    {
+                        stringManager.strings[i].position = _location;
+                    }
+                    else
+                    {
+                        float newEntryPositionY = _location.Y + (fontSize * titleScaling.Y) + titlePadding +
+                                                  ((i) * (fontSize * entryScaling.Y + entryPadding));
+                        float newEntryPositionX = _location.X;
+                        stringManager.strings[i].position = new Vector2(newEntryPositionX, newEntryPositionY);
+                    }
+                }
+            }
+        }
+        private Vector2 _location;
 
         /// <summary>
         /// The string manager that holds all of the menu data.
@@ -81,9 +106,9 @@ namespace MinGH.GameStringImpl
             fontSize = 15;
             entryPadding = 5;
             titlePadding = 15;
-            location = new Vector2(screenWidth / 2f, screenHeight / 4f);
 
             stringManager = new GameStringManager();
+            location = new Vector2(screenWidth / 2f, screenHeight / 4f);
             GameString titleGameString = new GameString(location, Color.White, titleValue);
             stringManager.Add(titleGameString);
             titleScaling = new Vector2(1.0f, 1.0f);
