@@ -42,7 +42,7 @@ namespace MinGH.GameScreen.SinglePlayer
         
         // Variables unique to this game screen
         NoteUpdater noteUpdater = new NoteUpdater();
-        IKeyboardInputManager keyboardInputManager = new SinglePlayerKeyboardManager();
+        IKeyboardInputManager keyboardInputManager = new KeyboardInputManager();
         HorizontalHitBox hitBox;
         PlayerInformation playerInformation = new PlayerInformation();
         KeyboardConfiguration keyboardConfig = new KeyboardConfiguration();
