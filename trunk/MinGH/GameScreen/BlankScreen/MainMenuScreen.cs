@@ -7,17 +7,17 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using MinGH.GameStringImpl;
 
-namespace MinGH.GameScreen.BlankScreen
+namespace MinGH.GameScreen.MainMenu
 {
-    public class BlankScreen : DrawableGameComponent
+    public class MainMenuScreen : DrawableGameComponent
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;  // Draws the shapes
 
-        GameStringManager strManager = new GameStringManager();
+        Menu mainMenu;
         SpriteFont gameFont;
 
-        public BlankScreen(Game game, GraphicsDeviceManager graph)
+        public MainMenuScreen(Game game, GraphicsDeviceManager graph)
             : base(game)
         {
             graphics = graph;
@@ -25,8 +25,15 @@ namespace MinGH.GameScreen.BlankScreen
 
         public override void Initialize()
         {
-            strManager = BlankScreenStringInitalizer.initializeStrings(graphics.GraphicsDevice.Viewport.Width,
-                                    graphics.GraphicsDevice.Viewport.Height);
+            mainMenu = new Menu("Main Menu", graphics.GraphicsDevice.Viewport.Width, graphics.GraphicsDevice.Viewport.Height);
+
+            mainMenu.titleScaling = new Vector2(5.0f, 5.0f);
+            mainMenu.entryScaling = new Vector2(2.0f, 2.0f);
+
+            mainMenu.AddEntry("one");
+            mainMenu.AddEntry("two");
+            mainMenu.AddEntry("three");
+            mainMenu.AddEntry("poop");
 
             spriteBatch = new SpriteBatch(graphics.GraphicsDevice);
 
@@ -51,8 +58,10 @@ namespace MinGH.GameScreen.BlankScreen
 
         public override void Draw(GameTime gameTime)
         {
+            graphics.GraphicsDevice.Clear(Color.Black);
+
             spriteBatch.Begin(SpriteBlendMode.AlphaBlend);
-            strManager.DrawStrings(spriteBatch, gameFont);
+            mainMenu.Draw(spriteBatch, gameFont);
             spriteBatch.End();
 
             base.Draw(gameTime);
