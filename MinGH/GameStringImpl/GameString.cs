@@ -25,12 +25,8 @@ namespace MinGH.GameStringImpl
         /// is not set here due to cases where one may not know what to put into the
         /// string during initialization (such as game performance info).
         /// </summary>
-        /// <param name="newPos">
-        /// The position this string will be drawn.
-        /// </param>
-        /// <param name="newColor">
-        /// The color given to the string
-        /// </param>
+        /// <param name="newPos">The position this string will be drawn.</param>
+        /// <param name="newColor">The color given to the string</param>
         public GameString(Vector2 newPos, Color newColor)
         {
             position = newPos;
@@ -38,6 +34,22 @@ namespace MinGH.GameStringImpl
             alive = true;
             scale = new Vector2(1.0f, 1.0f);
             value = "default";
+        }
+
+        /// <summary>
+        /// Constuctor that takes a position and color.  The actual value of the string
+        /// is set here.
+        /// </summary>
+        /// <param name="newPos">The position this string will be drawn.</param>
+        /// <param name="newColor">The color given to the string.</param>
+        /// <param name="newValue">The string value to use.</param>
+        public GameString(Vector2 newPos, Color newColor, string newValue)
+        {
+            position = newPos;
+            color = newColor;
+            alive = true;
+            scale = new Vector2(1.0f, 1.0f);
+            value = newValue;
         }
 
         /// <summary>

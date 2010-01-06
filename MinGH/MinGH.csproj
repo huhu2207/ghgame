@@ -46,6 +46,7 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <PlatformTarget>x86</PlatformTarget>
     <XnaCompressContent>false</XnaCompressContent>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <DebugType>pdbonly</DebugType>
@@ -111,8 +112,7 @@
     <Compile Include="Extensions\SubArrayExtension.cs" />
     <Compile Include="FMOD\fmod.cs" />
     <Compile Include="FMOD\fmod_dsp.cs" />
-    <Compile Include="GameScreen\BlankScreen\BlankScreen.cs" />
-    <Compile Include="GameScreen\BlankScreen\BlankScreenStringInitalizer.cs" />
+    <Compile Include="GameScreen\MainMenu\MainMenuScreen.cs" />
     <Compile Include="GameScreen\SinglePlayer\SinglePlayerScreen.cs" />
     <Compile Include="GameScreen\SinglePlayer\HorizontalHitBox.cs" />
     <Compile Include="GameScreen\SinglePlayer\HyperSpeedValue.cs" />
@@ -124,6 +124,7 @@
     <Compile Include="GameScreen\SinglePlayer\SinglePlayerStringInitializer.cs" />
     <Compile Include="GameScreen\IKeyboardInputManager.cs" />
     <Compile Include="GameStringImpl\GameString.cs" />
+    <Compile Include="GameStringImpl\Menu.cs" />
     <Compile Include="Misc_Classes\GameObject.cs" />
     <Compile Include="GameStringImpl\GameStringManager.cs" />
     <Compile Include="Main.cs" />
