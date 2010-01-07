@@ -9,14 +9,16 @@ namespace MinGH.GameScreen.MainMenu
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;  // Draws the shapes
+        MinGHMain gameReference;
 
         Menu mainMenu;
         SpriteFont gameFont;
         IKeyboardInputManager keyboardInputManager = new KeyboardInputManager();
 
-        public MainMenuScreen(Game game, GraphicsDeviceManager graph)
-            : base(game)
+        public MainMenuScreen(MinGHMain game, GraphicsDeviceManager graph)
+            : base((Game)game)
         {
+            gameReference = game;
             graphics = graph;
         }
 
@@ -27,10 +29,9 @@ namespace MinGH.GameScreen.MainMenu
             mainMenu.titleScaling = new Vector2(5.0f, 5.0f);
             mainMenu.entryScaling = new Vector2(2.0f, 2.0f);
 
-            mainMenu.AddEntry("one");
-            mainMenu.AddEntry("two");
-            mainMenu.AddEntry("three");
-            mainMenu.AddEntry("poop");
+            mainMenu.AddEntry("Start");
+            mainMenu.AddEntry("Options");
+            mainMenu.AddEntry("Quit");
 
             spriteBatch = new SpriteBatch(graphics.GraphicsDevice);
 
@@ -59,6 +60,22 @@ namespace MinGH.GameScreen.MainMenu
             else if (keyboardInputManager.keyIsHit(Keys.Up))
             {
                 mainMenu.SelectPreviousEntry();
+            }
+
+            if (keyboardInputManager.keyIsHit(Keys.Enter))
+            {
+                switch (mainMenu.currentlySelectedEntry)
+                {
+                    case 1:
+                        gameReference.ChangeGameState(1);
+                        break;
+                    case 2:
+                        //gameReference.ChangeGameState(0);
+                        break;
+                    case 3:
+                        gameReference.ChangeGameState(-1);
+                        break;
+                }
             }
 
             base.Update(gameTime);

@@ -15,7 +15,6 @@ namespace MinGH
     {
         // Global Content
         GraphicsDeviceManager graphics;
-        bool game = false;
 
         public MinGHMain()
         {
@@ -32,7 +31,6 @@ namespace MinGH
         protected override void Initialize()
         {
             Window.Title = "MinGH";
-            //Components.Add(new SinglePlayerScreen(this, graphics));
             Components.Add(new MainMenuScreen(this, graphics));
             base.Initialize();
         }
@@ -60,21 +58,6 @@ namespace MinGH
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            // Allows the game to exit
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
-                this.Exit();
-            if (Keyboard.GetState().IsKeyDown(Keys.P) && !game)
-            {
-                Components.Clear();
-                Components.Add(new SinglePlayerScreen(this, graphics));
-                game = true;
-            }
-            else if (Keyboard.GetState().IsKeyDown(Keys.P) && game)
-            {
-                Components.Clear();
-                Components.Add(new MainMenuScreen(this, graphics));
-                game = false;
-            }
             base.Update(gameTime);
         }
 
@@ -84,8 +67,29 @@ namespace MinGH
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
             base.Draw(gameTime);
+        }
+
+        public void ChangeGameState(int code)
+        {
+            switch (code)
+            {
+                case -1:
+                    Exit();
+                    break;
+                case 0:
+                    EnterNewGameScreen(new MainMenuScreen(this, graphics));
+                    break;
+                case 1:
+                    EnterNewGameScreen(new SinglePlayerScreen(this, graphics));
+                    break;
+            }
+        }
+
+        private void EnterNewGameScreen(DrawableGameComponent newScreen)
+        {
+            Components.Clear();
+            Components.Add(newScreen);
         }
     }
 }
