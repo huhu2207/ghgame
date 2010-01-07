@@ -23,7 +23,7 @@ namespace MinGH.GameScreen.SinglePlayer
             }
             else
             {
-                if (keyboardInputManager.keyIsHit(KeyboardConfiguration.strum) &&
+                if ((keyboardInputManager.keyIsHit(KeyboardConfiguration.upStrum) || keyboardInputManager.keyIsHit(KeyboardConfiguration.downStrum)) &&
                     (keyboardInputManager.getHighestHeldKey() != Keys.None))
                 {
                     triggerInput(physicalNotes, noteParticleExplosionEmitters, hitBox, keyboardInputManager, playerInformation, inputNotechart, true);

@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using MinGH.GameStringImpl;
+using MinGH.Misc_Classes;
 
 namespace MinGH.GameScreen.MainMenu
 {
@@ -53,16 +54,16 @@ namespace MinGH.GameScreen.MainMenu
         {
             keyboardInputManager.processKeyboardState(Keyboard.GetState());
 
-            if (keyboardInputManager.keyIsHit(Keys.Down))
+            if (keyboardInputManager.keyIsHit(Keys.Down) || keyboardInputManager.keyIsHit(KeyboardConfiguration.downStrum))
             {
                 mainMenu.SelectNextEntry();
             }
-            else if (keyboardInputManager.keyIsHit(Keys.Up))
+            else if (keyboardInputManager.keyIsHit(Keys.Up) || keyboardInputManager.keyIsHit(KeyboardConfiguration.upStrum))
             {
                 mainMenu.SelectPreviousEntry();
             }
 
-            if (keyboardInputManager.keyIsHit(Keys.Enter))
+            if (keyboardInputManager.keyIsHit(Keys.Enter) || keyboardInputManager.keyIsHit(KeyboardConfiguration.green))
             {
                 switch (mainMenu.currentlySelectedEntry)
                 {

@@ -19,7 +19,7 @@ namespace MinGH.GameScreen.SinglePlayer
     class SinglePlayerScreen : DrawableGameComponent
     {
         // User variables
-        int hyperSpeedSetting = 5;  // Selects the speed in which the notes come
+        int hyperSpeedSetting = 1;  // Selects the speed in which the notes come
         int milisecondOffsetFineTune = 0;  // Use to adjust the timing of the notes
 
         MinGHMain gameReference;
@@ -126,23 +126,23 @@ namespace MinGH.GameScreen.SinglePlayer
                     switch (i)
                     {
                         case 0:  // Green Notes
-                            Notes[i, j] = new Note(Game.Content.Load<Texture2D>("Sprites\\GH_Sprites"),
+                            Notes[i, j] = new Note(Game.Content.Load<Texture2D>("Sprites\\My_Sprites"),
                                           new Rectangle(noteSpriteSheetSize * i, 0, noteSpriteSheetSize, noteSpriteSheetSize), -noteSpriteSheetOffset);
                             break;
                         case 1:  // Red Notes
-                            Notes[i, j] = new Note(Game.Content.Load<Texture2D>("Sprites\\GH_Sprites"),
+                            Notes[i, j] = new Note(Game.Content.Load<Texture2D>("Sprites\\My_Sprites"),
                                           new Rectangle(noteSpriteSheetSize * i, 0, noteSpriteSheetSize, noteSpriteSheetSize), -noteSpriteSheetOffset);
                             break;
                         case 2:  // Yellow Notes
-                            Notes[i, j] = new Note(Game.Content.Load<Texture2D>("Sprites\\GH_Sprites"),
+                            Notes[i, j] = new Note(Game.Content.Load<Texture2D>("Sprites\\My_Sprites"),
                                           new Rectangle(noteSpriteSheetSize * i, 0, noteSpriteSheetSize, noteSpriteSheetSize), -noteSpriteSheetOffset);
                             break;
                         case 3:  // Blue Notes
-                            Notes[i, j] = new Note(Game.Content.Load<Texture2D>("Sprites\\GH_Sprites"),
+                            Notes[i, j] = new Note(Game.Content.Load<Texture2D>("Sprites\\My_Sprites"),
                                           new Rectangle(noteSpriteSheetSize * i, 0, noteSpriteSheetSize, noteSpriteSheetSize), -noteSpriteSheetOffset);
                             break;
                         case 4:  // Orange Notes
-                            Notes[i, j] = new Note(Game.Content.Load<Texture2D>("Sprites\\GH_Sprites"),
+                            Notes[i, j] = new Note(Game.Content.Load<Texture2D>("Sprites\\My_Sprites"),
                                           new Rectangle(noteSpriteSheetSize * i, 0, noteSpriteSheetSize, noteSpriteSheetSize), -noteSpriteSheetOffset);
                             break;
                     }
