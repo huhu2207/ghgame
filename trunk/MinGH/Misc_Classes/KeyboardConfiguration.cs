@@ -13,7 +13,8 @@ namespace MinGH.Misc_Classes
         public static Keys yellow = Keys.D;
         public static Keys blue = Keys.F;
         public static Keys orange = Keys.G;
-        public static Keys strum = Keys.Enter;
+        public static Keys upStrum = Keys.Up;
+        public static Keys downStrum = Keys.Down;
         public static Keys starPower = Keys.RightShift;
 
         public static Keys getKey(int num)
