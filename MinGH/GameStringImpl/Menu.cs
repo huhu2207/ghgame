@@ -15,12 +15,12 @@ namespace MinGH.GameStringImpl
         /// <summary>
         /// Specifies the currently selected option
         /// </summary>
-        int currentlySelectedEntry { get; set; }
+        public int currentlySelectedEntry { get; set; }
 
         /// <summary>
         /// The vertical pixel size of the font being used (do not apply scaling to this value)
         /// </summary>
-        int fontSize { get; set; }
+        public int fontSize { get; set; }
 
         /// <summary>
         /// Sets and gets the scaling value for every entry in the menu (i.e. batch scaling).
@@ -42,12 +42,12 @@ namespace MinGH.GameStringImpl
         /// <summary>
         /// The vertical pixel space between each menu entry.
         /// </summary>
-        int entryPadding { get; set; }
+        public int entryPadding { get; set; }
 
         /// <summary>
         /// The vertical pixel space between the menu and the first menu entry.
         /// </summary>
-        int titlePadding { get; set; }
+        public int titlePadding { get; set; }
 
         /// <summary>
         /// Edits the scaling value of the menu title directly

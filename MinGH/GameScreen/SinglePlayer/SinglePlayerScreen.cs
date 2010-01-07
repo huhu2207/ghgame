@@ -22,6 +22,7 @@ namespace MinGH.GameScreen.SinglePlayer
         int hyperSpeedSetting = 5;  // Selects the speed in which the notes come
         int milisecondOffsetFineTune = 0;  // Use to adjust the timing of the notes
 
+        MinGHMain gameReference;
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;  // Draws the shapes
         Rectangle viewportRectangle;  // The window itself
@@ -66,9 +67,10 @@ namespace MinGH.GameScreen.SinglePlayer
         PointSpriteRenderer renderer = new PointSpriteRenderer();
         ColorModifier modifier = new ColorModifier();
 
-        public SinglePlayerScreen(Game game, GraphicsDeviceManager graph)
+        public SinglePlayerScreen(MinGHMain game, GraphicsDeviceManager graph)
             : base(game)
         {
+            gameReference = game;
             graphics = graph;
         }
 
@@ -187,6 +189,12 @@ namespace MinGH.GameScreen.SinglePlayer
                 system.playSound(CHANNELINDEX.FREE, musicSound, false, ref musicChannel);
                 audioIsPlaying = true;
                 system.createSound("./tick.wav", MODE.HARDWARE, ref tickSound);
+            }
+
+            if (keyboardInputManager.keyIsHit(Keys.Escape))
+            {
+                UnloadContent();
+                gameReference.ChangeGameState(0);
             }
 
             musicChannel.getPosition(ref currentMsec, TIMEUNIT.MS);
