@@ -5,6 +5,7 @@ using MinGH.GameScreen;
 using System.Collections.Generic;
 using MinGH.GameScreen.MainMenu;
 using MinGH.GameScreen.SinglePlayer;
+using MinGH.Enum;
 
 namespace MinGH
 {
@@ -70,22 +71,38 @@ namespace MinGH
             base.Draw(gameTime);
         }
 
-        public void ChangeGameState(int code)
+        /// <summary>
+        /// The main game flow function.  Is called whenever a new game screen/state
+        /// is to be displayed/entered.
+        /// </summary>
+        /// <param name="newState">The new game state to enter.</param>
+        public void ChangeGameState(GameStateEnum newState)
         {
-            switch (code)
+            switch (newState)
             {
-                case -1:
+                case GameStateEnum.QuitGame:
                     Exit();
                     break;
-                case 0:
+                case GameStateEnum.MainMenu:
                     EnterNewGameScreen(new MainMenuScreen(this, graphics));
                     break;
-                case 1:
+                case GameStateEnum.SinglePlayer:
                     EnterNewGameScreen(new SinglePlayerScreen(this, graphics));
+                    break;
+                case GameStateEnum.SongSelection:
+                    EnterNewGameScreen(new SongSelectionScreen(this, graphics));
                     break;
             }
         }
 
+        /// <summary>
+        /// Removes all current components from the component list and adds a new
+        /// screen ontop of the list.
+        /// TODO: This method removes ALL game components, which can be a problem if 
+        /// I want to use random components outside of the screen spectrum.  
+        /// Components.Remove() did not work from what I tried.
+        /// </summary>
+        /// <param name="newScreen">The new screen to display.</param>
         private void EnterNewGameScreen(DrawableGameComponent newScreen)
         {
             Components.Clear();

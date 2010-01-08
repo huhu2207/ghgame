@@ -10,6 +10,7 @@ using MinGH.Misc_Classes;
 using ProjectMercury.Emitters;
 using ProjectMercury.Modifiers;
 using ProjectMercury.Renderers;
+using MinGH.Enum;
 
 namespace MinGH.GameScreen.SinglePlayer
 {
@@ -19,7 +20,7 @@ namespace MinGH.GameScreen.SinglePlayer
     class SinglePlayerScreen : DrawableGameComponent
     {
         // User variables
-        int hyperSpeedSetting = 1;  // Selects the speed in which the notes come
+        int hyperSpeedSetting = 2;  // Selects the speed in which the notes come
         int milisecondOffsetFineTune = 0;  // Use to adjust the timing of the notes
 
         MinGHMain gameReference;
@@ -27,7 +28,7 @@ namespace MinGH.GameScreen.SinglePlayer
         SpriteBatch spriteBatch;  // Draws the shapes
         Rectangle viewportRectangle;  // The window itself
         Texture2D backgroundTex;  // The background texture
-        SpriteFont game_font;  // The font the game will use
+        SpriteFont gameFont;  // The font the game will use
         Note[,] Notes;  // Will hold every note currently on the screen
         const int maxNotesOnscreen = 50;  // Maximum amount of a single note (i.e. how many reds per frame)
         HyperSpeedList hyperSpeedList = new HyperSpeedList();
@@ -114,7 +115,7 @@ namespace MinGH.GameScreen.SinglePlayer
 
         protected override void LoadContent()
         {
-            game_font = Game.Content.Load<SpriteFont>("Arial");  // Load the font
+            gameFont = Game.Content.Load<SpriteFont>("Arial");  // Load the font
             mainChart = new Chart("chart.chart");  // Setup the chart
             backgroundTex = Game.Content.Load<Texture2D>("Backgrounds\\GH_Background");
 
@@ -194,7 +195,7 @@ namespace MinGH.GameScreen.SinglePlayer
             if (keyboardInputManager.keyIsHit(Keys.Escape))
             {
                 UnloadContent();
-                gameReference.ChangeGameState(0);
+                gameReference.ChangeGameState(GameStateEnum.MainMenu);
             }
 
             musicChannel.getPosition(ref currentMsec, TIMEUNIT.MS);
@@ -260,7 +261,7 @@ namespace MinGH.GameScreen.SinglePlayer
             spriteBatch.Draw(backgroundTex, viewportRectangle, Color.White);
 
             // Draw every string in str_manager
-            strManager.DrawStrings(spriteBatch, game_font);
+            strManager.DrawStrings(spriteBatch, gameFont);
 
             //Draw the notes
             for (int i = 0; i < Notes.GetLength(0); i++)

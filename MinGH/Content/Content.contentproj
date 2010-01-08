@@ -45,13 +45,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Sprites\GH_Sprites.png">
-      <Name>GH_Sprites</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Backgrounds\GH_Background.png">
       <Name>GH_Background</Name>
       <Importer>TextureImporter</Importer>
@@ -73,6 +66,11 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Sprites\GH_Sprites.png">
+      <Name>GH_Sprites</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
     <Compile Include="Sprites\My_Sprites.png">
       <Name>My_Sprites</Name>
       <Importer>TextureImporter</Importer>

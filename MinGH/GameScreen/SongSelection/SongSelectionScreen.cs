@@ -3,11 +3,12 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using MinGH.GameStringImpl;
 using MinGH.Misc_Classes;
+using System.IO;
 using MinGH.Enum;
 
 namespace MinGH.GameScreen.MainMenu
 {
-    public class MainMenuScreen : DrawableGameComponent
+    public class SongSelectionScreen : DrawableGameComponent
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;  // Draws the shapes
@@ -17,7 +18,7 @@ namespace MinGH.GameScreen.MainMenu
         SpriteFont gameFont;
         IKeyboardInputManager keyboardInputManager = new KeyboardInputManager();
 
-        public MainMenuScreen(MinGHMain game, GraphicsDeviceManager graph)
+        public SongSelectionScreen(MinGHMain game, GraphicsDeviceManager graph)
             : base((Game)game)
         {
             gameReference = game;
@@ -26,12 +27,12 @@ namespace MinGH.GameScreen.MainMenu
 
         public override void Initialize()
         {
-            mainMenu = new Menu("Main Menu", new Vector2(graphics.GraphicsDevice.Viewport.Width / 2f, graphics.GraphicsDevice.Viewport.Height / 4f));
+            mainMenu = new Menu("Song Selection", new Vector2(graphics.GraphicsDevice.Viewport.Width / 2f, graphics.GraphicsDevice.Viewport.Height / 4f));
             
             mainMenu.titleScaling = new Vector2(5.0f, 5.0f);
             mainMenu.entryScaling = new Vector2(2.0f, 2.0f);
 
-            mainMenu.AddEntry("Start");
+            mainMenu.AddEntry("poo");
             mainMenu.AddEntry("Options");
             mainMenu.AddEntry("Quit");
 
@@ -66,23 +67,15 @@ namespace MinGH.GameScreen.MainMenu
 
             if (keyboardInputManager.keyIsHit(Keys.Enter) || keyboardInputManager.keyIsHit(KeyboardConfiguration.green))
             {
-                switch (mainMenu.currentlySelectedEntry)
-                {
-                    case 1:
-                        gameReference.ChangeGameState(GameStateEnum.SongSelection);
-                        break;
-                    case 2:
-                        //gameReference.ChangeGameState(0);
-                        break;
-                    case 3:
-                        gameReference.ChangeGameState(GameStateEnum.QuitGame);
-                        break;
-                }
+                //switch (mainMenu.currentlySelectedEntry)
+                //{
+                    
+                //}
             }
 
             if (keyboardInputManager.keyIsHit(Keys.Escape))
             {
-                gameReference.ChangeGameState(GameStateEnum.QuitGame);
+                gameReference.ChangeGameState(GameStateEnum.MainMenu);
             }
 
             base.Update(gameTime);
