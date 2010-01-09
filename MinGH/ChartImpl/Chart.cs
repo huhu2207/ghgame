@@ -42,16 +42,16 @@ namespace MinGH.ChartImpl
             else
             {
                 // Read the whole file into a string
-                StreamReader input_stream = new StreamReader(filename);
-                string input_file = input_stream.ReadToEnd();
+                StreamReader inputStream = new StreamReader(filename);
+                string inputFile = inputStream.ReadToEnd();
 
                 // Add in all the various chart information
-                chartInfo = ChartInfoManager.AddSongInfo(input_file);
-                BPMChanges = ChartBPMManager.AddBPMChanges(input_file);
-                events = ChartEventManager.AddEvents(input_file);
+                chartInfo = ChartInfoManager.AddSongInfo(inputFile);
+                BPMChanges = ChartBPMManager.AddBPMChanges(inputFile);
+                events = ChartEventManager.AddEvents(inputFile);
 
                 // Adds just the expert notechart, can make a sneaky way of doing all avaliable charts later
-                noteCharts.Add(ChartNotechartManager.GenerateNotechart("ExpertSingle", input_file));
+                noteCharts.Add(ChartNotechartManager.GenerateNotechart("ExpertSingle", inputFile));
                 for (int i = 0; i < noteCharts.Count; i++)
                 {
                     noteCharts[i] = ChartTimeValueManager.GenerateTimeValues(noteCharts[i], BPMChanges,
@@ -61,7 +61,7 @@ namespace MinGH.ChartImpl
                 }
 
                 // Close the input stream
-                input_stream.Close();
+                inputStream.Close();
             }
         }
 
@@ -69,7 +69,7 @@ namespace MinGH.ChartImpl
         /// A debugging function that will print out alll relavent data from the chart
         /// onto the console.
         /// </summary>
-        public void print_info()
+        public void printInfo()
         {
             Console.WriteLine("Song Name = {0}", chartInfo.songName);
             Console.WriteLine("Artist Name = {0}", chartInfo.artistName);

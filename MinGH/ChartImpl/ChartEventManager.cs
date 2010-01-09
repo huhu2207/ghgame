@@ -26,7 +26,6 @@ namespace MinGH.ChartImpl
         public static List<Event> AddEvents(string input_string)
         {
             List<Event> eventListToReturn = new List<Event>();
-            ProperStringCreator properStringCreator = new ProperStringCreator();
 
             // Single out the event section via regular expressions
             string pattern = Regex.Escape("[") + "Events]\\s*" + Regex.Escape("{") + "[^}]*";
@@ -49,7 +48,7 @@ namespace MinGH.ChartImpl
                     if (parsed_line[2] == "E")
                     {
                         eventListToReturn.Add(new Event(Convert.ToUInt32(parsed_line[0]),
-                                              properStringCreator.createProperString(parsed_line.SubArray(3, parsed_line.Length))));
+                                              ProperStringCreator.createProperString(parsed_line.SubArray(3, parsed_line.Length))));
                     }
                 }
             }

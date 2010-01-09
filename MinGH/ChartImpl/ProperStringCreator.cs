@@ -16,7 +16,7 @@ namespace MinGH.ChartImpl
         /// <returns>
         /// A fully trimmed and concatenated string (i.e. Hello this is my input)
         /// </returns>
-        public string createProperString(string[] input)
+        public static string createProperString(string[] input)
         {
             string result = "";  // Create the return string
 
