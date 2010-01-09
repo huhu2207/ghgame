@@ -17,6 +17,9 @@ namespace MinGH.ChartImpl
             chartLengthMiliseconds = 0;
             HOPOThreshold = 12;
             resolution = 192;
+            musicStream = null;
+            guitarStream = null;
+            bassStream = null;
         }
 
         /// <summary>
@@ -49,5 +52,20 @@ namespace MinGH.ChartImpl
         /// The number of ticks between two quarter notes (is almost always 192)
         /// </summary>
         public int resolution;
+
+        /// <summary>
+        /// The background music file for the chart (used if no bass or guitar stream is present)
+        /// </summary>
+        public string musicStream;
+
+        /// <summary>
+        /// The gutiar music file for the chart.
+        /// </summary>
+        public string guitarStream;
+
+        /// <summary>
+        /// The bass music file for the chart.
+        /// </summary>
+        public string bassStream;
     }
 }

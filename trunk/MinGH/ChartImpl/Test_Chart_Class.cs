@@ -14,7 +14,7 @@ namespace MinGH
         public static void test()
         {
             Chart test = new Chart("chart.chart");
-            test.print_info();
+            test.printInfo();
             Console.WriteLine("SUCCESS!! Press enter to quit...");
             Console.ReadLine();
         }

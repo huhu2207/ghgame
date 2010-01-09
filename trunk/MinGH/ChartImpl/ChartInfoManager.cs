@@ -24,7 +24,6 @@ namespace MinGH.ChartImpl
         public static ChartInfo AddSongInfo(string inputFile)
         {
             ChartInfo chartInfoToReturn = new ChartInfo();
-            ProperStringCreator properStringCreator = new ProperStringCreator();
 
             // Single out the song section via regular expressions
             string pattern = Regex.Escape("[") + "Song]\\s*" + Regex.Escape("{") + "[^}]*";
@@ -44,12 +43,12 @@ namespace MinGH.ChartImpl
                 // Check for various song infos and parse accordingly
                 if (parsed_line[0] == "Name")
                 {
-                    chartInfoToReturn.songName = properStringCreator.createProperString(parsed_line.SubArray(2, parsed_line.Length));
+                    chartInfoToReturn.songName = ProperStringCreator.createProperString(parsed_line.SubArray(2, parsed_line.Length));
                 }
 
                 else if (parsed_line[0] == "Artist")
                 {
-                    chartInfoToReturn.artistName = properStringCreator.createProperString(parsed_line.SubArray(2, parsed_line.Length));
+                    chartInfoToReturn.artistName = ProperStringCreator.createProperString(parsed_line.SubArray(2, parsed_line.Length));
                 }
 
                 else if (parsed_line[0] == "Offset")
@@ -65,6 +64,21 @@ namespace MinGH.ChartImpl
                 else if (parsed_line[0] == "hopo_note")
                 {
                     chartInfoToReturn.HOPOThreshold = int.Parse(parsed_line[2]);
+                }
+
+                else if (parsed_line[0] == "MusicStream")
+                {
+                    chartInfoToReturn.musicStream = ProperStringCreator.createProperString(parsed_line.SubArray(2, parsed_line.Length));
+                }
+
+                else if (parsed_line[0] == "GuitarStream")
+                {
+                    chartInfoToReturn.guitarStream = ProperStringCreator.createProperString(parsed_line.SubArray(2, parsed_line.Length));
+                }
+
+                else if (parsed_line[0] == "BassStream")
+                {
+                    chartInfoToReturn.bassStream = ProperStringCreator.createProperString(parsed_line.SubArray(2, parsed_line.Length));
                 }
             }
 

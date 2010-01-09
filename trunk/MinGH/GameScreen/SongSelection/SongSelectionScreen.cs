@@ -1,10 +1,11 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using MinGH.Enum;
 using MinGH.GameStringImpl;
 using MinGH.Misc_Classes;
 using System.IO;
-using MinGH.Enum;
+using System.Collections.Generic;
 
 namespace MinGH.GameScreen.MainMenu
 {
@@ -27,14 +28,17 @@ namespace MinGH.GameScreen.MainMenu
 
         public override void Initialize()
         {
+            List<string> chartPaths = GenerateAllChartPaths("./Songs");
+
             mainMenu = new Menu("Song Selection", new Vector2(graphics.GraphicsDevice.Viewport.Width / 2f, graphics.GraphicsDevice.Viewport.Height / 4f));
             
             mainMenu.titleScaling = new Vector2(5.0f, 5.0f);
             mainMenu.entryScaling = new Vector2(2.0f, 2.0f);
 
-            mainMenu.AddEntry("poo");
-            mainMenu.AddEntry("Options");
-            mainMenu.AddEntry("Quit");
+            foreach (string currChart in chartPaths)
+            {
+                mainMenu.AddEntry(currChart);
+            }
 
             spriteBatch = new SpriteBatch(graphics.GraphicsDevice);
 
@@ -90,6 +94,36 @@ namespace MinGH.GameScreen.MainMenu
             spriteBatch.End();
 
             base.Draw(gameTime);
+        }
+
+        private List<string> GenerateAllChartPaths(string songDirectory)
+        {
+            List<string> listOfCharts = new List<string>();
+
+            try
+            {
+                SearchDirectoryForCharts(songDirectory, listOfCharts);
+            }
+            catch (IOException e)
+            {
+                e.ToString();
+                //TODO: Add some logging for exceptions.
+            }
+
+            return listOfCharts;
+        }
+
+        private List<string> SearchDirectoryForCharts(string directory, List<string> listOfCharts)
+        {
+            foreach (string currDirectory in Directory.GetDirectories(directory))
+            {
+                foreach (string currFile in Directory.GetFiles(currDirectory, "*.chart"))
+                {
+                    listOfCharts.Add(currFile);
+                }
+                SearchDirectoryForCharts(currDirectory, listOfCharts);
+            }
+            return listOfCharts;
         }
     }
 }
