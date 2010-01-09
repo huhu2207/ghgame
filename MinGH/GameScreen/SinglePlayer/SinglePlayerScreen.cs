@@ -56,8 +56,12 @@ namespace MinGH.GameScreen.SinglePlayer
         // Variables related to the audio playing and note syncing
         private FMOD.System system = new FMOD.System();
         private FMOD.Channel musicChannel = new FMOD.Channel();
+        private FMOD.Channel guitarChannel = new FMOD.Channel();
+        private FMOD.Channel bassChannel = new FMOD.Channel();
         private FMOD.Channel tickChannel = new FMOD.Channel();
         private FMOD.Sound musicSound = new FMOD.Sound();
+        private FMOD.Sound guitarSound = new FMOD.Sound();
+        private FMOD.Sound bassSound = new FMOD.Sound();
         private FMOD.Sound tickSound = new FMOD.Sound();
         RESULT result = new RESULT();
         uint currentMsec = 0;
@@ -118,7 +122,7 @@ namespace MinGH.GameScreen.SinglePlayer
         protected override void LoadContent()
         {
             gameFont = Game.Content.Load<SpriteFont>("Arial");  // Load the font
-            mainChart = new Chart(chartLocation.chartName);  // Setup the chart
+            mainChart = new Chart(chartLocation.chartPath);  // Setup the chart
             backgroundTex = Game.Content.Load<Texture2D>("Backgrounds\\GH_Background");
 
             // Setup the notes appearance and velocity
@@ -185,11 +189,66 @@ namespace MinGH.GameScreen.SinglePlayer
             // Start the song immediately
             if (audioIsPlaying == false)
             {
-                string musicLocation = chartLocation.directory + "\\" +mainChart.chartInfo.musicStream;
                 FMOD.Factory.System_Create(ref system);
-                system.init(32, INITFLAGS.NORMAL, (IntPtr)null);
-                result = system.createSound(musicLocation, MODE.HARDWARE, ref musicSound);
-                system.playSound(CHANNELINDEX.FREE, musicSound, false, ref musicChannel);
+                system.init(32, INITFLAGS.NORMAL | INITFLAGS.SOFTWARE_OCCLUSION, (IntPtr)null);
+                //uint minDelay = 0, hi = 0, lo = 0;
+                //int ass = 0;
+
+                if (mainChart.chartInfo.musicStream != null)
+                {
+                    string musicLocation = chartLocation.directory + "\\" + mainChart.chartInfo.musicStream;
+                    result = system.createSound(musicLocation, MODE.HARDWARE, ref musicSound);
+                    
+                }
+                if (mainChart.chartInfo.guitarStream != null)
+                {
+                    string guitarLocation = chartLocation.directory + "\\" + mainChart.chartInfo.guitarStream;
+                    result = system.createSound(guitarLocation, MODE.HARDWARE, ref guitarSound);
+                    
+                }
+                if (mainChart.chartInfo.bassStream != null)
+                {
+                    string bassLocation = chartLocation.directory + "\\" + mainChart.chartInfo.bassStream;
+                    result = system.createSound(bassLocation, MODE.HARDWARE, ref bassSound);
+                    
+                }
+
+                //system.getDSPBufferSize(ref minDelay, ref ass);
+                //minDelay *= 2;
+
+                //result = system.playSound(CHANNELINDEX.FREE, musicSound, true, ref musicChannel);
+                //result = system.playSound(CHANNELINDEX.FREE, guitarSound, true, ref guitarChannel);
+                //result = system.playSound(CHANNELINDEX.FREE, bassSound, true, ref bassChannel);
+
+                //result = musicChannel.getDelay(DELAYTYPE.DSPCLOCK_START, ref hi, ref lo);
+                ////result = system.getDSPClock(ref hi, ref lo);
+                //lo += minDelay;
+                //result = musicChannel.setDelay(DELAYTYPE.DSPCLOCK_START, hi, lo);
+
+                //result = system.getDSPClock(ref hi, ref lo);
+                //lo += minDelay;
+                //result = guitarChannel.setDelay(DELAYTYPE.DSPCLOCK_START, hi, lo);
+
+                //result = system.getDSPClock(ref hi, ref lo);
+                //lo += minDelay;
+                //result = bassChannel.setDelay(DELAYTYPE.DSPCLOCK_START, hi, lo);
+
+                //musicChannel.setPaused(false);
+                //guitarChannel.setPaused(false);
+                //bassChannel.setPaused(false);
+
+                result = system.playSound(CHANNELINDEX.FREE, musicSound, false, ref musicChannel);
+                result = system.playSound(CHANNELINDEX.FREE, guitarSound, false, ref guitarChannel);
+                result = system.playSound(CHANNELINDEX.FREE, bassSound, false, ref bassChannel);
+
+                // A VERY hackey and uninformed way of syncing the three tracks after playing.
+                // Sadly this is the only way that I could get to work.
+                uint musicPositon = 0;
+                musicChannel.getPosition(ref musicPositon, TIMEUNIT.MS);
+                guitarChannel.setPosition((uint)(musicPositon * 1.75), TIMEUNIT.MS);
+                musicChannel.getPosition(ref musicPositon, TIMEUNIT.MS);
+                bassChannel.setPosition((uint)(musicPositon * 1.75), TIMEUNIT.MS);
+
                 audioIsPlaying = true;
                 system.createSound("./tick.wav", MODE.HARDWARE, ref tickSound);
             }
@@ -244,6 +303,8 @@ namespace MinGH.GameScreen.SinglePlayer
             if (currentMsec > mainChart.chartInfo.chartLengthMiliseconds)
             {
                 musicChannel.stop();
+                bassChannel.stop();
+                guitarChannel.stop();
             }
 
             // Update every particle explosion

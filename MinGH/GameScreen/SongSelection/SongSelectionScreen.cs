@@ -10,10 +10,15 @@ using MinGH.GameScreen.MiscClasses;
 
 namespace MinGH.GameScreen.SongSelection
 {
+    /// <summary>
+    /// Finds and displays every chart within the "./songs" directory.
+    /// Selecting a song will proceed to the single player game screen
+    /// using the selected song.
+    /// </summary>
     public class SongSelectionScreen : DrawableGameComponent
     {
         GraphicsDeviceManager graphics;
-        SpriteBatch spriteBatch;  // Draws the shapes
+        SpriteBatch spriteBatch;
         MinGHMain gameReference;
         List<ChartLocation> chartPaths;
 
@@ -30,7 +35,7 @@ namespace MinGH.GameScreen.SongSelection
 
         public override void Initialize()
         {
-            chartPaths = GenerateAllChartPaths("./Songs");
+            chartPaths = ChartFinder.GenerateAllChartPaths("./Songs");
 
             songSelectionMenu = new Menu("Song Selection", new Vector2(graphics.GraphicsDevice.Viewport.Width / 2f, graphics.GraphicsDevice.Viewport.Height / 4f));
             
@@ -62,6 +67,7 @@ namespace MinGH.GameScreen.SongSelection
         {
             keyboardInputManager.processKeyboardState(Keyboard.GetState());
 
+            // Menu navagation logic
             if (keyboardInputManager.keyIsHit(Keys.Down) || keyboardInputManager.keyIsHit(KeyboardConfiguration.downStrum))
             {
                 songSelectionMenu.SelectNextEntry();
@@ -70,12 +76,12 @@ namespace MinGH.GameScreen.SongSelection
             {
                 songSelectionMenu.SelectPreviousEntry();
             }
-
             if (keyboardInputManager.keyIsHit(Keys.Enter) || keyboardInputManager.keyIsHit(KeyboardConfiguration.green))
             {
                 gameReference.ChangeGameState(GameStateEnum.SinglePlayer, chartPaths[songSelectionMenu.currentlySelectedEntry - 1]);
             }
 
+            // Go back to the main menu if escape is hit
             if (keyboardInputManager.keyIsHit(Keys.Escape))
             {
                 gameReference.ChangeGameState(GameStateEnum.MainMenu, null);
@@ -94,37 +100,5 @@ namespace MinGH.GameScreen.SongSelection
 
             base.Draw(gameTime);
         }
-
-        private List<ChartLocation> GenerateAllChartPaths(string songDirectory)
-        {
-            List<ChartLocation> listOfCharts = new List<ChartLocation>();
-
-            try
-            {
-                SearchDirectoryForCharts(songDirectory, listOfCharts);
-            }
-            catch (IOException e)
-            {
-                e.ToString();
-                //TODO: Add some logging for exceptions.
-            }
-
-            return listOfCharts;
-        }
-
-        private List<ChartLocation> SearchDirectoryForCharts(string directory, List<ChartLocation> listOfCharts)
-        {
-            foreach (string currDirectory in Directory.GetDirectories(directory))
-            {
-                foreach (string currFile in Directory.GetFiles(currDirectory, "*.chart"))
-                {
-                    listOfCharts.Add(new ChartLocation { chartName = currFile, directory = currDirectory });
-                }
-                SearchDirectoryForCharts(currDirectory, listOfCharts);
-            }
-            return listOfCharts;
-        }
-
-        
     }
 }
