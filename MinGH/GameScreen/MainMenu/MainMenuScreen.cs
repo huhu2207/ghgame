@@ -2,7 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using MinGH.GameStringImpl;
-using MinGH.Misc_Classes;
+using MinGH.MiscClasses;
 using MinGH.Enum;
 
 namespace MinGH.GameScreen.MainMenu
@@ -69,20 +69,20 @@ namespace MinGH.GameScreen.MainMenu
                 switch (mainMenu.currentlySelectedEntry)
                 {
                     case 1:
-                        gameReference.ChangeGameState(GameStateEnum.SongSelection);
+                        gameReference.ChangeGameState(GameStateEnum.SongSelection, null);
                         break;
                     case 2:
-                        //gameReference.ChangeGameState(0);
+                        //gameReference.ChangeGameState(GameStateEnum.SinglePlayer);
                         break;
                     case 3:
-                        gameReference.ChangeGameState(GameStateEnum.QuitGame);
+                        gameReference.ChangeGameState(GameStateEnum.QuitGame, null);
                         break;
                 }
             }
 
             if (keyboardInputManager.keyIsHit(Keys.Escape))
             {
-                gameReference.ChangeGameState(GameStateEnum.QuitGame);
+                gameReference.ChangeGameState(GameStateEnum.QuitGame, null);
             }
 
             base.Update(gameTime);

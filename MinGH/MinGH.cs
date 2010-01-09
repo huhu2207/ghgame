@@ -1,11 +1,9 @@
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using MinGH.GameScreen;
-using System.Collections.Generic;
+using MinGH.Enum;
 using MinGH.GameScreen.MainMenu;
 using MinGH.GameScreen.SinglePlayer;
-using MinGH.Enum;
+using MinGH.GameScreen.SongSelection;
+using MinGH.GameScreen.MiscClasses;
 
 namespace MinGH
 {
@@ -76,7 +74,8 @@ namespace MinGH
         /// is to be displayed/entered.
         /// </summary>
         /// <param name="newState">The new game state to enter.</param>
-        public void ChangeGameState(GameStateEnum newState)
+        /// <param name="chartToUse">The "optional" chart location (is sent null if not used).</param>
+        public void ChangeGameState(GameStateEnum newState, ChartLocation chartToUse)
         {
             switch (newState)
             {
@@ -87,7 +86,7 @@ namespace MinGH
                     EnterNewGameScreen(new MainMenuScreen(this, graphics));
                     break;
                 case GameStateEnum.SinglePlayer:
-                    EnterNewGameScreen(new SinglePlayerScreen(this, graphics));
+                    EnterNewGameScreen(new SinglePlayerScreen(this, graphics, chartToUse));
                     break;
                 case GameStateEnum.SongSelection:
                     EnterNewGameScreen(new SongSelectionScreen(this, graphics));

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using MinGH.ChartImpl;
-using MinGH.Misc_Classes;
+using MinGH.MiscClasses;
 
 namespace MinGH.GameScreen.SinglePlayer
 {

@@ -1,16 +1,16 @@
 ﻿using System;
 using FMOD;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using MinGH.ChartImpl;
+using MinGH.Enum;
 using MinGH.GameStringImpl;
-using MinGH.Misc_Classes;
+using MinGH.MiscClasses;
 using ProjectMercury.Emitters;
 using ProjectMercury.Modifiers;
 using ProjectMercury.Renderers;
-using MinGH.Enum;
+using MinGH.GameScreen.MiscClasses;
 
 namespace MinGH.GameScreen.SinglePlayer
 {
@@ -25,6 +25,7 @@ namespace MinGH.GameScreen.SinglePlayer
 
         MinGHMain gameReference;
         GraphicsDeviceManager graphics;
+        ChartLocation chartLocation;
         SpriteBatch spriteBatch;  // Draws the shapes
         Rectangle viewportRectangle;  // The window itself
         Texture2D backgroundTex;  // The background texture
@@ -68,11 +69,12 @@ namespace MinGH.GameScreen.SinglePlayer
         PointSpriteRenderer renderer = new PointSpriteRenderer();
         ColorModifier modifier = new ColorModifier();
 
-        public SinglePlayerScreen(MinGHMain game, GraphicsDeviceManager graph)
+        public SinglePlayerScreen(MinGHMain game, GraphicsDeviceManager graph, ChartLocation inputLocation)
             : base(game)
         {
             gameReference = game;
             graphics = graph;
+            chartLocation = inputLocation;
         }
 
         public override void Initialize()
@@ -116,7 +118,7 @@ namespace MinGH.GameScreen.SinglePlayer
         protected override void LoadContent()
         {
             gameFont = Game.Content.Load<SpriteFont>("Arial");  // Load the font
-            mainChart = new Chart("chart.chart");  // Setup the chart
+            mainChart = new Chart(chartLocation.chartName);  // Setup the chart
             backgroundTex = Game.Content.Load<Texture2D>("Backgrounds\\GH_Background");
 
             // Setup the notes appearance and velocity
@@ -183,10 +185,10 @@ namespace MinGH.GameScreen.SinglePlayer
             // Start the song immediately
             if (audioIsPlaying == false)
             {
-                //audio_engine.Play2D("guitar.ogg", true);
+                string musicLocation = chartLocation.directory + "\\" +mainChart.chartInfo.musicStream;
                 FMOD.Factory.System_Create(ref system);
                 system.init(32, INITFLAGS.NORMAL, (IntPtr)null);
-                system.createSound("./guitar.ogg", MODE.HARDWARE, ref musicSound);
+                result = system.createSound(musicLocation, MODE.HARDWARE, ref musicSound);
                 system.playSound(CHANNELINDEX.FREE, musicSound, false, ref musicChannel);
                 audioIsPlaying = true;
                 system.createSound("./tick.wav", MODE.HARDWARE, ref tickSound);
@@ -195,7 +197,7 @@ namespace MinGH.GameScreen.SinglePlayer
             if (keyboardInputManager.keyIsHit(Keys.Escape))
             {
                 UnloadContent();
-                gameReference.ChangeGameState(GameStateEnum.MainMenu);
+                gameReference.ChangeGameState(GameStateEnum.MainMenu, null);
             }
 
             musicChannel.getPosition(ref currentMsec, TIMEUNIT.MS);
@@ -231,7 +233,7 @@ namespace MinGH.GameScreen.SinglePlayer
                                     noteSpriteSheetSize, playerInformation, hitBox);
 
             // Update varous strings
-            strManager.SetString(0, "Current MSEC:\n" + hitBox.physicalHitbox.Y);
+            //strManager.SetString(0, "Current MSEC:\n" + musicLocation);
             strManager.SetString(1, "HOPO?:\n" + Convert.ToString(playerInformation.HOPOState));
             strManager.SetString(4, "Score: " + playerInformation.currentScore.ToString() + "\n\n" +
                                      "Multiplier : " + playerInformation.currentMultiplier.ToString() + "\n\n" +

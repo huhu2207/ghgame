@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
-using MinGH.Misc_Classes;
+using MinGH.MiscClasses;
 using MinGH.ChartImpl;
 using System.Collections.Generic;
 
