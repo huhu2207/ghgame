@@ -124,6 +124,7 @@
     <Compile Include="GameScreen\KeyboardInputManager.cs" />
     <Compile Include="GameScreen\SinglePlayer\SinglePlayerStringInitializer.cs" />
     <Compile Include="GameScreen\IKeyboardInputManager.cs" />
+    <Compile Include="GameScreen\SongSelection\ChartFinder.cs" />
     <Compile Include="MiscClasses\ChartLocation.cs" />
     <Compile Include="GameScreen\SongSelection\SongSelectionScreen.cs" />
     <Compile Include="GameStringImpl\GameString.cs" />
