@@ -124,19 +124,20 @@
     <Compile Include="GameScreen\KeyboardInputManager.cs" />
     <Compile Include="GameScreen\SinglePlayer\SinglePlayerStringInitializer.cs" />
     <Compile Include="GameScreen\IKeyboardInputManager.cs" />
+    <Compile Include="MiscClasses\ChartLocation.cs" />
     <Compile Include="GameScreen\SongSelection\SongSelectionScreen.cs" />
     <Compile Include="GameStringImpl\GameString.cs" />
     <Compile Include="GameStringImpl\Menu.cs" />
-    <Compile Include="Misc_Classes\GameObject.cs" />
+    <Compile Include="MiscClasses\GameObject.cs" />
     <Compile Include="GameStringImpl\GameStringManager.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="MinGH.cs" />
-    <Compile Include="Misc_Classes\KeyboardConfiguration.cs" />
-    <Compile Include="Misc_Classes\Note.cs" />
-    <Compile Include="Misc_Classes\PlayerInformation.cs" />
+    <Compile Include="MiscClasses\KeyboardConfiguration.cs" />
+    <Compile Include="MiscClasses\Note.cs" />
+    <Compile Include="MiscClasses\PlayerInformation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ChartImpl\Test_Chart_Class.cs" />
-    <Compile Include="Misc_Classes\Timer.cs" />
+    <Compile Include="MiscClasses\Timer.cs" />
   </ItemGroup>
   <ItemGroup>
     <NestedContentProject Include="Content\Content.contentproj">

@@ -3,19 +3,21 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using MinGH.Enum;
 using MinGH.GameStringImpl;
-using MinGH.Misc_Classes;
+using MinGH.MiscClasses;
 using System.IO;
 using System.Collections.Generic;
+using MinGH.GameScreen.MiscClasses;
 
-namespace MinGH.GameScreen.MainMenu
+namespace MinGH.GameScreen.SongSelection
 {
     public class SongSelectionScreen : DrawableGameComponent
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;  // Draws the shapes
         MinGHMain gameReference;
+        List<ChartLocation> chartPaths;
 
-        Menu mainMenu;
+        Menu songSelectionMenu;
         SpriteFont gameFont;
         IKeyboardInputManager keyboardInputManager = new KeyboardInputManager();
 
@@ -28,16 +30,16 @@ namespace MinGH.GameScreen.MainMenu
 
         public override void Initialize()
         {
-            List<string> chartPaths = GenerateAllChartPaths("./Songs");
+            chartPaths = GenerateAllChartPaths("./Songs");
 
-            mainMenu = new Menu("Song Selection", new Vector2(graphics.GraphicsDevice.Viewport.Width / 2f, graphics.GraphicsDevice.Viewport.Height / 4f));
+            songSelectionMenu = new Menu("Song Selection", new Vector2(graphics.GraphicsDevice.Viewport.Width / 2f, graphics.GraphicsDevice.Viewport.Height / 4f));
             
-            mainMenu.titleScaling = new Vector2(5.0f, 5.0f);
-            mainMenu.entryScaling = new Vector2(2.0f, 2.0f);
+            songSelectionMenu.titleScaling = new Vector2(5.0f, 5.0f);
+            songSelectionMenu.entryScaling = new Vector2(2.0f, 2.0f);
 
-            foreach (string currChart in chartPaths)
+            for (int i = 0; i < chartPaths.Count; i++)
             {
-                mainMenu.AddEntry(currChart);
+                songSelectionMenu.AddEntry(chartPaths[i].directory);
             }
 
             spriteBatch = new SpriteBatch(graphics.GraphicsDevice);
@@ -62,24 +64,21 @@ namespace MinGH.GameScreen.MainMenu
 
             if (keyboardInputManager.keyIsHit(Keys.Down) || keyboardInputManager.keyIsHit(KeyboardConfiguration.downStrum))
             {
-                mainMenu.SelectNextEntry();
+                songSelectionMenu.SelectNextEntry();
             }
             else if (keyboardInputManager.keyIsHit(Keys.Up) || keyboardInputManager.keyIsHit(KeyboardConfiguration.upStrum))
             {
-                mainMenu.SelectPreviousEntry();
+                songSelectionMenu.SelectPreviousEntry();
             }
 
             if (keyboardInputManager.keyIsHit(Keys.Enter) || keyboardInputManager.keyIsHit(KeyboardConfiguration.green))
             {
-                //switch (mainMenu.currentlySelectedEntry)
-                //{
-                    
-                //}
+                gameReference.ChangeGameState(GameStateEnum.SinglePlayer, chartPaths[songSelectionMenu.currentlySelectedEntry - 1]);
             }
 
             if (keyboardInputManager.keyIsHit(Keys.Escape))
             {
-                gameReference.ChangeGameState(GameStateEnum.MainMenu);
+                gameReference.ChangeGameState(GameStateEnum.MainMenu, null);
             }
 
             base.Update(gameTime);
@@ -90,15 +89,15 @@ namespace MinGH.GameScreen.MainMenu
             graphics.GraphicsDevice.Clear(Color.Black);
 
             spriteBatch.Begin(SpriteBlendMode.AlphaBlend);
-            mainMenu.Draw(spriteBatch, gameFont);
+            songSelectionMenu.Draw(spriteBatch, gameFont);
             spriteBatch.End();
 
             base.Draw(gameTime);
         }
 
-        private List<string> GenerateAllChartPaths(string songDirectory)
+        private List<ChartLocation> GenerateAllChartPaths(string songDirectory)
         {
-            List<string> listOfCharts = new List<string>();
+            List<ChartLocation> listOfCharts = new List<ChartLocation>();
 
             try
             {
@@ -113,17 +112,19 @@ namespace MinGH.GameScreen.MainMenu
             return listOfCharts;
         }
 
-        private List<string> SearchDirectoryForCharts(string directory, List<string> listOfCharts)
+        private List<ChartLocation> SearchDirectoryForCharts(string directory, List<ChartLocation> listOfCharts)
         {
             foreach (string currDirectory in Directory.GetDirectories(directory))
             {
                 foreach (string currFile in Directory.GetFiles(currDirectory, "*.chart"))
                 {
-                    listOfCharts.Add(currFile);
+                    listOfCharts.Add(new ChartLocation { chartName = currFile, directory = currDirectory });
                 }
                 SearchDirectoryForCharts(currDirectory, listOfCharts);
             }
             return listOfCharts;
         }
+
+        
     }
 }

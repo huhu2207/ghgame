@@ -1,5 +1,5 @@
 ﻿using Microsoft.Xna.Framework.Input;
-using MinGH.Misc_Classes;
+using MinGH.MiscClasses;
 
 namespace MinGH.GameScreen
 {
