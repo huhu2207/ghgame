@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using MinGH.Config;
 
 namespace MinGH.GameScreen.SinglePlayer
 {
