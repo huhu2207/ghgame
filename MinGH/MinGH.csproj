@@ -109,6 +109,8 @@
     <Compile Include="ChartImpl\Notechart.cs" />
     <Compile Include="ChartImpl\NoteType.cs" />
     <Compile Include="ChartImpl\ProperStringCreator.cs" />
+    <Compile Include="Config\GameConfiguration.cs" />
+    <Compile Include="Config\SpeedModReader.cs" />
     <Compile Include="Enum\GameStateEnum.cs" />
     <Compile Include="Extensions\SubArrayExtension.cs" />
     <Compile Include="FMOD\fmod.cs" />
@@ -116,8 +118,7 @@
     <Compile Include="GameScreen\MainMenu\MainMenuScreen.cs" />
     <Compile Include="GameScreen\SinglePlayer\SinglePlayerScreen.cs" />
     <Compile Include="GameScreen\SinglePlayer\HorizontalHitBox.cs" />
-    <Compile Include="GameScreen\SinglePlayer\HyperSpeedValue.cs" />
-    <Compile Include="GameScreen\SinglePlayer\HyperSpeedList.cs" />
+    <Compile Include="Config\HyperSpeedValue.cs" />
     <Compile Include="GameScreen\SinglePlayer\NoteParticleExplosionEmitters.cs" />
     <Compile Include="GameScreen\SinglePlayer\NoteUpdater.cs" />
     <Compile Include="GameScreen\SinglePlayer\PlayerInputManager.cs" />

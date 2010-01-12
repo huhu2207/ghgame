@@ -11,6 +11,7 @@ using ProjectMercury.Emitters;
 using ProjectMercury.Modifiers;
 using ProjectMercury.Renderers;
 using MinGH.GameScreen.MiscClasses;
+using MinGH.Config;
 
 namespace MinGH.GameScreen.SinglePlayer
 {
@@ -19,25 +20,19 @@ namespace MinGH.GameScreen.SinglePlayer
     /// </summary>
     class SinglePlayerScreen : DrawableGameComponent
     {
-        // User variables
-        int hyperSpeedSetting = 2;  // Selects the speed in which the notes come
-        int milisecondOffsetFineTune = 0;  // Use to adjust the timing of the notes
-
         MinGHMain gameReference;
         GraphicsDeviceManager graphics;
         ChartLocation chartLocation;
+        GameConfiguration gameConfiguration;
         SpriteBatch spriteBatch;  // Draws the shapes
         Rectangle viewportRectangle;  // The window itself
         Texture2D backgroundTex;  // The background texture
         SpriteFont gameFont;  // The font the game will use
         Note[,] Notes;  // Will hold every note currently on the screen
         const int maxNotesOnscreen = 50;  // Maximum amount of a single note (i.e. how many reds per frame)
-        HyperSpeedList hyperSpeedList = new HyperSpeedList();
         int noteIterator;  // These iterators are used to keep track of which note to observe next
         const int noteLeftPadding = 196;  // How far from the left the green note is placed in pixels
         const int noteWidth = 86;  // How far each lane is on the background
-        double currentNoteVelocityMultiplier = 0.0;  // Used to calculate the speed of a note
-        int currentMilisecondOffset = 0;  // The number of miliseconds a note must come early
 
         // Sprite Sheet Variables
         const int noteSpriteSheetOffset = 6;  // How many pixels pad the left side of a note on the sprite sheet
@@ -93,20 +88,13 @@ namespace MinGH.GameScreen.SinglePlayer
             // Create the sprite bacth
             spriteBatch = new SpriteBatch(graphics.GraphicsDevice);
 
-            // Setup the note velocity constant (HYPERSPEEDS!!)
-            if ((hyperSpeedSetting < 0) || (hyperSpeedSetting > hyperSpeedList.theList.Count))
-            {
-                hyperSpeedSetting = 0;
-            }
-            currentMilisecondOffset = hyperSpeedList.theList[hyperSpeedSetting].milisecondOffset +
-                                      milisecondOffsetFineTune;
-            currentNoteVelocityMultiplier = hyperSpeedList.theList[hyperSpeedSetting].noteVelocityMultiplier;
+            gameConfiguration = new GameConfiguration("./config.xml");
 
             // Create the hitbox
             hitBox = new HorizontalHitBox(new Rectangle(0, 0,
                                           graphics.GraphicsDevice.Viewport.Width,
                                           graphics.GraphicsDevice.Viewport.Height),
-                                          hyperSpeedList.theList[hyperSpeedSetting]);
+                                          gameConfiguration.speedModValue);
 
             // Set up the particle explosions
             noteParticleExplosionEmitters.initalizeEmitters();
@@ -153,7 +141,7 @@ namespace MinGH.GameScreen.SinglePlayer
                                           new Rectangle(noteSpriteSheetSize * i, 0, noteSpriteSheetSize, noteSpriteSheetSize), -noteSpriteSheetOffset);
                             break;
                     }
-                    Notes[i,j].velocity = new Vector2(0.0f, (float)currentNoteVelocityMultiplier);
+                    Notes[i,j].velocity = new Vector2(0.0f, (float)gameConfiguration.speedModValue.noteVelocityMultiplier);
                 }
             }
 
@@ -242,7 +230,7 @@ namespace MinGH.GameScreen.SinglePlayer
                 result = system.playSound(CHANNELINDEX.FREE, bassSound, false, ref bassChannel);
 
                 // A VERY hackey and uninformed way of syncing the three tracks after playing.
-                // Sadly this is the only way that I could get to work.
+                // Sadly this is the only way that I could get to "work."
                 uint musicPositon = 0;
                 musicChannel.getPosition(ref musicPositon, TIMEUNIT.MS);
                 guitarChannel.setPosition((uint)(musicPositon * 1.75), TIMEUNIT.MS);
@@ -288,7 +276,7 @@ namespace MinGH.GameScreen.SinglePlayer
                                                   mainChart.noteCharts[0]);
 
             NoteUpdater.updateNotes(mainChart.noteCharts[0], ref noteIterator, Notes, viewportRectangle,
-                                    gameTime, currentNoteVelocityMultiplier, noteWidth, currentMsec + currentMilisecondOffset,
+                                    gameTime, gameConfiguration.speedModValue.noteVelocityMultiplier, noteWidth, currentMsec + gameConfiguration.speedModValue.milisecondOffset,
                                     noteSpriteSheetSize, playerInformation, hitBox);
 
             // Update varous strings

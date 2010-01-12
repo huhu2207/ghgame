@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace MinGH.GameScreen.SinglePlayer
+namespace MinGH.Config
 {
     /// <summary>
     /// A simple class that encapsulates the values for a proper hyper speed setting.
@@ -21,6 +21,10 @@ namespace MinGH.GameScreen.SinglePlayer
         /// value (which gets the actual speed).
         /// </summary>
         public double noteVelocityMultiplier { get; set; }
+
+        public HyperSpeedValue() :
+            this(900, 0.5)
+        {}
 
         public HyperSpeedValue(int MSOffset, double NVMult)
         {
