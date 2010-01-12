@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace MinGH.ChartImpl
+﻿namespace MinGH.ChartImpl
 {
-    /// <remarks>
+    /// <summary>
     /// Manages the hammeron/pulloff and chord states of each note within a notechart.
-    /// </remarks>
+    /// </summary>
     class ChartHOPOManager
     {
         /// <summary>
@@ -17,6 +12,9 @@ namespace MinGH.ChartImpl
         /// </summary>
         /// <param name="inputNotechart">
         /// Any notechart (expected to not have hammeron information already filled out).
+        /// </param>
+        /// <param name="inputChartInfo">
+        /// All information pertaining to the chart.
         /// </param>
         /// <returns>
         /// The same notechart with proper hammeron note settings.

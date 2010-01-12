@@ -4,9 +4,9 @@ using System.IO;
 
 namespace MinGH.ChartImpl
 {
-    /// <remarks>
+    /// <summary>
     /// The master chart class.  All data pertaining to a particular chart is located here.
-    /// </remarks>
+    /// </summary>
     class Chart
     {
         /// <summary>
@@ -55,7 +55,7 @@ namespace MinGH.ChartImpl
                 for (int i = 0; i < noteCharts.Count; i++)
                 {
                     noteCharts[i] = ChartTimeValueManager.GenerateTimeValues(noteCharts[i], BPMChanges,
-                                     ref events, chartInfo.offset, ref chartInfo.chartLengthMiliseconds);
+                                     events, chartInfo);
 
                     noteCharts[i] = ChartHOPOManager.AssignHOPOS(noteCharts[i], chartInfo);
                 }
@@ -101,23 +101,23 @@ namespace MinGH.ChartImpl
         /// <summary>
         /// Stores metadata on the chart.  See the ChartInfo class for more.
         /// </summary>
-        public ChartInfo chartInfo;
+        public ChartInfo chartInfo { get; set; }
 
         /// <summary>
         /// A list of every BPM change in the chart.
         /// </summary>
-        public List<BPMChange> BPMChanges;
+        public List<BPMChange> BPMChanges { get; set; }
 		
 		/// <summary>
 		/// A list of every event in the chart.
 		/// </summary>
-        public List<Event> events;
+        public List<Event> events { get; set; }
 
         /// <summary>
         /// A list of every avaliable notechart (i.e. ExpertSingle, MediumDoubleGuitar).
         /// The string constructor, at the moment, does not intelligently pick out every
         /// valid chart within that particular file.  It only chooses ExpertSingle for now.
         /// </summary>
-        public List<Notechart> noteCharts;
+        public List<Notechart> noteCharts { get; set; }
     }
 }

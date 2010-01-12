@@ -3,6 +3,9 @@ using MinGH.MiscClasses;
 
 namespace MinGH.GameScreen
 {
+    /// <summary>
+    /// See IKeyboardInputManager.
+    /// </summary>
     class KeyboardInputManager : IKeyboardInputManager
     {
         KeyboardState currentState, previousState;
@@ -12,7 +15,7 @@ namespace MinGH.GameScreen
         /// be accurate (i.e. the currentState and previousState need to be filled
         /// out with real information).
         /// </summary>
-        private int updatesWaited;
+        private int updatesWaited { get; set; }
 
         public KeyboardInputManager()
         {

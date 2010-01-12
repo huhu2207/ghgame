@@ -1,14 +1,14 @@
 using Microsoft.Xna.Framework;
 using MinGH.Enum;
+using MinGH.GameScreen;
 using MinGH.GameScreen.MainMenu;
 using MinGH.GameScreen.SinglePlayer;
 using MinGH.GameScreen.SongSelection;
-using MinGH.GameScreen.MiscClasses;
 
 namespace MinGH
 {
     /// <summary>
-    /// This is the main type for your game
+    /// This is the main type for the game.
     /// </summary>
     public class MinGHMain : Microsoft.Xna.Framework.Game
     {

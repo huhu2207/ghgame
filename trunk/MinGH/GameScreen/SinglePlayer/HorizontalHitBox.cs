@@ -3,10 +3,10 @@ using MinGH.Config;
 
 namespace MinGH.GameScreen.SinglePlayer
 {
-    /// <remarks>
+    /// <summary>
     /// A thin horizontal rectangle that is used to detect the accuracy of the users input
     /// while playing MinGH.
-    /// </remarks>
+    /// </summary>
     class HorizontalHitBox
     {
 		/// <summary>
@@ -19,7 +19,7 @@ namespace MinGH.GameScreen.SinglePlayer
 		/// need to concern ourselves with the Y value since the bounding rectangle will
 		/// span the entire screen on the X axis.
 		/// </summary>
-        public int centerLocation;
+        public int centerLocation { get; set; }
 		
 		/// <summary>
 		/// How many pixels away from the center value can the note be hit and considered
@@ -44,6 +44,10 @@ namespace MinGH.GameScreen.SinglePlayer
         /// </summary>
         public int goodThreshold  { get; set; }
 
+        /// <summary>
+        /// The base size of the good threshold before the note velocity is taken into
+        /// consideration.
+        /// </summary>
         public const int goodThresholdConstant = 140;
 
         /// <summary>
@@ -65,7 +69,7 @@ namespace MinGH.GameScreen.SinglePlayer
         /// The dimensions for the entire screen (i.e. 800x600).  This is usally gotten
         /// from a graphics object.
         /// </param>
-        public HorizontalHitBox(Rectangle gameScreenRectangle, HyperSpeedValue currHyperspeed)
+        public HorizontalHitBox(Rectangle gameScreenRectangle, SpeedModValue currHyperspeed)
         {
             // The hit box center is at 85% towards the bottom.
             // NOTE: we convert to int...this may introduce slight error on some resolutions

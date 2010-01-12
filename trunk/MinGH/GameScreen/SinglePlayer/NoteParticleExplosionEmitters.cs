@@ -6,24 +6,33 @@ using ProjectMercury.Emitters;
 
 namespace MinGH.GameScreen.SinglePlayer
 {
-    /// <remarks>
+    /// <summary>
     /// A manager class that generates and stores the particle emitters for the
     /// note explosion animation.
-    /// </remarks>
+    /// </summary>
     class NoteParticleExplosionEmitters
     {
 		/// <summary>
 		/// The list of the actual emitters.  There should only be 5 for MinGH, but a list
 		/// is used in case of future note additions.
 		/// </summary>
-        public List<CircleEmitter> emitterList = new List<CircleEmitter>();
+        public List<CircleEmitter> emitterList { get; set; }
 		
 		/// <summary>
 		/// A list that mirrors the emitterList, but instead stores the locations for each
 		/// particle emitter.  The two lists should be encapsulated into one list contating
 		/// a custom class...
 		/// </summary>
-        public List<Vector2> explosionLocations = new List<Vector2>();
+        public List<Vector2> explosionLocations { get; set; }
+
+        /// <summary>
+        /// Default constructor.
+        /// </summary>
+        public NoteParticleExplosionEmitters()
+        {
+            emitterList = new List<CircleEmitter>();
+            explosionLocations = new List<Vector2>();
+        }
 
 		/// <summary>
 		/// Initializes each of the emitters and adds them to the emitter list.

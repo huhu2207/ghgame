@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace MinGH.GameScreen.MiscClasses
+﻿namespace MinGH.GameScreen
 {
     /// <summary>
     /// A simple string class that stores the full path to a chart in addition to 

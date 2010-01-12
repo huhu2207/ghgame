@@ -1,17 +1,20 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using MinGH.Enum;
 using MinGH.GameStringImpl;
 using MinGH.MiscClasses;
-using MinGH.Enum;
 
 namespace MinGH.GameScreen.MainMenu
 {
+    /// <summary>
+    /// The main menu screen for the game.
+    /// </summary>
     public class MainMenuScreen : DrawableGameComponent
     {
         GraphicsDeviceManager graphics;
-        SpriteBatch spriteBatch;  // Draws the shapes
-        MinGHMain gameReference;
+        SpriteBatch spriteBatch;
+        MinGHMain gameReference;  // The refrence to the game itself, used for changing the state.
 
         Menu mainMenu;
         SpriteFont gameFont;
@@ -72,7 +75,7 @@ namespace MinGH.GameScreen.MainMenu
                         gameReference.ChangeGameState(GameStateEnum.SongSelection, null);
                         break;
                     case 2:
-                        //gameReference.ChangeGameState(GameStateEnum.SinglePlayer);
+                        //TODO: Options Menu
                         break;
                     case 3:
                         gameReference.ChangeGameState(GameStateEnum.QuitGame, null);

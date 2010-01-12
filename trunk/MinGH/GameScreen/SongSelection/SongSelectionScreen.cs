@@ -1,12 +1,11 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using MinGH.Config;
 using MinGH.Enum;
 using MinGH.GameStringImpl;
 using MinGH.MiscClasses;
-using System.IO;
-using System.Collections.Generic;
-using MinGH.GameScreen.MiscClasses;
 
 namespace MinGH.GameScreen.SongSelection
 {
@@ -21,6 +20,7 @@ namespace MinGH.GameScreen.SongSelection
         SpriteBatch spriteBatch;
         MinGHMain gameReference;
         List<ChartLocation> chartPaths;
+        GameConfiguration gameConfiguration;
 
         Menu songSelectionMenu;
         SpriteFont gameFont;
@@ -35,7 +35,8 @@ namespace MinGH.GameScreen.SongSelection
 
         public override void Initialize()
         {
-            chartPaths = ChartFinder.GenerateAllChartPaths("./Songs");
+            gameConfiguration = new GameConfiguration("./config.xml");
+            chartPaths = ChartFinder.GenerateAllChartPaths(gameConfiguration.songDirectory);
 
             songSelectionMenu = new Menu("Song Selection", new Vector2(graphics.GraphicsDevice.Viewport.Width / 2f, graphics.GraphicsDevice.Viewport.Height / 4f));
             

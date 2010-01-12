@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
-using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace MinGH.GameStringImpl
 {
-	/// <remarks>
+	/// <summary>
 	/// A manager class that allows for easy access and management of multiple gamestrings.
-	/// </remarks>
+	/// </summary>
     class GameStringManager
     {
         /// <summary>

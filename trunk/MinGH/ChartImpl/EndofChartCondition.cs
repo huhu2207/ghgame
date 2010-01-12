@@ -1,17 +1,13 @@
-﻿
-namespace MinGH.ChartImpl
+﻿namespace MinGH.ChartImpl
 {
-    /// <remarks>
+    /// <summary>
     /// A class that allows for easy checking for "end of notechart" when doing a time manager run through.
-    /// </remarks>
+    /// </summary>
     class EndofChartCondition
     {
-		/// <summary>
-		/// Various boolean values that get set off if no more values of a specific type are avaliable
-		/// </summary>
-        public bool noMoreEvents;
-        public bool noMoreNotes;
-        public bool noMoreSPNotes;
+        public bool noMoreEvents { get; set; }
+        public bool noMoreNotes { get; set; }
+        public bool noMoreSPNotes { get; set; }
 
 		/// <summary>
 		/// Default constructor
@@ -47,7 +43,7 @@ namespace MinGH.ChartImpl
         }
 
         /// <summary>
-        /// The overloading of the true operator.  This class is false when any boolean member value is false.
+        /// The overloading of the false operator.  This class is false when any boolean member value is false.
         /// </summary>
         /// <param name="myCondition">
         /// The end of chart condition to be testing.

@@ -1,9 +1,9 @@
 ﻿
 namespace MinGH.ChartImpl
 {
-	/// <remarks>
+	/// <summary>
 	/// Creates a single string from a specificly made string array.
-	/// </remarks>
+	/// </summary>
     class ProperStringCreator
     {
         /// <summary>

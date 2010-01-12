@@ -2,9 +2,9 @@
 
 namespace MinGH.ChartImpl
 {
-	/// <remarks>
+	/// <summary>
 	/// A manager class that calculates the milisecond value for each note within a notechart.
-	/// </remarks>
+	/// </summary>
     class ChartTimeValueManager
     {
         /// <summary>
@@ -26,24 +26,18 @@ namespace MinGH.ChartImpl
         /// The event list that will be scanned.  This list also gets its time values calculated, so a pass
         /// by refrence is necrssary.
         /// </param>
-        /// <param name="chartOffset">
-        /// The general offset of the chart in seconds.  This value will be first converted to flat miliseconds
-        /// and then added to the current milisecond.  This effectively adds the offset to every note and event.
-        /// See the ChartInfo class for more information on the offset.
-        /// </param>
-        /// <param name="chartLengthMiliseconds">
-        /// This is the total length of the chart as a whole.  This value also needs to be returned,
-        /// so it is passed by refrenced.
+        /// <param name="chartInfo">
+        /// The information (particularly the offset and milisecond chart length) of the chart.
         /// </param>
         /// <returns>
         /// A notechart that is the same as the input notechart, but every note has a milisecond value filled out.
         /// </returns>
         public static Notechart GenerateTimeValues(Notechart inputNotechart, List<BPMChange> inputBPMChanges,
-                                           ref List<Event> inputEvents, float chartOffset, ref uint chartLengthMiliseconds)
+                                           List<Event> inputEvents, ChartInfo chartInfo)
         {
             double currentTick = 0.0;
             double currentTicksPerMilisecond = 0.0;
-            uint currentMilisecond = (uint)(chartOffset * 1000);  // Convert the chart offset into flat miliseconds
+            uint currentMilisecond = (uint)(chartInfo.offset * 1000);  // Convert the chart offset into flat miliseconds
 
             int notechartIterator = 0;
             int SPNoteIterator = 0;
@@ -119,7 +113,7 @@ namespace MinGH.ChartImpl
                 currentTick += currentTicksPerMilisecond;
                 currentMilisecond++;
             }
-            chartLengthMiliseconds = currentMilisecond;
+            chartInfo.chartLengthMiliseconds = currentMilisecond;
             return noteChartToReturn;
         }
     }

@@ -1,14 +1,20 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Xml;
 
 namespace MinGH.Config
 {
+    /// <summary>
+    /// Reads an XML file for the currently selected speed mod.
+    /// The XML file have a special format simiar to the provided file.
+    /// </summary>
     public class SpeedModReader
     {
-        public static HyperSpeedValue ReadInSpeedModsFromXML(string sourceXMLFile)
+        /// <summary>
+        /// Read in the currently specified speed mod as per the configuration XML file.
+        /// </summary>
+        /// <param name="sourceXMLFile">Path to the configuration XML file.</param>
+        /// <returns>A constructed SpeedModValue.</returns>
+        public static SpeedModValue ReadInCurrentSpeedModFromXML(string sourceXMLFile)
         {
             bool speedModFound = false;
             double NVMultiplier = 0.0;
@@ -37,11 +43,11 @@ namespace MinGH.Config
 
             if (speedModFound)
             {
-                return new HyperSpeedValue(MSOffset, NVMultiplier);
+                return new SpeedModValue(MSOffset, NVMultiplier);
             }
             else
             {
-                return new HyperSpeedValue();
+                return new SpeedModValue();
             }
         }
     }

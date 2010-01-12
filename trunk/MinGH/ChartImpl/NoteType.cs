@@ -1,13 +1,18 @@
 ﻿namespace MinGH.ChartImpl
 {
+    /// <summary>
+    /// Class that designates what buttons are in a particular note (e.g. a GY chord would
+    /// have green = true and yellow = true, while a single green note would just be
+    /// green = true).
+    /// </summary>
     public class NoteType
     {
-        public bool Green;
-        public bool Red;
-        public bool Yellow;
-        public bool Blue;
-        public bool Orange;
-        public bool SP;
+        public bool Green { get; set; }
+        public bool Red { get; set; }
+        public bool Yellow { get; set; }
+        public bool Blue { get; set; }
+        public bool Orange { get; set; }
+        public bool SP { get; set; }
 
         public NoteType()
         {
