@@ -4,9 +4,17 @@ using MinGH.GameStringImpl;
 
 namespace MinGH.GameScreen.SinglePlayer
 {
+    /// <summary>
+    /// Static class that initializes the strings on a single player screen.
+    /// </summary>
     class SinglePlayerStringInitializer
     {
-        // This is where the programmer will initialize all strings used in the program
+        /// <summary>
+        /// This is where the programmer will initialize all strings used in a single player screen.
+        /// </summary>
+        /// <param name="screenWidth">The width of the game window.</param>
+        /// <param name="screenHeight">The height of the game window.</param>
+        /// <returns>A filled out game string manager.</returns>
         public static GameStringManager initializeStrings(int screenWidth,
                                                           int screenHeight)
         {

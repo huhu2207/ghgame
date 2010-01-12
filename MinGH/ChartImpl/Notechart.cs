@@ -3,10 +3,10 @@ using System.Collections.Generic;
 
 namespace MinGH.ChartImpl
 {
-	/// <remarks>
+	/// <summary>
 	/// Stores information on a specific notechart.
 	/// A Chart can have multiple Notecharts (i.e. easy, medium).
-	/// </remarks>
+	/// </summary>
     class Notechart
     {
         /// <summary>
@@ -52,16 +52,16 @@ namespace MinGH.ChartImpl
 		/// <summary>
 		/// The actual name the of notechart (i.e. ExpertDoubleGuitar)
 		/// </summary>
-        public string Chart_Name;
+        public string Chart_Name { get; set; }
 
         /// <summary>
         /// List that contains every single note in the chart.
         /// </summary>
-        public List<ChartNote> notes;
+        public List<ChartNote> notes { get; set; }
 
         /// <summary>
         /// A list containing every star power note in the chart.
         /// </summary>
-        public List<ChartNote> SPNotes;
+        public List<ChartNote> SPNotes { get; set; }
     }
 }

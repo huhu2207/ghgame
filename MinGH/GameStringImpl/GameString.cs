@@ -3,10 +3,10 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace MinGH.GameStringImpl
 {
-	/// <remarks>
+	/// <summary>
 	/// A generic class that encapsulates the process of drawing strings on an XNA screen
-	/// </remarks>
-    class GameString
+	/// </summary>
+    public class GameString
     {
         /// <summary>
         /// Default constructor.
@@ -62,37 +62,37 @@ namespace MinGH.GameStringImpl
         /// <param name="spriteBatch">
         /// The spritebatch used to physically draw the string.
         /// </param>
-        public void Draw (SpriteFont game_font, SpriteBatch spriteBatch)
+        public void Draw (SpriteFont gameFont, SpriteBatch spriteBatch)
         {
-            Vector2 curr_origin = game_font.MeasureString(this.value) / 2;
-            spriteBatch.DrawString(game_font, this.value, this.position, this.color,
+            Vector2 curr_origin = gameFont.MeasureString(this.value) / 2;
+            spriteBatch.DrawString(gameFont, this.value, this.position, this.color,
                                    0, curr_origin, this.scale, SpriteEffects.None, 0.5f);
         }
 
 		/// <summary>
 		/// The actual value of the string.
 		/// </summary>
-        public string value;
+        public string value { get; set; }
 		
 		/// <summary>
 		/// The position of the string on screen when drawn.
 		/// </summary>
-        public Vector2 position;
+        public Vector2 position { get; set; }
 		
 		/// <summary>
 		/// The scaling size of the string when drawn.
 		/// </summary>
-        public Vector2 scale;
+        public Vector2 scale { get; set; }
 		
 		/// <summary>
 		/// A simple boolean for the programmer to use if they want the string to only show
 		/// during certian circumstances.
 		/// </summary>
-        public bool alive;
+        public bool alive { get; set; }
 		
 		/// <summary>
 		/// The actual color of the string when drawn.
 		/// </summary>
-        public Color color;
+        public Color color { get; set; }
     }
 }

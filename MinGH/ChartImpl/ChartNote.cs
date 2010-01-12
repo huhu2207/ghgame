@@ -2,9 +2,9 @@
 
 namespace MinGH.ChartImpl
 {
-    /// <remarks>
+    /// <summary>
     /// The class that stores information.  Is derived from the Entity class.
-    /// </remarks>
+    /// </summary>
     class ChartNote : Entity
     {
         /// <summary>
@@ -161,21 +161,21 @@ namespace MinGH.ChartImpl
 		/// <summary>
 		/// The actual length of the note (i.e. how long the player will have to hold the proper button down).
 		/// </summary>
-        public int Duration;
+        public int Duration { get; set; }
 
         /// <summary>
         /// What kind of note this is (i.e. Red, Blue, SP, etc.).
         /// </summary>
-        public NoteType noteType;
+        public NoteType noteType { get; set; }
 
         /// <summary>
         /// Is this note a hammeron/pulloff?
         /// </summary>
-        public bool isHOPO;
+        public bool isHOPO { get; set; }
 
         /// <summary>
         /// Is this note a part of a chord?
         /// </summary>
-        public bool isChord;
+        public bool isChord { get; set; }
     }
 }

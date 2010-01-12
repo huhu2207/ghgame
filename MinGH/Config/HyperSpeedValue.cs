@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace MinGH.Config
+﻿namespace MinGH.Config
 {
     /// <summary>
-    /// A simple class that encapsulates the values for a proper hyper speed setting.
+    /// A simple class that encapsulates the values for a proper speed mod setting.
     /// </summary>
-    public class HyperSpeedValue
+    public class SpeedModValue
     {
         /// <summary>
         /// The number of miliseconds a note must be drawn early to keep the notes
@@ -22,11 +17,19 @@ namespace MinGH.Config
         /// </summary>
         public double noteVelocityMultiplier { get; set; }
 
-        public HyperSpeedValue() :
+        /// <summary>
+        /// Default constructor.  Uses pre-defined values.
+        /// </summary>
+        public SpeedModValue() :
             this(900, 0.5)
         {}
 
-        public HyperSpeedValue(int MSOffset, double NVMult)
+        /// <summary>
+        /// Creates a new HyperSpeedValue with the provided data.
+        /// </summary>
+        /// <param name="MSOffset">The milisecond offset.</param>
+        /// <param name="NVMult">The note velocity multiplier.</param>
+        public SpeedModValue(int MSOffset, double NVMult)
         {
             milisecondOffset = MSOffset;
             noteVelocityMultiplier = NVMult;

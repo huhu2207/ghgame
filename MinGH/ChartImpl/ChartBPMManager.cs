@@ -5,10 +5,10 @@ using System.Text.RegularExpressions;
 
 namespace MinGH.ChartImpl
 {
-	/// <remarks>
+	/// <sumamry>
 	/// A manager class that will read and store all BPM changes in a chart in an
 	/// organized manner.
-	/// </remarks>
+	/// </summary>
     class ChartBPMManager
     {
         /// <summary>

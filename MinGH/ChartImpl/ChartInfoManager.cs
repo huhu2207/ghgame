@@ -4,10 +4,10 @@ using MinGH.Extensions;
 
 namespace MinGH.ChartImpl
 {
-	/// <remarks>
+	/// <summary>
 	/// A manager class that will read and store some of the chart information in an
 	/// organized manner.
-	/// </remarks>
+	/// </summary>
     class ChartInfoManager
     {
         /// <summary>

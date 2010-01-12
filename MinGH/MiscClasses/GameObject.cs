@@ -1,13 +1,12 @@
-﻿// The classes and functions for the various game objects used
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace MinGH.MiscClasses
 {
-    /// <remarks>
+    /// <summary>
     /// The wrapper class that allows for easy creation and manipulation of visible
     /// objects on the game screen.  Note this class has functionality for sprite sheets.
-    /// </remarks>
+    /// </summary>
     public class GameObject
     {
         /// <summary>
@@ -53,34 +52,34 @@ namespace MinGH.MiscClasses
         /// The physical texture this object will use.  This can be a sprite or a
         /// spritesheet.
         /// </summary>
-        public Texture2D spriteSheet;
+        public Texture2D spriteSheet { get; set; }
 		
 		/// <summary>
 		/// The position this game object is currently located.  This position is where
 		/// the top left of the sprite is to be drawn.
 		/// </summary>
-        public Vector2 position;
+        public Vector2 position { get; set; }
 		
 		/// <summary>
 		/// The rotation the sprite currently has.
 		/// </summary>
-        public float rotation;
+        public float rotation { get; set; }
 		
 		/// <summary>
 		/// The center point of the sprite texture used.  This is really calculated using
 		/// the provided sprite sheet rectangle.
 		/// </summary>
-        public Vector2 center;
+        public Vector2 center { get; set; }
 		
 		/// <summary>
 		/// The speed and direction in which the sprite is to be currently moving
 		/// </summary>
-        public Vector2 velocity;
+        public Vector2 velocity { get; set; }
 		
 		/// <summary>
 		/// A boolean value that dictates wether this sprite is to be drawn or not.
 		/// </summary>
-        public bool alive;
+        public bool alive { get; set; }
 		
 		/// <summary>
 		/// The rectangle that encompasses the desire section of the sprite sheet that
@@ -93,6 +92,6 @@ namespace MinGH.MiscClasses
 		/// Informs the program that there is a padding on the left side of the sprite sheet.
 		/// Use this if all the sprites appear to be slightly moved to the right.
 		/// </summary>
-        public int spriteSheetOffset;
+        public int spriteSheetOffset { get; set; }
     }
 }

@@ -1,9 +1,8 @@
-﻿
-namespace MinGH.MiscClasses
+﻿namespace MinGH.MiscClasses
 {
-	/// <remarks>
+	/// <summary>
 	/// Contains all information on a player during a MinGH session.
-	/// </remarks>
+	/// </summary>
     class PlayerInformation
     {
 		/// <summary>
@@ -36,28 +35,28 @@ namespace MinGH.MiscClasses
 		/// <summary>
 		/// The players current health.  If this number drops below 1, the player loses.
 		/// </summary>
-        public int currentHealth;
+        public int currentHealth { get; set; }
 		
 		/// <summary>
 		/// The current amount of notes the player has hit without miss.
 		/// </summary>
-        public int currentCombo;
+        public int currentCombo { get; set; }
 		
 		/// <summary>
 		/// The current multiplier the player has.  The multiplier will multiply the note's
 		/// base score and add the resulting value to the users current score.
 		/// </summary>
-        public int currentMultiplier;
+        public int currentMultiplier { get; set; }
 		
 		/// <summary>
 		/// The current score the user has.
 		/// </summary>
-        public uint currentScore;
+        public uint currentScore { get; set; }
 
         /// <summary>
         /// If the user is currently playing hopos (and is not missing any).
         /// </summary>
-        public bool HOPOState;
+        public bool HOPOState { get; set; }
 
         /// <summary>
         /// Default constructor.

@@ -1,9 +1,8 @@
-﻿
-namespace MinGH.MiscClasses
+﻿namespace MinGH.MiscClasses
 {
-    /// <remarks>
+    /// <summary>
     /// A basic timer class.
-    /// </remarks>
+    /// </summary>
     class Timer
     {
         /// <summary>
@@ -11,10 +10,10 @@ namespace MinGH.MiscClasses
         /// </summary>
         public Timer()
         {
-            timer_name = "default";
-            current_time = 0;
-            end_value = 1;
-            is_up = false;
+            timerName = "default";
+            currentTime = 0;
+            endValue = 1;
+            isUp = false;
         }
 
         /// <summary>
@@ -25,10 +24,10 @@ namespace MinGH.MiscClasses
         /// </param>
         public Timer(string input_name)
         {
-            timer_name = input_name;
-            current_time = 0;
-            end_value = 1;
-            is_up = false;
+            timerName = input_name;
+            currentTime = 0;
+            endValue = 1;
+            isUp = false;
         }
 
         /// <summary>
@@ -39,31 +38,31 @@ namespace MinGH.MiscClasses
         /// </param>
         public void Update(double in_time)
         {
-            current_time += in_time;
+            currentTime += in_time;
 
             // If the timer passes the end value, set the "is_up" value to true
-            if (current_time >= end_value)
-                is_up = true;
+            if (currentTime >= endValue)
+                isUp = true;
         }
 
 		/// <summary>
 		/// The name/description of the timer.
 		/// </summary>
-        public string timer_name;
+        public string timerName { get; set; }
 		
 		/// <summary>
 		/// The current value of the timer.
 		/// </summary>
-        public double current_time;
+        public double currentTime { get; set; }
 		
 		/// <summary>
 		/// The upper bound to the timer.
 		/// </summary>
-        public double end_value;
+        public double endValue { get; set; }
 		
 		/// <summary>
 		/// Tells the programmer if the timer is up.
 		/// </summary>
-        public bool is_up;  
+        public bool isUp { get; set; }  
     }
 }

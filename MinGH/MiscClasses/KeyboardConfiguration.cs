@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.Xna.Framework.Input;
+﻿using Microsoft.Xna.Framework.Input;
 
 namespace MinGH.MiscClasses
 {
-    public class KeyboardConfiguration
+    /// <summary>
+    /// Assigns the specified keys to a universal key notation for MinGH.
+    /// </summary>
+    public static class KeyboardConfiguration
     {
         public static Keys green = Keys.A;
         public static Keys red = Keys.S;
@@ -17,6 +16,11 @@ namespace MinGH.MiscClasses
         public static Keys downStrum = Keys.Down;
         public static Keys starPower = Keys.RightShift;
 
+        /// <summary>
+        /// Converts an integer into a designated key.
+        /// </summary>
+        /// <param name="num">The number to convert.</param>
+        /// <returns>The key value for the inputted number.</returns>
         public static Keys getKey(int num)
         {
             if (num == 0)

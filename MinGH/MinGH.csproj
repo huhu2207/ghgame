@@ -110,6 +110,7 @@
     <Compile Include="ChartImpl\NoteType.cs" />
     <Compile Include="ChartImpl\ProperStringCreator.cs" />
     <Compile Include="Config\GameConfiguration.cs" />
+    <Compile Include="Config\SongDirectoryReader.cs" />
     <Compile Include="Config\SpeedModReader.cs" />
     <Compile Include="Enum\GameStateEnum.cs" />
     <Compile Include="Extensions\SubArrayExtension.cs" />
@@ -126,7 +127,7 @@
     <Compile Include="GameScreen\SinglePlayer\SinglePlayerStringInitializer.cs" />
     <Compile Include="GameScreen\IKeyboardInputManager.cs" />
     <Compile Include="GameScreen\SongSelection\ChartFinder.cs" />
-    <Compile Include="MiscClasses\ChartLocation.cs" />
+    <Compile Include="GameScreen\ChartLocation.cs" />
     <Compile Include="GameScreen\SongSelection\SongSelectionScreen.cs" />
     <Compile Include="GameStringImpl\GameString.cs" />
     <Compile Include="GameStringImpl\Menu.cs" />
@@ -138,7 +139,6 @@
     <Compile Include="MiscClasses\Note.cs" />
     <Compile Include="MiscClasses\PlayerInformation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ChartImpl\Test_Chart_Class.cs" />
     <Compile Include="MiscClasses\Timer.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -2,9 +2,9 @@
 
 namespace MinGH.ChartImpl
 {
-    /// <remarks>
+    /// <summary>
     /// Contains information of an event from a chart.
-    /// </remarks>
+    /// </summary>
     class Event : Entity
     {
         /// <summary>
@@ -44,6 +44,6 @@ namespace MinGH.ChartImpl
 		/// <summary>
 		/// The details pertaining to this event (i.e. 131904 = E "end").
 		/// </summary>
-        public string Value;
+        public string Value { get; set; }
     }
 }

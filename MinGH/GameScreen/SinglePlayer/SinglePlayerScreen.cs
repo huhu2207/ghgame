@@ -4,23 +4,22 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using MinGH.ChartImpl;
+using MinGH.Config;
 using MinGH.Enum;
 using MinGH.GameStringImpl;
 using MinGH.MiscClasses;
 using ProjectMercury.Emitters;
 using ProjectMercury.Modifiers;
 using ProjectMercury.Renderers;
-using MinGH.GameScreen.MiscClasses;
-using MinGH.Config;
 
 namespace MinGH.GameScreen.SinglePlayer
 {
     /// <summary>
-    /// Contains all functionality and data to display a single player session of MinGH
+    /// Contains all functionality and data to display a single player session of MinGH.
     /// </summary>
     class SinglePlayerScreen : DrawableGameComponent
     {
-        MinGHMain gameReference;
+        MinGHMain gameReference;  // A reference to the game itself, allows for game state changing.
         GraphicsDeviceManager graphics;
         ChartLocation chartLocation;
         GameConfiguration gameConfiguration;
@@ -43,7 +42,6 @@ namespace MinGH.GameScreen.SinglePlayer
         IKeyboardInputManager keyboardInputManager = new KeyboardInputManager();
         HorizontalHitBox hitBox;
         PlayerInformation playerInformation = new PlayerInformation();
-        KeyboardConfiguration keyboardConfig = new KeyboardConfiguration();
 
         Chart mainChart;  // Create the chart file
         GameStringManager strManager = new GameStringManager();  // Stores each string and its position on the screen
@@ -281,7 +279,7 @@ namespace MinGH.GameScreen.SinglePlayer
 
             // Update varous strings
             //strManager.SetString(0, "Current MSEC:\n" + musicLocation);
-            strManager.SetString(1, "HOPO?:\n" + Convert.ToString(playerInformation.HOPOState));
+            strManager.SetString(1, "HOPO?:\n" + mainChart.chartInfo.chartLengthMiliseconds.ToString());
             strManager.SetString(4, "Score: " + playerInformation.currentScore.ToString() + "\n\n" +
                                      "Multiplier : " + playerInformation.currentMultiplier.ToString() + "\n\n" +
                                      "Combo :" + playerInformation.currentCombo.ToString());

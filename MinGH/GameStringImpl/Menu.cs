@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework;
 
 namespace MinGH.GameStringImpl
 {
@@ -147,6 +143,10 @@ namespace MinGH.GameStringImpl
             SelectNthEntry(1);  // If an entry is added, there is atleast one option to highlight
         }
 
+        /// <summary>
+        /// Selects the entry below the currently selected entry, or the first entry
+        /// if the currently selected entry has nothing below it.
+        /// </summary>
         public void SelectNextEntry()
         {
             if (stringManager.strings.Count > 0)
@@ -162,6 +162,10 @@ namespace MinGH.GameStringImpl
             }
         }
 
+        /// <summary>
+        /// Selects the entry above the currently selected entry, or the last entry
+        /// if the currently selected entry has nothing above it.
+        /// </summary>
         public void SelectPreviousEntry()
         {
             if (stringManager.strings.Count > 0)
@@ -177,14 +181,21 @@ namespace MinGH.GameStringImpl
             }
         }
 
+        /// <summary>
+        /// Selects the nth entry in a menu.
+        /// </summary>
+        /// <param name="n">The entry number to select.</param>
         private void SelectNthEntry(int n)
         {
-            if (currentlySelectedEntry > 0)
+            if ((stringManager.strings.Count > 1) && (n < stringManager.strings.Count))
             {
-                stringManager.strings[currentlySelectedEntry].color = defaultEntryColor;
+                if (currentlySelectedEntry > 0)
+                {
+                    stringManager.strings[currentlySelectedEntry].color = defaultEntryColor;
+                }
+                stringManager.strings[n].color = selectedEntryColor;
+                currentlySelectedEntry = n;
             }
-            stringManager.strings[n].color = selectedEntryColor;
-            currentlySelectedEntry = n;
         }
     }
 }

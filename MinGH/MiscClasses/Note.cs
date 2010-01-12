@@ -1,13 +1,12 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using MinGH.ChartImpl;
 
 namespace MinGH.MiscClasses
 {
-	/// <remarks>
+	/// <summary>
 	/// An extended class of gameObject that contains data and functionality 
 	/// specific to the drawable notes within the MinGH game.
-	/// </remarks>
+	/// </summary>
     public class Note : GameObject
     {
 		/// <summary>
@@ -59,22 +58,22 @@ namespace MinGH.MiscClasses
         /// <summary>
         /// Where the note is located on the currently playing notechart.
         /// </summary>
-        public int noteChartIndex;
+        public int noteChartIndex { get; set; }
 
         /// <summary>
         /// If the note is followed by a hammeron/pulloff.
         /// </summary>
-        public bool precedsHOPO;
+        public bool precedsHOPO { get; set; }
 
         /// <summary>
         /// If the note is past the timing window and is not hittable
         /// </summary>
-        public bool isUnhittable;
+        public bool isUnhittable { get; set; }
 
         /// <summary>
         /// Is this note part of a chord.
         /// </summary>
-        public bool isChord;
+        public bool isChord { get; set; }
 
         /// <summary>
         /// The next lower placed note in a chord (emulates a linked list where the highest
@@ -82,12 +81,12 @@ namespace MinGH.MiscClasses
         /// NOTE: The point structure is used just to have two int values, not as a real point per se.
         /// NOTE: -1, -1 is used to mean that this note IS the root note (or a single note).
         /// </summary>
-        public Point rootNote;
+        public Point rootNote { get; set; }
 
         /// <summary>
         /// Just a checker for when tick mode is on.  Don't want the tick to shoot off
         /// repeatedly after passing the center.
         /// </summary>
-        public bool wasTicked;
+        public bool wasTicked { get; set; }
     }
 }

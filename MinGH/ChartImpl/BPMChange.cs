@@ -2,9 +2,9 @@
 
 namespace MinGH.ChartImpl
 {
-    /// <remarks>
+    /// <summary>
     /// Contains information on a BPM Change.  Is derived from the Entity class.
-    /// </remarks>
+    /// </summary>
     class BPMChange : Entity
     {
         /// <summary>
@@ -46,6 +46,6 @@ namespace MinGH.ChartImpl
 		/// Note that this project follows the *.chart specification where all
 		/// BPM change values must be 6 digits long (i.e. 185000 BPM).
 		/// </summary>
-        public long BPMValue;
+        public long BPMValue { get; set; }
     }
 }

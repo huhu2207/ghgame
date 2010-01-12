@@ -4,9 +4,9 @@ using System.Text.RegularExpressions;
 
 namespace MinGH.ChartImpl
 {
-    /// <remarks>
+    /// <summary>
     /// A manager class that reads in all notes from a specific notechart within a *.chart file.
-    /// </remarks>
+    /// </summary>
     class ChartNotechartManager
     {
         /// <summary>
