@@ -60,11 +60,11 @@ namespace MinGH.GameScreen.MainMenu
 
             if (keyboardInputManager.keyIsHit(Keys.Down) || keyboardInputManager.keyIsHit(KeyboardConfiguration.downStrum))
             {
-                mainMenu.SelectNextEntry();
+                mainMenu.SelectNextEntry(graphics.GraphicsDevice.Viewport.Height);
             }
             else if (keyboardInputManager.keyIsHit(Keys.Up) || keyboardInputManager.keyIsHit(KeyboardConfiguration.upStrum))
             {
-                mainMenu.SelectPreviousEntry();
+                mainMenu.SelectPreviousEntry(graphics.GraphicsDevice.Viewport.Height);
             }
 
             if (keyboardInputManager.keyIsHit(Keys.Enter) || keyboardInputManager.keyIsHit(KeyboardConfiguration.green))
