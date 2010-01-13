@@ -4,6 +4,7 @@ using MinGH.GameScreen;
 using MinGH.GameScreen.MainMenu;
 using MinGH.GameScreen.SinglePlayer;
 using MinGH.GameScreen.SongSelection;
+using MinGH.Config;
 
 namespace MinGH
 {
@@ -14,6 +15,7 @@ namespace MinGH
     {
         // Global Content
         GraphicsDeviceManager graphics;
+        GameConfiguration gameConfiguration;
 
         public MinGHMain()
         {
@@ -29,6 +31,12 @@ namespace MinGH
         /// </summary>
         protected override void Initialize()
         {
+            gameConfiguration = new GameConfiguration("config.xml");
+            if (gameConfiguration.fullscreen)
+            {
+                graphics.ToggleFullScreen();
+            }
+
             Window.Title = "MinGH";
             Components.Add(new MainMenuScreen(this, graphics));
             base.Initialize();

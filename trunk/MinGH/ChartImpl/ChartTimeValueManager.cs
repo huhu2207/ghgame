@@ -97,7 +97,7 @@ namespace MinGH.ChartImpl
                 {
                     // -TODO: 192 is an assumed magic number.  Edit Chart class so it contains the resolution of the
                     //        chart (192 is the standard, but others exist).
-                    currentTicksPerMilisecond = ((inputBPMChanges[BPMChangeIterator].BPMValue * 192.0) / 60000000.0);
+                    currentTicksPerMilisecond = ((inputBPMChanges[BPMChangeIterator].BPMValue * chartInfo.resolution) / 60000000.0);
 
                     // IF the current bpm change is not the last, then increment the iterator
                     // (count is not zero based, and must be decremented by 1)

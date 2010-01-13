@@ -17,6 +17,11 @@
         public string songDirectory { get; set; }
 
         /// <summary>
+        /// Wether to display in fullscreen.
+        /// </summary>
+        public bool fullscreen { get; set; }
+
+        /// <summary>
         /// Constructs a GameConfiguration using a path to a XML file.
         /// </summary>
         /// <param name="sourceXMLFile">Path to the configuration XML file.</param>
@@ -24,6 +29,7 @@
         {
             speedModValue = SpeedModReader.ReadInCurrentSpeedModFromXML(sourceXMLFile);
             songDirectory = SongDirectoryReader.ReadInCurrentSongDirectoryFromXML(sourceXMLFile);
+            fullscreen = FullscreenReader.ReadInFullscreenSelectionFromXML(sourceXMLFile);
         }
     }
 }
