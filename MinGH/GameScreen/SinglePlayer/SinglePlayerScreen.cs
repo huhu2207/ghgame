@@ -35,7 +35,7 @@ namespace MinGH.GameScreen.SinglePlayer
 
         // Sprite Sheet Variables
         const int noteSpriteSheetOffset = 6;  // How many pixels pad the left side of a note on the sprite sheet
-        const int noteSpriteSheetSize = 99;  // How large each sprite is in the spritesheet (including the offset padding)
+        const int noteSpriteSheetSize = 100;  // How large each sprite is in the spritesheet (including the offset padding)
         
         // Variables unique to this game screen
         NoteUpdater noteUpdater = new NoteUpdater();
@@ -268,13 +268,16 @@ namespace MinGH.GameScreen.SinglePlayer
 
             // Get the current keyboard state
             keyboardInputManager.processKeyboardState(Keyboard.GetState());
+
+            // The distance each note must step to be in sync with this current update
+            float currStep = (float)(gameTime.ElapsedGameTime.TotalMilliseconds * gameConfiguration.speedModValue.noteVelocityMultiplier);
             
             PlayerInputManager.processPlayerInput(Notes, noteParticleExplosionEmitters, hitBox,
                                                   playerInformation, keyboardInputManager,
                                                   mainChart.noteCharts[0]);
 
             NoteUpdater.updateNotes(mainChart.noteCharts[0], ref noteIterator, Notes, viewportRectangle,
-                                    gameTime, gameConfiguration.speedModValue.noteVelocityMultiplier, noteWidth, currentMsec + gameConfiguration.speedModValue.milisecondOffset,
+                                    currStep, noteWidth, currentMsec + gameConfiguration.speedModValue.milisecondOffset,
                                     noteSpriteSheetSize, playerInformation, hitBox);
 
             // Update varous strings
