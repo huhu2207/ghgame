@@ -1,0 +1,57 @@
+<!-- MinGH Configuration File (must be named config.xml) -->
+
+<configuration>
+
+    <!-- The directory in which the game will search for songs. If not specified,
+         a default of ./Songs will be used. --> 
+    <songDirectory>./Songs</songDirectory>
+    
+    <!-- Play the game fullscreen at 800x600 (will support custom resolutions later -->
+    <fullscreen>false</fullscreen>
+
+    <!-- The different speed mod settings.  You can edit or add however many settings 
+         you want as long as the selectedSpeedMod points to a speedMod of the same id,
+         else a default (probably wrong) value will be used.
+         -MSOffset: The number of milisecondsseconds a note should be displayed early
+                    (i.e. higher speeds need a lower offset).  Edit this if notes
+                    appear to come too early or late.  A higher number = faster notes.
+         -NVMultiplier: The note velocity multiplier denotes how fast the notes will move down
+                        the screen (i.e. higher = faster).  Edit this if notes scroll too fast
+                        or slow. -->
+    <speedMods>
+    
+        <selectedSpeedMod>3</selectedSpeedMod>
+        
+        <speedMod id="1">
+            <MSOffset>1100</MSOffset>
+            <NVMultiplier>0.5</NVMultiplier>
+        </speedMod>
+        
+        <speedMod id="2">
+            <MSOffset>910</MSOffset>
+            <NVMultiplier>0.6</NVMultiplier>
+        </speedMod>
+
+        <speedMod id="3">
+            <MSOffset>780</MSOffset>
+            <NVMultiplier>0.7</NVMultiplier>
+        </speedMod>
+
+        <speedMod id="4">
+            <MSOffset>660</MSOffset>
+            <NVMultiplier>0.8</NVMultiplier>
+        </speedMod>
+        
+        <speedMod id="5">
+            <MSOffset>590</MSOffset>
+            <NVMultiplier>0.9</NVMultiplier>
+        </speedMod>
+        
+        <speedMod id="6">
+            <MSOffset>530</MSOffset>
+            <NVMultiplier>1.0</NVMultiplier>
+        </speedMod>
+        
+    </speedMods>
+
+</configuration>
