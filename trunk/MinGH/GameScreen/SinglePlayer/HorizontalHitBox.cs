@@ -48,7 +48,7 @@ namespace MinGH.GameScreen.SinglePlayer
         /// The base size of the good threshold before the note velocity is taken into
         /// consideration.
         /// </summary>
-        public const int goodThresholdConstant = 140;
+        public const int goodThresholdConstant = 90;
 
         /// <summary>
         /// Default Constructor.  Doesn't really serve any purpose, but will be kept for

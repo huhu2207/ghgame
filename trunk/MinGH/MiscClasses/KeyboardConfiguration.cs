@@ -7,14 +7,14 @@ namespace MinGH.MiscClasses
     /// </summary>
     public static class KeyboardConfiguration
     {
-        public static Keys green = Keys.A;
-        public static Keys red = Keys.S;
-        public static Keys yellow = Keys.D;
-        public static Keys blue = Keys.F;
-        public static Keys orange = Keys.G;
-        public static Keys upStrum = Keys.Up;
-        public static Keys downStrum = Keys.Down;
-        public static Keys starPower = Keys.RightShift;
+        public const Keys green = Keys.A;
+        public const Keys red = Keys.S;
+        public const Keys yellow = Keys.D;
+        public const Keys blue = Keys.F;
+        public const Keys orange = Keys.G;
+        public const Keys upStrum = Keys.Up;
+        public const Keys downStrum = Keys.Down;
+        public const Keys starPower = Keys.RightShift;
 
         /// <summary>
         /// Converts an integer into a designated key.
