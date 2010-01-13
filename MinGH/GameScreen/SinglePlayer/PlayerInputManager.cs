@@ -126,28 +126,70 @@ namespace MinGH.GameScreen.SinglePlayer
                        (farthestNoteDistance > hitBox.centerLocation) ||
                        (wasStrummed))
                     {
+                        // If true, we hit a chord...
                         if (physicalNotes[farthestNoteColumn, farthestNoteIndex].rootNote != new Point(-1, -1))
                         {
                             int chordDegree = 1;
-                            bool missedChord = false;
-                            Point currentRoot = physicalNotes[farthestNoteColumn, farthestNoteIndex].rootNote;
+                            Point currentRoot = new Point(farthestNoteColumn, farthestNoteIndex);
+                            NoteType chordToHit = new NoteType();
+                            NoteType chordYouHit = new NoteType();
 
-                            // Scan backwards through the chord until the root note (-1, -1) is found
+                            // Scan backwards and add every note within the chord to the chordToHit variable.
                             while (currentRoot != new Point(-1, -1))
                             {
-                                if (keyboardInputManager.keyIsHeld(KeyboardConfiguration.getKey(currentRoot.X)))
+                                // The X value of a "root" note is the same as the numerical type
+                                // (i.e. 0->green, 4->orange).
+                                switch (KeyboardConfiguration.getKey(currentRoot.X))
                                 {
-                                    currentRoot = physicalNotes[currentRoot.X, currentRoot.Y].rootNote;
+                                    case KeyboardConfiguration.green:
+                                        chordToHit.Green = true;
+                                        break;
+                                    case KeyboardConfiguration.red:
+                                        chordToHit.Red = true;
+                                        break;
+                                    case KeyboardConfiguration.yellow:
+                                        chordToHit.Yellow = true;
+                                        break;
+                                    case KeyboardConfiguration.blue:
+                                        chordToHit.Blue = true;
+                                        break;
+                                    case KeyboardConfiguration.orange:
+                                        chordToHit.Orange = true;
+                                        break;
                                 }
-                                else
-                                {
-                                    missedChord = true;
-                                    break;
-                                }
+                                currentRoot = physicalNotes[currentRoot.X, currentRoot.Y].rootNote;
                                 chordDegree++;
                             }
 
-                            if (!missedChord)
+                            // Now create a noteType variable (noteYouHit) from what the player has held down
+                            // at this point in time.
+                            for (int i = 0; i < 5; i++)
+                            {
+                                if (keyboardInputManager.keyIsHeld(KeyboardConfiguration.getKey(i)))
+                                {
+                                    switch (i)
+                                    {
+                                        case 0:
+                                            chordYouHit.Green = true;
+                                            break;
+                                        case 1:
+                                            chordYouHit.Red = true;
+                                            break;
+                                        case 2:
+                                            chordYouHit.Yellow = true;
+                                            break;
+                                        case 3:
+                                            chordYouHit.Blue = true;
+                                            break;
+                                        case 4:
+                                            chordYouHit.Orange = true;
+                                            break;
+                                    }
+                                }
+                            }
+
+                            // If the user is holding the proper buttons, then explode the note...
+                            if (chordToHit.isEqual(chordYouHit))
                             {
                                 noteParticleExplosionEmitters.emitterList[farthestNoteColumn].Trigger(noteParticleExplosionEmitters.explosionLocations[farthestNoteColumn]);
                                 physicalNotes[farthestNoteColumn, farthestNoteIndex].alive = false;
@@ -190,7 +232,8 @@ namespace MinGH.GameScreen.SinglePlayer
             }
             else
             {
-                if (wasStrummed)
+                // Only miss if the player strummed and is NOT in a hopo state (or was in A HOPO state)
+                if (wasStrummed && !playerInformation.HOPOState && !playerInformation.leftHOPOState)
                 {
                     playerInformation.missNote();
                 }

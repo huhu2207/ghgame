@@ -59,6 +59,15 @@
         public bool HOPOState { get; set; }
 
         /// <summary>
+        /// Is true when the player hits a HOPO that precedes a normal note.  This
+        /// allows the program to tell the input manager to ignore strums even
+        /// when the player left the HOPO state without missing a note, else
+        /// there will be misses when a player strums the last note of a 
+        /// HOPO string.
+        /// </summary>
+        public bool leftHOPOState { get; set; }
+
+        /// <summary>
         /// Default constructor.
         /// </summary>
         public PlayerInformation()
@@ -68,6 +77,7 @@
             currentMultiplier = 1;
             currentScore = 0;
             HOPOState = false;
+            leftHOPOState = false;
         }
 
 		
@@ -89,6 +99,15 @@
         public void hitNote(bool newHOPOState, int pointValue)
         {
             currentCombo++;
+            if (HOPOState && !newHOPOState)
+            {
+                leftHOPOState = true;
+            }
+            else
+            {
+                leftHOPOState = false;
+            }
+
             HOPOState = newHOPOState;
 
             if (currentHealth < maxHealth)

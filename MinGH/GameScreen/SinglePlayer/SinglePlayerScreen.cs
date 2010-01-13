@@ -229,11 +229,11 @@ namespace MinGH.GameScreen.SinglePlayer
 
                 // A VERY hackey and uninformed way of syncing the three tracks after playing.
                 // Sadly this is the only way that I could get to "work."
-                uint musicPositon = 0;
-                musicChannel.getPosition(ref musicPositon, TIMEUNIT.MS);
-                guitarChannel.setPosition((uint)(musicPositon * 1.75), TIMEUNIT.MS);
-                musicChannel.getPosition(ref musicPositon, TIMEUNIT.MS);
-                bassChannel.setPosition((uint)(musicPositon * 1.75), TIMEUNIT.MS);
+                uint bassPositon = 0;
+                bassChannel.getPosition(ref bassPositon, TIMEUNIT.MS);
+                guitarChannel.setPosition((uint)(bassPositon), TIMEUNIT.MS);
+                bassChannel.getPosition(ref bassPositon, TIMEUNIT.MS);
+                musicChannel.setPosition((uint)(bassPositon), TIMEUNIT.MS);
 
                 audioIsPlaying = true;
                 system.createSound("./tick.wav", MODE.HARDWARE, ref tickSound);
