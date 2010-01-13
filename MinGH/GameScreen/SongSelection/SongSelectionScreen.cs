@@ -42,6 +42,7 @@ namespace MinGH.GameScreen.SongSelection
             
             songSelectionMenu.titleScaling = new Vector2(5.0f, 5.0f);
             songSelectionMenu.entryScaling = new Vector2(2.0f, 2.0f);
+            songSelectionMenu.scrollable = true;
 
             for (int i = 0; i < chartPaths.Count; i++)
             {
@@ -71,11 +72,11 @@ namespace MinGH.GameScreen.SongSelection
             // Menu navagation logic
             if (keyboardInputManager.keyIsHit(Keys.Down) || keyboardInputManager.keyIsHit(KeyboardConfiguration.downStrum))
             {
-                songSelectionMenu.SelectNextEntry();
+                songSelectionMenu.SelectNextEntry(graphics.GraphicsDevice.Viewport.Height);
             }
             else if (keyboardInputManager.keyIsHit(Keys.Up) || keyboardInputManager.keyIsHit(KeyboardConfiguration.upStrum))
             {
-                songSelectionMenu.SelectPreviousEntry();
+                songSelectionMenu.SelectPreviousEntry(graphics.GraphicsDevice.Viewport.Height);
             }
             if (keyboardInputManager.keyIsHit(Keys.Enter) || keyboardInputManager.keyIsHit(KeyboardConfiguration.green))
             {

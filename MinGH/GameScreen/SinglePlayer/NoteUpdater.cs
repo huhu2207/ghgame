@@ -82,7 +82,7 @@ namespace MinGH.GameScreen.SinglePlayer
 
                                 // TODO: Standardize the note lane size and the "196" pixel space to the left of the lanes
                                 float newNotePos = physicalNotes[currentNoteset, i].spriteSheetOffset + 196 + (noteSize * currentNoteset);
-                                physicalNotes[currentNoteset, i].position = new Vector2(newNotePos, 0f);
+                                physicalNotes[currentNoteset, i].position = new Vector2(newNotePos, -spriteSheetSize);
                                 break;
                             }
                         }
@@ -109,8 +109,7 @@ namespace MinGH.GameScreen.SinglePlayer
                     }
 
                     // Actually kill the notes that leave the screen
-                    if ((!viewportRectangle.Contains(new Point((int)physicalNotes[i, j].position.X,
-                            (int)physicalNotes[i, j].position.Y))) && (physicalNotes[i, j].alive))
+                    if ((viewportRectangle.Height < (int)physicalNotes[i, j].position.Y) && (physicalNotes[i, j].alive))
                     {
                         physicalNotes[i, j].alive = false;
                     }

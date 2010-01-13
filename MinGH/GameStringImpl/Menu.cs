@@ -19,6 +19,24 @@ namespace MinGH.GameStringImpl
         public int fontSize { get; set; }
 
         /// <summary>
+        /// Allows the menu to scroll down if the currently selected option passes a certian
+        /// point on the screen.
+        /// </summary>
+        public bool scrollable { get; set; }
+
+        /// <summary>
+        /// The top limit where the currently selected option can be before the menu will
+        /// scroll upwards.  Is expected to be a percent (e.g. 0.20 for 20%)
+        /// </summary>
+        public double topScrollThreshold { get; set; }
+
+        /// <summary>
+        /// The bottom limit where the currently selected option can be before the menu will
+        /// scroll downwards.  Is expected to be a percent (e.g. 0.80 for 80%)
+        /// </summary>
+        public double bottomScrollThreshold { get; set; }
+
+        /// <summary>
         /// Sets and gets the scaling value for every entry in the menu (i.e. batch scaling).
         /// </summary>
         public Vector2 entryScaling
@@ -77,7 +95,7 @@ namespace MinGH.GameStringImpl
                     else
                     {
                         float newEntryPositionY = _location.Y + (fontSize * titleScaling.Y) + titlePadding +
-                                                  ((i) * (fontSize * entryScaling.Y + entryPadding));
+                                                  ((i - 1) * (fontSize * entryScaling.Y + entryPadding));
                         float newEntryPositionX = _location.X;
                         stringManager.strings[i].position = new Vector2(newEntryPositionX, newEntryPositionY);
                     }
@@ -86,7 +104,19 @@ namespace MinGH.GameStringImpl
         }
         private Vector2 _location;
 
+        /// <summary>
+        /// The original position of the menu.
+        /// </summary>
+        public Vector2 defaultPosition { get; set; }
+
+        /// <summary>
+        /// The color of non-selected entries.
+        /// </summary>
         public Color defaultEntryColor { get; set; }
+
+        /// <summary>
+        /// The color of the selected entry.
+        /// </summary>
         public Color selectedEntryColor { get; set; }
 
         /// <summary>
@@ -110,10 +140,13 @@ namespace MinGH.GameStringImpl
 
             stringManager = new GameStringManager();
             location = initialLocation;
+            defaultPosition = initialLocation;
             GameString titleGameString = new GameString(location, defaultEntryColor, titleValue);
             stringManager.Add(titleGameString);
             titleScaling = new Vector2(1.0f, 1.0f);
             entryScaling = new Vector2(1.0f, 1.0f);
+            topScrollThreshold = 0.2;
+            bottomScrollThreshold = 0.8;
         }
 
         /// <summary>
@@ -140,24 +173,24 @@ namespace MinGH.GameStringImpl
             stringToAdd.scale = entryScaling;
             stringManager.Add(stringToAdd);
 
-            SelectNthEntry(1);  // If an entry is added, there is atleast one option to highlight
+            SelectNthEntry(1, -1);  // If an entry is added, there is atleast one option to highlight
         }
 
         /// <summary>
         /// Selects the entry below the currently selected entry, or the first entry
         /// if the currently selected entry has nothing below it.
         /// </summary>
-        public void SelectNextEntry()
+        public void SelectNextEntry(int windowHeight)
         {
             if (stringManager.strings.Count > 0)
             {
                 if (currentlySelectedEntry == stringManager.strings.Count - 1)
                 {
-                    SelectNthEntry(1);
+                    SelectNthEntry(1, windowHeight);
                 }
                 else
                 {
-                    SelectNthEntry(currentlySelectedEntry + 1);
+                    SelectNthEntry(currentlySelectedEntry + 1, windowHeight);
                 }
             }
         }
@@ -166,17 +199,17 @@ namespace MinGH.GameStringImpl
         /// Selects the entry above the currently selected entry, or the last entry
         /// if the currently selected entry has nothing above it.
         /// </summary>
-        public void SelectPreviousEntry()
+        public void SelectPreviousEntry(int windowHeight)
         {
             if (stringManager.strings.Count > 0)
             {
                 if (currentlySelectedEntry == 1)
                 {
-                    SelectNthEntry(stringManager.strings.Count - 1);
+                    SelectNthEntry(stringManager.strings.Count - 1, windowHeight);
                 }
                 else
                 {
-                    SelectNthEntry(currentlySelectedEntry - 1);
+                    SelectNthEntry(currentlySelectedEntry - 1, windowHeight);
                 }
             }
         }
@@ -185,7 +218,7 @@ namespace MinGH.GameStringImpl
         /// Selects the nth entry in a menu.
         /// </summary>
         /// <param name="n">The entry number to select.</param>
-        private void SelectNthEntry(int n)
+        private void SelectNthEntry(int n, int windowHeight)
         {
             if ((stringManager.strings.Count > 1) && (n < stringManager.strings.Count))
             {
@@ -195,6 +228,20 @@ namespace MinGH.GameStringImpl
                 }
                 stringManager.strings[n].color = selectedEntryColor;
                 currentlySelectedEntry = n;
+
+                if (windowHeight > 0 && scrollable)
+                {
+                    if ((stringManager.strings[currentlySelectedEntry].position.Y < windowHeight * topScrollThreshold))
+                    {
+                        float newYValue = (int)(windowHeight * topScrollThreshold) - ((currentlySelectedEntry + 1) * (fontSize * entryScaling.Y + entryPadding));
+                        location = new Vector2(location.X, newYValue);
+                    }
+                    else if (stringManager.strings[currentlySelectedEntry].position.Y > windowHeight * bottomScrollThreshold)
+                    {
+                        float newYValue = (int)(windowHeight * bottomScrollThreshold) - ((currentlySelectedEntry + 1) * (fontSize * entryScaling.Y + entryPadding));
+                        location = new Vector2(location.X, newYValue);
+                    }
+                }
             }
         }
     }
