@@ -14,7 +14,7 @@
          else a default (probably wrong) value will be used.
          -MSOffset: The number of milisecondsseconds a note should be displayed early
                     (i.e. higher speeds need a lower offset).  Edit this if notes
-                    appear to come too early or late.  A higher number = faster notes.
+                    appear to come too early or late.  A higher number = earlier notes.
          -NVMultiplier: The note velocity multiplier denotes how fast the notes will move down
                         the screen (i.e. higher = faster).  Edit this if notes scroll too fast
                         or slow. -->
