@@ -19,6 +19,7 @@
             musicStream = null;
             guitarStream = null;
             bassStream = null;
+            drumStream = null;
         }
 
         /// <summary>
@@ -63,8 +64,13 @@
         public string guitarStream { get; set; }
 
         /// <summary>
-        /// The bass music file for the chart.
+        /// The bass/rhythm music file for the chart.
         /// </summary>
         public string bassStream { get; set; }
+
+        /// <summary>
+        /// The drum music file for the chart.
+        /// </summary>
+        public string drumStream { get; set; }
     }
 }

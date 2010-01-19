@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using MinGH.ChartImpl;
 using MinGH.MiscClasses;
-using MinGH.ChartImpl;
 
 namespace MinGH.GameScreen.SinglePlayer
 {

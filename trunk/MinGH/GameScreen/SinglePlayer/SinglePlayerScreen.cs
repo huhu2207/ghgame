@@ -52,9 +52,11 @@ namespace MinGH.GameScreen.SinglePlayer
         private FMOD.Channel musicChannel = new FMOD.Channel();
         private FMOD.Channel guitarChannel = new FMOD.Channel();
         private FMOD.Channel bassChannel = new FMOD.Channel();
+        private FMOD.Channel drumChannel = new FMOD.Channel();
         private FMOD.Sound musicSound = new FMOD.Sound();
         private FMOD.Sound guitarSound = new FMOD.Sound();
         private FMOD.Sound bassSound = new FMOD.Sound();
+        private FMOD.Sound drumSound = new FMOD.Sound();
         RESULT result = new RESULT();
         uint currentMsec = 0;
         bool audioIsPlaying = false;  // So we don't play the song again every single update
@@ -115,7 +117,17 @@ namespace MinGH.GameScreen.SinglePlayer
         protected override void LoadContent()
         {
             gameFont = Game.Content.Load<SpriteFont>("Arial");  // Load the font
-            mainChart = new Chart(chartLocation.chartPath);  // Setup the chart
+
+            switch (chartLocation.chartType)
+            {
+                case "*.chart":
+                    mainChart = new Chart(chartLocation.chartPath, "*.chart");
+                    break;
+                case "*.mid":
+                    mainChart = new Chart(chartLocation.directory, "*.mid");
+                    break;
+            }
+
             backgroundTex = Game.Content.Load<Texture2D>("Backgrounds\\GuitarSingle_Background");
 
             // Setup the notes appearance and velocity
@@ -191,32 +203,37 @@ namespace MinGH.GameScreen.SinglePlayer
                 {
                     string musicLocation = chartLocation.directory + "\\" + mainChart.chartInfo.musicStream;
                     result = system.createSound(musicLocation, MODE.HARDWARE, ref musicSound);
-                    
                 }
                 if (mainChart.chartInfo.guitarStream != null)
                 {
                     string guitarLocation = chartLocation.directory + "\\" + mainChart.chartInfo.guitarStream;
                     result = system.createSound(guitarLocation, MODE.HARDWARE, ref guitarSound);
-                    
                 }
                 if (mainChart.chartInfo.bassStream != null)
                 {
                     string bassLocation = chartLocation.directory + "\\" + mainChart.chartInfo.bassStream;
                     result = system.createSound(bassLocation, MODE.HARDWARE, ref bassSound);
-                    
+                }
+                if (mainChart.chartInfo.drumStream != null)
+                {
+                    string drumLocation = chartLocation.directory + "\\" + mainChart.chartInfo.drumStream;
+                    result = system.createSound(drumLocation, MODE.HARDWARE, ref drumSound);
                 }
 
                 result = system.playSound(CHANNELINDEX.FREE, musicSound, false, ref musicChannel);
                 result = system.playSound(CHANNELINDEX.FREE, guitarSound, false, ref guitarChannel);
                 result = system.playSound(CHANNELINDEX.FREE, bassSound, false, ref bassChannel);
+                result = system.playSound(CHANNELINDEX.FREE, drumSound, false, ref drumChannel);
 
                 // A VERY hackey and uninformed way of syncing the three tracks after playing.
                 // Sadly this is the only way that I could get to "work."
                 uint bassPositon = 0;
                 bassChannel.getPosition(ref bassPositon, TIMEUNIT.MS);
-                guitarChannel.setPosition((uint)(bassPositon), TIMEUNIT.MS);
+                guitarChannel.setPosition(bassPositon, TIMEUNIT.MS);
                 bassChannel.getPosition(ref bassPositon, TIMEUNIT.MS);
-                musicChannel.setPosition((uint)(bassPositon), TIMEUNIT.MS);
+                musicChannel.setPosition(bassPositon, TIMEUNIT.MS);
+                bassChannel.getPosition(ref bassPositon, TIMEUNIT.MS);
+                drumChannel.setPosition(bassPositon, TIMEUNIT.MS);
 
                 audioIsPlaying = true;
             }

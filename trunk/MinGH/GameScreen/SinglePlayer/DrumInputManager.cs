@@ -60,7 +60,7 @@ namespace MinGH.GameScreen.SinglePlayer
 
                 for (int i = 0; i < physicalNotes.GetLength(1); i++)
                 {
-                    if ((hitNote != -1) && (physicalNotes[hitNote, i].alive))
+                    if ((hitNote > -1) && (physicalNotes[hitNote, i].alive))
                     {
                         currentCenterPoint = new Point((int)physicalNotes[hitNote, i].getCenterPosition().X, (int)physicalNotes[hitNote, i].getCenterPosition().Y);
 

@@ -7,8 +7,9 @@
     /// </summary>
     public class ChartLocation
     {
-        public string chartPath;
-        public string directory;
+        public string chartPath { get; set; }
+        public string directory { get; set; }
+        public string chartType { get; set; }
 
         public ChartLocation()
         {
