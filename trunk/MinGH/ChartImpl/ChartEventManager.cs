@@ -86,7 +86,7 @@ namespace MinGH.ChartImpl
             // and parse the resulting string.
             for (int i = 0; i < trackToUse.Events.Count; i++)
             {
-                MidiEvent currEvent = myTracks[0].Events[i];
+                MidiEvent currEvent = trackToUse.Events[i];
                 string eventString = currEvent.ToString();
                 string[] splitEventString = eventString.Split('\t');
 
