@@ -52,15 +52,12 @@ namespace MinGH.GameScreen.SinglePlayer
         private FMOD.Channel musicChannel = new FMOD.Channel();
         private FMOD.Channel guitarChannel = new FMOD.Channel();
         private FMOD.Channel bassChannel = new FMOD.Channel();
-        private FMOD.Channel tickChannel = new FMOD.Channel();
         private FMOD.Sound musicSound = new FMOD.Sound();
         private FMOD.Sound guitarSound = new FMOD.Sound();
         private FMOD.Sound bassSound = new FMOD.Sound();
-        private FMOD.Sound tickSound = new FMOD.Sound();
         RESULT result = new RESULT();
         uint currentMsec = 0;
         bool audioIsPlaying = false;  // So we don't play the song again every single update
-        bool useAudioTicker = false;
 
         // Project Mercury Particle Engine related variables
         NoteParticleExplosionEmitters noteParticleExplosionEmitters = new NoteParticleExplosionEmitters();
@@ -209,30 +206,6 @@ namespace MinGH.GameScreen.SinglePlayer
                     
                 }
 
-                //system.getDSPBufferSize(ref minDelay, ref ass);
-                //minDelay *= 2;
-
-                //result = system.playSound(CHANNELINDEX.FREE, musicSound, true, ref musicChannel);
-                //result = system.playSound(CHANNELINDEX.FREE, guitarSound, true, ref guitarChannel);
-                //result = system.playSound(CHANNELINDEX.FREE, bassSound, true, ref bassChannel);
-
-                //result = musicChannel.getDelay(DELAYTYPE.DSPCLOCK_START, ref hi, ref lo);
-                ////result = system.getDSPClock(ref hi, ref lo);
-                //lo += minDelay;
-                //result = musicChannel.setDelay(DELAYTYPE.DSPCLOCK_START, hi, lo);
-
-                //result = system.getDSPClock(ref hi, ref lo);
-                //lo += minDelay;
-                //result = guitarChannel.setDelay(DELAYTYPE.DSPCLOCK_START, hi, lo);
-
-                //result = system.getDSPClock(ref hi, ref lo);
-                //lo += minDelay;
-                //result = bassChannel.setDelay(DELAYTYPE.DSPCLOCK_START, hi, lo);
-
-                //musicChannel.setPaused(false);
-                //guitarChannel.setPaused(false);
-                //bassChannel.setPaused(false);
-
                 result = system.playSound(CHANNELINDEX.FREE, musicSound, false, ref musicChannel);
                 result = system.playSound(CHANNELINDEX.FREE, guitarSound, false, ref guitarChannel);
                 result = system.playSound(CHANNELINDEX.FREE, bassSound, false, ref bassChannel);
@@ -246,7 +219,6 @@ namespace MinGH.GameScreen.SinglePlayer
                 musicChannel.setPosition((uint)(bassPositon), TIMEUNIT.MS);
 
                 audioIsPlaying = true;
-                system.createSound("./tick.wav", MODE.HARDWARE, ref tickSound);
             }
 
             if (keyboardInputManager.keyIsHit(Keys.Escape))
@@ -256,22 +228,6 @@ namespace MinGH.GameScreen.SinglePlayer
             }
 
             musicChannel.getPosition(ref currentMsec, TIMEUNIT.MS);
-
-            // Update audio ticker
-            if (useAudioTicker)
-            {
-                for (int i = 0; i < Notes.GetLength(0); i++)
-                {
-                    for (int j = 0; j < Notes.GetLength(1); j++)
-                    {
-                        if ((!Notes[i, j].wasTicked) && (Notes[i, j].getCenterPosition().Y >= hitBox.centerLocation))
-                        {
-                            result = system.playSound(CHANNELINDEX.FREE, tickSound, false, ref tickChannel);
-                            Notes[i, j].wasTicked = true;
-                        }
-                    }
-                }
-            }
 
             // Update the FMOD system
             system.update();
