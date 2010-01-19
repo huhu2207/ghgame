@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
 using MinGH.Extensions;
+using Toub.Sound.Midi;
 
 namespace MinGH.ChartImpl
 {
@@ -23,7 +24,7 @@ namespace MinGH.ChartImpl
         /// A list containing every valid event from the chart.  Due to the nature
         /// of the *.chart specification, these events will be in proper order.
         /// </returns>
-        public static List<Event> AddEvents(string input_string)
+        public static List<Event> AddEventsFromChart(string input_string)
         {
             List<Event> eventListToReturn = new List<Event>();
 
@@ -57,6 +58,52 @@ namespace MinGH.ChartImpl
             pattern_stream.Close();
 
             return eventListToReturn;
+        }
+
+        public static List<Event> AddEventsFromMidi(string midiFilePath, ChartInfo chartInfo)
+        {
+            List<Event> listToReturn = new List<Event>();
+            MidiSequence mySequence = MidiSequence.Import(midiFilePath + "\\notes.mid");
+            chartInfo.resolution = mySequence.Division;
+            MidiTrack[] myTracks = mySequence.GetTracks();
+            MidiTrack trackToUse = new MidiTrack();
+
+            // Find the specified instrument's track
+            foreach (MidiTrack currTrack in myTracks)
+            {
+                string trackHeader = currTrack.Events[0].ToString();
+                string[] splitHeader = trackHeader.Split('\t');
+
+                if (splitHeader[3] == "EVENTS")
+                {
+                    trackToUse = currTrack;
+                }
+            }
+
+            uint currTickValue = 0;
+
+            // Go through each event in the first track (which contains the BPM changes)
+            // and parse the resulting string.
+            for (int i = 0; i < trackToUse.Events.Count; i++)
+            {
+                MidiEvent currEvent = myTracks[0].Events[i];
+                string eventString = currEvent.ToString();
+                string[] splitEventString = eventString.Split('\t');
+
+                // Since ticks are stored relative to each other (e.g. 300 ticks
+                // until next note), we must maintain the total tick amout.
+                currTickValue += Convert.ToUInt32(splitEventString[1]);
+                if (splitEventString[0] == "Tempo")
+                {
+                    if (splitEventString[3] == "[music_end]")
+                    {
+                        //chartInfo.chartLengthMiliseconds
+                    }
+                    //listToReturn.Add(new BPMChange(currTickValue, BPMToAdd));
+                }
+            }
+
+            return listToReturn;
         }
     }
 }
