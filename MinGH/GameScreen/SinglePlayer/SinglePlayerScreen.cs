@@ -110,7 +110,7 @@ namespace MinGH.GameScreen.SinglePlayer
         {
             gameFont = Game.Content.Load<SpriteFont>("Arial");  // Load the font
             mainChart = new Chart(chartLocation.chartPath);  // Setup the chart
-            backgroundTex = Game.Content.Load<Texture2D>("Backgrounds\\GH_Background");
+            backgroundTex = Game.Content.Load<Texture2D>("Backgrounds\\GuitarSingle_Background");
 
             // Setup the notes appearance and velocity
             for (int i = 0; i < Notes.GetLength(0); i++)
