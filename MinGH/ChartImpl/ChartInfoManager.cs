@@ -101,7 +101,6 @@ namespace MinGH.ChartImpl
         {
             ChartInfo chartInfoToReturn = new ChartInfo();
             chartInfoToReturn.offset = 0;
-            chartInfoToReturn.resolution = 192;  // For now, I am assuming every midi is 192
 
             if (File.Exists(inputPath + "\\song.ogg"))
             {
@@ -123,7 +122,7 @@ namespace MinGH.ChartImpl
                 chartInfoToReturn.drumStream = inputPath + "\\drums.ogg";
             }
 
-            if (File.Exists(inputPath + "\\Song.ini"))
+            if (File.Exists(inputPath + "\\song.ini"))
             {
                 StreamReader inputStream = new StreamReader(inputPath + "\\Song.ini");
                 string inputFile = inputStream.ReadToEnd();

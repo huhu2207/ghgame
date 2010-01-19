@@ -199,25 +199,45 @@ namespace MinGH.GameScreen.SinglePlayer
                 //uint minDelay = 0, hi = 0, lo = 0;
                 //int ass = 0;
 
+                // Load up the audio tracks.
+                // NOTE: I assume the audio tracks for midi files are lowercase (e.g. song.ogg)
+                //       so if a file is not found, I also assume it is cause the audio track is
+                //       capatalized (e.g. Song.ogg).  
                 if (mainChart.chartInfo.musicStream != null)
                 {
                     string musicLocation = chartLocation.directory + "\\" + mainChart.chartInfo.musicStream;
                     result = system.createSound(musicLocation, MODE.HARDWARE, ref musicSound);
+                    if (result == RESULT.ERR_FILE_NOTFOUND)
+                    {
+                        result = system.createSound(chartLocation.directory + "\\Song.ogg", MODE.HARDWARE, ref musicSound);
+                    }
                 }
                 if (mainChart.chartInfo.guitarStream != null)
                 {
                     string guitarLocation = chartLocation.directory + "\\" + mainChart.chartInfo.guitarStream;
                     result = system.createSound(guitarLocation, MODE.HARDWARE, ref guitarSound);
+                    if (result == RESULT.ERR_FILE_NOTFOUND)
+                    {
+                        result = system.createSound(chartLocation.directory + "\\Guitar.ogg", MODE.HARDWARE, ref guitarSound);
+                    }
                 }
                 if (mainChart.chartInfo.bassStream != null)
                 {
                     string bassLocation = chartLocation.directory + "\\" + mainChart.chartInfo.bassStream;
                     result = system.createSound(bassLocation, MODE.HARDWARE, ref bassSound);
+                    if (result == RESULT.ERR_FILE_NOTFOUND)
+                    {
+                        result = system.createSound(chartLocation.directory + "\\Rhythm.ogg", MODE.HARDWARE, ref bassSound);
+                    }
                 }
                 if (mainChart.chartInfo.drumStream != null)
                 {
                     string drumLocation = chartLocation.directory + "\\" + mainChart.chartInfo.drumStream;
                     result = system.createSound(drumLocation, MODE.HARDWARE, ref drumSound);
+                    if (result == RESULT.ERR_FILE_NOTFOUND)
+                    {
+                        result = system.createSound(chartLocation.directory + "\\Drums.ogg", MODE.HARDWARE, ref drumSound);
+                    }
                 }
 
                 result = system.playSound(CHANNELINDEX.FREE, musicSound, false, ref musicChannel);

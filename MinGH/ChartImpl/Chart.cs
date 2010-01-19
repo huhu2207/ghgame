@@ -49,8 +49,8 @@ namespace MinGH.ChartImpl
 
                 // Add in all the various chart information
                 chartInfo = ChartInfoManager.chartAddSongInfo(inputFile);
-                BPMChanges = ChartBPMManager.AddBPMChanges(inputFile);
-                events = ChartEventManager.AddEvents(inputFile);
+                BPMChanges = ChartBPMManager.AddBPMChangesFromChart(inputFile);
+                events = ChartEventManager.AddEventsFromChart(inputFile);
 
                 // Adds just the expert notechart, can make a sneaky way of doing all avaliable charts later
                 noteCharts.Add(ChartNotechartManager.GenerateNotechartFromChart("ExpertSingle", inputFile));
@@ -68,8 +68,12 @@ namespace MinGH.ChartImpl
             else if (filetype == "*.mid")
             {
                 chartInfo = ChartInfoManager.midiAddSongInfo(chartLocation);
-                //TODO: Get midi events that are not notes
+                events = ChartEventManager.AddEventsFromMidi(chartLocation, chartInfo);
+                BPMChanges = ChartBPMManager.AddBPMChangesFromMidi(chartLocation);
                 noteCharts.Add(ChartNotechartManager.GenerateNotechartFromMidi("ExpertSingle", chartLocation));
+                noteCharts[0] = ChartTimeValueManager.GenerateTimeValues(noteCharts[0], BPMChanges,
+                                     events, chartInfo);
+                noteCharts[0] = ChartHOPOManager.AssignHOPOS(noteCharts[0], chartInfo);
 
             }
         }

@@ -149,11 +149,15 @@ namespace MinGH.ChartImpl
         /// Creates a notechart from the specified midi path and the actual charttype
         /// (i.e. ExpertSingle from notes.mid)
         /// </summary>
-        /// <param name="chartname">
+        /// <param name="chartName">
         /// The specific notechart to be taken from the *.chart file (i.e. ExpertSingle).
         /// </param>
         /// <param name="midiFilePath">
         /// The path to the midi file being used.
+        /// </param>
+        /// <param name="chartInfo">
+        /// The info on the chart.  This is passed since some information can only
+        /// be obtained via the midi file.
         /// </param>
         /// <returns>
         /// A filled out Notechart containing the needed information from the *.mid file.
@@ -161,11 +165,105 @@ namespace MinGH.ChartImpl
         public static Notechart GenerateNotechartFromMidi(string chartName, string midiFilePath)
         {
             Notechart notechartToReturn = new Notechart();
-            MidiPlayer.OpenMidi();
 
-            
+            string instrumentPart = null;
+            string difficulty = null;
+            string greenKey = null;
+            string redKey = null;
+            string yellowKey = null;
+            string blueKey = null;
+            string orangeKey = null;
 
-            MidiPlayer.CloseMidi();
+            switch (chartName)
+            {
+                case "ExpertSingle":
+                    instrumentPart = "PART GUITAR";
+                    difficulty = "Expert";
+                    break;
+                case "ExpertDrums":
+                    instrumentPart = "PART DRUMS";
+                    difficulty = "Expert";
+                    break;
+                default:
+                    instrumentPart = "PART GUITAR";
+                    difficulty = "Expert";
+                    break;
+            }
+
+            switch (difficulty)
+            {
+                case "Expert":
+                    greenKey = "C8";
+                    redKey = "C#8";
+                    yellowKey = "D8";
+                    blueKey = "D#8";
+                    orangeKey = "E8";
+                    break;
+                default:
+                    greenKey = "C8";
+                    redKey = "C#8";
+                    yellowKey = "D8";
+                    blueKey = "D#8";
+                    orangeKey = "E8";
+                    break;
+            }
+
+            MidiSequence mySequence = MidiSequence.Import(midiFilePath + "\\notes.mid");
+            MidiTrack[] myTracks = mySequence.GetTracks();
+            MidiTrack trackToUse = new MidiTrack();
+
+            // Find the specified instrument's track
+            foreach (MidiTrack currTrack in myTracks)
+            {
+                string trackHeader = currTrack.Events[0].ToString();
+                string[] splitHeader = trackHeader.Split('\t');
+
+                if (splitHeader[3] == instrumentPart)
+                {
+                    trackToUse = currTrack;
+                }
+            }
+
+            uint totalTickValue = 0;
+            uint currTickValue = 0;
+            ChartNote currNote = new ChartNote();
+            bool blankNote = true;
+            // Scan through and record every note specific to the selected difficulty
+            for (int i = 0; i < trackToUse.Events.Count; i++)
+            {
+                string currEvent = trackToUse.Events[i].ToString();
+                string[] splitEvent = currEvent.Split('\t');
+                currTickValue = Convert.ToUInt32(splitEvent[1]);
+                totalTickValue += currTickValue;
+
+                if ((currTickValue != 0) && !blankNote)
+                {
+                    notechartToReturn.notes.Add(currNote);
+                    currNote = new ChartNote();
+                    blankNote = true;
+                }
+
+                if ((splitEvent[0] == "NoteOn") && (splitEvent[4] == "0x64"))
+                {
+                    if ((splitEvent[3] == greenKey) || (splitEvent[3] == redKey) ||
+                        (splitEvent[3] == yellowKey) || (splitEvent[3] == blueKey) ||
+                        (splitEvent[3] == orangeKey))
+                    {
+
+                        if (blankNote)
+                        {
+                            currNote.TickValue = totalTickValue;
+                            blankNote = false;
+                        }
+                        if (splitEvent[3] == greenKey) { currNote.addNote(0); }
+                        else if (splitEvent[3] == redKey) { currNote.addNote(1); }
+                        else if (splitEvent[3] == yellowKey) { currNote.addNote(2); }
+                        else if (splitEvent[3] == blueKey) { currNote.addNote(3); }
+                        else if (splitEvent[3] == orangeKey) { currNote.addNote(4); }
+                    }
+                }
+            }
+
             return notechartToReturn;
         }
     }
