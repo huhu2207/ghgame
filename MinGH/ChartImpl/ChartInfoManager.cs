@@ -18,8 +18,7 @@ namespace MinGH.ChartImpl
         /// The whole *.chart file stored in one massive string.
         /// </param>
         /// <returns>
-        /// A chart info class that has every field filled out with information from
-        /// the input chart file.
+        /// A filled out ChartInfo instance.
         /// </returns>
         public static ChartInfo chartAddSongInfo(string inputFile)
         {
@@ -88,11 +87,21 @@ namespace MinGH.ChartImpl
             return chartInfoToReturn;
         }
 
+        /// <summary>
+        /// Reads in the song information from the directory in which a midi file
+        /// and its supporting files are stored.
+        /// </summary>
+        /// <param name="inputPath">
+        /// The path to the midi file (which also contains song.ini)
+        /// </param>
+        /// <returns>
+        /// A filled out ChartInfo instance.
+        /// </returns>
         public static ChartInfo midiAddSongInfo(string inputPath)
         {
             ChartInfo chartInfoToReturn = new ChartInfo();
             chartInfoToReturn.offset = 0;
-            chartInfoToReturn.resolution = 192;
+            chartInfoToReturn.resolution = 192;  // For now, I am assuming every midi is 192
 
             if (File.Exists(inputPath + "\\song.ogg"))
             {

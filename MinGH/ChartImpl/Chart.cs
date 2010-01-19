@@ -53,7 +53,7 @@ namespace MinGH.ChartImpl
                 events = ChartEventManager.AddEvents(inputFile);
 
                 // Adds just the expert notechart, can make a sneaky way of doing all avaliable charts later
-                noteCharts.Add(ChartNotechartManager.GenerateNotechart("ExpertSingle", inputFile));
+                noteCharts.Add(ChartNotechartManager.GenerateNotechartFromChart("ExpertSingle", inputFile));
                 for (int i = 0; i < noteCharts.Count; i++)
                 {
                     noteCharts[i] = ChartTimeValueManager.GenerateTimeValues(noteCharts[i], BPMChanges,
@@ -68,6 +68,9 @@ namespace MinGH.ChartImpl
             else if (filetype == "*.mid")
             {
                 chartInfo = ChartInfoManager.midiAddSongInfo(chartLocation);
+                //TODO: Get midi events that are not notes
+                noteCharts.Add(ChartNotechartManager.GenerateNotechartFromMidi("ExpertSingle", chartLocation));
+
             }
         }
 
