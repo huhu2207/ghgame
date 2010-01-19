@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Input;
 using MinGH.ChartImpl;
 using MinGH.MiscClasses;
+using System.Collections.Generic;
 
 namespace MinGH.GameScreen.SinglePlayer
 {
@@ -64,169 +65,165 @@ namespace MinGH.GameScreen.SinglePlayer
             Point currentCenterPoint = new Point();
             int farthestNoteIndex = -1;
             int farthestNoteDistance = -1;
-            int farthestNoteColumn = -1;
-            int hitNote = -1;
+            
             Keys currentKey = keyboardInputManager.getHighestHeldKey();
-         
-            // Convert the current key to a note type (maybe make a cast for this?)
-            if (currentKey == KeyboardConfiguration.greenFret)
-            {
-                hitNote = 0;
-            }
-            else if (currentKey == KeyboardConfiguration.redFret)
-            {
-                hitNote = 1;
-            }
-            else if (currentKey == KeyboardConfiguration.yellow)
-            {
-                hitNote = 2;
-            }
-            else if (currentKey == KeyboardConfiguration.blue)
-            {
-                hitNote = 3;
-            }
-            else if (currentKey == KeyboardConfiguration.orange)
-            {
-                hitNote = 4;
-            }
+            int hitNote = KeyboardConfiguration.getGuitarNumberFromKey(currentKey);
 
-            // Scan every physical note...
-            for (int i = 0; i < physicalNotes.GetLength(0); i++)
+            // Scan just the physical notes that apply to the key the player hit
+            for (int j = 0; j < physicalNotes.GetLength(1); j++)
             {
-                for (int j = 0; j < physicalNotes.GetLength(1); j++)
+                if (physicalNotes[hitNote, j].alive)
                 {
-                    if (physicalNotes[i, j].alive)
-                    {
-                        currentCenterPoint = new Point((int)physicalNotes[i, j].getCenterPosition().X, (int)physicalNotes[i, j].getCenterPosition().Y);
+                    currentCenterPoint = new Point((int)physicalNotes[hitNote, j].getCenterPosition().X, (int)physicalNotes[hitNote, j].getCenterPosition().Y);
 
-                        // If the current physical note is alive and inside the hitbox...
-                        if (hitBox.physicalHitbox.Contains(currentCenterPoint))
+                    // If the current physical note is alive and inside the hitbox...
+                    if (hitBox.physicalHitbox.Contains(currentCenterPoint))
+                    {
+                        // and has the farthest distance from the top
+                        if (currentCenterPoint.Y >= farthestNoteDistance)
                         {
-                            // and has the farthest distance from the top
-                            if (currentCenterPoint.Y >= farthestNoteDistance)
-                            {
-                                // set it to be the note to explode
-                                farthestNoteDistance = currentCenterPoint.Y;
-                                farthestNoteColumn = i;
-                                farthestNoteIndex = j;
-                            }
+                            // set it to be the note to explode
+                            farthestNoteDistance = currentCenterPoint.Y;
+                            farthestNoteIndex = j;
                         }
                     }
                 }
             }
 
             // If a note was found, process the players input.
-            if ((farthestNoteIndex != -1) && (farthestNoteColumn != -1))
+            if (farthestNoteIndex != -1)
             {
-                if (hitNote == farthestNoteColumn)
+                // Dont hit the note if the player was holding prior to passing the hit window's center
+                // unless they strummed or explicitly hit the note (i.e. he hammered on too early)
+                if (keyboardInputManager.keyIsHit(currentKey) ||
+                   (farthestNoteDistance > hitBox.centerLocation) ||
+                   (wasStrummed))
                 {
-                    // Dont hit the note if the player was holding prior to the note entering the hit window
-                    // unless they strummed or explicitly hit the note (i.e. he hammered on too early)
-                    if (keyboardInputManager.keyIsHit(KeyboardConfiguration.getKey(hitNote)) ||
-                       (farthestNoteDistance > hitBox.centerLocation) ||
-                       (wasStrummed))
+                    // If true, we hit a chord...
+                    if (physicalNotes[hitNote, farthestNoteIndex].rootNote != new Point(-1, -1))
                     {
-                        // If true, we hit a chord...
-                        if (physicalNotes[farthestNoteColumn, farthestNoteIndex].rootNote != new Point(-1, -1))
+                        int chordDegree = 1;
+                        Point currentRoot = new Point(hitNote, farthestNoteIndex);
+                        NoteType chordToHit = new NoteType();
+                        NoteType chordYouHit = new NoteType();
+
+                        // Scan backwards and add every note within the chord to the chordToHit variable.
+                        while (currentRoot != new Point(-1, -1))
                         {
-                            int chordDegree = 1;
-                            Point currentRoot = new Point(farthestNoteColumn, farthestNoteIndex);
-                            NoteType chordToHit = new NoteType();
-                            NoteType chordYouHit = new NoteType();
-
-                            // Scan backwards and add every note within the chord to the chordToHit variable.
-                            while (currentRoot != new Point(-1, -1))
+                            // The X value of a "root" note is the same as the numerical type
+                            // (i.e. 0->green, 4->orange).
+                            switch (KeyboardConfiguration.getGuitarKeyFromNumber(currentRoot.X))
                             {
-                                // The X value of a "root" note is the same as the numerical type
-                                // (i.e. 0->green, 4->orange).
-                                switch (KeyboardConfiguration.getKey(currentRoot.X))
-                                {
-                                    case KeyboardConfiguration.greenFret:
-                                        chordToHit.Green = true;
-                                        break;
-                                    case KeyboardConfiguration.redFret:
-                                        chordToHit.Red = true;
-                                        break;
-                                    case KeyboardConfiguration.yellow:
-                                        chordToHit.Yellow = true;
-                                        break;
-                                    case KeyboardConfiguration.blue:
-                                        chordToHit.Blue = true;
-                                        break;
-                                    case KeyboardConfiguration.orange:
-                                        chordToHit.Orange = true;
-                                        break;
-                                }
-                                currentRoot = physicalNotes[currentRoot.X, currentRoot.Y].rootNote;
-                                chordDegree++;
+                                case KeyboardConfiguration.greenFret:
+                                    chordToHit.Green = true;
+                                    break;
+                                case KeyboardConfiguration.redFret:
+                                    chordToHit.Red = true;
+                                    break;
+                                case KeyboardConfiguration.yellowFret:
+                                    chordToHit.Yellow = true;
+                                    break;
+                                case KeyboardConfiguration.blueFret:
+                                    chordToHit.Blue = true;
+                                    break;
+                                case KeyboardConfiguration.orangeFret:
+                                    chordToHit.Orange = true;
+                                    break;
                             }
+                            currentRoot = physicalNotes[currentRoot.X, currentRoot.Y].rootNote;
+                            chordDegree++;
+                        }
 
-                            // Now create a noteType variable (noteYouHit) from what the player has held down
-                            // at this point in time.
-                            for (int i = 0; i < 5; i++)
+                        // Now create a noteType variable (noteYouHit) from what the player has held down
+                        // at this point in time.
+                        for (int i = 0; i < 5; i++)
+                        {
+                            if (keyboardInputManager.keyIsHeld(KeyboardConfiguration.getGuitarKeyFromNumber(i)))
                             {
-                                if (keyboardInputManager.keyIsHeld(KeyboardConfiguration.getKey(i)))
+                                switch (i)
                                 {
-                                    switch (i)
-                                    {
-                                        case 0:
-                                            chordYouHit.Green = true;
-                                            break;
-                                        case 1:
-                                            chordYouHit.Red = true;
-                                            break;
-                                        case 2:
-                                            chordYouHit.Yellow = true;
-                                            break;
-                                        case 3:
-                                            chordYouHit.Blue = true;
-                                            break;
-                                        case 4:
-                                            chordYouHit.Orange = true;
-                                            break;
-                                    }
-                                }
-                            }
-
-                            // If the user is holding the proper buttons, then explode the note...
-                            if (chordToHit.isEqual(chordYouHit))
-                            {
-                                noteParticleExplosionEmitters.emitterList[farthestNoteColumn].Trigger(noteParticleExplosionEmitters.explosionLocations[farthestNoteColumn]);
-                                physicalNotes[farthestNoteColumn, farthestNoteIndex].alive = false;
-
-                                currentRoot = physicalNotes[farthestNoteColumn, farthestNoteIndex].rootNote;
-                                while (currentRoot != new Point(-1, -1))
-                                {
-                                    noteParticleExplosionEmitters.emitterList[currentRoot.X].Trigger(noteParticleExplosionEmitters.explosionLocations[currentRoot.X]);
-                                    physicalNotes[currentRoot.X, currentRoot.Y].alive = false;
-                                    currentRoot = physicalNotes[currentRoot.X, currentRoot.Y].rootNote;
-                                }
-
-                                if (physicalNotes[farthestNoteColumn, farthestNoteIndex].precedsHOPO)
-                                {
-                                    playerInformation.hitNote(true, Note.pointValue * chordDegree);
-                                }
-                                else
-                                {
-                                    playerInformation.hitNote(false, Note.pointValue * chordDegree);
+                                    case 0:
+                                        chordYouHit.Green = true;
+                                        break;
+                                    case 1:
+                                        chordYouHit.Red = true;
+                                        break;
+                                    case 2:
+                                        chordYouHit.Yellow = true;
+                                        break;
+                                    case 3:
+                                        chordYouHit.Blue = true;
+                                        break;
+                                    case 4:
+                                        chordYouHit.Orange = true;
+                                        break;
                                 }
                             }
                         }
-                        else
-                        {
-                            noteParticleExplosionEmitters.emitterList[farthestNoteColumn].Trigger(noteParticleExplosionEmitters.explosionLocations[farthestNoteColumn]);
-                            physicalNotes[farthestNoteColumn, farthestNoteIndex].alive = false;
 
-                            if (physicalNotes[farthestNoteColumn, farthestNoteIndex].precedsHOPO)
+                        // If the user is holding the proper buttons, then explode the note...
+                        if (chordToHit.isEqual(chordYouHit))
+                        {
+                            List<Point> notesFartherThanCurrentNote = new List<Point>();
+
+                            // Apply the miss penalty to every note past the one the user hit,
+                            // and kill them, but do not break the combo.
+                            foreach (Note currNote in physicalNotes)
                             {
-                                playerInformation.hitNote(true, Note.pointValue);
+                                if ((currNote.getCenterPosition().Y > physicalNotes[hitNote, farthestNoteIndex].getCenterPosition().Y) &&
+                                    (currNote.alive == true))
+                                {
+                                    currNote.alive = false;
+                                    playerInformation.missNote(false);
+                                }
+                            }
+
+                            noteParticleExplosionEmitters.emitterList[hitNote].Trigger(noteParticleExplosionEmitters.explosionLocations[hitNote]);
+                            physicalNotes[hitNote, farthestNoteIndex].alive = false;
+
+                            currentRoot = physicalNotes[hitNote, farthestNoteIndex].rootNote;
+                            while (currentRoot != new Point(-1, -1))
+                            {
+                                noteParticleExplosionEmitters.emitterList[currentRoot.X].Trigger(noteParticleExplosionEmitters.explosionLocations[currentRoot.X]);
+                                physicalNotes[currentRoot.X, currentRoot.Y].alive = false;
+                                currentRoot = physicalNotes[currentRoot.X, currentRoot.Y].rootNote;
+                            }
+
+                            if (physicalNotes[hitNote, farthestNoteIndex].precedsHOPO)
+                            {
+                                playerInformation.hitNote(true, Note.pointValue * chordDegree);
                             }
                             else
                             {
-                                playerInformation.hitNote(false, Note.pointValue);
+                                playerInformation.hitNote(false, Note.pointValue * chordDegree);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        // Apply the miss penalty to every note past the one the user hit,
+                        // and kill them, but do not break the combo.
+                        foreach (Note currNote in physicalNotes)
+                        {
+                            if ((currNote.getCenterPosition().Y > physicalNotes[hitNote, farthestNoteIndex].getCenterPosition().Y) && 
+                                (currNote.alive == true))
+                            {
+                                currNote.alive = false;
+                                playerInformation.missNote(false);
                             }
                         }
 
+                        noteParticleExplosionEmitters.emitterList[hitNote].Trigger(noteParticleExplosionEmitters.explosionLocations[hitNote]);
+                        physicalNotes[hitNote, farthestNoteIndex].alive = false;
+
+                        if (physicalNotes[hitNote, farthestNoteIndex].precedsHOPO)
+                        {
+                            playerInformation.hitNote(true, Note.pointValue);
+                        }
+                        else
+                        {
+                            playerInformation.hitNote(false, Note.pointValue);
+                        }
                     }
                 }
             }
@@ -235,7 +232,7 @@ namespace MinGH.GameScreen.SinglePlayer
                 // Only miss if the player strummed and is NOT in a hopo state (or was in A HOPO state)
                 if (wasStrummed && !playerInformation.HOPOState && !playerInformation.leftHOPOState)
                 {
-                    playerInformation.missNote();
+                    playerInformation.missNote(true);
                 }
             }
         }

@@ -82,20 +82,26 @@
 
 		
 		/// <summary>
-		/// If the program deems the player missed a note, this function should be called.
+		/// Sets the player state to if they missed a note.
 		/// </summary>
-        public void missNote()
+		/// <param name="breakCombo">Wether to break the user's combo or not.</param>
+        public void missNote(bool breakCombo)
         {
             HOPOState = false;
-            currentCombo = 0;
-            currentMultiplier = 1;
+            if (breakCombo)
+            {
+                currentCombo = 0;
+                currentMultiplier = 1;
+            }
             currentHealth -= missHealthPenalty;
         }
 
 		
 		/// <summary>
-		/// If the program deems the player hit a note, this function should be called.
+        /// If the program deems the player hit a note, this function should be called.
 		/// </summary>
+		/// <param name="newHOPOState">The new hopo state the player will be in after hitting the note.</param>
+		/// <param name="pointValue">The flat point value of the note hit.</param>
         public void hitNote(bool newHOPOState, int pointValue)
         {
             currentCombo++;

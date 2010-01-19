@@ -48,5 +48,11 @@ namespace MinGH.GameScreen
         /// </summary>
         /// <returns>The key value.</returns>
         Keys getHighestHeldKey();
+
+        /// <summary>
+        /// Returns an array containing every key that is hit on a the current frame.
+        /// </summary>
+        /// <returns>An array of keys.</returns>
+        Keys[] getCurrentKeyArray();
     }
 }

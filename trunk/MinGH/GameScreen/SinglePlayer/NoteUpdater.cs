@@ -104,7 +104,7 @@ namespace MinGH.GameScreen.SinglePlayer
                     if ((physicalNotes[i, j].getCenterPosition().Y >= hitBox.centerLocation +  hitBox.goodThreshold) &&
                         (physicalNotes[i, j].isUnhittable == false))
                     {
-                        playerInfo.missNote();
+                        playerInfo.missNote(true);
                         physicalNotes[i, j].isUnhittable = true;
                     }
 
