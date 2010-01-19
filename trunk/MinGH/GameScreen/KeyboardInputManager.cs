@@ -90,13 +90,13 @@ namespace MinGH.GameScreen
             {
                 return KeyboardConfiguration.yellow;
             }
-            else if (keyIsHeld(KeyboardConfiguration.red))
+            else if (keyIsHeld(KeyboardConfiguration.redFret))
             {
-                return KeyboardConfiguration.red;
+                return KeyboardConfiguration.redFret;
             }
-            else if (keyIsHeld(KeyboardConfiguration.green))
+            else if (keyIsHeld(KeyboardConfiguration.greenFret))
             {
-                return KeyboardConfiguration.green;
+                return KeyboardConfiguration.greenFret;
             }
             else 
             {

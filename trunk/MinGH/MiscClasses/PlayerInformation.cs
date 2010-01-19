@@ -3,7 +3,7 @@
 	/// <summary>
 	/// Contains all information on a player during a MinGH session.
 	/// </summary>
-    class PlayerInformation
+    public class PlayerInformation
     {
 		/// <summary>
 		/// The maximum allowed health.

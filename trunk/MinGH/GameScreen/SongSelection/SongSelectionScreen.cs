@@ -78,7 +78,7 @@ namespace MinGH.GameScreen.SongSelection
             {
                 songSelectionMenu.SelectPreviousEntry(graphics.GraphicsDevice.Viewport.Height);
             }
-            if (keyboardInputManager.keyIsHit(Keys.Enter) || keyboardInputManager.keyIsHit(KeyboardConfiguration.green))
+            if (keyboardInputManager.keyIsHit(Keys.Enter) || keyboardInputManager.keyIsHit(KeyboardConfiguration.greenFret))
             {
                 gameReference.ChangeGameState(GameStateEnum.SinglePlayer, chartPaths[songSelectionMenu.currentlySelectedEntry - 1]);
             }

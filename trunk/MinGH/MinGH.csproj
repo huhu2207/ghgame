@@ -108,7 +108,7 @@
     <Compile Include="ChartImpl\Chart.cs" />
     <Compile Include="ChartImpl\ChartTimeValueManager.cs" />
     <Compile Include="ChartImpl\EndofChartCondition.cs" />
-    <Compile Include="ChartImpl\Entity.cs" />
+    <Compile Include="ChartImpl\ChartEntity.cs" />
     <Compile Include="ChartImpl\Event.cs" />
     <Compile Include="ChartImpl\ChartNote.cs" />
     <Compile Include="ChartImpl\Notechart.cs" />
@@ -123,12 +123,14 @@
     <Compile Include="FMOD\fmod.cs" />
     <Compile Include="FMOD\fmod_dsp.cs" />
     <Compile Include="GameScreen\MainMenu\MainMenuScreen.cs" />
+    <Compile Include="GameScreen\SinglePlayer\DrumInputManager.cs" />
+    <Compile Include="GameScreen\SinglePlayer\IInputManager.cs" />
     <Compile Include="GameScreen\SinglePlayer\SinglePlayerScreen.cs" />
     <Compile Include="GameScreen\SinglePlayer\HorizontalHitBox.cs" />
     <Compile Include="Config\HyperSpeedValue.cs" />
     <Compile Include="GameScreen\SinglePlayer\NoteParticleExplosionEmitters.cs" />
     <Compile Include="GameScreen\SinglePlayer\NoteUpdater.cs" />
-    <Compile Include="GameScreen\SinglePlayer\PlayerInputManager.cs" />
+    <Compile Include="GameScreen\SinglePlayer\GuitarInputManager.cs" />
     <Compile Include="GameScreen\KeyboardInputManager.cs" />
     <Compile Include="GameScreen\SinglePlayer\SinglePlayerStringInitializer.cs" />
     <Compile Include="GameScreen\IKeyboardInputManager.cs" />

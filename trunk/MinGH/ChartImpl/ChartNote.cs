@@ -5,7 +5,7 @@ namespace MinGH.ChartImpl
     /// <summary>
     /// The class that stores information.  Is derived from the Entity class.
     /// </summary>
-    class ChartNote : Entity
+    public class ChartNote : ChartEntity
     {
         /// <summary>
         /// Default constructor.

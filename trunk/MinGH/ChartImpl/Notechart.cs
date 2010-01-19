@@ -7,7 +7,7 @@ namespace MinGH.ChartImpl
 	/// Stores information on a specific notechart.
 	/// A Chart can have multiple Notecharts (i.e. easy, medium).
 	/// </summary>
-    class Notechart
+    public class Notechart
     {
         /// <summary>
         /// Default Constructor.

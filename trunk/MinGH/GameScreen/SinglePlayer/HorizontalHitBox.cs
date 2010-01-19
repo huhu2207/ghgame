@@ -7,7 +7,7 @@ namespace MinGH.GameScreen.SinglePlayer
     /// A thin horizontal rectangle that is used to detect the accuracy of the users input
     /// while playing MinGH.
     /// </summary>
-    class HorizontalHitBox
+    public class HorizontalHitBox
     {
 		/// <summary>
 		/// The actual bounding rectangle of the hitbox.

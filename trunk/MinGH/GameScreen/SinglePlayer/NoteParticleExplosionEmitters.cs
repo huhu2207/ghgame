@@ -10,7 +10,7 @@ namespace MinGH.GameScreen.SinglePlayer
     /// A manager class that generates and stores the particle emitters for the
     /// note explosion animation.
     /// </summary>
-    class NoteParticleExplosionEmitters
+    public class NoteParticleExplosionEmitters
     {
 		/// <summary>
 		/// The list of the actual emitters.  There should only be 5 for MinGH, but a list

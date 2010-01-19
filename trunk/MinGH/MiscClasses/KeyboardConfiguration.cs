@@ -7,14 +7,16 @@ namespace MinGH.MiscClasses
     /// </summary>
     public static class KeyboardConfiguration
     {
-        public const Keys green = Keys.A;
-        public const Keys red = Keys.S;
+        public const Keys greenFret = Keys.A;
+        public const Keys redFret = Keys.S;
         public const Keys yellow = Keys.D;
         public const Keys blue = Keys.F;
         public const Keys orange = Keys.G;
         public const Keys upStrum = Keys.Up;
         public const Keys downStrum = Keys.Down;
         public const Keys starPower = Keys.RightShift;
+
+        //public const Keys re
 
         /// <summary>
         /// Converts an integer into a designated key.
@@ -24,9 +26,9 @@ namespace MinGH.MiscClasses
         public static Keys getKey(int num)
         {
             if (num == 0)
-                return green;
+                return greenFret;
             if (num == 1)
-                return red;
+                return redFret;
             if (num == 2)
                 return yellow;
             if (num == 3)
