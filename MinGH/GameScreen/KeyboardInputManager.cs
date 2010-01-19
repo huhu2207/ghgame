@@ -78,17 +78,17 @@ namespace MinGH.GameScreen
 
         public Keys getHighestHeldKey()
         {
-            if (keyIsHeld(KeyboardConfiguration.orange))
+            if (keyIsHeld(KeyboardConfiguration.orangeFret))
             {
-                return KeyboardConfiguration.orange;
+                return KeyboardConfiguration.orangeFret;
             }
-            else if (keyIsHeld(KeyboardConfiguration.blue))
+            else if (keyIsHeld(KeyboardConfiguration.blueFret))
             {
-                return KeyboardConfiguration.blue;
+                return KeyboardConfiguration.blueFret;
             }
-            else if (keyIsHeld(KeyboardConfiguration.yellow))
+            else if (keyIsHeld(KeyboardConfiguration.yellowFret))
             {
-                return KeyboardConfiguration.yellow;
+                return KeyboardConfiguration.yellowFret;
             }
             else if (keyIsHeld(KeyboardConfiguration.redFret))
             {
@@ -102,6 +102,11 @@ namespace MinGH.GameScreen
             {
                 return Keys.None;
             }
+        }
+
+        public Keys[] getCurrentKeyArray()
+        {
+            return currentState.GetPressedKeys();
         }
     }
 }
