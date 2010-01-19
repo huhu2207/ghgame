@@ -136,11 +136,11 @@ namespace MinGH.ChartImpl
                     currentLine = currentLine.Trim();
                     parsedLine = currentLine.Split(' ');
 
-                    if (parsedLine[0] == "artist")
+                    if ((parsedLine[0] == "artist") || (parsedLine[0] == "Artist"))
                     {
                         chartInfoToReturn.artistName = ProperStringCreator.createProperString(parsedLine.SubArray(2, parsedLine.Length));
                     }
-                    else if (parsedLine[0] == "name")
+                    else if ((parsedLine[0] == "name") || (parsedLine[0] == "Name"))
                     {
                         chartInfoToReturn.songName = ProperStringCreator.createProperString(parsedLine.SubArray(2, parsedLine.Length));
                     }
