@@ -8,6 +8,12 @@
     
     <!-- Play the game fullscreen at 800x600 (will support custom resolutions later -->
     <fullscreen>false</fullscreen>
+    
+    <!--Sets the game so the guitar charts can be played like a drum chart
+    (i.e. No strumming and no HOPOs, just flat button hitting)
+    NOTE: The drum keys will be used with this setting regardless of chart.
+    NOTE: This option can also turn this game into a keyboard Stepmania clone-->
+    <useDrumStyleInputForGuitarMode>true</useDrumStyleInputForGuitarMode>
 
     <!-- The different speed mod settings.  You can edit or add however many settings 
          you want as long as the selectedSpeedMod points to a speedMod of the same id,

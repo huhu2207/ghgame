@@ -40,7 +40,7 @@ namespace MinGH.GameScreen.SinglePlayer
         // Variables unique to this game screen
         NoteUpdater noteUpdater = new NoteUpdater();
         IKeyboardInputManager keyboardInputManager = new KeyboardInputManager();
-        IInputManager inputManager = new GuitarInputManager();
+        IInputManager inputManager;
         HorizontalHitBox hitBox;
         PlayerInformation playerInformation = new PlayerInformation();
 
@@ -88,6 +88,15 @@ namespace MinGH.GameScreen.SinglePlayer
             spriteBatch = new SpriteBatch(graphics.GraphicsDevice);
 
             gameConfiguration = new GameConfiguration("./config.xml");
+
+            if (gameConfiguration.useDrumStyleInputForGuitarMode)
+            {
+                inputManager = new DrumInputManager();
+            }
+            else
+            {
+                inputManager = new GuitarInputManager();
+            }
 
             // Create the hitbox
             hitBox = new HorizontalHitBox(new Rectangle(0, 0,

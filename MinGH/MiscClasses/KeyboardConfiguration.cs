@@ -18,11 +18,11 @@ namespace MinGH.MiscClasses
         public const Keys starPower = Keys.RightShift;
 
         // Drum related buttons
-        public const Keys redDrum = Keys.Z;
-        public const Keys yellowDrum = Keys.X;
-        public const Keys blueDrum = Keys.C;
-        public const Keys greenDrum = Keys.V;
-        public const Keys bassPedal = Keys.Space;
+        public const Keys redDrum = Keys.X;
+        public const Keys yellowDrum = Keys.C;
+        public const Keys blueDrum = Keys.V;
+        public const Keys greenDrum = Keys.B;
+        public const Keys bassPedal = Keys.Z;
 
         /// <summary>
         /// Converts an integer into a designated key.

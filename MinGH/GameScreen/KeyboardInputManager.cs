@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework.Input;
+﻿using System.Collections.Generic;
+using Microsoft.Xna.Framework.Input;
 using MinGH.MiscClasses;
 
 namespace MinGH.GameScreen
@@ -104,9 +105,35 @@ namespace MinGH.GameScreen
             }
         }
 
-        public Keys[] getCurrentKeyArray()
+        public List<Keys> getHitKeyArray()
         {
-            return currentState.GetPressedKeys();
+            Keys[] currKeyArray = currentState.GetPressedKeys();
+            List<Keys> keyListToReturn = new List<Keys>();
+
+            foreach (Keys currKey in currKeyArray)
+            {
+                if (keyIsHit(currKey))
+                {
+                    keyListToReturn.Add(currKey);
+                }
+            }
+
+            return keyListToReturn;
+        }
+
+        public bool anyKeyIsHit()
+        {
+            Keys[] currKeyArray = currentState.GetPressedKeys();
+
+            foreach (Keys currKey in currKeyArray)
+            {
+                if (keyIsHit(currKey))
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }
