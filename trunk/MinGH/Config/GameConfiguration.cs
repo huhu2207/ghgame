@@ -17,9 +17,15 @@
         public string songDirectory { get; set; }
 
         /// <summary>
-        /// Wether to display in fullscreen.
+        /// Whether to display in fullscreen.
         /// </summary>
         public bool fullscreen { get; set; }
+
+        /// <summary>
+        /// Whether to user use drum input in guitar mode
+        /// NOTE: See config.xml for more details
+        /// </summary>
+        public bool useDrumStyleInputForGuitarMode { get; set; }
 
         /// <summary>
         /// Constructs a GameConfiguration using a path to a XML file.
@@ -30,6 +36,7 @@
             speedModValue = SpeedModReader.ReadInCurrentSpeedModFromXML(sourceXMLFile);
             songDirectory = SongDirectoryReader.ReadInCurrentSongDirectoryFromXML(sourceXMLFile);
             fullscreen = FullscreenReader.ReadInFullscreenSelectionFromXML(sourceXMLFile);
+            useDrumStyleInputForGuitarMode = DrumInputForGuitarReader.ReadInInputStyleFromXML(sourceXMLFile);
         }
     }
 }

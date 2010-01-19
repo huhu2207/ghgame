@@ -114,6 +114,7 @@
     <Compile Include="ChartImpl\Notechart.cs" />
     <Compile Include="ChartImpl\NoteType.cs" />
     <Compile Include="ChartImpl\ProperStringCreator.cs" />
+    <Compile Include="Config\DrumInputForGuitarReader.cs" />
     <Compile Include="Config\FullscreenReader.cs" />
     <Compile Include="Config\GameConfiguration.cs" />
     <Compile Include="Config\SongDirectoryReader.cs" />

@@ -1,5 +1,5 @@
-﻿using Microsoft.Xna.Framework.Input;
-using MinGH.MiscClasses;
+﻿using System.Collections.Generic;
+using Microsoft.Xna.Framework.Input;
 
 namespace MinGH.GameScreen
 {
@@ -36,6 +36,13 @@ namespace MinGH.GameScreen
         bool keyIsHeld(Keys key);
 
         /// <summary>
+        /// Scans the current keyboard state and checks if any of the held keys
+        /// were newly hit that particular frame.
+        /// </summary>
+        /// <returns>True or False.</returns>
+        bool anyKeyIsHit();
+
+        /// <summary>
         /// Checks if key was held down immediately before the check.
         /// </summary>
         /// <param name="key">The key the user wishes to check for.</param>
@@ -52,7 +59,7 @@ namespace MinGH.GameScreen
         /// <summary>
         /// Returns an array containing every key that is hit on a the current frame.
         /// </summary>
-        /// <returns>An array of keys.</returns>
-        Keys[] getCurrentKeyArray();
+        /// <returns>A list of keys.</returns>
+        List<Keys> getHitKeyArray();
     }
 }

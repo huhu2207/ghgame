@@ -8,7 +8,7 @@ namespace MinGH.GameScreen.SinglePlayer
 {
     /// <summary>
     /// Encompasses most of the logic for interpreting the user's input during a
-    /// single player session.
+    /// single player session via guitar.
     /// </summary>
     class GuitarInputManager : IInputManager
     {
@@ -72,7 +72,7 @@ namespace MinGH.GameScreen.SinglePlayer
             // Scan just the physical notes that apply to the key the player hit
             for (int j = 0; j < physicalNotes.GetLength(1); j++)
             {
-                if (physicalNotes[hitNote, j].alive)
+                if ((hitNote <= -1) && (physicalNotes[hitNote, j].alive))
                 {
                     currentCenterPoint = new Point((int)physicalNotes[hitNote, j].getCenterPosition().X, (int)physicalNotes[hitNote, j].getCenterPosition().Y);
 
