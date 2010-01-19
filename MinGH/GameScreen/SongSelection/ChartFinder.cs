@@ -20,7 +20,9 @@ namespace MinGH.GameScreen.SongSelection
 
             try
             {
-                SearchDirectoryForCharts(songDirectory, listOfCharts);
+                // Sadly, I have to do two separate searches due to a Directory.GetFiles limitation
+                SearchDirectoryForCharts(songDirectory, "*.chart", listOfCharts);
+                SearchDirectoryForCharts(songDirectory, "*.mid", listOfCharts);
             }
             catch (IOException e)
             {
@@ -38,15 +40,15 @@ namespace MinGH.GameScreen.SongSelection
         /// <param name="directory">The directory to search.</param>
         /// <param name="listOfCharts">The list to append charts to.</param>
         /// <returns></returns>
-        private static void SearchDirectoryForCharts(string directory, List<ChartLocation> listOfCharts)
+        private static void SearchDirectoryForCharts(string directory, string extension,List<ChartLocation> listOfCharts)
         {
             foreach (string currDirectory in Directory.GetDirectories(directory))
             {
-                foreach (string currFile in Directory.GetFiles(currDirectory, "*.chart"))
+                foreach (string currFile in Directory.GetFiles(currDirectory, extension))
                 {
-                    listOfCharts.Add(new ChartLocation { chartPath = currFile, directory = currDirectory });
+                    listOfCharts.Add(new ChartLocation { chartPath = currFile, directory = currDirectory, chartType=extension });
                 }
-                SearchDirectoryForCharts(currDirectory, listOfCharts);
+                SearchDirectoryForCharts(currDirectory, extension, listOfCharts);
             }
         }
     }

@@ -96,6 +96,10 @@
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
       <Private>False</Private>
     </Reference>
+    <Reference Include="Toub.Sound.Midi, Version=2.0.4.0, Culture=neutral, PublicKeyToken=9510c3608a1f0024">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>.\Toub.Sound.Midi.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ChartImpl\BPMChange.cs" />

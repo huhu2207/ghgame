@@ -21,7 +21,7 @@ namespace MinGH.ChartImpl
         /// A chart info class that has every field filled out with information from
         /// the input chart file.
         /// </returns>
-        public static ChartInfo AddSongInfo(string inputFile)
+        public static ChartInfo chartAddSongInfo(string inputFile)
         {
             ChartInfo chartInfoToReturn = new ChartInfo();
 
@@ -30,60 +30,114 @@ namespace MinGH.ChartImpl
             Match matched_section = Regex.Match(inputFile, pattern);
 
             // Create the stream from the singled out section of the input string
-            StringReader pattern_stream = new StringReader(matched_section.ToString());
-            string current_line = "";
-            string[] parsed_line;
+            StringReader stringReader = new StringReader(matched_section.ToString());
+            string currentLine = "";
+            string[] parsedLine;
 
-            while ((current_line = pattern_stream.ReadLine()) != null)
+            while ((currentLine = stringReader.ReadLine()) != null)
             {
                 // Trim and split the line to retrieve information
-                current_line = current_line.Trim();
-                parsed_line = current_line.Split(' ');
+                currentLine = currentLine.Trim();
+                parsedLine = currentLine.Split(' ');
 
                 // Check for various song infos and parse accordingly
-                if (parsed_line[0] == "Name")
+                if (parsedLine[0] == "Name")
                 {
-                    chartInfoToReturn.songName = ProperStringCreator.createProperString(parsed_line.SubArray(2, parsed_line.Length));
+                    chartInfoToReturn.songName = ProperStringCreator.createProperString(parsedLine.SubArray(2, parsedLine.Length));
                 }
 
-                else if (parsed_line[0] == "Artist")
+                else if (parsedLine[0] == "Artist")
                 {
-                    chartInfoToReturn.artistName = ProperStringCreator.createProperString(parsed_line.SubArray(2, parsed_line.Length));
+                    chartInfoToReturn.artistName = ProperStringCreator.createProperString(parsedLine.SubArray(2, parsedLine.Length));
                 }
 
-                else if (parsed_line[0] == "Offset")
+                else if (parsedLine[0] == "Offset")
                 {
-                    chartInfoToReturn.offset = float.Parse(parsed_line[2]);
+                    chartInfoToReturn.offset = float.Parse(parsedLine[2]);
                 }
 
-                else if (parsed_line[0] == "Resolution")
+                else if (parsedLine[0] == "Resolution")
                 {
-                    chartInfoToReturn.resolution = int.Parse(parsed_line[2]);
+                    chartInfoToReturn.resolution = int.Parse(parsedLine[2]);
                 }
 
-                else if (parsed_line[0] == "hopo_note")
+                else if (parsedLine[0] == "hopo_note")
                 {
-                    chartInfoToReturn.HOPOThreshold = int.Parse(parsed_line[2]);
+                    chartInfoToReturn.HOPOThreshold = int.Parse(parsedLine[2]);
                 }
 
-                else if (parsed_line[0] == "MusicStream")
+                else if (parsedLine[0] == "MusicStream")
                 {
-                    chartInfoToReturn.musicStream = ProperStringCreator.createProperString(parsed_line.SubArray(2, parsed_line.Length));
+                    chartInfoToReturn.musicStream = ProperStringCreator.createProperString(parsedLine.SubArray(2, parsedLine.Length));
                 }
 
-                else if (parsed_line[0] == "GuitarStream")
+                else if (parsedLine[0] == "GuitarStream")
                 {
-                    chartInfoToReturn.guitarStream = ProperStringCreator.createProperString(parsed_line.SubArray(2, parsed_line.Length));
+                    chartInfoToReturn.guitarStream = ProperStringCreator.createProperString(parsedLine.SubArray(2, parsedLine.Length));
                 }
 
-                else if (parsed_line[0] == "BassStream")
+                else if (parsedLine[0] == "BassStream")
                 {
-                    chartInfoToReturn.bassStream = ProperStringCreator.createProperString(parsed_line.SubArray(2, parsed_line.Length));
+                    chartInfoToReturn.bassStream = ProperStringCreator.createProperString(parsedLine.SubArray(2, parsedLine.Length));
                 }
             }
 
             // Close the string stream
-            pattern_stream.Close();
+            stringReader.Close();
+
+            return chartInfoToReturn;
+        }
+
+        public static ChartInfo midiAddSongInfo(string inputPath)
+        {
+            ChartInfo chartInfoToReturn = new ChartInfo();
+            chartInfoToReturn.offset = 0;
+            chartInfoToReturn.resolution = 192;
+
+            if (File.Exists(inputPath + "\\song.ogg"))
+            {
+                chartInfoToReturn.musicStream = inputPath + "\\song.ogg";
+            }
+
+            if (File.Exists(inputPath + "\\guitar.ogg"))
+            {
+                chartInfoToReturn.guitarStream = inputPath + "\\guitar.ogg";
+            }
+
+            if (File.Exists(inputPath + "\\rhythm.ogg"))
+            {
+                chartInfoToReturn.bassStream = inputPath + "\\rhythm.ogg";
+            }
+
+            if (File.Exists(inputPath + "\\drums.ogg"))
+            {
+                chartInfoToReturn.drumStream = inputPath + "\\drums.ogg";
+            }
+
+            if (File.Exists(inputPath + "\\Song.ini"))
+            {
+                StreamReader inputStream = new StreamReader(inputPath + "\\Song.ini");
+                string inputFile = inputStream.ReadToEnd();
+                StringReader stringReader = new StringReader(inputFile);
+                string currentLine = "";
+                string[] parsedLine;
+
+                while ((currentLine = stringReader.ReadLine()) != null)
+                {
+                    // Trim and split the line to retrieve information
+                    currentLine = currentLine.Trim();
+                    parsedLine = currentLine.Split(' ');
+
+                    if (parsedLine[0] == "artist")
+                    {
+                        chartInfoToReturn.artistName = ProperStringCreator.createProperString(parsedLine.SubArray(2, parsedLine.Length));
+                    }
+                    else if (parsedLine[0] == "name")
+                    {
+                        chartInfoToReturn.songName = ProperStringCreator.createProperString(parsedLine.SubArray(2, parsedLine.Length));
+                    }
+                }
+            }
 
             return chartInfoToReturn;
         }

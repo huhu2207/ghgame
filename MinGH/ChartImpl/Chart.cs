@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using Toub.Sound.Midi;
+using MinGH.GameScreen;
 
 namespace MinGH.ChartImpl
 {
@@ -27,26 +29,26 @@ namespace MinGH.ChartImpl
         /// The path to a valid *.chart file.  The constructor creates the
         /// input stream using this string.
         /// </param>
-        public Chart(string filename)
+        /// <param name="filetype">
+        /// The type of chart being used (*.chart and *.mid are currently supported).
+        /// NOTE: If you use a chart filetype, you need to supply the full chart path
+        /// including the chart filename.  If you use a midi filetype, you need to
+        /// specify only the directory in which the midi file is located.
+        /// </param>
+        public Chart(string chartLocation, string filetype)
         {
             BPMChanges = new List<BPMChange>();
             events = new List<Event>();
             noteCharts = new List<Notechart>();
 
-            // First, check if the file even exists
-            if (!File.Exists(filename))
-            {
-                Console.WriteLine("ERROR: File not found. Creating blank chart...");
-                chartInfo = new ChartInfo();
-            }
-            else
+            if (filetype == "*.chart" && File.Exists(chartLocation))
             {
                 // Read the whole file into a string
-                StreamReader inputStream = new StreamReader(filename);
+                StreamReader inputStream = new StreamReader(chartLocation);
                 string inputFile = inputStream.ReadToEnd();
 
                 // Add in all the various chart information
-                chartInfo = ChartInfoManager.AddSongInfo(inputFile);
+                chartInfo = ChartInfoManager.chartAddSongInfo(inputFile);
                 BPMChanges = ChartBPMManager.AddBPMChanges(inputFile);
                 events = ChartEventManager.AddEvents(inputFile);
 
@@ -62,6 +64,10 @@ namespace MinGH.ChartImpl
 
                 // Close the input stream
                 inputStream.Close();
+            }
+            else if (filetype == "*.mid")
+            {
+                chartInfo = ChartInfoManager.midiAddSongInfo(chartLocation);
             }
         }
 
