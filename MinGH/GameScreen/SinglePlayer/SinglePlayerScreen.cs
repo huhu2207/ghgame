@@ -40,6 +40,7 @@ namespace MinGH.GameScreen.SinglePlayer
         // Variables unique to this game screen
         NoteUpdater noteUpdater = new NoteUpdater();
         IKeyboardInputManager keyboardInputManager = new KeyboardInputManager();
+        IInputManager inputManager = new GuitarInputManager();
         HorizontalHitBox hitBox;
         PlayerInformation playerInformation = new PlayerInformation();
 
@@ -272,7 +273,7 @@ namespace MinGH.GameScreen.SinglePlayer
             // The distance each note must step to be in sync with this current update
             float currStep = (float)(gameTime.ElapsedGameTime.TotalMilliseconds * gameConfiguration.speedModValue.noteVelocityMultiplier);
             
-            PlayerInputManager.processPlayerInput(Notes, noteParticleExplosionEmitters, hitBox,
+            inputManager.processPlayerInput(Notes, noteParticleExplosionEmitters, hitBox,
                                                   playerInformation, keyboardInputManager,
                                                   mainChart.noteCharts[0]);
 

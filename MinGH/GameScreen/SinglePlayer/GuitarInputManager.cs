@@ -9,7 +9,7 @@ namespace MinGH.GameScreen.SinglePlayer
     /// Encompasses most of the logic for interpreting the user's input during a
     /// single player session.
     /// </summary>
-    class PlayerInputManager
+    class GuitarInputManager : IInputManager
     {
         /// <summary>
         /// Uses the current keyboard state to figure out whether the user attempted to
@@ -21,11 +21,11 @@ namespace MinGH.GameScreen.SinglePlayer
         /// <param name="playerInformation">The player's current status.</param>
         /// <param name="keyboardInputManager">The current state of the keyboard.</param>
         /// <param name="inputNotechart">The Notechart currently being played.</param>
-        public static void processPlayerInput(Note[,] physicalNotes,
-                                              NoteParticleExplosionEmitters noteParticleExplosionEmitters,
-                                              HorizontalHitBox hitBox, PlayerInformation playerInformation,
-                                              IKeyboardInputManager keyboardInputManager,
-                                              Notechart inputNotechart)
+        public void processPlayerInput(Note[,] physicalNotes,
+                                       NoteParticleExplosionEmitters noteParticleExplosionEmitters,
+                                       HorizontalHitBox hitBox, PlayerInformation playerInformation,
+                                       IKeyboardInputManager keyboardInputManager,
+                                       Notechart inputNotechart)
         {
             if (playerInformation.HOPOState)
             {
@@ -69,11 +69,11 @@ namespace MinGH.GameScreen.SinglePlayer
             Keys currentKey = keyboardInputManager.getHighestHeldKey();
          
             // Convert the current key to a note type (maybe make a cast for this?)
-            if (currentKey == KeyboardConfiguration.green)
+            if (currentKey == KeyboardConfiguration.greenFret)
             {
                 hitNote = 0;
             }
-            else if (currentKey == KeyboardConfiguration.red)
+            else if (currentKey == KeyboardConfiguration.redFret)
             {
                 hitNote = 1;
             }
@@ -141,10 +141,10 @@ namespace MinGH.GameScreen.SinglePlayer
                                 // (i.e. 0->green, 4->orange).
                                 switch (KeyboardConfiguration.getKey(currentRoot.X))
                                 {
-                                    case KeyboardConfiguration.green:
+                                    case KeyboardConfiguration.greenFret:
                                         chordToHit.Green = true;
                                         break;
-                                    case KeyboardConfiguration.red:
+                                    case KeyboardConfiguration.redFret:
                                         chordToHit.Red = true;
                                         break;
                                     case KeyboardConfiguration.yellow:

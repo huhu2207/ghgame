@@ -67,7 +67,7 @@ namespace MinGH.GameScreen.MainMenu
                 mainMenu.SelectPreviousEntry(graphics.GraphicsDevice.Viewport.Height);
             }
 
-            if (keyboardInputManager.keyIsHit(Keys.Enter) || keyboardInputManager.keyIsHit(KeyboardConfiguration.green))
+            if (keyboardInputManager.keyIsHit(Keys.Enter) || keyboardInputManager.keyIsHit(KeyboardConfiguration.greenFret))
             {
                 switch (mainMenu.currentlySelectedEntry)
                 {
