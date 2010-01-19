@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Text.RegularExpressions;
+using Toub.Sound.Midi;
 
 namespace MinGH.ChartImpl
 {
@@ -16,17 +17,17 @@ namespace MinGH.ChartImpl
         /// <param name="chartname">
         /// The specific notechart to be taken from the *.chart file (i.e. ExpertSingle).
         /// </param>
-        /// <param name="input_string">
+        /// <param name="inputString">
         /// The whole *.chart file stored in one massive string.
         /// </param>
         /// <returns>
         /// A filled out Notechart containing the needed information from the *.chart file
         /// </returns>
-        public static Notechart GenerateNotechart(string chartname, string input_string)
+        public static Notechart GenerateNotechartFromChart(string chartname, string inputString)
         {
             // Single out the specified section via regular expressions
             string pattern = Regex.Escape("[") + chartname + "]\\s*" + Regex.Escape("{") + "[^}]*";
-            Match matched_section = Regex.Match(input_string, pattern);
+            Match matched_section = Regex.Match(inputString, pattern);
 
             // Create the stream from the singled out section of the input string
             StringReader pattern_stream = new StringReader(matched_section.ToString());
@@ -141,6 +142,30 @@ namespace MinGH.ChartImpl
 
             // Close the string stream
             pattern_stream.Close();
+            return notechartToReturn;
+        }
+
+        /// <summary>
+        /// Creates a notechart from the specified midi path and the actual charttype
+        /// (i.e. ExpertSingle from notes.mid)
+        /// </summary>
+        /// <param name="chartname">
+        /// The specific notechart to be taken from the *.chart file (i.e. ExpertSingle).
+        /// </param>
+        /// <param name="midiFilePath">
+        /// The path to the midi file being used.
+        /// </param>
+        /// <returns>
+        /// A filled out Notechart containing the needed information from the *.mid file.
+        /// </returns>
+        public static Notechart GenerateNotechartFromMidi(string chartName, string midiFilePath)
+        {
+            Notechart notechartToReturn = new Notechart();
+            MidiPlayer.OpenMidi();
+
+            
+
+            MidiPlayer.CloseMidi();
             return notechartToReturn;
         }
     }
