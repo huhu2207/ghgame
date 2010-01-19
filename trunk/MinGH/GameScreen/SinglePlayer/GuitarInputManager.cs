@@ -164,8 +164,6 @@ namespace MinGH.GameScreen.SinglePlayer
                         // If the user is holding the proper buttons, then explode the note...
                         if (chordToHit.isEqual(chordYouHit))
                         {
-                            List<Point> notesFartherThanCurrentNote = new List<Point>();
-
                             // Apply the miss penalty to every note past the one the user hit,
                             // and kill them, but do not break the combo.
                             foreach (Note currNote in physicalNotes)
@@ -174,7 +172,7 @@ namespace MinGH.GameScreen.SinglePlayer
                                     (currNote.alive == true))
                                 {
                                     currNote.alive = false;
-                                    playerInformation.missNote(false);
+                                    playerInformation.missNote();
                                 }
                             }
 
@@ -209,7 +207,7 @@ namespace MinGH.GameScreen.SinglePlayer
                                 (currNote.alive == true))
                             {
                                 currNote.alive = false;
-                                playerInformation.missNote(false);
+                                playerInformation.missNote();
                             }
                         }
 
@@ -232,7 +230,7 @@ namespace MinGH.GameScreen.SinglePlayer
                 // Only miss if the player strummed and is NOT in a hopo state (or was in A HOPO state)
                 if (wasStrummed && !playerInformation.HOPOState && !playerInformation.leftHOPOState)
                 {
-                    playerInformation.missNote(true);
+                    playerInformation.missNote();
                 }
             }
         }

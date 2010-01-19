@@ -117,7 +117,7 @@ namespace MinGH.GameScreen.SinglePlayer
                     // Only miss if the player strummed and is NOT in a hopo state (or was in A HOPO state)
                     if (!playerInformation.HOPOState && !playerInformation.leftHOPOState)
                     {
-                        playerInformation.missNote(true);
+                        playerInformation.missNote();
                     }
                 }
             }
