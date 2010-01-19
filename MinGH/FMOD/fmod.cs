@@ -1728,6 +1728,8 @@ namespace FMOD
             IntPtr      systemraw   = new IntPtr();
             System      systemnew   = null;
 
+            // If you come to here with a DLLNotFound exception, make sure to copy "fmodex.dll" into
+            // the game's runtime directory (along with config.xml)
             result = FMOD_System_Create(ref systemraw);
             if (result != RESULT.OK)
             {
