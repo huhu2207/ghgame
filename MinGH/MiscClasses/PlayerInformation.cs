@@ -24,13 +24,13 @@
 		/// The penalty to the players health when a note is missed (or the player attempts
 		/// to hit a note that is not there).
 		/// </summary>
-        public const int missHealthPenalty = 8;
+        public const int missHealthPenalty = 3;
 		
 		/// <summary>
 		/// The reward a player gets added to his current health when a note is successfully
 		/// hit.
 		/// </summary>
-        public const int hitHealthReward = 2;
+        public const int hitHealthReward = 1;
 		
 		/// <summary>
 		/// The players current health.  If this number drops below 1, the player loses.
@@ -84,15 +84,11 @@
 		/// <summary>
 		/// Sets the player state to if they missed a note.
 		/// </summary>
-		/// <param name="breakCombo">Wether to break the user's combo or not.</param>
-        public void missNote(bool breakCombo)
+        public void missNote()
         {
             HOPOState = false;
-            if (breakCombo)
-            {
-                currentCombo = 0;
-                currentMultiplier = 1;
-            }
+            currentCombo = 0;
+            currentMultiplier = 1;
             currentHealth -= missHealthPenalty;
         }
 
