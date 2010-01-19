@@ -45,13 +45,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Backgrounds\GH_Background.png">
-      <Name>GH_Background</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Particles\FlowerBurst.bmp">
       <Name>FlowerBurst</Name>
       <Importer>TextureImporter</Importer>
@@ -73,6 +66,18 @@
     </Compile>
     <Compile Include="Sprites\My_Sprites.png">
       <Name>My_Sprites</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Backgrounds\DrumSingle_Background.png">
+      <Name>DrumSingle_Background</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Backgrounds\GuitarSingle_Background.png">
+      <Name>GuitarSingle_Background</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
