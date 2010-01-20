@@ -58,7 +58,7 @@ namespace GameEngine
 		/// The position this game object is currently located.  This position is where
 		/// the top left of the sprite is to be drawn.
 		/// </summary>
-        public Vector2 position { get; set; }
+        public Vector2 position;
 		
 		/// <summary>
 		/// The rotation the sprite currently has.

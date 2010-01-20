@@ -46,7 +46,7 @@ namespace MinGH.ChartImpl
                 if (parsed_line.Length == 4)
                 {
                     if (parsed_line[2] == "B")
-                        BPMChangeListToReturn.Add(new BPMChange(Convert.ToUInt32(parsed_line[0]), Convert.ToInt64(parsed_line[3])));
+                        BPMChangeListToReturn.Add(new BPMChange(Convert.ToUInt32(parsed_line[0]), Convert.ToUInt32(parsed_line[3])));
                 }
             }
 
@@ -86,7 +86,7 @@ namespace MinGH.ChartImpl
                     // and must be converted to BPM, and then into the non decimal format the game
                     // uses.
                     double currBPMDouble = 60000000 / Convert.ToDouble(splitEventString[3]);
-                    long BPMToAdd = (long)(currBPMDouble * 1000);
+                    uint BPMToAdd = (uint)(currBPMDouble * 1000);
                     listToReturn.Add(new BPMChange(currTickValue, BPMToAdd));
                 }
             }

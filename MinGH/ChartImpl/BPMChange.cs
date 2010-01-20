@@ -26,7 +26,7 @@ namespace MinGH.ChartImpl
         /// <param name="inValue">
         /// The actual value of the BPM change.
         /// </param>
-        public BPMChange(uint inTickValue, long inValue)
+        public BPMChange(uint inTickValue, uint inValue)
         {
             TimeValue = 0;
             TickValue = inTickValue;
@@ -46,6 +46,6 @@ namespace MinGH.ChartImpl
 		/// Note that this project follows the *.chart specification where all
 		/// BPM change values must be 6 digits long (i.e. 185000 BPM).
 		/// </summary>
-        public long BPMValue { get; set; }
+        public uint BPMValue { get; set; }
     }
 }

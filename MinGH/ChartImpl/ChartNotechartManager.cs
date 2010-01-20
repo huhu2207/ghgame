@@ -268,7 +268,7 @@ namespace MinGH.ChartImpl
                 // The "0x64" I think means "not was hit."  There is another
                 // set of notes that use "0x00" that all appear slightly after
                 // the "0x64" notes.
-                if ((splitEvent[0] == "NoteOn") && (splitEvent[4] == "0x64"))
+                if ((splitEvent[0] == "NoteOn") && (splitEvent[4] != "0x00"))
                 {
                     // Only consider notes within the octave our difficulty is in.
                     if ((splitEvent[3] == greenKey) || (splitEvent[3] == redKey) ||
