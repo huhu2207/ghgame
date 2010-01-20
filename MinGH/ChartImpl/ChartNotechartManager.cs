@@ -166,6 +166,8 @@ namespace MinGH.ChartImpl
         {
             Notechart notechartToReturn = new Notechart();
 
+            // The following two switch's are used to get the proper midi terminology for
+            // the selected track and difficulty.
             string instrumentPart = null;
             string difficulty = null;
             string greenKey = null;
@@ -178,6 +180,10 @@ namespace MinGH.ChartImpl
             {
                 case "ExpertSingle":
                     instrumentPart = "PART GUITAR";
+                    difficulty = "Expert";
+                    break;
+                case "ExpertDoubleBass":
+                    instrumentPart = "PART BASS";
                     difficulty = "Expert";
                     break;
                 case "ExpertDrums":
@@ -236,6 +242,10 @@ namespace MinGH.ChartImpl
                 currTickValue = Convert.ToUInt32(splitEvent[1]);
                 totalTickValue += currTickValue;
 
+                // We need to specify wether a note is blank or not so we don't add
+                // blank notes from other difficulties into the chart, but if we have
+                // a filled out note, any nonzero tick value means we are moving to a
+                // new note, so we must cut our ties and add this note to the chart.
                 if ((currTickValue != 0) && !blankNote)
                 {
                     notechartToReturn.notes.Add(currNote);
@@ -243,13 +253,17 @@ namespace MinGH.ChartImpl
                     blankNote = true;
                 }
 
+                // The "0x64" I think means "not was hit."  There is another
+                // set of notes that use "0x00" that all appear slightly after
+                // the "0x64" notes.
                 if ((splitEvent[0] == "NoteOn") && (splitEvent[4] == "0x64"))
                 {
+                    // Only consider notes within the octave our difficulty is in.
                     if ((splitEvent[3] == greenKey) || (splitEvent[3] == redKey) ||
                         (splitEvent[3] == yellowKey) || (splitEvent[3] == blueKey) ||
                         (splitEvent[3] == orangeKey))
                     {
-
+                        // If it's a new note, we need to setup the tick value of it.
                         if (blankNote)
                         {
                             currNote.TickValue = totalTickValue;
