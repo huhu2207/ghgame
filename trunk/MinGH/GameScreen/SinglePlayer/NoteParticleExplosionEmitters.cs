@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ProjectMercury;
 using ProjectMercury.Emitters;
+using MinGH.Config;
 
 namespace MinGH.GameScreen.SinglePlayer
 {
@@ -86,25 +87,15 @@ namespace MinGH.GameScreen.SinglePlayer
 		/// Generates the locations for all the emitters according to a padding, noteWidth
 		/// and the hitbar's Y value
 		/// </summary>
-		/// <param name="noteLeftPadding">
-		/// The amount of padding before the actual scoring area is hit on the game screen.
-		/// In MinGH's case, this is how much space is inbetween the left side of the screen,
-		/// and the left side of the green note's lane
-		/// (i.e. the blank space where the players health is displayed)
-		/// </param>
-		/// <param name="noteWidth">
-		/// How far each note lane is spread apart (which should be set to fit the notes
-		/// themselves).
-		/// </param>
-		/// <param name="hitBarYValue">
-		/// The center of the hitbox/hitbar on the gamescreen.  This is so the explosions
-		/// don't appear too high or too low.
-		/// </param>
-        public void initializeLocations(int noteLeftPadding, int noteWidth, int hitBarYValue)
+        /// <param name="gameConfiguration">
+        /// The current game configuration.
+        /// </param>
+        public void initializeLocationsGuitarSingle(ThemeSetting themeSetting, int hitBarYValue)
         {
             for (int i = 0; i < 5; i++)
             {
-                int X = noteLeftPadding + (noteWidth * i) + 47;
+                int X = themeSetting.distanceUntilLeftMostLaneGuitarSingle + (themeSetting.laneSize * i - 1) + 
+                        (themeSetting.laneBorderSize * i) + (themeSetting.laneBorderSize / 2);
 
                 explosionLocations.Add(new Vector2(X, hitBarYValue));
             }

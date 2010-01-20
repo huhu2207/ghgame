@@ -30,11 +30,8 @@ namespace MinGH.GameScreen.SinglePlayer
         Note[,] Notes;  // Will hold every note currently on the screen
         const int maxNotesOnscreen = 50;  // Maximum amount of a single note (i.e. how many reds per frame)
         int noteIterator;  // These iterators are used to keep track of which note to observe next
-        const int noteLeftPadding = 196;  // How far from the left the green note is placed in pixels
-        const int noteWidth = 86;  // How far each lane is on the background
 
         // Sprite Sheet Variables
-        const int noteSpriteSheetOffset = 6;  // How many pixels pad the left side of a note on the sprite sheet
         const int noteSpriteSheetSize = 100;  // How large each sprite is in the spritesheet (including the offset padding)
         
         // Variables unique to this game screen
@@ -105,7 +102,7 @@ namespace MinGH.GameScreen.SinglePlayer
 
             // Set up the particle explosions
             noteParticleExplosionEmitters.initalizeEmitters();
-            noteParticleExplosionEmitters.initializeLocations(noteLeftPadding, noteWidth, hitBox.centerLocation);
+            noteParticleExplosionEmitters.initializeLocationsGuitarSingle(gameConfiguration.themeSetting, hitBox.centerLocation);
             foreach (Emitter emitter in noteParticleExplosionEmitters.emitterList)
             {
                 emitter.Initialize();
@@ -118,7 +115,22 @@ namespace MinGH.GameScreen.SinglePlayer
         {
             gameFont = Game.Content.Load<SpriteFont>("Arial");  // Load the font
             mainChart = new Chart(chartSelection);
-            backgroundTex = Game.Content.Load<Texture2D>("Backgrounds\\GuitarSingle_Background");
+
+            string backgroundFilename = "";
+            switch (mainChart.noteCharts[0].instrument)
+            {
+                case "Drums":
+                    backgroundFilename = "DrumsSingle.png";
+                    break;
+                case "Guitar":
+                    backgroundFilename = "GuitarSingle.png";
+                    break;
+                default:
+                    backgroundFilename = "GuitarSingle.png";
+                    break;
+            }
+            backgroundTex = Texture2D.FromFile(graphics.GraphicsDevice,
+                            gameConfiguration.themeSetting.backgroundDirectory + "\\" + backgroundFilename);
 
             // Setup the notes appearance and velocity
             for (int i = 0; i < Notes.GetLength(0); i++)
@@ -128,24 +140,24 @@ namespace MinGH.GameScreen.SinglePlayer
                     switch (i)
                     {
                         case 0:  // Green Notes
-                            Notes[i, j] = new Note(Game.Content.Load<Texture2D>("Sprites\\My_Sprites"),
-                                          new Rectangle(noteSpriteSheetSize * i, 0, noteSpriteSheetSize, noteSpriteSheetSize), -noteSpriteSheetOffset);
+                            Notes[i, j] = new Note(Texture2D.FromFile(graphics.GraphicsDevice, gameConfiguration.themeSetting.noteSkinFile),
+                                          new Rectangle(noteSpriteSheetSize * i, 0, noteSpriteSheetSize, noteSpriteSheetSize), 0);
                             break;
                         case 1:  // Red Notes
-                            Notes[i, j] = new Note(Game.Content.Load<Texture2D>("Sprites\\My_Sprites"),
-                                          new Rectangle(noteSpriteSheetSize * i, 0, noteSpriteSheetSize, noteSpriteSheetSize), -noteSpriteSheetOffset);
+                            Notes[i, j] = new Note(Texture2D.FromFile(graphics.GraphicsDevice, gameConfiguration.themeSetting.noteSkinFile),
+                                          new Rectangle(noteSpriteSheetSize * i, 0, noteSpriteSheetSize, noteSpriteSheetSize), 0);
                             break;
                         case 2:  // Yellow Notes
-                            Notes[i, j] = new Note(Game.Content.Load<Texture2D>("Sprites\\My_Sprites"),
-                                          new Rectangle(noteSpriteSheetSize * i, 0, noteSpriteSheetSize, noteSpriteSheetSize), -noteSpriteSheetOffset);
+                            Notes[i, j] = new Note(Texture2D.FromFile(graphics.GraphicsDevice, gameConfiguration.themeSetting.noteSkinFile),
+                                          new Rectangle(noteSpriteSheetSize * i, 0, noteSpriteSheetSize, noteSpriteSheetSize), 0);
                             break;
                         case 3:  // Blue Notes
-                            Notes[i, j] = new Note(Game.Content.Load<Texture2D>("Sprites\\My_Sprites"),
-                                          new Rectangle(noteSpriteSheetSize * i, 0, noteSpriteSheetSize, noteSpriteSheetSize), -noteSpriteSheetOffset);
+                            Notes[i, j] = new Note(Texture2D.FromFile(graphics.GraphicsDevice, gameConfiguration.themeSetting.noteSkinFile),
+                                          new Rectangle(noteSpriteSheetSize * i, 0, noteSpriteSheetSize, noteSpriteSheetSize), 0);
                             break;
                         case 4:  // Orange Notes
-                            Notes[i, j] = new Note(Game.Content.Load<Texture2D>("Sprites\\My_Sprites"),
-                                          new Rectangle(noteSpriteSheetSize * i, 0, noteSpriteSheetSize, noteSpriteSheetSize), -noteSpriteSheetOffset);
+                            Notes[i, j] = new Note(Texture2D.FromFile(graphics.GraphicsDevice, gameConfiguration.themeSetting.noteSkinFile),
+                                          new Rectangle(noteSpriteSheetSize * i, 0, noteSpriteSheetSize, noteSpriteSheetSize), 0);
                             break;
                     }
                     Notes[i,j].velocity = new Vector2(0.0f, (float)gameConfiguration.speedModValue.noteVelocityMultiplier);
@@ -273,7 +285,8 @@ namespace MinGH.GameScreen.SinglePlayer
                                                   mainChart.noteCharts[0]);
 
             NoteUpdater.updateNotes(mainChart.noteCharts[0], ref noteIterator, Notes, viewportRectangle,
-                                    currStep, noteWidth, currentMsec + gameConfiguration.speedModValue.milisecondOffset,
+                                    currStep, gameConfiguration.themeSetting,
+                                    currentMsec + gameConfiguration.speedModValue.milisecondOffset,
                                     noteSpriteSheetSize, playerInformation, hitBox);
 
             // Update varous strings

@@ -59,28 +59,26 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Sprites\GH_Sprites.png">
-      <Name>GH_Sprites</Name>
+    <None Include="Sprites\DefaultSprites.png">
+      <Name>DefaultSprites</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Sprites\My_Sprites.png">
-      <Name>My_Sprites</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Backgrounds\DrumSingle_Background.png">
-      <Name>DrumSingle_Background</Name>
+    <None Include="Backgrounds\Default\DrumsSingle.png">
+      <Name>DrumsSingle</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Backgrounds\GuitarSingle_Background.png">
-      <Name>GuitarSingle_Background</Name>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Backgrounds\Default\GuitarSingle.png">
+      <Name>GuitarSingle</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
-    </Compile>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\$(XnaFrameworkVersion)\Microsoft.Xna.GameStudio.ContentPipeline.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

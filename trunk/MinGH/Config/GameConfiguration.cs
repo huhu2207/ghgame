@@ -11,6 +11,8 @@
         /// </summary>
         public SpeedModValue speedModValue { get; set; }
 
+        public ThemeSetting themeSetting { get; set; }
+
         /// <summary>
         /// The folder that contains all songs to be used in the game.
         /// </summary>
@@ -37,6 +39,7 @@
             songDirectory = SongDirectoryReader.ReadInCurrentSongDirectoryFromXML(sourceXMLFile);
             fullscreen = FullscreenReader.ReadInFullscreenSelectionFromXML(sourceXMLFile);
             useDrumStyleInputForGuitarMode = DrumInputForGuitarReader.ReadInInputStyleFromXML(sourceXMLFile);
+            themeSetting = ThemeSettingReader.ReadInCurrentThemeFromXML(sourceXMLFile);
         }
     }
 }
