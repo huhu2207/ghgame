@@ -61,7 +61,7 @@ namespace MinGH.GameScreen.SinglePlayer
         bool audioIsPlaying = false;  // So we don't play the song again every single update
 
         // Project Mercury Particle Engine related variables
-        NoteParticleExplosionEmitters noteParticleExplosionEmitters = new NoteParticleExplosionEmitters();
+        NoteParticleEmitters noteParticleExplosionEmitters = new NoteParticleEmitters();
         PointSpriteRenderer renderer = new PointSpriteRenderer();
         ColorModifier modifier = new ColorModifier();
 
@@ -103,15 +103,6 @@ namespace MinGH.GameScreen.SinglePlayer
                                           graphics.GraphicsDevice.Viewport.Width,
                                           graphics.GraphicsDevice.Viewport.Height),
                                           gameConfiguration.speedModValue);
-
-            // Set up the particle explosions
-            noteParticleExplosionEmitters.initalizeEmitters();
-            noteParticleExplosionEmitters.initializeLocationsGuitarSingle(gameConfiguration.themeSetting, hitBox.centerLocation);
-            foreach (Emitter emitter in noteParticleExplosionEmitters.emitterList)
-            {
-                emitter.Initialize();
-            }
-
             base.Initialize();
         }
 
@@ -121,52 +112,36 @@ namespace MinGH.GameScreen.SinglePlayer
             mainChart = new Chart(chartSelection);
 
             string backgroundFilename = "";
-            switch (mainChart.noteCharts[0].instrument)
-            {
-                case "Drums":
-                    backgroundFilename = "DrumsSingle.png";
-                    break;
-                case "Guitar":
-                    backgroundFilename = "GuitarSingle.png";
-                    break;
-                default:
-                    backgroundFilename = "GuitarSingle.png";
-                    break;
-            }
-            backgroundTex = Texture2D.FromFile(graphics.GraphicsDevice,
-                            gameConfiguration.themeSetting.backgroundDirectory + "\\" + backgroundFilename);
             spriteSheetTex = Texture2D.FromFile(graphics.GraphicsDevice, gameConfiguration.themeSetting.noteSkinFile);
-            // Setup the notes appearance and velocity
-            for (int i = 0; i < Notes.GetLength(0); i++)
+
+            if (mainChart.noteCharts[0].instrument == "Drums")
             {
-                for (int j = 0; j < Notes.GetLength(1); j++)
-                {
-                    switch (i)
-                    {
-                        case 0:  // Green Notes
-                            Notes[i, j] = new Note(spriteSheetTex,
-                                          new Rectangle(noteSpriteSheetSize * i, 0, noteSpriteSheetSize, noteSpriteSheetSize), 0);
-                            break;
-                        case 1:  // Red Notes
-                            Notes[i, j] = new Note(spriteSheetTex,
-                                          new Rectangle(noteSpriteSheetSize * i, 0, noteSpriteSheetSize, noteSpriteSheetSize), 0);
-                            break;
-                        case 2:  // Yellow Notes
-                            Notes[i, j] = new Note(spriteSheetTex,
-                                          new Rectangle(noteSpriteSheetSize * i, 0, noteSpriteSheetSize, noteSpriteSheetSize), 0);
-                            break;
-                        case 3:  // Blue Notes
-                            Notes[i, j] = new Note(spriteSheetTex,
-                                          new Rectangle(noteSpriteSheetSize * i, 0, noteSpriteSheetSize, noteSpriteSheetSize), 0);
-                            break;
-                        case 4:  // Orange Notes
-                            Notes[i, j] = new Note(spriteSheetTex,
-                                          new Rectangle(noteSpriteSheetSize * i, 0, noteSpriteSheetSize, noteSpriteSheetSize), 0);
-                            break;
-                    }
-                    Notes[i,j].velocity = new Vector2(0.0f, (float)gameConfiguration.speedModValue.noteVelocityMultiplier);
-                }
+                // Set up the particle explosions
+                noteParticleExplosionEmitters.initalizeEmittersDrumsSingle(gameConfiguration.themeSetting);
+                noteParticleExplosionEmitters.initializeLocationsDrumsSingle(gameConfiguration.themeSetting, hitBox.centerLocation);
+
+                backgroundFilename = "DrumsSingle.png";
+
+                Notes = NoteInitializer.InitializeNotesDrumSingle(noteSpriteSheetSize, Notes, spriteSheetTex, gameConfiguration);
             }
+            else
+            {
+                // Set up the particle explosions
+                noteParticleExplosionEmitters.initalizeEmittersGuitarSingle();
+                noteParticleExplosionEmitters.initializeLocationsGuitarSingle(gameConfiguration.themeSetting, hitBox.centerLocation);
+
+                backgroundFilename = "GuitarSingle.png";
+
+                Notes = NoteInitializer.InitializeNotesGuitarSingle(noteSpriteSheetSize, Notes, spriteSheetTex, gameConfiguration);
+            }
+
+            foreach (Emitter emitter in noteParticleExplosionEmitters.emitterList)
+            {
+                emitter.Initialize();
+            }
+
+            backgroundTex = Texture2D.FromFile(graphics.GraphicsDevice,
+                                gameConfiguration.themeSetting.backgroundDirectory + "\\" + backgroundFilename);
 
             // Add the "Song Title" and "Artist Name" to the string manager
             string songInformation = "Song Title:\n" + mainChart.chartInfo.songName + "\n\n" +
@@ -179,7 +154,6 @@ namespace MinGH.GameScreen.SinglePlayer
             viewportRectangle = new Rectangle(0, 0,
                 graphics.GraphicsDevice.Viewport.Width,
                 graphics.GraphicsDevice.Viewport.Height);
-
             
             renderer.GraphicsDeviceService = graphics;
             renderer.BlendMode = SpriteBlendMode.Additive;

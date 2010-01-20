@@ -129,10 +129,11 @@
     <Compile Include="GameScreen\MainMenu\MainMenuScreen.cs" />
     <Compile Include="GameScreen\SinglePlayer\DrumInputManager.cs" />
     <Compile Include="GameScreen\SinglePlayer\IInputManager.cs" />
+    <Compile Include="GameScreen\SinglePlayer\NoteInitializer.cs" />
     <Compile Include="GameScreen\SinglePlayer\SinglePlayerScreen.cs" />
     <Compile Include="GameScreen\SinglePlayer\HorizontalHitBox.cs" />
     <Compile Include="Config\SpeedModValue.cs" />
-    <Compile Include="GameScreen\SinglePlayer\NoteParticleExplosionEmitters.cs" />
+    <Compile Include="GameScreen\SinglePlayer\NoteParticleEmitters.cs" />
     <Compile Include="GameScreen\SinglePlayer\NoteUpdater.cs" />
     <Compile Include="GameScreen\SinglePlayer\GuitarInputManager.cs" />
     <Compile Include="GameScreen\KeyboardInputManager.cs" />

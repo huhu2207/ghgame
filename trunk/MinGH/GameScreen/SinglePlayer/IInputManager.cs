@@ -16,7 +16,7 @@ namespace MinGH.GameScreen.SinglePlayer
         /// <param name="keyboardInputManager">The current state of the keyboard.</param>
         /// <param name="inputNotechart">The Notechart currently being played.</param>
         void processPlayerInput(Note[,] physicalNotes,
-                                NoteParticleExplosionEmitters noteParticleExplosionEmitters,
+                                NoteParticleEmitters noteParticleExplosionEmitters,
                                 HorizontalHitBox hitBox, PlayerInformation playerInformation,
                                 IKeyboardInputManager keyboardInputManager,
                                 Notechart inputNotechart);
