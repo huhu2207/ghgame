@@ -94,8 +94,8 @@ namespace MinGH.GameScreen.SinglePlayer
         {
             for (int i = 0; i < 5; i++)
             {
-                int X = themeSetting.distanceUntilLeftMostLaneGuitarSingle + (themeSetting.laneSize * i - 1) + 
-                        (themeSetting.laneBorderSize * i) + (themeSetting.laneBorderSize / 2);
+                int X = themeSetting.distanceUntilLeftMostLaneGuitarSingle + (themeSetting.laneSize * i) +
+                        (themeSetting.laneBorderSize * i + 1) + (themeSetting.laneSize / 2);
 
                 explosionLocations.Add(new Vector2(X, hitBarYValue));
             }
