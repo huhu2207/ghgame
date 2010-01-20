@@ -16,7 +16,7 @@ namespace MinGH.GameScreen.SinglePlayer
         /// <param name="gameConfiguration">The current game configuration.</param>
         /// <returns>A filled out drawable note 2d array.</returns>
         public static Note[,] InitializeNotesDrumSingle(int noteSpriteSheetSize, Note[,] Notes, Texture2D spriteSheetTex,
-                                                        GameConfiguration gameConfiguration)
+                                                        GameConfiguration gameConfiguration, float noteScaleValue, float bassNoteScaleValue)
         {
             // Setup the notes appearance and velocity
             for (int i = 0; i < Notes.GetLength(0); i++)
@@ -32,6 +32,7 @@ namespace MinGH.GameScreen.SinglePlayer
                                              gameConfiguration.themeSetting.distanceUntilLeftMostLaneDrumSingle +
                                              gameConfiguration.themeSetting.laneBorderSize;
                             Notes[i, j].originalSpritePosition = new Rectangle(0, noteSpriteSheetSize * 5, noteSpriteSheetSize * 4, noteSpriteSheetSize);
+                            Notes[i, j].scale = new Vector2(bassNoteScaleValue, bassNoteScaleValue);
                             break;
                         case 1:  // Red Notes
                             Notes[i, j] = new Note(spriteSheetTex,
@@ -40,6 +41,7 @@ namespace MinGH.GameScreen.SinglePlayer
                                              gameConfiguration.themeSetting.distanceUntilLeftMostLaneDrumSingle +
                                              gameConfiguration.themeSetting.laneBorderSize;
                             Notes[i, j].originalSpritePosition = new Rectangle(noteSpriteSheetSize * 1, 0, noteSpriteSheetSize, noteSpriteSheetSize);
+                            Notes[i, j].scale = new Vector2(noteScaleValue, noteScaleValue);
                             break;
                         case 2:  // Yellow Notes
                             Notes[i, j] = new Note(spriteSheetTex,
@@ -49,6 +51,7 @@ namespace MinGH.GameScreen.SinglePlayer
                                              ((gameConfiguration.themeSetting.laneSize + gameConfiguration.themeSetting.laneBorderSize) * 1) +
                                              gameConfiguration.themeSetting.laneBorderSize;
                             Notes[i, j].originalSpritePosition = new Rectangle(noteSpriteSheetSize * 2, 0, noteSpriteSheetSize, noteSpriteSheetSize);
+                            Notes[i, j].scale = new Vector2(noteScaleValue, noteScaleValue);
                             break;
                         case 3:  // Blue Notes
                             Notes[i, j] = new Note(spriteSheetTex,
@@ -58,6 +61,7 @@ namespace MinGH.GameScreen.SinglePlayer
                                              ((gameConfiguration.themeSetting.laneSize + gameConfiguration.themeSetting.laneBorderSize) * 2) +
                                              gameConfiguration.themeSetting.laneBorderSize;
                             Notes[i, j].originalSpritePosition = new Rectangle(noteSpriteSheetSize * 3, 0, noteSpriteSheetSize, noteSpriteSheetSize);
+                            Notes[i, j].scale = new Vector2(noteScaleValue, noteScaleValue);
                             break;
                         case 4:  // Green Notes
                             Notes[i, j] = new Note(spriteSheetTex,
@@ -67,6 +71,7 @@ namespace MinGH.GameScreen.SinglePlayer
                                              ((gameConfiguration.themeSetting.laneSize + gameConfiguration.themeSetting.laneBorderSize) * 3) +
                                              gameConfiguration.themeSetting.laneBorderSize;
                             Notes[i, j].originalSpritePosition = new Rectangle(noteSpriteSheetSize * 0, 0, noteSpriteSheetSize, noteSpriteSheetSize);
+                            Notes[i, j].scale = new Vector2(noteScaleValue, noteScaleValue);
                             break;
                     }
                     Notes[i, j].velocity = new Vector2(0.0f, (float)gameConfiguration.speedModValue.noteVelocityMultiplier);
@@ -84,7 +89,7 @@ namespace MinGH.GameScreen.SinglePlayer
         /// <param name="gameConfiguration">The current game configuration.</param>
         /// <returns>A filled out drawable note 2d array.</returns>
         public static Note[,] InitializeNotesGuitarSingle(int noteSpriteSheetSize, Note[,] Notes, Texture2D spriteSheetTex,
-                                                          GameConfiguration gameConfiguration)
+                                                          GameConfiguration gameConfiguration, float noteScaleValue)
         {
             // Setup the notes appearance and velocity
             for (int i = 0; i < Notes.GetLength(0); i++)
@@ -99,6 +104,7 @@ namespace MinGH.GameScreen.SinglePlayer
                                              ((gameConfiguration.themeSetting.laneSize + gameConfiguration.themeSetting.laneBorderSize) * i) +
                                              gameConfiguration.themeSetting.laneBorderSize;
                     Notes[i, j].originalSpritePosition = new Rectangle(noteSpriteSheetSize * i, 0, noteSpriteSheetSize, noteSpriteSheetSize);
+                    Notes[i, j].scale = new Vector2(noteScaleValue, noteScaleValue);
                 }
             }
             return Notes;
