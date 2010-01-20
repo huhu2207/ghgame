@@ -30,7 +30,7 @@
 		/// The reward a player gets added to his current health when a note is successfully
 		/// hit.
 		/// </summary>
-        public const int hitHealthReward = 1;
+        public const int hitHealthReward = 2;
 		
 		/// <summary>
 		/// The players current health.  If this number drops below 1, the player loses.
