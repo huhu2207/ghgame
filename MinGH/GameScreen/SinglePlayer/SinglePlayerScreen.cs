@@ -26,6 +26,7 @@ namespace MinGH.GameScreen.SinglePlayer
         SpriteBatch spriteBatch;  // Draws the shapes
         Rectangle viewportRectangle;  // The window itself
         Texture2D backgroundTex;  // The background texture
+        Texture2D spriteSheetTex;
         SpriteFont gameFont;  // The font the game will use
         Note[,] Notes;  // Will hold every note currently on the screen
         const int maxNotesOnscreen = 50;  // Maximum amount of a single note (i.e. how many reds per frame)
@@ -33,6 +34,7 @@ namespace MinGH.GameScreen.SinglePlayer
 
         // Sprite Sheet Variables
         const int noteSpriteSheetSize = 100;  // How large each sprite is in the spritesheet (including the offset padding)
+        float noteScaleValue = 0.0f;
         
         // Variables unique to this game screen
         NoteUpdater noteUpdater = new NoteUpdater();
@@ -50,10 +52,10 @@ namespace MinGH.GameScreen.SinglePlayer
         private GameEngine.FMOD.Channel guitarChannel = new GameEngine.FMOD.Channel();
         private GameEngine.FMOD.Channel bassChannel = new GameEngine.FMOD.Channel();
         private GameEngine.FMOD.Channel drumChannel = new GameEngine.FMOD.Channel();
-        private GameEngine.FMOD.Sound musicSound = new GameEngine.FMOD.Sound();
-        private GameEngine.FMOD.Sound guitarSound = new GameEngine.FMOD.Sound();
-        private GameEngine.FMOD.Sound bassSound = new GameEngine.FMOD.Sound();
-        private GameEngine.FMOD.Sound drumSound = new GameEngine.FMOD.Sound();
+        private GameEngine.FMOD.Sound musicStream = new GameEngine.FMOD.Sound();
+        private GameEngine.FMOD.Sound guitarStream = new GameEngine.FMOD.Sound();
+        private GameEngine.FMOD.Sound bassStream = new GameEngine.FMOD.Sound();
+        private GameEngine.FMOD.Sound drumStream = new GameEngine.FMOD.Sound();
         RESULT result = new RESULT();
         uint currentMsec = 0;
         bool audioIsPlaying = false;  // So we don't play the song again every single update
@@ -84,6 +86,8 @@ namespace MinGH.GameScreen.SinglePlayer
             spriteBatch = new SpriteBatch(graphics.GraphicsDevice);
 
             gameConfiguration = new GameConfiguration("./config.xml");
+
+            noteScaleValue = gameConfiguration.themeSetting.laneSize / (float)noteSpriteSheetSize;
 
             if (gameConfiguration.useDrumStyleInputForGuitarMode)
             {
@@ -131,7 +135,7 @@ namespace MinGH.GameScreen.SinglePlayer
             }
             backgroundTex = Texture2D.FromFile(graphics.GraphicsDevice,
                             gameConfiguration.themeSetting.backgroundDirectory + "\\" + backgroundFilename);
-
+            spriteSheetTex = Texture2D.FromFile(graphics.GraphicsDevice, gameConfiguration.themeSetting.noteSkinFile);
             // Setup the notes appearance and velocity
             for (int i = 0; i < Notes.GetLength(0); i++)
             {
@@ -140,23 +144,23 @@ namespace MinGH.GameScreen.SinglePlayer
                     switch (i)
                     {
                         case 0:  // Green Notes
-                            Notes[i, j] = new Note(Texture2D.FromFile(graphics.GraphicsDevice, gameConfiguration.themeSetting.noteSkinFile),
+                            Notes[i, j] = new Note(spriteSheetTex,
                                           new Rectangle(noteSpriteSheetSize * i, 0, noteSpriteSheetSize, noteSpriteSheetSize), 0);
                             break;
                         case 1:  // Red Notes
-                            Notes[i, j] = new Note(Texture2D.FromFile(graphics.GraphicsDevice, gameConfiguration.themeSetting.noteSkinFile),
+                            Notes[i, j] = new Note(spriteSheetTex,
                                           new Rectangle(noteSpriteSheetSize * i, 0, noteSpriteSheetSize, noteSpriteSheetSize), 0);
                             break;
                         case 2:  // Yellow Notes
-                            Notes[i, j] = new Note(Texture2D.FromFile(graphics.GraphicsDevice, gameConfiguration.themeSetting.noteSkinFile),
+                            Notes[i, j] = new Note(spriteSheetTex,
                                           new Rectangle(noteSpriteSheetSize * i, 0, noteSpriteSheetSize, noteSpriteSheetSize), 0);
                             break;
                         case 3:  // Blue Notes
-                            Notes[i, j] = new Note(Texture2D.FromFile(graphics.GraphicsDevice, gameConfiguration.themeSetting.noteSkinFile),
+                            Notes[i, j] = new Note(spriteSheetTex,
                                           new Rectangle(noteSpriteSheetSize * i, 0, noteSpriteSheetSize, noteSpriteSheetSize), 0);
                             break;
                         case 4:  // Orange Notes
-                            Notes[i, j] = new Note(Texture2D.FromFile(graphics.GraphicsDevice, gameConfiguration.themeSetting.noteSkinFile),
+                            Notes[i, j] = new Note(spriteSheetTex,
                                           new Rectangle(noteSpriteSheetSize * i, 0, noteSpriteSheetSize, noteSpriteSheetSize), 0);
                             break;
                     }
@@ -200,7 +204,7 @@ namespace MinGH.GameScreen.SinglePlayer
             if (audioIsPlaying == false)
             {
                 GameEngine.FMOD.Factory.System_Create(ref system);
-                system.init(32, INITFLAGS.NORMAL | INITFLAGS.SOFTWARE_OCCLUSION, (IntPtr)null);
+                system.init(32, INITFLAGS.NORMAL, (IntPtr)null);
                 //uint minDelay = 0, hi = 0, lo = 0;
                 //int ass = 0;
 
@@ -211,54 +215,54 @@ namespace MinGH.GameScreen.SinglePlayer
                 if (mainChart.chartInfo.musicStream != null)
                 {
                     string musicLocation = chartSelection.directory + "\\" + mainChart.chartInfo.musicStream;
-                    result = system.createSound(musicLocation, MODE.HARDWARE, ref musicSound);
+                    result = system.createStream(musicLocation, MODE.CREATESTREAM, ref musicStream);
                     if (result == RESULT.ERR_FILE_NOTFOUND)
                     {
-                        result = system.createSound(chartSelection.directory + "\\Song.ogg", MODE.HARDWARE, ref musicSound);
+                        result = system.createStream(chartSelection.directory + "\\Song.ogg", MODE.HARDWARE, ref musicStream);
                     }
                 }
                 if (mainChart.chartInfo.guitarStream != null)
                 {
                     string guitarLocation = chartSelection.directory + "\\" + mainChart.chartInfo.guitarStream;
-                    result = system.createSound(guitarLocation, MODE.HARDWARE, ref guitarSound);
+                    result = system.createStream(guitarLocation, MODE.CREATESTREAM, ref guitarStream);
                     if (result == RESULT.ERR_FILE_NOTFOUND)
                     {
-                        result = system.createSound(chartSelection.directory + "\\Guitar.ogg", MODE.HARDWARE, ref guitarSound);
+                        result = system.createStream(chartSelection.directory + "\\Guitar.ogg", MODE.CREATESTREAM, ref guitarStream);
                     }
                 }
                 if (mainChart.chartInfo.bassStream != null)
                 {
                     string bassLocation = chartSelection.directory + "\\" + mainChart.chartInfo.bassStream;
-                    result = system.createSound(bassLocation, MODE.HARDWARE, ref bassSound);
+                    result = system.createStream(bassLocation, MODE.CREATESTREAM, ref bassStream);
                     if (result == RESULT.ERR_FILE_NOTFOUND)
                     {
-                        result = system.createSound(chartSelection.directory + "\\Rhythm.ogg", MODE.HARDWARE, ref bassSound);
+                        result = system.createStream(chartSelection.directory + "\\Rhythm.ogg", MODE.CREATESTREAM, ref bassStream);
                     }
                 }
                 if (mainChart.chartInfo.drumStream != null)
                 {
                     string drumLocation = chartSelection.directory + "\\" + mainChart.chartInfo.drumStream;
-                    result = system.createSound(drumLocation, MODE.HARDWARE, ref drumSound);
+                    result = system.createStream(drumLocation, MODE.CREATESTREAM, ref drumStream);
                     if (result == RESULT.ERR_FILE_NOTFOUND)
                     {
-                        result = system.createSound(chartSelection.directory + "\\Drums.ogg", MODE.HARDWARE, ref drumSound);
+                        result = system.createStream(chartSelection.directory + "\\Drums.ogg", MODE.CREATESTREAM, ref drumStream);
                     }
                 }
 
-                result = system.playSound(CHANNELINDEX.FREE, musicSound, false, ref musicChannel);
-                result = system.playSound(CHANNELINDEX.FREE, guitarSound, false, ref guitarChannel);
-                result = system.playSound(CHANNELINDEX.FREE, bassSound, false, ref bassChannel);
-                result = system.playSound(CHANNELINDEX.FREE, drumSound, false, ref drumChannel);
+                result = system.playSound(CHANNELINDEX.FREE, musicStream, false, ref musicChannel);
+                result = system.playSound(CHANNELINDEX.FREE, guitarStream, false, ref guitarChannel);
+                result = system.playSound(CHANNELINDEX.FREE, bassStream, false, ref bassChannel);
+                result = system.playSound(CHANNELINDEX.FREE, drumStream, false, ref drumChannel);
 
                 // A VERY hackey and uninformed way of syncing the three tracks after playing.
                 // Sadly this is the only way that I could get to "work."
-                uint bassPositon = 0;
-                bassChannel.getPosition(ref bassPositon, TIMEUNIT.MS);
-                guitarChannel.setPosition(bassPositon, TIMEUNIT.MS);
-                bassChannel.getPosition(ref bassPositon, TIMEUNIT.MS);
-                musicChannel.setPosition(bassPositon, TIMEUNIT.MS);
-                bassChannel.getPosition(ref bassPositon, TIMEUNIT.MS);
-                drumChannel.setPosition(bassPositon, TIMEUNIT.MS);
+                //uint bassPositon = 0;
+                //bassChannel.getPosition(ref bassPositon, TIMEUNIT.MS);
+                //guitarChannel.setPosition(bassPositon, TIMEUNIT.MS);
+                //bassChannel.getPosition(ref bassPositon, TIMEUNIT.MS);
+                //musicChannel.setPosition(bassPositon, TIMEUNIT.MS);
+                //bassChannel.getPosition(ref bassPositon, TIMEUNIT.MS);
+                //drumChannel.setPosition(bassPositon, TIMEUNIT.MS);
 
                 audioIsPlaying = true;
             }
@@ -331,7 +335,11 @@ namespace MinGH.GameScreen.SinglePlayer
                 {
                     if (Notes[i, j].alive)
                     {
-                        spriteBatch.Draw(Notes[i, j].spriteSheet, Notes[i, j].position, Notes[i, j].spriteSheetRectangle, Color.White);
+                        spriteBatch.Draw(Notes[i, j].spriteSheet, Notes[i, j].position,
+                                         Notes[i, j].spriteSheetRectangle, Color.White,
+                                         Notes[i, j].rotation, new Vector2(0, 0), noteScaleValue, SpriteEffects.None,
+                                         0f);
+                        //spriteBatch.Draw(Notes[i, j].spriteSheet, Notes[i, j].position, Notes[i, j].spriteSheetRectangle, Color.White);
                     }
                 }
             }
