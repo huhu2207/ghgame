@@ -16,8 +16,8 @@ namespace MinGH.ChartImpl
         {
             difficulty = "default";
             instrument = "default";
-            notes = new List<ChartNote>();
-            SPNotes = new List<ChartNote>();
+            notes = new List<NotechartNote>();
+            SPNotes = new List<NotechartNote>();
         }
 
         /// <summary>
@@ -33,8 +33,8 @@ namespace MinGH.ChartImpl
         {
             difficulty = inDifficulty;
             instrument = inInstrument;
-            notes = new List<ChartNote>();
-            SPNotes = new List<ChartNote>();
+            notes = new List<NotechartNote>();
+            SPNotes = new List<NotechartNote>();
         }
 
         /// <summary>
@@ -42,15 +42,15 @@ namespace MinGH.ChartImpl
         /// </summary>
         public void print_info()
         {
-            foreach (ChartNote curr_note in notes)
+            foreach (NotechartNote curr_note in notes)
             {
                 Console.Write(curr_note.noteType.ToString() + ": - ");
             }
 
-            foreach (ChartNote curr_note in SPNotes)
+            foreach (NotechartNote curr_note in SPNotes)
             {
                 Console.Write("SP: - ");
-                curr_note.print_info();
+                curr_note.printInfo();
             }
         }
 
@@ -67,11 +67,11 @@ namespace MinGH.ChartImpl
         /// <summary>
         /// List that contains every single note in the chart.
         /// </summary>
-        public List<ChartNote> notes { get; set; }
+        public List<NotechartNote> notes { get; set; }
 
         /// <summary>
         /// A list containing every star power note in the chart.
         /// </summary>
-        public List<ChartNote> SPNotes { get; set; }
+        public List<NotechartNote> SPNotes { get; set; }
     }
 }

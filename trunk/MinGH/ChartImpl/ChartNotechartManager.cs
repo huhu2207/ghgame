@@ -1,8 +1,8 @@
 ﻿using System;
 using System.IO;
 using System.Text.RegularExpressions;
-using Toub.Sound.Midi;
 using MinGH.GameScreen;
+using Toub.Sound.Midi;
 
 namespace MinGH.ChartImpl
 {
@@ -15,11 +15,8 @@ namespace MinGH.ChartImpl
         /// Creates a notechart from the specified file and the actual charttype
         /// (i.e. ExpertSingle from Freebird.chart)
         /// </summary>
-        /// <param name="chartname">
-        /// The specific notechart to be taken from the *.chart file (i.e. ExpertSingle).
-        /// </param>
-        /// <param name="inputString">
-        /// The whole *.chart file stored in one massive string.
+        /// <param name="chartSelection">
+        /// The information on which particular notechart to use.
         /// </param>
         /// <returns>
         /// A filled out Notechart containing the needed information from the *.chart file
@@ -45,7 +42,7 @@ namespace MinGH.ChartImpl
             //If specific notechart is not found, return a generic one
             if (!(matched_section.Success))
             {
-                notechartToReturn.notes.Add(new ChartNote());
+                notechartToReturn.notes.Add(new NotechartNote());
             }
 
             // Else, read in all the chart information
@@ -99,31 +96,31 @@ namespace MinGH.ChartImpl
                                 switch (Convert.ToInt32(parsed_line[3]))
                                 {
                                     case 0:
-                                        notechartToReturn.notes.Add(new ChartNote(Convert.ToUInt32(parsed_line[0]),
+                                        notechartToReturn.notes.Add(new NotechartNote(Convert.ToUInt32(parsed_line[0]),
                                                                                   Convert.ToInt32(parsed_line[4]),
                                                                                   0));
                                         break;
 
                                     case 1:
-                                        notechartToReturn.notes.Add(new ChartNote(Convert.ToUInt32(parsed_line[0]),
+                                        notechartToReturn.notes.Add(new NotechartNote(Convert.ToUInt32(parsed_line[0]),
                                                                                   Convert.ToInt32(parsed_line[4]),
                                                                                   1));
                                         break;
 
                                     case 2:
-                                        notechartToReturn.notes.Add(new ChartNote(Convert.ToUInt32(parsed_line[0]),
+                                        notechartToReturn.notes.Add(new NotechartNote(Convert.ToUInt32(parsed_line[0]),
                                                                                   Convert.ToInt32(parsed_line[4]),
                                                                                   2));
                                         break;
 
                                     case 3:
-                                        notechartToReturn.notes.Add(new ChartNote(Convert.ToUInt32(parsed_line[0]),
+                                        notechartToReturn.notes.Add(new NotechartNote(Convert.ToUInt32(parsed_line[0]),
                                                                                   Convert.ToInt32(parsed_line[4]),
                                                                                   3));
                                         break;
 
                                     case 4:
-                                        notechartToReturn.notes.Add(new ChartNote(Convert.ToUInt32(parsed_line[0]),
+                                        notechartToReturn.notes.Add(new NotechartNote(Convert.ToUInt32(parsed_line[0]),
                                                                                   Convert.ToInt32(parsed_line[4]),
                                                                                   4));
                                         break;
@@ -136,7 +133,7 @@ namespace MinGH.ChartImpl
                         }
                         // Also check for SP notes
                         else if (parsed_line[2] == "S")
-                            notechartToReturn.SPNotes.Add(new ChartNote(Convert.ToUInt32(parsed_line[0]),
+                            notechartToReturn.SPNotes.Add(new NotechartNote(Convert.ToUInt32(parsed_line[0]),
                                                                         Convert.ToInt32(parsed_line[4]),
                                                                         5));
                     }
@@ -153,15 +150,8 @@ namespace MinGH.ChartImpl
         /// Creates a notechart from the specified midi path and the actual charttype
         /// (i.e. ExpertSingle from notes.mid)
         /// </summary>
-        /// <param name="chartName">
-        /// The specific notechart to be taken from the *.chart file (i.e. ExpertSingle).
-        /// </param>
-        /// <param name="midiFilePath">
-        /// The path to the midi file being used.
-        /// </param>
-        /// <param name="chartInfo">
-        /// The info on the chart.  This is passed since some information can only
-        /// be obtained via the midi file.
+        /// <param name="chartSelection">
+        /// The information on which particular notechart to use.
         /// </param>
         /// <returns>
         /// A filled out Notechart containing the needed information from the *.mid file.
@@ -254,7 +244,7 @@ namespace MinGH.ChartImpl
 
             uint totalTickValue = 0;
             uint currTickValue = 0;
-            ChartNote currNote = new ChartNote();
+            NotechartNote currNote = new NotechartNote();
             bool blankNote = true;
             // Scan through and record every note specific to the selected difficulty
             for (int i = 0; i < trackToUse.Events.Count; i++)
@@ -271,7 +261,7 @@ namespace MinGH.ChartImpl
                 if ((currTickValue != 0) && !blankNote)
                 {
                     notechartToReturn.notes.Add(currNote);
-                    currNote = new ChartNote();
+                    currNote = new NotechartNote();
                     blankNote = true;
                 }
 
