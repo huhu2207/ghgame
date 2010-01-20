@@ -136,7 +136,7 @@ namespace MinGH.GameScreen.SinglePlayer
                 noteParticleEmitters.initalizeEmittersDrumsSingle(gameConfiguration.themeSetting);
                 noteParticleEmitters.initializeLocationsDrumsSingle(gameConfiguration.themeSetting, hitBox.centerLocation);
                 backgroundFilename = "DrumsSingle.png";
-                Notes = NoteInitializer.InitializeNotesDrumSingle(noteSpriteSheetSize, Notes, spriteSheetTex, gameConfiguration);
+                Notes = NoteInitializer.InitializeNotesDrumSingle(noteSpriteSheetSize, Notes, spriteSheetTex, gameConfiguration, noteScaleValue, bassNoteScaleValue);
             }
             else  // A guitar background and emitter setting will be the "default"
             {
@@ -144,7 +144,7 @@ namespace MinGH.GameScreen.SinglePlayer
                 noteParticleEmitters.initalizeEmittersGuitarSingle();
                 noteParticleEmitters.initializeLocationsGuitarSingle(gameConfiguration.themeSetting, hitBox.centerLocation);
                 backgroundFilename = "GuitarSingle.png";
-                Notes = NoteInitializer.InitializeNotesGuitarSingle(noteSpriteSheetSize, Notes, spriteSheetTex, gameConfiguration);
+                Notes = NoteInitializer.InitializeNotesGuitarSingle(noteSpriteSheetSize, Notes, spriteSheetTex, gameConfiguration, noteScaleValue);
             }
 
             foreach (Emitter emitter in noteParticleEmitters.emitterList)
@@ -295,7 +295,7 @@ namespace MinGH.GameScreen.SinglePlayer
                                     noteSpriteSheetSize, playerInformation, hitBox);
 
             // Update varous strings
-            strManager.SetString(0, "Current MSEC:\n" + currentMsec);
+            strManager.SetString(0, "Hitbox Y: " + hitBox.physicalHitbox.Y + "\nHitbox Height: " + hitBox.physicalHitbox.Height);
             strManager.SetString(1, "End MSEC:\n" + mainChart.chartInfo.chartLengthMiliseconds.ToString());
             strManager.SetString(3, "Score: " + playerInformation.currentScore.ToString() + "\n\n" +
                                      "Multiplier : " + playerInformation.currentMultiplier.ToString() + "\n\n" +
@@ -349,20 +349,10 @@ namespace MinGH.GameScreen.SinglePlayer
                 {
                     if (Notes[i, j].alive)
                     {
-                        if ((mainChart.noteCharts[0].instrument == "Drums") && (i == 0))
-                        {
-                            spriteBatch.Draw(Notes[i, j].spriteSheet, Notes[i, j].position,
-                                             Notes[i, j].spriteSheetRectangle, Color.White,
-                                             Notes[i, j].rotation, new Vector2(0, 0), bassNoteScaleValue,
-                                             SpriteEffects.None, 0f);
-                        }
-                        else
-                        {
-                            spriteBatch.Draw(Notes[i, j].spriteSheet, Notes[i, j].position,
-                                             Notes[i, j].spriteSheetRectangle, Color.White,
-                                             Notes[i, j].rotation, new Vector2(0, 0), noteScaleValue, SpriteEffects.None,
-                                             0f);
-                        }
+                        spriteBatch.Draw(Notes[i, j].spriteSheet, Notes[i, j].position,
+                                         Notes[i, j].spriteSheetRectangle, Color.White,
+                                         Notes[i, j].rotation, new Vector2(0, 0),
+                                         Notes[i, j].scale, SpriteEffects.None, 0f);
                     }
                 }
             }

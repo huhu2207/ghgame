@@ -85,12 +85,13 @@ namespace MinGH.GameScreen.SinglePlayer
         public void initalizeEmittersDrumsSingle(ThemeSetting themeSetting)
         {
             LineEmitter lineEmitterToAdd = new LineEmitter();
+            lineEmitterToAdd.Rectilinear = true;
             lineEmitterToAdd.Budget = 3000;
             lineEmitterToAdd.ReleaseQuantity = 800;
-            lineEmitterToAdd.ReleaseScale = new VariableFloat { Anchor = 40f, Variation = 0.5f };
-            lineEmitterToAdd.ReleaseSpeed = new VariableFloat { Anchor = 100f, Variation = 1f };
+            lineEmitterToAdd.ReleaseScale = new VariableFloat { Anchor = 50f, Variation = 0.5f };
+            lineEmitterToAdd.ReleaseSpeed = new VariableFloat { Anchor = 200f, Variation = 1f };
             lineEmitterToAdd.ReleaseOpacity = new VariableFloat { Anchor = 0.2f, Variation = 0f };
-            lineEmitterToAdd.Term = 0.3f;
+            lineEmitterToAdd.Term = 0.8f;
             lineEmitterToAdd.ParticleTextureAssetName = "Particles\\FlowerBurst";
             lineEmitterToAdd.ReleaseColour = Color.Orange.ToVector3();
             lineEmitterToAdd.Length = (themeSetting.laneBorderSize * 4) + (themeSetting.laneSize * 4);

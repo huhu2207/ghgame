@@ -7,7 +7,7 @@
     <songDirectory>./Songs</songDirectory>
     
     <!-- Play the game fullscreen at 800x600 (will support custom resolutions later -->
-    <fullscreen>true</fullscreen>
+    <fullscreen>false</fullscreen>
     
     <!--Sets the game so the guitar charts can be played like a drum chart
     (i.e. No strumming and no HOPOs, just flat button hitting)
@@ -27,36 +27,36 @@
                         or slow. -->
     <speedMods>
     
-        <selectedSpeedMod>1</selectedSpeedMod>
+        <selectedSpeedMod>2</selectedSpeedMod>
         
         <speedMod id="1">
+            <MSOffset>1440</MSOffset>
+            <NVMultiplier>0.4</NVMultiplier>
+        </speedMod>
+        
+        <speedMod id="2">
             <MSOffset>1125</MSOffset>
             <NVMultiplier>0.5</NVMultiplier>
         </speedMod>
         
-        <speedMod id="2">
-            <MSOffset>910</MSOffset>
+        <speedMod id="3">
+            <MSOffset>955</MSOffset>
             <NVMultiplier>0.6</NVMultiplier>
         </speedMod>
 
-        <speedMod id="3">
-            <MSOffset>780</MSOffset>
+        <speedMod id="4">
+            <MSOffset>813</MSOffset>
             <NVMultiplier>0.7</NVMultiplier>
         </speedMod>
 
-        <speedMod id="4">
-            <MSOffset>660</MSOffset>
+        <speedMod id="5">
+            <MSOffset>695</MSOffset>
             <NVMultiplier>0.8</NVMultiplier>
         </speedMod>
         
-        <speedMod id="5">
-            <MSOffset>590</MSOffset>
-            <NVMultiplier>0.9</NVMultiplier>
-        </speedMod>
-        
         <speedMod id="6">
-            <MSOffset>530</MSOffset>
-            <NVMultiplier>1.0</NVMultiplier>
+            <MSOffset>620</MSOffset>
+            <NVMultiplier>0.9</NVMultiplier>
         </speedMod>
         
     </speedMods>
@@ -97,6 +97,17 @@
             <!-- The size of the lanes themselves (WITHOUT the border size included).
                  Know that every lane must be of the same size -->
             <laneSize>83</laneSize>
+        </theme>
+        
+        <theme id="2">
+            <noteSkinFile>./Content/Sprites/DefaultSprites.png</noteSkinFile>
+            <backgroundDirectory>./Content/Backgrounds/Alt</backgroundDirectory>
+            <distanceUntilLeftMostLane>
+                <guitarSingle>270</guitarSingle>
+                <drumSingle>300</drumSingle>
+            </distanceUntilLeftMostLane>
+            <laneBorderSize>1</laneBorderSize>
+            <laneSize>49</laneSize>
         </theme>
     </themes>
 
