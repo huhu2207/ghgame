@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using MinGH.ChartImpl;
 using MinGH.EngineExtensions;
+using MinGH.Config;
 
 namespace MinGH.GameScreen.SinglePlayer
 {
@@ -26,7 +27,7 @@ namespace MinGH.GameScreen.SinglePlayer
         /// <param name="hitBox">The current hit window.</param>
         public static void updateNotes(Notechart inputNotechart, ref int inputNoteIterator,
                                        Note[,] physicalNotes, Rectangle viewportRectangle,
-                                       float currStep, int noteSize, double currentMsec,
+                                       float currStep, ThemeSetting themeSetting, double currentMsec,
                                        int spriteSheetSize, PlayerInformation playerInfo,
                                        HorizontalHitBox hitBox)
         {
@@ -81,7 +82,10 @@ namespace MinGH.GameScreen.SinglePlayer
                                 }
 
                                 // TODO: Standardize the note lane size and the "196" pixel space to the left of the lanes
-                                float newNotePos = physicalNotes[currentNoteset, i].spriteSheetOffset + 196 + (noteSize * currentNoteset);
+                                float newNotePos = physicalNotes[currentNoteset, i].spriteSheetOffset +
+                                                   themeSetting.distanceUntilLeftMostLaneGuitarSingle +
+                                                   ((themeSetting.laneSize + themeSetting.laneBorderSize) * currentNoteset) +
+                                                   themeSetting.laneBorderSize;
                                 physicalNotes[currentNoteset, i].position = new Vector2(newNotePos, -spriteSheetSize);
                                 break;
                             }

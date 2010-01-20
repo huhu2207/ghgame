@@ -123,13 +123,15 @@
     <Compile Include="Config\GameConfiguration.cs" />
     <Compile Include="Config\SongDirectoryReader.cs" />
     <Compile Include="Config\SpeedModReader.cs" />
+    <Compile Include="Config\ThemeSetting.cs" />
+    <Compile Include="Config\ThemeSettingReader.cs" />
     <Compile Include="Enum\GameStateEnum.cs" />
     <Compile Include="GameScreen\MainMenu\MainMenuScreen.cs" />
     <Compile Include="GameScreen\SinglePlayer\DrumInputManager.cs" />
     <Compile Include="GameScreen\SinglePlayer\IInputManager.cs" />
     <Compile Include="GameScreen\SinglePlayer\SinglePlayerScreen.cs" />
     <Compile Include="GameScreen\SinglePlayer\HorizontalHitBox.cs" />
-    <Compile Include="Config\HyperSpeedValue.cs" />
+    <Compile Include="Config\SpeedModValue.cs" />
     <Compile Include="GameScreen\SinglePlayer\NoteParticleExplosionEmitters.cs" />
     <Compile Include="GameScreen\SinglePlayer\NoteUpdater.cs" />
     <Compile Include="GameScreen\SinglePlayer\GuitarInputManager.cs" />
@@ -197,6 +199,11 @@
       <Project>{FCEF5128-DE5F-4F1A-ABBF-1FCB9B6C0FFF}</Project>
       <Name>GameEngine</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="config.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\Microsoft.Xna.GameStudio.targets" />
