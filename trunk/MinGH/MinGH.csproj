@@ -112,9 +112,9 @@
     <Compile Include="ChartImpl\Chart.cs" />
     <Compile Include="ChartImpl\ChartTimeValueManager.cs" />
     <Compile Include="ChartImpl\EndofChartCondition.cs" />
-    <Compile Include="ChartImpl\ChartEntity.cs" />
-    <Compile Include="ChartImpl\Event.cs" />
-    <Compile Include="ChartImpl\ChartNote.cs" />
+    <Compile Include="ChartImpl\NotechartEntity.cs" />
+    <Compile Include="ChartImpl\ChartEvent.cs" />
+    <Compile Include="ChartImpl\NotechartNote.cs" />
     <Compile Include="ChartImpl\Notechart.cs" />
     <Compile Include="ChartImpl\NoteType.cs" />
     <Compile Include="ChartImpl\ProperStringCreator.cs" />
@@ -124,9 +124,6 @@
     <Compile Include="Config\SongDirectoryReader.cs" />
     <Compile Include="Config\SpeedModReader.cs" />
     <Compile Include="Enum\GameStateEnum.cs" />
-    <Compile Include="Extensions\SubArrayExtension.cs" />
-    <Compile Include="FMOD\fmod.cs" />
-    <Compile Include="FMOD\fmod_dsp.cs" />
     <Compile Include="GameScreen\MainMenu\MainMenuScreen.cs" />
     <Compile Include="GameScreen\SinglePlayer\DrumInputManager.cs" />
     <Compile Include="GameScreen\SinglePlayer\IInputManager.cs" />
@@ -142,18 +139,12 @@
     <Compile Include="GameScreen\SongSelection\ChartFinder.cs" />
     <Compile Include="GameScreen\ChartSelection.cs" />
     <Compile Include="GameScreen\SongSelection\SongSelectionScreen.cs" />
-    <Compile Include="GameStringImpl\GameString.cs" />
-    <Compile Include="GameStringImpl\Menu.cs" />
-    <Compile Include="GameStringImpl\MenuSet.cs" />
-    <Compile Include="MiscClasses\GameObject.cs" />
-    <Compile Include="GameStringImpl\GameStringManager.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="MinGH.cs" />
-    <Compile Include="MiscClasses\KeyboardConfiguration.cs" />
-    <Compile Include="MiscClasses\Note.cs" />
-    <Compile Include="MiscClasses\PlayerInformation.cs" />
+    <Compile Include="Config\KeyboardConfiguration.cs" />
+    <Compile Include="EngineExtensions\Note.cs" />
+    <Compile Include="GameScreen\PlayerInformation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="MiscClasses\Timer.cs" />
   </ItemGroup>
   <ItemGroup>
     <NestedContentProject Include="Content\Content.contentproj">
@@ -200,6 +191,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\GameEngine\GameEngine.csproj">
+      <Project>{FCEF5128-DE5F-4F1A-ABBF-1FCB9B6C0FFF}</Project>
+      <Name>GameEngine</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\Microsoft.Xna.GameStudio.targets" />

@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Xml;
+﻿using System.Xml;
 
 namespace MinGH.Config
 {
+    /// <summary>
+    /// Reads in the useDrumStyleInputForGuitarMode selection from the configuration XML file.
+    /// </summary>
     public class DrumInputForGuitarReader
     {
         /// <summary>

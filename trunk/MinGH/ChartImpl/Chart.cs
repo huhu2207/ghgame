@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using Toub.Sound.Midi;
 using MinGH.GameScreen;
 
 namespace MinGH.ChartImpl
