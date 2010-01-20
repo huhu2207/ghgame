@@ -7,7 +7,7 @@
     <songDirectory>./Songs</songDirectory>
     
     <!-- Play the game fullscreen at 800x600 (will support custom resolutions later -->
-    <fullscreen>false</fullscreen>
+    <fullscreen>true</fullscreen>
     
     <!--Sets the game so the guitar charts can be played like a drum chart
     (i.e. No strumming and no HOPOs, just flat button hitting)
@@ -27,10 +27,10 @@
                         or slow. -->
     <speedMods>
     
-        <selectedSpeedMod>3</selectedSpeedMod>
+        <selectedSpeedMod>1</selectedSpeedMod>
         
         <speedMod id="1">
-            <MSOffset>1100</MSOffset>
+            <MSOffset>1125</MSOffset>
             <NVMultiplier>0.5</NVMultiplier>
         </speedMod>
         
