@@ -20,7 +20,7 @@ namespace MinGH.GameScreen.SinglePlayer
         /// <param name="viewportRectangle">The rectangle surrounding the game screen.</param>
         /// <param name="currStep">The number of pixels each note on screen must move for
         ///                        this current update.</param>
-        /// <param name="noteSize">The size of the note lanes on the background.</param>
+        /// <param name="themeSetting">The current theme setting of the game.</param>
         /// <param name="currentMsec">The current milisecond position the playing song is on.</param>
         /// <param name="spriteSheetSize">The size of an individual note on the sprite sheets (i.e. 100px)</param>
         /// <param name="playerInfo">The player's current status.</param>
@@ -81,12 +81,8 @@ namespace MinGH.GameScreen.SinglePlayer
                                     }
                                 }
 
-                                // TODO: Standardize the note lane size and the "196" pixel space to the left of the lanes
-                                float newNotePos = physicalNotes[currentNoteset, i].spriteSheetOffset +
-                                                   themeSetting.distanceUntilLeftMostLaneGuitarSingle +
-                                                   ((themeSetting.laneSize + themeSetting.laneBorderSize) * currentNoteset) +
-                                                   themeSetting.laneBorderSize;
-                                physicalNotes[currentNoteset, i].position = new Vector2(newNotePos, -spriteSheetSize);
+                                
+                                physicalNotes[currentNoteset, i].position.Y = -spriteSheetSize;
                                 break;
                             }
                         }

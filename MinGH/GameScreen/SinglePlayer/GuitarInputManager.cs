@@ -23,7 +23,7 @@ namespace MinGH.GameScreen.SinglePlayer
         /// <param name="keyboardInputManager">The current state of the keyboard.</param>
         /// <param name="inputNotechart">The Notechart currently being played.</param>
         public void processPlayerInput(Note[,] physicalNotes,
-                                       NoteParticleExplosionEmitters noteParticleExplosionEmitters,
+                                       NoteParticleEmitters noteParticleExplosionEmitters,
                                        HorizontalHitBox hitBox, PlayerInformation playerInformation,
                                        IKeyboardInputManager keyboardInputManager,
                                        Notechart inputNotechart)
@@ -57,7 +57,7 @@ namespace MinGH.GameScreen.SinglePlayer
         /// <param name="inputNotechart">The Notechart currently being played.</param>
         /// <param name="wasStrummed">Whether a strum was executed.</param>
         private static void triggerInput(Note[,] physicalNotes,
-                                         NoteParticleExplosionEmitters noteParticleExplosionEmitters,
+                                         NoteParticleEmitters noteParticleExplosionEmitters,
                                          HorizontalHitBox hitBox, IKeyboardInputManager keyboardInputManager, 
                                          PlayerInformation playerInformation,
                                          Notechart inputNotechart, bool wasStrummed)
