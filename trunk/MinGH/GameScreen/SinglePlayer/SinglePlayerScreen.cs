@@ -11,6 +11,7 @@ using MinGH.Enum;
 using ProjectMercury.Emitters;
 using ProjectMercury.Modifiers;
 using ProjectMercury.Renderers;
+using System.Threading;
 
 namespace MinGH.GameScreen.SinglePlayer
 {
@@ -19,6 +20,9 @@ namespace MinGH.GameScreen.SinglePlayer
     /// </summary>
     class SinglePlayerScreen : DrawableGameComponent
     {
+        const int maxNotesOnscreen = 50;  // Maximum amount of a single note (i.e. how many reds per frame)
+        const int noteSpriteSheetSize = 100;  // How large each sprite is in the spritesheet (including the offset padding)
+
         MinGHMain gameReference;  // A reference to the game itself, allows for game state changing.
         GraphicsDeviceManager graphics;
         ChartSelection chartSelection;
@@ -29,41 +33,33 @@ namespace MinGH.GameScreen.SinglePlayer
         Texture2D spriteSheetTex;
         SpriteFont gameFont;  // The font the game will use
         Note[,] Notes;  // Will hold every note currently on the screen
-        const int maxNotesOnscreen = 50;  // Maximum amount of a single note (i.e. how many reds per frame)
         int noteIterator;  // These iterators are used to keep track of which note to observe next
-
-        // Sprite Sheet Variables
-        const int noteSpriteSheetSize = 100;  // How large each sprite is in the spritesheet (including the offset padding)
-        float noteScaleValue = 0.0f;
-        
-        // Variables unique to this game screen
-        NoteUpdater noteUpdater = new NoteUpdater();
-        IKeyboardInputManager keyboardInputManager = new KeyboardInputManager();
+        float noteScaleValue, bassNoteScaleValue;
+        NoteUpdater noteUpdater;
+        IKeyboardInputManager keyboardInputManager;
         IInputManager inputManager;
         HorizontalHitBox hitBox;
-        PlayerInformation playerInformation = new PlayerInformation();
-
+        PlayerInformation playerInformation;
         Chart mainChart;  // Create the chart file
-        GameStringManager strManager = new GameStringManager();  // Stores each string and its position on the screen
+        GameStringManager strManager;  // Stores each string and its position on the screen
 
         // Variables related to the audio playing and note syncing
-        private GameEngine.FMOD.System system = new GameEngine.FMOD.System();
-        private GameEngine.FMOD.Channel musicChannel = new GameEngine.FMOD.Channel();
-        private GameEngine.FMOD.Channel guitarChannel = new GameEngine.FMOD.Channel();
-        private GameEngine.FMOD.Channel bassChannel = new GameEngine.FMOD.Channel();
-        private GameEngine.FMOD.Channel drumChannel = new GameEngine.FMOD.Channel();
-        private GameEngine.FMOD.Sound musicStream = new GameEngine.FMOD.Sound();
-        private GameEngine.FMOD.Sound guitarStream = new GameEngine.FMOD.Sound();
-        private GameEngine.FMOD.Sound bassStream = new GameEngine.FMOD.Sound();
-        private GameEngine.FMOD.Sound drumStream = new GameEngine.FMOD.Sound();
-        RESULT result = new RESULT();
-        uint currentMsec = 0;
-        bool audioIsPlaying = false;  // So we don't play the song again every single update
+        private GameEngine.FMOD.System system;
+        private GameEngine.FMOD.Channel musicChannel;
+        private GameEngine.FMOD.Channel guitarChannel;
+        private GameEngine.FMOD.Channel bassChannel;
+        private GameEngine.FMOD.Channel drumChannel;
+        private GameEngine.FMOD.Sound musicStream;
+        private GameEngine.FMOD.Sound guitarStream;
+        private GameEngine.FMOD.Sound bassStream;
+        private GameEngine.FMOD.Sound drumStream;
+        RESULT result;
+        uint currentMsec;
+        bool audioIsPlaying;  // So we don't play the song again every single update
 
         // Project Mercury Particle Engine related variables
-        NoteParticleEmitters noteParticleExplosionEmitters = new NoteParticleEmitters();
-        PointSpriteRenderer renderer = new PointSpriteRenderer();
-        ColorModifier modifier = new ColorModifier();
+        NoteParticleEmitters noteParticleEmitters;
+        PointSpriteRenderer renderer;
 
         public SinglePlayerScreen(MinGHMain game, GraphicsDeviceManager graph, ChartSelection inputLocation)
             : base(game)
@@ -75,19 +71,37 @@ namespace MinGH.GameScreen.SinglePlayer
 
         public override void Initialize()
         {
-            // Setup the strings
-            strManager =  SinglePlayerStringInitializer.initializeStrings(graphics.GraphicsDevice.Viewport.Width,
-                                                graphics.GraphicsDevice.Viewport.Height);
+            
             // Initialize some variables
+            renderer = new PointSpriteRenderer();
+            noteParticleEmitters = new NoteParticleEmitters();
+            playerInformation = new PlayerInformation();
+            strManager = new GameStringManager();
+            keyboardInputManager = new KeyboardInputManager();
+            noteUpdater = new NoteUpdater();
             noteIterator = 0;
+            currentMsec = 0;
+            noteScaleValue = 0.0f;
+            bassNoteScaleValue = 0.0f;
             Notes = new Note[5, maxNotesOnscreen];
 
-            // Create the sprite bacth
+            // Initialize FMOD variables
+            system = new GameEngine.FMOD.System();
+            musicChannel = new GameEngine.FMOD.Channel();
+            guitarChannel = new GameEngine.FMOD.Channel();
+            drumChannel = new GameEngine.FMOD.Channel();
+            musicStream = new GameEngine.FMOD.Sound();
+            guitarStream = new GameEngine.FMOD.Sound();
+            bassStream = new GameEngine.FMOD.Sound();
+            drumStream = new GameEngine.FMOD.Sound();
+            result = new RESULT();
+            audioIsPlaying = false;
+
             spriteBatch = new SpriteBatch(graphics.GraphicsDevice);
-
             gameConfiguration = new GameConfiguration("./config.xml");
-
             noteScaleValue = gameConfiguration.themeSetting.laneSize / (float)noteSpriteSheetSize;
+            bassNoteScaleValue = (gameConfiguration.themeSetting.laneSize + gameConfiguration.themeSetting.laneBorderSize) / 
+                                 ((float)noteSpriteSheetSize);
 
             if (gameConfiguration.useDrumStyleInputForGuitarMode)
             {
@@ -98,11 +112,13 @@ namespace MinGH.GameScreen.SinglePlayer
                 inputManager = new GuitarInputManager();
             }
 
-            // Create the hitbox
             hitBox = new HorizontalHitBox(new Rectangle(0, 0,
                                           graphics.GraphicsDevice.Viewport.Width,
                                           graphics.GraphicsDevice.Viewport.Height),
                                           gameConfiguration.speedModValue);
+
+            strManager = SinglePlayerStringInitializer.initializeStrings(graphics.GraphicsDevice.Viewport.Width,
+                                                graphics.GraphicsDevice.Viewport.Height);
             base.Initialize();
         }
 
@@ -117,25 +133,21 @@ namespace MinGH.GameScreen.SinglePlayer
             if (mainChart.noteCharts[0].instrument == "Drums")
             {
                 // Set up the particle explosions
-                noteParticleExplosionEmitters.initalizeEmittersDrumsSingle(gameConfiguration.themeSetting);
-                noteParticleExplosionEmitters.initializeLocationsDrumsSingle(gameConfiguration.themeSetting, hitBox.centerLocation);
-
+                noteParticleEmitters.initalizeEmittersDrumsSingle(gameConfiguration.themeSetting);
+                noteParticleEmitters.initializeLocationsDrumsSingle(gameConfiguration.themeSetting, hitBox.centerLocation);
                 backgroundFilename = "DrumsSingle.png";
-
                 Notes = NoteInitializer.InitializeNotesDrumSingle(noteSpriteSheetSize, Notes, spriteSheetTex, gameConfiguration);
             }
-            else
+            else  // A guitar background and emitter setting will be the "default"
             {
                 // Set up the particle explosions
-                noteParticleExplosionEmitters.initalizeEmittersGuitarSingle();
-                noteParticleExplosionEmitters.initializeLocationsGuitarSingle(gameConfiguration.themeSetting, hitBox.centerLocation);
-
+                noteParticleEmitters.initalizeEmittersGuitarSingle();
+                noteParticleEmitters.initializeLocationsGuitarSingle(gameConfiguration.themeSetting, hitBox.centerLocation);
                 backgroundFilename = "GuitarSingle.png";
-
                 Notes = NoteInitializer.InitializeNotesGuitarSingle(noteSpriteSheetSize, Notes, spriteSheetTex, gameConfiguration);
             }
 
-            foreach (Emitter emitter in noteParticleExplosionEmitters.emitterList)
+            foreach (Emitter emitter in noteParticleEmitters.emitterList)
             {
                 emitter.Initialize();
             }
@@ -159,7 +171,7 @@ namespace MinGH.GameScreen.SinglePlayer
             renderer.BlendMode = SpriteBlendMode.Additive;
             renderer.LoadContent(Game.Content);
 
-            foreach (Emitter emitter in noteParticleExplosionEmitters.emitterList)
+            foreach (Emitter emitter in noteParticleEmitters.emitterList)
             {
                 emitter.LoadContent(Game.Content);
             }
@@ -192,6 +204,7 @@ namespace MinGH.GameScreen.SinglePlayer
                     {
                         result = system.createStream(chartSelection.directory + "\\Song.ogg", MODE.HARDWARE, ref musicStream);
                     }
+                    result = system.playSound(CHANNELINDEX.FREE, musicStream, true, ref musicChannel);
                 }
                 if (mainChart.chartInfo.guitarStream != null)
                 {
@@ -201,6 +214,7 @@ namespace MinGH.GameScreen.SinglePlayer
                     {
                         result = system.createStream(chartSelection.directory + "\\Guitar.ogg", MODE.CREATESTREAM, ref guitarStream);
                     }
+                    result = system.playSound(CHANNELINDEX.FREE, guitarStream, true, ref guitarChannel);
                 }
                 if (mainChart.chartInfo.bassStream != null)
                 {
@@ -210,6 +224,7 @@ namespace MinGH.GameScreen.SinglePlayer
                     {
                         result = system.createStream(chartSelection.directory + "\\Rhythm.ogg", MODE.CREATESTREAM, ref bassStream);
                     }
+                    result = system.playSound(CHANNELINDEX.FREE, bassStream, true, ref bassChannel);
                 }
                 if (mainChart.chartInfo.drumStream != null)
                 {
@@ -219,15 +234,32 @@ namespace MinGH.GameScreen.SinglePlayer
                     {
                         result = system.createStream(chartSelection.directory + "\\Drums.ogg", MODE.CREATESTREAM, ref drumStream);
                     }
+                    result = system.playSound(CHANNELINDEX.FREE, drumStream, true, ref drumChannel);
                 }
 
-                result = system.playSound(CHANNELINDEX.FREE, musicStream, false, ref musicChannel);
-                result = system.playSound(CHANNELINDEX.FREE, guitarStream, false, ref guitarChannel);
-                result = system.playSound(CHANNELINDEX.FREE, bassStream, false, ref bassChannel);
-                result = system.playSound(CHANNELINDEX.FREE, drumStream, false, ref drumChannel);
+                Thread.Sleep(1000);
+
+                if (mainChart.chartInfo.musicStream != null)
+                {
+                    result = musicChannel.setPaused(false);
+                }
+                if (mainChart.chartInfo.guitarStream != null)
+                {
+                    result = guitarChannel.setPaused(false);
+                }
+                if (mainChart.chartInfo.bassStream != null)
+                {
+                    result = bassChannel.setPaused(false);
+                }
+                if (mainChart.chartInfo.drumStream != null)
+                {
+                    result = drumChannel.setPaused(false);   
+                }
 
                 audioIsPlaying = true;
             }
+
+            
 
             if (keyboardInputManager.keyIsHit(Keys.Escape))
             {
@@ -235,7 +267,16 @@ namespace MinGH.GameScreen.SinglePlayer
                 gameReference.ChangeGameState(GameStateEnum.MainMenu, null);
             }
 
-            musicChannel.getPosition(ref currentMsec, TIMEUNIT.MS);
+            // Since some charts use the gutar stream as the main music stream,
+            // I update from the guitar channel if no music stream is present.
+            if (mainChart.chartInfo.musicStream != null)
+            {
+                musicChannel.getPosition(ref currentMsec, TIMEUNIT.MS);
+            }
+            else
+            {
+                guitarChannel.getPosition(ref currentMsec, TIMEUNIT.MS);
+            }
 
             // Update the FMOD system
             system.update();
@@ -246,7 +287,7 @@ namespace MinGH.GameScreen.SinglePlayer
             // The distance each note must step to be in sync with this current update
             float currStep = (float)(gameTime.ElapsedGameTime.TotalMilliseconds * gameConfiguration.speedModValue.noteVelocityMultiplier);
             
-            inputManager.processPlayerInput(Notes, noteParticleExplosionEmitters, hitBox,
+            inputManager.processPlayerInput(Notes, noteParticleEmitters, hitBox,
                                                   playerInformation, keyboardInputManager,
                                                   mainChart.noteCharts[0]);
 
@@ -266,13 +307,26 @@ namespace MinGH.GameScreen.SinglePlayer
             // Stop playing music when chart is over or when the screen goes inactive
             if (currentMsec > mainChart.chartInfo.chartLengthMiliseconds)
             {
-                musicChannel.stop();
-                bassChannel.stop();
-                guitarChannel.stop();
+                if (mainChart.chartInfo.musicStream != null)
+                {
+                    musicChannel.stop();
+                }
+                if (mainChart.chartInfo.bassStream != null)
+                {
+                    bassChannel.stop();
+                }
+                if (mainChart.chartInfo.guitarStream != null)
+                {
+                    guitarChannel.stop();
+                }
+                if (mainChart.chartInfo.drumStream != null)
+                {
+                    drumChannel.stop();
+                }
             }
 
             // Update every particle explosion
-            foreach (Emitter emitter in noteParticleExplosionEmitters.emitterList)
+            foreach (Emitter emitter in noteParticleEmitters.emitterList)
             {
                 emitter.Update((float)gameTime.TotalGameTime.TotalSeconds, (float)gameTime.ElapsedGameTime.TotalSeconds);
             }
@@ -297,18 +351,27 @@ namespace MinGH.GameScreen.SinglePlayer
                 {
                     if (Notes[i, j].alive)
                     {
-                        spriteBatch.Draw(Notes[i, j].spriteSheet, Notes[i, j].position,
-                                         Notes[i, j].spriteSheetRectangle, Color.White,
-                                         Notes[i, j].rotation, new Vector2(0, 0), noteScaleValue, SpriteEffects.None,
-                                         0f);
-                        //spriteBatch.Draw(Notes[i, j].spriteSheet, Notes[i, j].position, Notes[i, j].spriteSheetRectangle, Color.White);
+                        if ((mainChart.noteCharts[0].instrument == "Drums") && (i == 0))
+                        {
+                            spriteBatch.Draw(Notes[i, j].spriteSheet, Notes[i, j].position,
+                                             Notes[i, j].spriteSheetRectangle, Color.White,
+                                             Notes[i, j].rotation, new Vector2(0, 0), bassNoteScaleValue,
+                                             SpriteEffects.None, 0f);
+                        }
+                        else
+                        {
+                            spriteBatch.Draw(Notes[i, j].spriteSheet, Notes[i, j].position,
+                                             Notes[i, j].spriteSheetRectangle, Color.White,
+                                             Notes[i, j].rotation, new Vector2(0, 0), noteScaleValue, SpriteEffects.None,
+                                             0f);
+                        }
                     }
                 }
             }
 
             spriteBatch.End();
 
-            foreach (Emitter emitter in noteParticleExplosionEmitters.emitterList)
+            foreach (Emitter emitter in noteParticleEmitters.emitterList)
             {
                 renderer.RenderEmitter(emitter);
             }
