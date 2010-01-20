@@ -80,8 +80,6 @@ namespace MinGH.GameScreen.SinglePlayer
                                         currentRoot = new Point(currentNoteset, i);
                                     }
                                 }
-
-                                
                                 physicalNotes[currentNoteset, i].position.Y = -spriteSheetSize;
                                 break;
                             }

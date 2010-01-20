@@ -67,7 +67,8 @@ namespace MinGH.GameScreen.MainMenu
                 mainMenu.SelectPreviousEntry(graphics.GraphicsDevice.Viewport.Height);
             }
 
-            if (keyboardInputManager.keyIsHit(Keys.Enter) || keyboardInputManager.keyIsHit(KeyboardConfiguration.greenFret))
+            if (keyboardInputManager.keyIsHit(Keys.Enter) || keyboardInputManager.keyIsHit(KeyboardConfiguration.greenFret) ||
+                keyboardInputManager.keyIsHit(KeyboardConfiguration.greenDrum))
             {
                 switch (mainMenu.currentlySelectedEntry)
                 {
@@ -83,7 +84,8 @@ namespace MinGH.GameScreen.MainMenu
                 }
             }
 
-            if (keyboardInputManager.keyIsHit(Keys.Escape))
+            if (keyboardInputManager.keyIsHit(Keys.Escape) || keyboardInputManager.keyIsHit(KeyboardConfiguration.redFret) ||
+                keyboardInputManager.keyIsHit(KeyboardConfiguration.redDrum))
             {
                 gameReference.ChangeGameState(GameStateEnum.QuitGame, null);
             }

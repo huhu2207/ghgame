@@ -34,6 +34,7 @@ namespace MinGH.EngineExtensions
             isChord = false;
             rootNote = new Point();
             wasTicked = false;
+            originalSpritePosition = new Rectangle();
         }
 
         /// <summary>
@@ -41,11 +42,11 @@ namespace MinGH.EngineExtensions
         /// </summary>
         public void ResetNote()
         {
+            spriteSheetRectangle = originalSpritePosition;
             noteChartIndex = 0;
             precedsHOPO = false;
             isUnhittable = false;
             isChord = false;
-            spriteSheetRectangle.Y = 0;
             rootNote = new Point(-1 , -1);
             wasTicked = false;
         }
@@ -89,5 +90,11 @@ namespace MinGH.EngineExtensions
         /// repeatedly after passing the center.
         /// </summary>
         public bool wasTicked { get; set; }
+
+        /// <summary>
+        /// The original sprite rectangle of a note (mainly used to preserve the 
+        /// drum bass note's appearance).
+        /// </summary>
+        public Rectangle originalSpritePosition { get; set; }
     }
 }

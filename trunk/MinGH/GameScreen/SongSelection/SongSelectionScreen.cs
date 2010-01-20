@@ -101,7 +101,8 @@ namespace MinGH.GameScreen.SongSelection
             {
                 songSelectionMenuSet.SelectPreviousEntryInCurrentMenu(graphics.GraphicsDevice.Viewport.Height);
             }
-            if (keyboardInputManager.keyIsHit(Keys.Enter) || keyboardInputManager.keyIsHit(KeyboardConfiguration.greenFret))
+            if (keyboardInputManager.keyIsHit(Keys.Enter) || keyboardInputManager.keyIsHit(KeyboardConfiguration.greenFret) ||
+                keyboardInputManager.keyIsHit(KeyboardConfiguration.greenDrum))
             {
                 if (songSelectionMenuSet.currentlySelectedMenu == songSelectionMenuSet.menus.Count - 1)
                 {
@@ -154,7 +155,8 @@ namespace MinGH.GameScreen.SongSelection
             }
 
             // Go back to the main menu if escape is hit
-            if (keyboardInputManager.keyIsHit(Keys.Escape))
+            if (keyboardInputManager.keyIsHit(Keys.Escape) || keyboardInputManager.keyIsHit(KeyboardConfiguration.redFret) ||
+                keyboardInputManager.keyIsHit(KeyboardConfiguration.redDrum))
             {
                 if (songSelectionMenuSet.currentlySelectedMenu == 0)
                 {

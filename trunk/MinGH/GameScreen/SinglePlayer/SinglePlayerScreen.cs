@@ -237,7 +237,7 @@ namespace MinGH.GameScreen.SinglePlayer
                     result = system.playSound(CHANNELINDEX.FREE, drumStream, true, ref drumChannel);
                 }
 
-                Thread.Sleep(1000);
+                Thread.Sleep(2000);
 
                 if (mainChart.chartInfo.musicStream != null)
                 {
@@ -258,8 +258,6 @@ namespace MinGH.GameScreen.SinglePlayer
 
                 audioIsPlaying = true;
             }
-
-            
 
             if (keyboardInputManager.keyIsHit(Keys.Escape))
             {
