@@ -2,6 +2,7 @@
 using System.IO;
 using System.Text.RegularExpressions;
 using Toub.Sound.Midi;
+using MinGH.GameScreen;
 
 namespace MinGH.ChartImpl
 {
@@ -23,8 +24,12 @@ namespace MinGH.ChartImpl
         /// <returns>
         /// A filled out Notechart containing the needed information from the *.chart file
         /// </returns>
-        public static Notechart GenerateNotechartFromChart(string chartname, string inputString)
+        public static Notechart GenerateNotechartFromChart(ChartSelection chartSelection)
         {
+            string chartname = chartSelection.difficulty + chartSelection.instrument;
+            StreamReader inputStream = new StreamReader(chartSelection.chartPath);
+            string inputString = inputStream.ReadToEnd();
+
             // Single out the specified section via regular expressions
             string pattern = Regex.Escape("[") + chartname + "]\\s*" + Regex.Escape("{") + "[^}]*";
             Match matched_section = Regex.Match(inputString, pattern);
@@ -35,12 +40,11 @@ namespace MinGH.ChartImpl
             string[] parsed_line;
 
             // Create the resulting notechart and prep for input
-            Notechart notechartToReturn = new Notechart(chartname);
+            Notechart notechartToReturn = new Notechart(chartSelection.difficulty, chartSelection.instrument);
 
             //If specific notechart is not found, return a generic one
             if (!(matched_section.Success))
             {
-                notechartToReturn.Chart_Name = chartname;
                 notechartToReturn.notes.Add(new ChartNote());
             }
 
@@ -162,41 +166,38 @@ namespace MinGH.ChartImpl
         /// <returns>
         /// A filled out Notechart containing the needed information from the *.mid file.
         /// </returns>
-        public static Notechart GenerateNotechartFromMidi(string chartName, string midiFilePath)
+        public static Notechart GenerateNotechartFromMidi(ChartSelection chartSelection)
         {
             Notechart notechartToReturn = new Notechart();
+            notechartToReturn.instrument = chartSelection.instrument;
+            notechartToReturn.difficulty = chartSelection.difficulty;
 
             // The following two switch's are used to get the proper midi terminology for
             // the selected track and difficulty.
             string instrumentPart = null;
-            string difficulty = null;
             string greenKey = null;
             string redKey = null;
             string yellowKey = null;
             string blueKey = null;
             string orangeKey = null;
 
-            switch (chartName)
+            switch (chartSelection.instrument)
             {
-                case "ExpertSingle":
+                case "Single":
                     instrumentPart = "PART GUITAR";
-                    difficulty = "Expert";
                     break;
-                case "ExpertDoubleBass":
+                case "DoubleBass":
                     instrumentPart = "PART BASS";
-                    difficulty = "Expert";
                     break;
-                case "ExpertDrums":
+                case "Drums":
                     instrumentPart = "PART DRUMS";
-                    difficulty = "Expert";
                     break;
                 default:
                     instrumentPart = "PART GUITAR";
-                    difficulty = "Expert";
                     break;
             }
 
-            switch (difficulty)
+            switch (chartSelection.difficulty)
             {
                 case "Expert":
                     greenKey = "C8";
@@ -205,6 +206,27 @@ namespace MinGH.ChartImpl
                     blueKey = "D#8";
                     orangeKey = "E8";
                     break;
+                case "Hard":
+                    greenKey = "C7";
+                    redKey = "C#7";
+                    yellowKey = "D7";
+                    blueKey = "D#7";
+                    orangeKey = "E7";
+                    break;
+                case "Medium":
+                    greenKey = "C6";
+                    redKey = "C#6";
+                    yellowKey = "D6";
+                    blueKey = "D#6";
+                    orangeKey = "E6";
+                    break;
+                case "Easy":
+                    greenKey = "C5";
+                    redKey = "C#5";
+                    yellowKey = "D5";
+                    blueKey = "D#5";
+                    orangeKey = "E5";
+                    break;
                 default:
                     greenKey = "C8";
                     redKey = "C#8";
@@ -214,7 +236,7 @@ namespace MinGH.ChartImpl
                     break;
             }
 
-            MidiSequence mySequence = MidiSequence.Import(midiFilePath + "\\notes.mid");
+            MidiSequence mySequence = MidiSequence.Import(chartSelection.directory + "\\notes.mid");
             MidiTrack[] myTracks = mySequence.GetTracks();
             MidiTrack trackToUse = new MidiTrack();
 

@@ -4,7 +4,9 @@ using Microsoft.Xna.Framework.Graphics;
 namespace MinGH.GameStringImpl
 {
     /// <summary>
-    /// Class designed to contain the creating, drawing and logic of a very simple menu system
+    /// Class designed to contain the creating, drawing and logic of a very simple menu system.
+    /// NOTE: The 0th entry in the menu will always be the title which is unselectable, therefore
+    /// the currentlySelectedEntry will never be less than 1.
     /// </summary>
     class Menu
     {
