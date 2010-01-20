@@ -171,8 +171,8 @@ namespace MinGH.GameScreen.SinglePlayer
             // Add the "Song Title" and "Artist Name" to the string manager
             string songInformation = "Song Title:\n" + mainChart.chartInfo.songName + "\n\n" +
                                      "Artist Name:\n" + mainChart.chartInfo.artistName + "\n\n" +
-                                     "Instrument:\n" + mainChart.noteCharts[0].difficulty + "\n\n" +
-                                     "Difficulty:\n" + mainChart.noteCharts[0].instrument;
+                                     "Instrument:\n" + mainChart.noteCharts[0].instrument + "\n\n" +
+                                     "Difficulty:\n" + mainChart.noteCharts[0].difficulty;
             strManager.SetString(2, songInformation);
             
             // Setup the window
@@ -205,8 +205,6 @@ namespace MinGH.GameScreen.SinglePlayer
             {
                 GameEngine.FMOD.Factory.System_Create(ref system);
                 system.init(32, INITFLAGS.NORMAL, (IntPtr)null);
-                //uint minDelay = 0, hi = 0, lo = 0;
-                //int ass = 0;
 
                 // Load up the audio tracks.
                 // NOTE: I assume the audio tracks for midi files are lowercase (e.g. song.ogg)
@@ -254,16 +252,6 @@ namespace MinGH.GameScreen.SinglePlayer
                 result = system.playSound(CHANNELINDEX.FREE, bassStream, false, ref bassChannel);
                 result = system.playSound(CHANNELINDEX.FREE, drumStream, false, ref drumChannel);
 
-                // A VERY hackey and uninformed way of syncing the three tracks after playing.
-                // Sadly this is the only way that I could get to "work."
-                //uint bassPositon = 0;
-                //bassChannel.getPosition(ref bassPositon, TIMEUNIT.MS);
-                //guitarChannel.setPosition(bassPositon, TIMEUNIT.MS);
-                //bassChannel.getPosition(ref bassPositon, TIMEUNIT.MS);
-                //musicChannel.setPosition(bassPositon, TIMEUNIT.MS);
-                //bassChannel.getPosition(ref bassPositon, TIMEUNIT.MS);
-                //drumChannel.setPosition(bassPositon, TIMEUNIT.MS);
-
                 audioIsPlaying = true;
             }
 
@@ -294,8 +282,8 @@ namespace MinGH.GameScreen.SinglePlayer
                                     noteSpriteSheetSize, playerInformation, hitBox);
 
             // Update varous strings
-            //strManager.SetString(0, "Current MSEC:\n" + musicLocation);
-            strManager.SetString(1, "HOPO?:\n" + mainChart.chartInfo.chartLengthMiliseconds.ToString());
+            strManager.SetString(0, "Current MSEC:\n" + currentMsec);
+            strManager.SetString(1, "End MSEC:\n" + mainChart.chartInfo.chartLengthMiliseconds.ToString());
             strManager.SetString(3, "Score: " + playerInformation.currentScore.ToString() + "\n\n" +
                                      "Multiplier : " + playerInformation.currentMultiplier.ToString() + "\n\n" +
                                      "Combo :" + playerInformation.currentCombo.ToString());
