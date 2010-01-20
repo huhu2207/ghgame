@@ -38,9 +38,9 @@ namespace MinGH.GameScreen.SongSelection
         /// appends any found charts into a single list.
         /// </summary>
         /// <param name="directory">The directory to search.</param>
+        /// <param name="extension">The </param>
         /// <param name="listOfCharts">The list to append charts to.</param>
-        /// <returns></returns>
-        private static void SearchDirectoryForCharts(string directory, string extension,List<ChartSelection> listOfCharts)
+        private static void SearchDirectoryForCharts(string directory, string extension, List<ChartSelection> listOfCharts)
         {
             foreach (string currDirectory in Directory.GetDirectories(directory))
             {

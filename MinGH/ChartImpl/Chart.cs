@@ -18,7 +18,7 @@ namespace MinGH.ChartImpl
         {
             chartInfo = new ChartInfo();
             BPMChanges = new List<BPMChange>();
-            events = new List<Event>();
+            events = new List<ChartEvent>();
             noteCharts = new List<Notechart>();
         }
 
@@ -32,7 +32,7 @@ namespace MinGH.ChartImpl
         public Chart(ChartSelection chartSelection)
         {
             BPMChanges = new List<BPMChange>();
-            events = new List<Event>();
+            events = new List<ChartEvent>();
             noteCharts = new List<Notechart>();
 
             if (chartSelection.chartType == "*.chart" && File.Exists(chartSelection.chartPath))
@@ -66,7 +66,7 @@ namespace MinGH.ChartImpl
                                  events, chartInfo);
                 if (noteCharts[i].instrument != "Drums")
                 {
-                    noteCharts[i] = ChartHOPOManager.AssignHOPOS(noteCharts[i], chartInfo);
+                    noteCharts[i] = NotechartHOPOManager.AssignHOPOS(noteCharts[i], chartInfo);
                 }
             }
         }
@@ -90,7 +90,7 @@ namespace MinGH.ChartImpl
             Console.WriteLine("");
 
             Console.WriteLine("Events:");
-            foreach (Event curr_event in events)
+            foreach (ChartEvent curr_event in events)
             {
                 curr_event.print_info();
             }
@@ -117,7 +117,7 @@ namespace MinGH.ChartImpl
 		/// <summary>
 		/// A list of every event in the chart.
 		/// </summary>
-        public List<Event> events { get; set; }
+        public List<ChartEvent> events { get; set; }
 
         /// <summary>
         /// A list of every avaliable notechart (i.e. ExpertSingle, MediumDoubleGuitar).
