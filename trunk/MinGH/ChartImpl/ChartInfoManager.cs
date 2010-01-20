@@ -20,7 +20,7 @@ namespace MinGH.ChartImpl
         /// <returns>
         /// A filled out ChartInfo instance.
         /// </returns>
-        public static ChartInfo chartAddSongInfo(string inputFile)
+        public static ChartInfo AddSongInfoFromChart(string inputFile)
         {
             ChartInfo chartInfoToReturn = new ChartInfo();
 
@@ -97,7 +97,7 @@ namespace MinGH.ChartImpl
         /// <returns>
         /// A filled out ChartInfo instance.
         /// </returns>
-        public static ChartInfo midiAddSongInfo(string inputPath)
+        public static ChartInfo AddSongInfoFromMidi(string inputPath)
         {
             ChartInfo chartInfoToReturn = new ChartInfo();
             chartInfoToReturn.offset = 0;

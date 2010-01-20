@@ -144,6 +144,7 @@
     <Compile Include="GameScreen\SongSelection\SongSelectionScreen.cs" />
     <Compile Include="GameStringImpl\GameString.cs" />
     <Compile Include="GameStringImpl\Menu.cs" />
+    <Compile Include="GameStringImpl\MenuSet.cs" />
     <Compile Include="MiscClasses\GameObject.cs" />
     <Compile Include="GameStringImpl\GameStringManager.cs" />
     <Compile Include="Main.cs" />

@@ -95,9 +95,9 @@ namespace MinGH.ChartImpl
                 currTickValue += Convert.ToUInt32(splitEventString[1]);
                 if (splitEventString[0] == "Tempo")
                 {
-                    if (splitEventString[3] == "[music_end]")
+                    if (splitEventString[3] == "[end]")
                     {
-                        //chartInfo.chartLengthMiliseconds
+                        // TODO: Use this with the time manager to get the REAL end
                     }
                     //listToReturn.Add(new BPMChange(currTickValue, BPMToAdd));
                 }

@@ -22,15 +22,17 @@ namespace MinGH.GameScreen.SongSelection
         List<ChartLocation> chartPaths;
         GameConfiguration gameConfiguration;
 
-        Menu songSelectionMenu;
+        MenuSet songSelectionMenuSet;
         SpriteFont gameFont;
-        IKeyboardInputManager keyboardInputManager = new KeyboardInputManager();
+        IKeyboardInputManager keyboardInputManager;
 
         public SongSelectionScreen(MinGHMain game, GraphicsDeviceManager graph)
             : base((Game)game)
         {
             gameReference = game;
             graphics = graph;
+            songSelectionMenuSet = new MenuSet();
+            keyboardInputManager = new KeyboardInputManager();
         }
 
         public override void Initialize()
@@ -38,16 +40,25 @@ namespace MinGH.GameScreen.SongSelection
             gameConfiguration = new GameConfiguration("./config.xml");
             chartPaths = ChartFinder.GenerateAllChartPaths(gameConfiguration.songDirectory);
 
-            songSelectionMenu = new Menu("Song Selection", new Vector2(graphics.GraphicsDevice.Viewport.Width / 2f, graphics.GraphicsDevice.Viewport.Height / 4f));
-            
+            Menu songSelectionMenu = new Menu("Song Selection", new Vector2(graphics.GraphicsDevice.Viewport.Width / 2f, graphics.GraphicsDevice.Viewport.Height / 4f));
             songSelectionMenu.titleScaling = new Vector2(5.0f, 5.0f);
             songSelectionMenu.entryScaling = new Vector2(2.0f, 2.0f);
             songSelectionMenu.scrollable = true;
-
             for (int i = 0; i < chartPaths.Count; i++)
             {
                 songSelectionMenu.AddEntry(chartPaths[i].directory);
             }
+            songSelectionMenuSet.AddMenu(songSelectionMenu);
+
+            Menu instrumentSelectionMenu = new Menu("Instrument Selection", new Vector2(graphics.GraphicsDevice.Viewport.Width / 2f, graphics.GraphicsDevice.Viewport.Height / 4f));
+            instrumentSelectionMenu.titleScaling = new Vector2(5.0f, 5.0f);
+            instrumentSelectionMenu.entryScaling = new Vector2(2.0f, 2.0f);
+            instrumentSelectionMenu.scrollable = true;
+            instrumentSelectionMenu.AddEntry("Single Player Guitar");
+            instrumentSelectionMenu.AddEntry("Co-op Guitar");
+            instrumentSelectionMenu.AddEntry("Co-op Rhythm/Bass");
+            instrumentSelectionMenu.AddEntry("Drums");
+            songSelectionMenuSet.AddMenu(instrumentSelectionMenu);
 
             spriteBatch = new SpriteBatch(graphics.GraphicsDevice);
 
@@ -72,21 +83,23 @@ namespace MinGH.GameScreen.SongSelection
             // Menu navagation logic
             if (keyboardInputManager.keyIsHit(Keys.Down) || keyboardInputManager.keyIsHit(KeyboardConfiguration.downStrum))
             {
-                songSelectionMenu.SelectNextEntry(graphics.GraphicsDevice.Viewport.Height);
+                songSelectionMenuSet.SelectNextEntryInCurrentMenu(graphics.GraphicsDevice.Viewport.Height);
             }
             else if (keyboardInputManager.keyIsHit(Keys.Up) || keyboardInputManager.keyIsHit(KeyboardConfiguration.upStrum))
             {
-                songSelectionMenu.SelectPreviousEntry(graphics.GraphicsDevice.Viewport.Height);
+                songSelectionMenuSet.SelectPreviousEntryInCurrentMenu(graphics.GraphicsDevice.Viewport.Height);
             }
             if (keyboardInputManager.keyIsHit(Keys.Enter) || keyboardInputManager.keyIsHit(KeyboardConfiguration.greenFret))
             {
-                gameReference.ChangeGameState(GameStateEnum.SinglePlayer, chartPaths[songSelectionMenu.currentlySelectedEntry - 1]);
+                //gameReference.ChangeGameState(GameStateEnum.SinglePlayer, chartPaths[songSelectionMenu.currentlySelectedEntry - 1]);
+                songSelectionMenuSet.SelectNextMenu();
             }
 
             // Go back to the main menu if escape is hit
             if (keyboardInputManager.keyIsHit(Keys.Escape))
             {
-                gameReference.ChangeGameState(GameStateEnum.MainMenu, null);
+                //gameReference.ChangeGameState(GameStateEnum.MainMenu, null);
+                songSelectionMenuSet.SelectPreviousMenu();
             }
 
             base.Update(gameTime);
@@ -97,7 +110,7 @@ namespace MinGH.GameScreen.SongSelection
             graphics.GraphicsDevice.Clear(Color.Black);
 
             spriteBatch.Begin(SpriteBlendMode.AlphaBlend);
-            songSelectionMenu.Draw(spriteBatch, gameFont);
+            songSelectionMenuSet.Draw(spriteBatch, gameFont);
             spriteBatch.End();
 
             base.Draw(gameTime);

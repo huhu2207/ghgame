@@ -27,7 +27,8 @@ namespace MinGH.ChartImpl
         /// </summary>
         /// <param name="filename">
         /// The path to a valid *.chart file.  The constructor creates the
-        /// input stream using this string.
+        /// input stream using this string.  If midi is used, a path to the
+        /// directory in which the chart is located must be passed.
         /// </param>
         /// <param name="filetype">
         /// The type of chart being used (*.chart and *.mid are currently supported).
@@ -48,12 +49,12 @@ namespace MinGH.ChartImpl
                 string inputFile = inputStream.ReadToEnd();
 
                 // Add in all the various chart information
-                chartInfo = ChartInfoManager.chartAddSongInfo(inputFile);
+                chartInfo = ChartInfoManager.AddSongInfoFromChart(inputFile);
                 BPMChanges = ChartBPMManager.AddBPMChangesFromChart(inputFile);
                 events = ChartEventManager.AddEventsFromChart(inputFile);
 
                 // Adds just the expert notechart, can make a sneaky way of doing all avaliable charts later
-                noteCharts.Add(ChartNotechartManager.GenerateNotechartFromChart("ExpertSingle", inputFile));
+                noteCharts.Add(ChartNotechartManager.GenerateNotechartFromChart("ExpertDoubleBass", inputFile));
                 for (int i = 0; i < noteCharts.Count; i++)
                 {
                     noteCharts[i] = ChartTimeValueManager.GenerateTimeValues(noteCharts[i], BPMChanges,
@@ -67,7 +68,7 @@ namespace MinGH.ChartImpl
             }
             else if (filetype == "*.mid")
             {
-                chartInfo = ChartInfoManager.midiAddSongInfo(chartLocation);
+                chartInfo = ChartInfoManager.AddSongInfoFromMidi(chartLocation);
                 events = ChartEventManager.AddEventsFromMidi(chartLocation, chartInfo);
                 BPMChanges = ChartBPMManager.AddBPMChangesFromMidi(chartLocation);
                 noteCharts.Add(ChartNotechartManager.GenerateNotechartFromMidi("ExpertSingle", chartLocation));

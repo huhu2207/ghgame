@@ -9,6 +9,11 @@ namespace MinGH.GameStringImpl
     class Menu
     {
         /// <summary>
+        /// Whether the menu should be drawn or not.
+        /// </summary>
+        public bool visible { get; set; }
+
+        /// <summary>
         /// Specifies the currently selected option
         /// </summary>
         public int currentlySelectedEntry { get; set; }
@@ -147,6 +152,7 @@ namespace MinGH.GameStringImpl
             entryScaling = new Vector2(1.0f, 1.0f);
             topScrollThreshold = 0.2;
             bottomScrollThreshold = 0.8;
+            visible = true;
         }
 
         /// <summary>
@@ -156,7 +162,10 @@ namespace MinGH.GameStringImpl
         /// <param name="spriteFont">The sprite font to use.</param>
         public void Draw(SpriteBatch spriteBatch, SpriteFont spriteFont)
         {
-            stringManager.DrawStrings(spriteBatch, spriteFont);
+            if (visible)
+            {
+                stringManager.DrawStrings(spriteBatch, spriteFont);
+            }
         }
 
         /// <summary>
