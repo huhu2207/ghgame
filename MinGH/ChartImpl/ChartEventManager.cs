@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
-using MinGH.Extensions;
+using GameEngine.Extensions;
 using Toub.Sound.Midi;
 
 namespace MinGH.ChartImpl

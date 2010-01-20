@@ -2,7 +2,8 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using MinGH.ChartImpl;
-using MinGH.MiscClasses;
+using MinGH.EngineExtensions;
+using MinGH.Config;
 
 namespace MinGH.GameScreen.SinglePlayer
 {

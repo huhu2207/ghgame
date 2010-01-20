@@ -1,5 +1,4 @@
-﻿
-namespace MinGH.ChartImpl
+﻿namespace MinGH.ChartImpl
 {
 	/// <summary>
 	/// Creates a single string from a specificly made string array.

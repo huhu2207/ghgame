@@ -1,13 +1,13 @@
 ﻿using System;
-using FMOD;
+using GameEngine.FMOD;
+using GameEngine.GameStringImpl;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using MinGH.ChartImpl;
 using MinGH.Config;
+using MinGH.EngineExtensions;
 using MinGH.Enum;
-using MinGH.GameStringImpl;
-using MinGH.MiscClasses;
 using ProjectMercury.Emitters;
 using ProjectMercury.Modifiers;
 using ProjectMercury.Renderers;
@@ -48,15 +48,15 @@ namespace MinGH.GameScreen.SinglePlayer
         GameStringManager strManager = new GameStringManager();  // Stores each string and its position on the screen
 
         // Variables related to the audio playing and note syncing
-        private FMOD.System system = new FMOD.System();
-        private FMOD.Channel musicChannel = new FMOD.Channel();
-        private FMOD.Channel guitarChannel = new FMOD.Channel();
-        private FMOD.Channel bassChannel = new FMOD.Channel();
-        private FMOD.Channel drumChannel = new FMOD.Channel();
-        private FMOD.Sound musicSound = new FMOD.Sound();
-        private FMOD.Sound guitarSound = new FMOD.Sound();
-        private FMOD.Sound bassSound = new FMOD.Sound();
-        private FMOD.Sound drumSound = new FMOD.Sound();
+        private GameEngine.FMOD.System system = new GameEngine.FMOD.System();
+        private GameEngine.FMOD.Channel musicChannel = new GameEngine.FMOD.Channel();
+        private GameEngine.FMOD.Channel guitarChannel = new GameEngine.FMOD.Channel();
+        private GameEngine.FMOD.Channel bassChannel = new GameEngine.FMOD.Channel();
+        private GameEngine.FMOD.Channel drumChannel = new GameEngine.FMOD.Channel();
+        private GameEngine.FMOD.Sound musicSound = new GameEngine.FMOD.Sound();
+        private GameEngine.FMOD.Sound guitarSound = new GameEngine.FMOD.Sound();
+        private GameEngine.FMOD.Sound bassSound = new GameEngine.FMOD.Sound();
+        private GameEngine.FMOD.Sound drumSound = new GameEngine.FMOD.Sound();
         RESULT result = new RESULT();
         uint currentMsec = 0;
         bool audioIsPlaying = false;  // So we don't play the song again every single update
@@ -187,7 +187,7 @@ namespace MinGH.GameScreen.SinglePlayer
             // Start the song immediately
             if (audioIsPlaying == false)
             {
-                FMOD.Factory.System_Create(ref system);
+                GameEngine.FMOD.Factory.System_Create(ref system);
                 system.init(32, INITFLAGS.NORMAL | INITFLAGS.SOFTWARE_OCCLUSION, (IntPtr)null);
                 //uint minDelay = 0, hi = 0, lo = 0;
                 //int ass = 0;

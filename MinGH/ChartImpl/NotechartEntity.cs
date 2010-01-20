@@ -1,5 +1,4 @@
-﻿
-namespace MinGH.ChartImpl
+﻿namespace MinGH.ChartImpl
 { 
 	/// <summary>
 	/// An abstract base class for the various chart elements (i.e. NotechartNote, Event)
