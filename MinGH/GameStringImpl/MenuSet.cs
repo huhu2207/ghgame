@@ -9,9 +9,9 @@ namespace MinGH.GameStringImpl
 {
     class MenuSet
     {
-        List<Menu> menus { get; set; }
-        int currentlySelectedMenu { get; set; }
-        bool emptySet { get; set; }
+        public List<Menu> menus { get; set; }
+        public int currentlySelectedMenu { get; set; }
+        private bool emptySet { get; set; }
 
         public MenuSet()
         {

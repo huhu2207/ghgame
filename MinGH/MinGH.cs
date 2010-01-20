@@ -83,7 +83,7 @@ namespace MinGH
         /// </summary>
         /// <param name="newState">The new game state to enter.</param>
         /// <param name="chartToUse">The "optional" chart location (is sent null if not used).</param>
-        public void ChangeGameState(GameStateEnum newState, ChartLocation chartToUse)
+        public void ChangeGameState(GameStateEnum newState, ChartSelection chartToUse)
         {
             switch (newState)
             {

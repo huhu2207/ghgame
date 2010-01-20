@@ -19,7 +19,7 @@ namespace MinGH.GameScreen.SongSelection
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         MinGHMain gameReference;
-        List<ChartLocation> chartPaths;
+        List<ChartSelection> chartPaths;
         GameConfiguration gameConfiguration;
 
         MenuSet songSelectionMenuSet;
@@ -38,6 +38,9 @@ namespace MinGH.GameScreen.SongSelection
         public override void Initialize()
         {
             gameConfiguration = new GameConfiguration("./config.xml");
+
+            // This list of ChartSelections will only have the path and directory properties
+            // filled out.  You need to expilicitly define the remaining properties.
             chartPaths = ChartFinder.GenerateAllChartPaths(gameConfiguration.songDirectory);
 
             Menu songSelectionMenu = new Menu("Song Selection", new Vector2(graphics.GraphicsDevice.Viewport.Width / 2f, graphics.GraphicsDevice.Viewport.Height / 4f));
@@ -59,6 +62,16 @@ namespace MinGH.GameScreen.SongSelection
             instrumentSelectionMenu.AddEntry("Co-op Rhythm/Bass");
             instrumentSelectionMenu.AddEntry("Drums");
             songSelectionMenuSet.AddMenu(instrumentSelectionMenu);
+
+            Menu difficultySelectionMenu = new Menu("Difficulty Selection", new Vector2(graphics.GraphicsDevice.Viewport.Width / 2f, graphics.GraphicsDevice.Viewport.Height / 4f));
+            difficultySelectionMenu.titleScaling = new Vector2(5.0f, 5.0f);
+            difficultySelectionMenu.entryScaling = new Vector2(2.0f, 2.0f);
+            difficultySelectionMenu.scrollable = true;
+            difficultySelectionMenu.AddEntry("Expert");
+            difficultySelectionMenu.AddEntry("Hard");
+            difficultySelectionMenu.AddEntry("Medium");
+            difficultySelectionMenu.AddEntry("Easy");
+            songSelectionMenuSet.AddMenu(difficultySelectionMenu);
 
             spriteBatch = new SpriteBatch(graphics.GraphicsDevice);
 
@@ -91,15 +104,67 @@ namespace MinGH.GameScreen.SongSelection
             }
             if (keyboardInputManager.keyIsHit(Keys.Enter) || keyboardInputManager.keyIsHit(KeyboardConfiguration.greenFret))
             {
-                //gameReference.ChangeGameState(GameStateEnum.SinglePlayer, chartPaths[songSelectionMenu.currentlySelectedEntry - 1]);
-                songSelectionMenuSet.SelectNextMenu();
+                if (songSelectionMenuSet.currentlySelectedMenu == songSelectionMenuSet.menus.Count - 1)
+                {
+                    ChartSelection chartToUse = new ChartSelection(chartPaths[songSelectionMenuSet.menus[0].currentlySelectedEntry - 1]);
+
+                    switch (songSelectionMenuSet.menus[1].currentlySelectedEntry)
+                    {
+                        case 1:
+                            chartToUse.instrument = "Single";
+                            break;
+                        case 2:
+                            chartToUse.instrument = "DoubleGuitar";
+                            break;
+                        case 3:
+                            chartToUse.instrument = "DoubleBass";
+                            break;
+                        case 4:
+                            chartToUse.instrument = "Drums";
+                            break;
+                        default:
+                            chartToUse.instrument = "Single";
+                            break;
+                    }
+
+                    switch (songSelectionMenuSet.menus[2].currentlySelectedEntry)
+                    {
+                        case 1:
+                            chartToUse.difficulty = "Expert";
+                            break;
+                        case 2:
+                            chartToUse.difficulty = "Hard";
+                            break;
+                        case 3:
+                            chartToUse.difficulty = "Medium";
+                            break;
+                        case 4:
+                            chartToUse.difficulty = "Easy";
+                            break;
+                        default:
+                            chartToUse.difficulty = "Expert";
+                            break;
+                    }
+
+                    gameReference.ChangeGameState(GameStateEnum.SinglePlayer, chartToUse);
+                }
+                else
+                {
+                    songSelectionMenuSet.SelectNextMenu();
+                }
             }
 
             // Go back to the main menu if escape is hit
             if (keyboardInputManager.keyIsHit(Keys.Escape))
             {
-                //gameReference.ChangeGameState(GameStateEnum.MainMenu, null);
-                songSelectionMenuSet.SelectPreviousMenu();
+                if (songSelectionMenuSet.currentlySelectedMenu == 0)
+                {
+                    gameReference.ChangeGameState(GameStateEnum.MainMenu, null);
+                }
+                else
+                {
+                    songSelectionMenuSet.SelectPreviousMenu();
+                }
             }
 
             base.Update(gameTime);

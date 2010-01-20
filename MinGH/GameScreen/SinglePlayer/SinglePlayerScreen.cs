@@ -21,7 +21,7 @@ namespace MinGH.GameScreen.SinglePlayer
     {
         MinGHMain gameReference;  // A reference to the game itself, allows for game state changing.
         GraphicsDeviceManager graphics;
-        ChartLocation chartLocation;
+        ChartSelection chartSelection;
         GameConfiguration gameConfiguration;
         SpriteBatch spriteBatch;  // Draws the shapes
         Rectangle viewportRectangle;  // The window itself
@@ -66,12 +66,12 @@ namespace MinGH.GameScreen.SinglePlayer
         PointSpriteRenderer renderer = new PointSpriteRenderer();
         ColorModifier modifier = new ColorModifier();
 
-        public SinglePlayerScreen(MinGHMain game, GraphicsDeviceManager graph, ChartLocation inputLocation)
+        public SinglePlayerScreen(MinGHMain game, GraphicsDeviceManager graph, ChartSelection inputLocation)
             : base(game)
         {
             gameReference = game;
             graphics = graph;
-            chartLocation = inputLocation;
+            chartSelection = inputLocation;
         }
 
         public override void Initialize()
@@ -117,17 +117,7 @@ namespace MinGH.GameScreen.SinglePlayer
         protected override void LoadContent()
         {
             gameFont = Game.Content.Load<SpriteFont>("Arial");  // Load the font
-
-            switch (chartLocation.chartType)
-            {
-                case "*.chart":
-                    mainChart = new Chart(chartLocation.chartPath, "*.chart");
-                    break;
-                case "*.mid":
-                    mainChart = new Chart(chartLocation.directory, "*.mid");
-                    break;
-            }
-
+            mainChart = new Chart(chartSelection);
             backgroundTex = Game.Content.Load<Texture2D>("Backgrounds\\GuitarSingle_Background");
 
             // Setup the notes appearance and velocity
@@ -163,8 +153,11 @@ namespace MinGH.GameScreen.SinglePlayer
             }
 
             // Add the "Song Title" and "Artist Name" to the string manager
-            strManager.SetString(2, "Song Title:\n" + mainChart.chartInfo.songName);
-            strManager.SetString(3, "Artist Name:\n" + mainChart.chartInfo.artistName);
+            string songInformation = "Song Title:\n" + mainChart.chartInfo.songName + "\n\n" +
+                                     "Artist Name:\n" + mainChart.chartInfo.artistName + "\n\n" +
+                                     "Instrument:\n" + mainChart.noteCharts[0].difficulty + "\n\n" +
+                                     "Difficulty:\n" + mainChart.noteCharts[0].instrument;
+            strManager.SetString(2, songInformation);
             
             // Setup the window
             viewportRectangle = new Rectangle(0, 0,
@@ -205,38 +198,38 @@ namespace MinGH.GameScreen.SinglePlayer
                 //       capatalized (e.g. Song.ogg).  
                 if (mainChart.chartInfo.musicStream != null)
                 {
-                    string musicLocation = chartLocation.directory + "\\" + mainChart.chartInfo.musicStream;
+                    string musicLocation = chartSelection.directory + "\\" + mainChart.chartInfo.musicStream;
                     result = system.createSound(musicLocation, MODE.HARDWARE, ref musicSound);
                     if (result == RESULT.ERR_FILE_NOTFOUND)
                     {
-                        result = system.createSound(chartLocation.directory + "\\Song.ogg", MODE.HARDWARE, ref musicSound);
+                        result = system.createSound(chartSelection.directory + "\\Song.ogg", MODE.HARDWARE, ref musicSound);
                     }
                 }
                 if (mainChart.chartInfo.guitarStream != null)
                 {
-                    string guitarLocation = chartLocation.directory + "\\" + mainChart.chartInfo.guitarStream;
+                    string guitarLocation = chartSelection.directory + "\\" + mainChart.chartInfo.guitarStream;
                     result = system.createSound(guitarLocation, MODE.HARDWARE, ref guitarSound);
                     if (result == RESULT.ERR_FILE_NOTFOUND)
                     {
-                        result = system.createSound(chartLocation.directory + "\\Guitar.ogg", MODE.HARDWARE, ref guitarSound);
+                        result = system.createSound(chartSelection.directory + "\\Guitar.ogg", MODE.HARDWARE, ref guitarSound);
                     }
                 }
                 if (mainChart.chartInfo.bassStream != null)
                 {
-                    string bassLocation = chartLocation.directory + "\\" + mainChart.chartInfo.bassStream;
+                    string bassLocation = chartSelection.directory + "\\" + mainChart.chartInfo.bassStream;
                     result = system.createSound(bassLocation, MODE.HARDWARE, ref bassSound);
                     if (result == RESULT.ERR_FILE_NOTFOUND)
                     {
-                        result = system.createSound(chartLocation.directory + "\\Rhythm.ogg", MODE.HARDWARE, ref bassSound);
+                        result = system.createSound(chartSelection.directory + "\\Rhythm.ogg", MODE.HARDWARE, ref bassSound);
                     }
                 }
                 if (mainChart.chartInfo.drumStream != null)
                 {
-                    string drumLocation = chartLocation.directory + "\\" + mainChart.chartInfo.drumStream;
+                    string drumLocation = chartSelection.directory + "\\" + mainChart.chartInfo.drumStream;
                     result = system.createSound(drumLocation, MODE.HARDWARE, ref drumSound);
                     if (result == RESULT.ERR_FILE_NOTFOUND)
                     {
-                        result = system.createSound(chartLocation.directory + "\\Drums.ogg", MODE.HARDWARE, ref drumSound);
+                        result = system.createSound(chartSelection.directory + "\\Drums.ogg", MODE.HARDWARE, ref drumSound);
                     }
                 }
 
@@ -286,10 +279,10 @@ namespace MinGH.GameScreen.SinglePlayer
             // Update varous strings
             //strManager.SetString(0, "Current MSEC:\n" + musicLocation);
             strManager.SetString(1, "HOPO?:\n" + mainChart.chartInfo.chartLengthMiliseconds.ToString());
-            strManager.SetString(4, "Score: " + playerInformation.currentScore.ToString() + "\n\n" +
+            strManager.SetString(3, "Score: " + playerInformation.currentScore.ToString() + "\n\n" +
                                      "Multiplier : " + playerInformation.currentMultiplier.ToString() + "\n\n" +
                                      "Combo :" + playerInformation.currentCombo.ToString());
-            strManager.SetString(5, "Health: " + playerInformation.currentHealth.ToString());
+            strManager.SetString(4, "Health: " + playerInformation.currentHealth.ToString());
 
             // Stop playing music when chart is over or when the screen goes inactive
             if (currentMsec > mainChart.chartInfo.chartLengthMiliseconds)

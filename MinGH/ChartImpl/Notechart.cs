@@ -14,7 +14,8 @@ namespace MinGH.ChartImpl
         /// </summary>
         public Notechart()
         {
-            Chart_Name = "default";
+            difficulty = "default";
+            instrument = "default";
             notes = new List<ChartNote>();
             SPNotes = new List<ChartNote>();
         }
@@ -22,12 +23,16 @@ namespace MinGH.ChartImpl
         /// <summary>
         /// A constructor that takes in a specified chart name
         /// </summary>
-        /// <param name="in_name">
-        /// The actual name of the chart (i.e. ExpertSingle)
+        /// <param name="inDifficulty">
+        /// The difficulty of the new notechart.
         /// </param>
-        public Notechart(string in_name)
+        /// <param name="inInstrument">
+        /// The instrument of the new notechart.
+        /// </param>
+        public Notechart(string inDifficulty, string inInstrument)
         {
-            Chart_Name = in_name;
+            difficulty = inDifficulty;
+            instrument = inInstrument;
             notes = new List<ChartNote>();
             SPNotes = new List<ChartNote>();
         }
@@ -50,9 +55,14 @@ namespace MinGH.ChartImpl
         }
 
 		/// <summary>
-		/// The actual name the of notechart (i.e. ExpertDoubleGuitar)
+		/// The instrument this chart uses.
 		/// </summary>
-        public string Chart_Name { get; set; }
+        public string instrument { get; set; }
+
+        /// <summary>
+        /// The difficulty this chart uses.
+        /// </summary>
+        public string difficulty { get; set; }
 
         /// <summary>
         /// List that contains every single note in the chart.

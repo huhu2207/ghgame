@@ -14,9 +14,9 @@ namespace MinGH.GameScreen.SongSelection
         /// </summary>
         /// <param name="songDirectory">The song directory to search.</param>
         /// <returns>A list of all found charts.</returns>
-        public static List<ChartLocation> GenerateAllChartPaths(string songDirectory)
+        public static List<ChartSelection> GenerateAllChartPaths(string songDirectory)
         {
-            List<ChartLocation> listOfCharts = new List<ChartLocation>();
+            List<ChartSelection> listOfCharts = new List<ChartSelection>();
 
             try
             {
@@ -40,13 +40,13 @@ namespace MinGH.GameScreen.SongSelection
         /// <param name="directory">The directory to search.</param>
         /// <param name="listOfCharts">The list to append charts to.</param>
         /// <returns></returns>
-        private static void SearchDirectoryForCharts(string directory, string extension,List<ChartLocation> listOfCharts)
+        private static void SearchDirectoryForCharts(string directory, string extension,List<ChartSelection> listOfCharts)
         {
             foreach (string currDirectory in Directory.GetDirectories(directory))
             {
                 foreach (string currFile in Directory.GetFiles(currDirectory, extension))
                 {
-                    listOfCharts.Add(new ChartLocation { chartPath = currFile, directory = currDirectory, chartType=extension });
+                    listOfCharts.Add(new ChartSelection { chartPath = currFile, directory = currDirectory, chartType=extension });
                 }
                 SearchDirectoryForCharts(currDirectory, extension, listOfCharts);
             }

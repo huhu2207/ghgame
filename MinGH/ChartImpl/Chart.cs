@@ -23,29 +23,22 @@ namespace MinGH.ChartImpl
         }
 
         /// <summary>
-        /// Creates a chart file from a specified input filename.
+        /// Creates a chart file from a specified chart selection.
         /// </summary>
-        /// <param name="filename">
-        /// The path to a valid *.chart file.  The constructor creates the
-        /// input stream using this string.  If midi is used, a path to the
-        /// directory in which the chart is located must be passed.
+        /// <param name="chartSelection">
+        /// Information on what specific chart from what specific file
+        /// to use.
         /// </param>
-        /// <param name="filetype">
-        /// The type of chart being used (*.chart and *.mid are currently supported).
-        /// NOTE: If you use a chart filetype, you need to supply the full chart path
-        /// including the chart filename.  If you use a midi filetype, you need to
-        /// specify only the directory in which the midi file is located.
-        /// </param>
-        public Chart(string chartLocation, string filetype)
+        public Chart(ChartSelection chartSelection)
         {
             BPMChanges = new List<BPMChange>();
             events = new List<Event>();
             noteCharts = new List<Notechart>();
 
-            if (filetype == "*.chart" && File.Exists(chartLocation))
+            if (chartSelection.chartType == "*.chart" && File.Exists(chartSelection.chartPath))
             {
                 // Read the whole file into a string
-                StreamReader inputStream = new StreamReader(chartLocation);
+                StreamReader inputStream = new StreamReader(chartSelection.chartPath);
                 string inputFile = inputStream.ReadToEnd();
 
                 // Add in all the various chart information
@@ -54,28 +47,27 @@ namespace MinGH.ChartImpl
                 events = ChartEventManager.AddEventsFromChart(inputFile);
 
                 // Adds just the expert notechart, can make a sneaky way of doing all avaliable charts later
-                noteCharts.Add(ChartNotechartManager.GenerateNotechartFromChart("ExpertDoubleBass", inputFile));
-                for (int i = 0; i < noteCharts.Count; i++)
-                {
-                    noteCharts[i] = ChartTimeValueManager.GenerateTimeValues(noteCharts[i], BPMChanges,
-                                     events, chartInfo);
-
-                    noteCharts[i] = ChartHOPOManager.AssignHOPOS(noteCharts[i], chartInfo);
-                }
+                noteCharts.Add(ChartNotechartManager.GenerateNotechartFromChart(chartSelection));
 
                 // Close the input stream
                 inputStream.Close();
             }
-            else if (filetype == "*.mid")
+            else if (chartSelection.chartType == "*.mid")
             {
-                chartInfo = ChartInfoManager.AddSongInfoFromMidi(chartLocation);
-                events = ChartEventManager.AddEventsFromMidi(chartLocation, chartInfo);
-                BPMChanges = ChartBPMManager.AddBPMChangesFromMidi(chartLocation);
-                noteCharts.Add(ChartNotechartManager.GenerateNotechartFromMidi("ExpertSingle", chartLocation));
-                noteCharts[0] = ChartTimeValueManager.GenerateTimeValues(noteCharts[0], BPMChanges,
-                                     events, chartInfo);
-                noteCharts[0] = ChartHOPOManager.AssignHOPOS(noteCharts[0], chartInfo);
+                chartInfo = ChartInfoManager.AddSongInfoFromMidi(chartSelection.directory);
+                BPMChanges = ChartBPMManager.AddBPMChangesFromMidi(chartSelection.directory);
+                events = ChartEventManager.AddEventsFromMidi(chartSelection.directory, chartInfo);
+                noteCharts.Add(ChartNotechartManager.GenerateNotechartFromMidi(chartSelection));
+            }
 
+            for (int i = 0; i < noteCharts.Count; i++)
+            {
+                noteCharts[i] = ChartTimeValueManager.GenerateTimeValues(noteCharts[i], BPMChanges,
+                                 events, chartInfo);
+                if (noteCharts[i].instrument != "Drums")
+                {
+                    noteCharts[i] = ChartHOPOManager.AssignHOPOS(noteCharts[i], chartInfo);
+                }
             }
         }
 
