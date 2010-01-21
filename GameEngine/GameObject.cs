@@ -29,6 +29,7 @@ namespace GameEngine
             position = Vector2.Zero;
             spriteSheet = loadedTex;
             velocity = Vector2.Zero;
+            scale = Vector2.One;
             alive = false;
             spriteSheetRectangle = spriteRect;
             center = new Vector2(spriteRect.Width / 2, spriteRect.Height / 2);
@@ -45,7 +46,7 @@ namespace GameEngine
 		/// </returns>
         public Vector2 getCenterPosition()
         {
-            return new Vector2(position.X + center.X, position.Y + center.Y);
+            return new Vector2(position.X + (center.X * scale.X), position.Y + (center.Y * scale.Y));
         }
 
         /// <summary>
@@ -80,6 +81,11 @@ namespace GameEngine
 		/// A boolean value that dictates wether this sprite is to be drawn or not.
 		/// </summary>
         public bool alive { get; set; }
+
+        /// <summary>
+        /// The current scaling for this GameObject.
+        /// </summary>
+        public Vector2 scale;
 		
 		/// <summary>
 		/// The rectangle that encompasses the desire section of the sprite sheet that
