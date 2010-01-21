@@ -33,7 +33,7 @@ namespace MinGH.GameScreen.SinglePlayer
         Texture2D spriteSheetTex;
         SpriteFont gameFont;  // The font the game will use
         Note[,] Notes;  // Will hold every note currently on the screen
-        int noteIterator;  // These iterators are used to keep track of which note to observe next
+        int noteIterator;  // This iterator is used to keep track of which note to draw next
         float noteScaleValue, bassNoteScaleValue;
         NoteUpdater noteUpdater;
         IKeyboardInputManager keyboardInputManager;
@@ -103,14 +103,7 @@ namespace MinGH.GameScreen.SinglePlayer
             bassNoteScaleValue = (gameConfiguration.themeSetting.laneSize + gameConfiguration.themeSetting.laneBorderSize) / 
                                  ((float)noteSpriteSheetSize);
 
-            if (gameConfiguration.useDrumStyleInputForGuitarMode)
-            {
-                inputManager = new DrumInputManager();
-            }
-            else
-            {
-                inputManager = new GuitarInputManager();
-            }
+            
 
             hitBox = new HorizontalHitBox(new Rectangle(0, 0,
                                           graphics.GraphicsDevice.Viewport.Width,
@@ -137,6 +130,7 @@ namespace MinGH.GameScreen.SinglePlayer
                 noteParticleEmitters.initializeLocationsDrumsSingle(gameConfiguration.themeSetting, hitBox.centerLocation);
                 backgroundFilename = "DrumsSingle.png";
                 Notes = NoteInitializer.InitializeNotesDrumSingle(noteSpriteSheetSize, Notes, spriteSheetTex, gameConfiguration, noteScaleValue, bassNoteScaleValue);
+                inputManager = new DrumInputManager();
             }
             else  // A guitar background and emitter setting will be the "default"
             {
@@ -145,6 +139,14 @@ namespace MinGH.GameScreen.SinglePlayer
                 noteParticleEmitters.initializeLocationsGuitarSingle(gameConfiguration.themeSetting, hitBox.centerLocation);
                 backgroundFilename = "GuitarSingle.png";
                 Notes = NoteInitializer.InitializeNotesGuitarSingle(noteSpriteSheetSize, Notes, spriteSheetTex, gameConfiguration, noteScaleValue);
+                if (gameConfiguration.useDrumStyleInputForGuitarMode)
+                {
+                    inputManager = new DrumInputManager();
+                }
+                else
+                {
+                    inputManager = new GuitarInputManager();
+                }
             }
 
             foreach (Emitter emitter in noteParticleEmitters.emitterList)
