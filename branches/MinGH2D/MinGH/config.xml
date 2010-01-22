@@ -1,0 +1,114 @@
+<!-- MinGH Configuration File (must be named config.xml) -->
+
+<configuration>
+
+    <!-- The directory in which the game will search for songs. If not specified,
+         a default of ./Songs will be used. --> 
+    <songDirectory>./Songs</songDirectory>
+    
+    <!-- Play the game fullscreen at 800x600 (will support custom resolutions later -->
+    <fullscreen>false</fullscreen>
+    
+    <!--Sets the game so the guitar charts can be played like a drum chart
+    (i.e. No strumming and no HOPOs, just flat button hitting)
+    NOTE: The drum keys will be used with this setting regardless of chart.
+    NOTE: This option can also turn this game into a keyboard Stepmania clone-->
+    <useDrumStyleInputForGuitarMode>false</useDrumStyleInputForGuitarMode>
+
+    <!-- The different speed mod settings.  You can edit or add however many settings 
+         you want as long as the selectedSpeedMod points to a speedMod of the same id,
+         else a default (probably wrong) value will be used.  Also ensure no two speedMods
+         share the same id, else untold things will happen.
+         -MSOffset: The number of milisecondsseconds a note should be displayed early
+                    (i.e. higher speeds need a lower offset).  Edit this if notes
+                    appear to come too early or late.  A higher number = earlier notes.
+         -NVMultiplier: The note velocity multiplier denotes how fast the notes will move down
+                        the screen (i.e. higher = faster).  Edit this if notes scroll too fast
+                        or slow. -->
+    <speedMods>
+    
+        <selectedSpeedMod>2</selectedSpeedMod>
+        
+        <speedMod id="1">
+            <MSOffset>1440</MSOffset>
+            <NVMultiplier>0.4</NVMultiplier>
+        </speedMod>
+        
+        <speedMod id="2">
+            <MSOffset>1125</MSOffset>
+            <NVMultiplier>0.5</NVMultiplier>
+        </speedMod>
+        
+        <speedMod id="3">
+            <MSOffset>955</MSOffset>
+            <NVMultiplier>0.6</NVMultiplier>
+        </speedMod>
+
+        <speedMod id="4">
+            <MSOffset>813</MSOffset>
+            <NVMultiplier>0.7</NVMultiplier>
+        </speedMod>
+
+        <speedMod id="5">
+            <MSOffset>695</MSOffset>
+            <NVMultiplier>0.8</NVMultiplier>
+        </speedMod>
+        
+        <speedMod id="6">
+            <MSOffset>620</MSOffset>
+            <NVMultiplier>0.9</NVMultiplier>
+        </speedMod>
+        
+    </speedMods>
+    
+    <!-- The following settings are used to ensure the 100x100 notes will align perfectly with
+         the currently used background.  Like the speed mods, any number of themes can be set up,
+         as long as the selectedTheme element points to an existing theme id. Also ensure no two
+         themes share the same id, else untold things will happen.-->
+    <themes>
+        <selectedTheme>1</selectedTheme>
+    
+        <theme id="1">
+            <!-- The path to the sprite sheet that will be used with this theme 
+                 Know that the game expects a 500x500 sprite sheet in which every note
+                 is of the size 100x100 (See the provided sprite sheet to see what goes where).
+                 The notes must be of 100 width and will be scaled to meet the lane size.-->
+            <noteSkinFile>./Content/Sprites/DefaultSprites.png</noteSkinFile>
+        
+            <!-- The directory in which the background files can be found.  The files must follow a 
+                 standard naming format of:
+                    GuitarSingle.png
+                    DrumsSingle.png
+                    ..Will add more as time goes on -->
+            <backgroundDirectory>./Content/Backgrounds/Default</backgroundDirectory>
+            
+            <!-- The distance from the left side of the screen until the first pixel of the leftmost lane's
+                 border is met (make sure to not include the border itself in this value).
+                 Each screen has it's own value.-->
+            <distanceUntilLeftMostLane>
+                <guitarSingle>194</guitarSingle>
+                <drumSingle>225</drumSingle>
+            </distanceUntilLeftMostLane>
+            
+            <!-- The size of the lane borders (e.g. The grey lines on the default background).
+                 Know that every border must be the same size. -->
+            <laneBorderSize>3</laneBorderSize>
+            
+            <!-- The size of the lanes themselves (WITHOUT the border size included).
+                 Know that every lane must be of the same size -->
+            <laneSize>83</laneSize>
+        </theme>
+        
+        <theme id="2">
+            <noteSkinFile>./Content/Sprites/DefaultSprites.png</noteSkinFile>
+            <backgroundDirectory>./Content/Backgrounds/Alt</backgroundDirectory>
+            <distanceUntilLeftMostLane>
+                <guitarSingle>270</guitarSingle>
+                <drumSingle>300</drumSingle>
+            </distanceUntilLeftMostLane>
+            <laneBorderSize>1</laneBorderSize>
+            <laneSize>49</laneSize>
+        </theme>
+    </themes>
+
+</configuration>
