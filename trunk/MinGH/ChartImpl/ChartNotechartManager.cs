@@ -236,7 +236,7 @@ namespace MinGH.ChartImpl
                 string trackHeader = currTrack.Events[0].ToString();
                 string[] splitHeader = trackHeader.Split('\t');
 
-                if (splitHeader[3] == instrumentPart)
+                if ((splitHeader[3] == instrumentPart) || (splitHeader[3] == "T1 GEMS"))
                 {
                     trackToUse = currTrack;
                 }
