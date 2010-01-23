@@ -35,13 +35,14 @@ namespace MinGH.EngineExtensions
             rootNote = new Point();
             wasTicked = false;
             originalSpritePosition = new Rectangle();
-            polygonEdges = new float[4];
+            //polygonEdges = new float[4];
             spriteSheetStep = 100;
+            _scale3D = Vector3.One;
 
-            polygonEdges[0] = spriteSheetStep + scale3D.X;  // Top
-            polygonEdges[1] = spriteSheetStep + scale3D.Y;  // Right
-            polygonEdges[2] = spriteSheetStep + scale3D.X;  // Bottom
-            polygonEdges[3] = spriteSheetStep + scale3D.Y;  // Left
+            //polygonEdges[0] = spriteSheetStep + scale3D.X;  // Top
+            //polygonEdges[1] = spriteSheetStep + scale3D.Y;  // Right
+            //polygonEdges[2] = spriteSheetStep + scale3D.X;  // Bottom
+            //polygonEdges[3] = spriteSheetStep + scale3D.Y;  // Left
         }
 
         /// <summary>
@@ -58,34 +59,28 @@ namespace MinGH.EngineExtensions
             wasTicked = false;
         }
 
-        public void initalizeVerticies(int XSheetValue, int YSheetValue, int sheetStep)
+        public void initalizeTextureCoords(int XSheetValue, int YSheetValue, int sheetStep)
         {
-            float desiredTop = (YSheetValue * sheetStep) / (float)spriteSheet.Height;
-            float desiredBottom = ((YSheetValue + 1) * sheetStep) / (float)spriteSheet.Height;
-            float desiredLeft = (XSheetValue * sheetStep) / (float)spriteSheet.Width;
-            float desiredRight = ((XSheetValue + 1) * sheetStep) / (float)spriteSheet.Width;
+            float desiredTop = YSheetValue / (float)spriteSheet.Height;
+            float desiredBottom = (YSheetValue + sheetStep) / (float)spriteSheet.Height;
+            float desiredLeft = XSheetValue / (float)spriteSheet.Width;
+            float desiredRight = (XSheetValue + sheetStep) / (float)spriteSheet.Width;
 
-            vertices[0].Position = new Vector3(-10f, 10f, 0f);
             vertices[0].TextureCoordinate.X = desiredLeft;
             vertices[0].TextureCoordinate.Y = desiredTop;
 
-            vertices[1].Position = new Vector3(10f, -10f, 0f);
             vertices[1].TextureCoordinate.X = desiredRight;
             vertices[1].TextureCoordinate.Y = desiredBottom;
 
-            vertices[2].Position = new Vector3(-10f, -10f, 0f);
             vertices[2].TextureCoordinate.X = desiredLeft;
             vertices[2].TextureCoordinate.Y = desiredBottom;
 
-            vertices[3].Position = new Vector3(10f, -10f, 0f);
             vertices[3].TextureCoordinate.X = desiredRight;
             vertices[3].TextureCoordinate.Y = desiredBottom;
 
-            vertices[4].Position = new Vector3(-10f, 10f, 0f);
             vertices[4].TextureCoordinate.X = desiredLeft;
             vertices[4].TextureCoordinate.Y = desiredTop;
 
-            vertices[5].Position = new Vector3(10f, 10f, 0f);
             vertices[5].TextureCoordinate.X = desiredRight;
             vertices[5].TextureCoordinate.Y = desiredTop;
         }
@@ -100,12 +95,43 @@ namespace MinGH.EngineExtensions
             set
             {
                 _position3D = value;
-                vertices[0].Position = _position3D + new Vector3(0, spriteSheetStep, 0);
-                vertices[1].Position = _position3D + new Vector3(spriteSheetStep, 0, 0);
+                vertices[0].Position = _position3D + new Vector3(0, spriteSheetStep, 0) * new Vector3(1, _scale3D.Y, 1);
+                vertices[1].Position = _position3D + new Vector3(spriteSheetStep, 0, 0) * new Vector3(_scale3D.X, 1, 1);
                 vertices[2].Position = _position3D;
-                vertices[3].Position = _position3D + new Vector3(spriteSheetStep, 0, 0);
-                vertices[4].Position = _position3D + new Vector3(0, spriteSheetStep, 0);
-                vertices[5].Position = _position3D + new Vector3(spriteSheetStep, spriteSheetStep, 0);
+                vertices[3].Position = _position3D + new Vector3(spriteSheetStep, 0, 0) * new Vector3(_scale3D.X, 1, 1);
+                vertices[4].Position = _position3D + new Vector3(0, spriteSheetStep, 0) * new Vector3(1, _scale3D.Y, 1);
+                vertices[5].Position = _position3D + new Vector3(spriteSheetStep, spriteSheetStep, 0) * _scale3D;
+            }
+        }
+
+        public override Vector3 scale3D
+        {
+            get
+            {
+                return _scale3D;
+            }
+            set
+            {
+                _scale3D = value;
+                vertices[0].Position = _position3D * new Vector3(1, value.Y, 1);
+                vertices[1].Position = _position3D * new Vector3(value.X, 1, 1);
+                vertices[2].Position = _position3D;
+                vertices[3].Position = _position3D * new Vector3(value.X, 1, 1);
+                vertices[4].Position = _position3D * new Vector3(1, value.Y, 1);
+                vertices[5].Position = _position3D * value;
+            }
+        }
+
+        public override Rectangle spriteSheetRectangle
+        {
+            get
+            {
+                return _spriteSheetRectangle;
+            }
+            set
+            {
+                _spriteSheetRectangle = value;
+                initalizeTextureCoords(value.X, value.Y, spriteSheetStep);
             }
         }
 

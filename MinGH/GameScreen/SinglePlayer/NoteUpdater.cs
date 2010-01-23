@@ -27,7 +27,7 @@ namespace MinGH.GameScreen.SinglePlayer
         /// <param name="hitBox">The current hit window.</param>
         public static void updateNotes(Notechart inputNotechart, ref int inputNoteIterator,
                                        Note3D[,] physicalNotes, Rectangle viewportRectangle,
-                                       float currStep, ThemeSetting themeSetting, double currentMsec,
+                                       float currStep, GameConfiguration gameConfig, double currentMsec,
                                        int spriteSheetSize, PlayerInformation playerInfo,
                                        HorizontalHitBox hitBox)
         {
@@ -54,7 +54,11 @@ namespace MinGH.GameScreen.SinglePlayer
                                 if (inputNotechart.notes[inputNoteIterator].isHOPO == true)
                                 {
                                     // Use the HOPO note skin if note is HOPO
-                                    physicalNotes[currentNoteset, i].spriteSheetRectangle.Y = spriteSheetSize;
+                                    physicalNotes[currentNoteset, i].spriteSheetRectangle = 
+                                        new Rectangle(physicalNotes[currentNoteset, i].spriteSheetRectangle.X,
+                                                      physicalNotes[currentNoteset, i].spriteSheetRectangle.Y + spriteSheetSize,
+                                                      physicalNotes[currentNoteset, i].spriteSheetRectangle.Width,
+                                                      physicalNotes[currentNoteset, i].spriteSheetRectangle.Height);
                                 }
 
                                 physicalNotes[currentNoteset, i].alive = true;
@@ -80,7 +84,7 @@ namespace MinGH.GameScreen.SinglePlayer
                                         currentRoot = new Point(currentNoteset, i);
                                     }
                                 }
-                                physicalNotes[currentNoteset, i].position3D = new Vector3(currentNoteset * 100, -50f, -1000f);
+                                physicalNotes[currentNoteset, i].position3D = new Vector3(currentNoteset * (gameConfig.themeSetting.laneSize + gameConfig.themeSetting.laneBorderSize), 0f, -1000f);
                                 break;
                             }
                         }

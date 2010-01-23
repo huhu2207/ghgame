@@ -27,10 +27,10 @@
                         or slow. -->
     <speedMods>
     
-        <selectedSpeedMod>2</selectedSpeedMod>
+        <selectedSpeedMod>1</selectedSpeedMod>
         
         <speedMod id="1">
-            <MSOffset>1440</MSOffset>
+            <MSOffset>1830</MSOffset>
             <NVMultiplier>0.4</NVMultiplier>
         </speedMod>
         
@@ -96,7 +96,7 @@
             
             <!-- The size of the lanes themselves (WITHOUT the border size included).
                  Know that every lane must be of the same size -->
-            <laneSize>83</laneSize>
+            <laneSize>35</laneSize>
         </theme>
         
         <theme id="2">

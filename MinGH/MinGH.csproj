@@ -125,6 +125,7 @@
     <Compile Include="Config\SpeedModReader.cs" />
     <Compile Include="Config\ThemeSetting.cs" />
     <Compile Include="Config\ThemeSettingReader.cs" />
+    <Compile Include="EngineExtensions\Fretboard3D.cs" />
     <Compile Include="EngineExtensions\note3D.cs" />
     <Compile Include="Enum\GameStateEnum.cs" />
     <Compile Include="GameScreen\MainMenu\MainMenuScreen.cs" />
