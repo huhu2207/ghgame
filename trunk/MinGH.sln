@@ -5,7 +5,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MinGH", "MinGH\MinGH.csproj
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameEngine", "GameEngine\GameEngine.csproj", "{FCEF5128-DE5F-4F1A-ABBF-1FCB9B6C0FFF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Toub.Sound.Midi", "..\..\Documents and Settings\Dave\Desktop\Toub\Toub.Sound.Midi.csproj", "{40753431-42F5-46CD-8F79-22AE7FCADFF9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Toub.Sound.Midi", "Toub\Toub.Sound.Midi.csproj", "{40753431-42F5-46CD-8F79-22AE7FCADFF9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
