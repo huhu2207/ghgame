@@ -96,10 +96,6 @@
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
       <Private>False</Private>
     </Reference>
-    <Reference Include="Toub.Sound.Midi, Version=2.0.4.0, Culture=neutral, PublicKeyToken=9510c3608a1f0024">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>.\Toub.Sound.Midi.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ChartImpl\BPMChange.cs" />
@@ -206,6 +202,10 @@
     <None Include="app.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Documents and Settings\Dave\Desktop\Toub\Toub.Sound.Midi.csproj">
+      <Project>{40753431-42F5-46CD-8F79-22AE7FCADFF9}</Project>
+      <Name>Toub.Sound.Midi</Name>
+    </ProjectReference>
     <ProjectReference Include="..\GameEngine\GameEngine.csproj">
       <Project>{FCEF5128-DE5F-4F1A-ABBF-1FCB9B6C0FFF}</Project>
       <Name>GameEngine</Name>

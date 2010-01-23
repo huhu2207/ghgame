@@ -278,8 +278,17 @@ namespace MinGH.GameScreen.SinglePlayer
                                               gameConfiguration, currStep, mainChart.noteCharts[0].instrument);
 
             // Update varous strings
+            uint guitarPosition = 0, bassPosition = 0, drumPosition = 0;
+            guitarChannel.getPosition(ref guitarPosition, TIMEUNIT.MS);
+            bassChannel.getPosition(ref bassPosition, TIMEUNIT.MS);
+            drumChannel.getPosition(ref drumPosition, TIMEUNIT.MS);
+
+            string times = "Music: " + currentMsec + "\n" +
+                           "Guitar: " + guitarPosition + "\n" +
+                           "Bass: " + bassPosition + "\n" +
+                           "Drum: " + drumPosition;
             strManager.SetString(0, "Hitbox Y: " + hitBox.physicalHitbox.Y + "\nHitbox Height: " + hitBox.physicalHitbox.Height);
-            strManager.SetString(1, "End MSEC:\n" + mainChart.chartInfo.chartLengthMiliseconds.ToString());
+            strManager.SetString(1, times);
             strManager.SetString(3, "Score: " + playerInformation.currentScore.ToString() + "\n\n" +
                                      "Multiplier : " + playerInformation.currentMultiplier.ToString() + "\n\n" +
                                      "Combo :" + playerInformation.currentCombo.ToString());
