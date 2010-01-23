@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading;
 using GameEngine.FMOD;
 using GameEngine.GameStringImpl;
 using Microsoft.Xna.Framework;
@@ -109,9 +108,7 @@ namespace MinGH.GameScreen.SinglePlayer
 
             spriteBatch = new SpriteBatch(graphics.GraphicsDevice);
             gameConfiguration = new GameConfiguration("./config.xml");
-            noteScaleValue = gameConfiguration.themeSetting.laneSize / (float)noteSpriteSheetSize;
-            bassNoteScaleValue = (gameConfiguration.themeSetting.laneSize + gameConfiguration.themeSetting.laneBorderSize) / 
-                                 ((float)noteSpriteSheetSize);
+          
 
             hitBox = new HorizontalHitBox(new Rectangle(0, 0,
                                           graphics.GraphicsDevice.Viewport.Width,
@@ -120,21 +117,7 @@ namespace MinGH.GameScreen.SinglePlayer
 
             strManager = SinglePlayerStringInitializer.initializeStrings(graphics.GraphicsDevice.Viewport.Width,
                                                 graphics.GraphicsDevice.Viewport.Height);
-            float cameraX = (gameConfiguration.themeSetting.laneSize * 2) +
-                            (gameConfiguration.themeSetting.laneBorderSize * 3) +
-                            (gameConfiguration.themeSetting.laneSize / 2);
 
-            cameraPostion = new Vector3(cameraX, 170.0f, 0.0f);
-            cameraLookAt = new Vector3(cameraX, 50.0f, -300.0f);
-            viewMatrix = Matrix.CreateLookAt(cameraPostion, cameraLookAt, new Vector3(0, 1, 0));
-            projectionMatrix = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, graphics.GraphicsDevice.Viewport.AspectRatio, 0.2f, 1000.0f);
-
-            Texture2D laneSeparatorTexture = Texture2D.FromFile(graphics.GraphicsDevice, ".\\Content\\Fretboards\\LaneSeparatorDefault.png");
-            laneSeparators = new LaneSeparators(gameConfiguration.themeSetting.laneSize, gameConfiguration.themeSetting.laneBorderSize, effect,
-                                                laneSeparatorTexture, graphics.GraphicsDevice);
-            fretboardBorders = new FretboardBorders(gameConfiguration.themeSetting.laneSize, gameConfiguration.themeSetting.laneBorderSize, effect,
-                                                    laneSeparatorTexture, graphics.GraphicsDevice, 6);
-                
             base.Initialize();
         }
 
@@ -145,6 +128,7 @@ namespace MinGH.GameScreen.SinglePlayer
 
             string backgroundFilename = "";
             spriteSheetTex = Texture2D.FromFile(graphics.GraphicsDevice, gameConfiguration.themeSetting.noteSkinFile);
+            Texture2D laneSeparatorTexture = Texture2D.FromFile(graphics.GraphicsDevice, gameConfiguration.themeSetting.laneSeparatorTexture);
 
             if (mainChart.noteCharts[0].instrument == "Drums")
             {
@@ -152,8 +136,22 @@ namespace MinGH.GameScreen.SinglePlayer
                 noteParticleEmitters.initalizeEmittersDrumsSingle(gameConfiguration.themeSetting);
                 noteParticleEmitters.initializeLocationsDrumsSingle(gameConfiguration.themeSetting, hitBox.centerLocation);
                 backgroundFilename = "DrumsSingle.png";
-                //Notes = NoteInitializer.InitializeNotesDrumSingle(noteSpriteSheetSize, Notes, spriteSheetTex, gameConfiguration, noteScaleValue, bassNoteScaleValue);
-                //inputManager = new DrumInputManager();
+                inputManager = new GuitarInputManager();
+
+                noteScaleValue = gameConfiguration.themeSetting.laneSizeDrums / (float)noteSpriteSheetSize;
+                bassNoteScaleValue = ((gameConfiguration.themeSetting.laneSizeDrums * 4) + (gameConfiguration.themeSetting.laneSeparatorSize * 3)) /
+                                     ((float)noteSpriteSheetSize);
+
+                float cameraX = (gameConfiguration.themeSetting.laneSizeDrums * 2) +
+                                (gameConfiguration.themeSetting.laneSeparatorSize * 1) +
+                                (gameConfiguration.themeSetting.laneSeparatorSize / 2);
+                cameraPostion = new Vector3(cameraX, 170.0f, 0.0f);
+                cameraLookAt = new Vector3(cameraX, 50.0f, -300.0f);
+                laneSeparators = new DrumLaneSeparators(gameConfiguration.themeSetting.laneSizeDrums, gameConfiguration.themeSetting.laneSeparatorSize, effect,
+                                                        laneSeparatorTexture, graphics.GraphicsDevice);
+                fretboardBorders = new DrumFretboardBorders(gameConfiguration.themeSetting.laneSizeDrums, gameConfiguration.themeSetting.laneSeparatorSize, effect,
+                                                        laneSeparatorTexture, graphics.GraphicsDevice, gameConfiguration.themeSetting.fretboardBorderSize);
+                notes = NoteInitializer.InitializeNotesDrumSingle(noteSpriteSheetSize, notes, spriteSheetTex, gameConfiguration, noteScaleValue, bassNoteScaleValue, effect, graphics.GraphicsDevice);
             }
             else  // A guitar background and emitter setting will be the "default"
             {
@@ -161,7 +159,21 @@ namespace MinGH.GameScreen.SinglePlayer
                 noteParticleEmitters.initalizeEmittersGuitarSingle();
                 noteParticleEmitters.initializeLocationsGuitarSingle(gameConfiguration.themeSetting, hitBox.centerLocation);
                 backgroundFilename = "GuitarSingle.png";
-                notes = NoteInitializer.InitializeNotesGuitarSingle(noteSpriteSheetSize, notes, spriteSheetTex, gameConfiguration, noteScaleValue, effect, graphics.GraphicsDevice);
+                noteScaleValue = gameConfiguration.themeSetting.laneSizeGuitar / (float)noteSpriteSheetSize;
+                
+                float cameraX = (gameConfiguration.themeSetting.laneSizeGuitar * 2) +
+                                (gameConfiguration.themeSetting.laneSeparatorSize * 3) +
+                                (gameConfiguration.themeSetting.laneSizeGuitar / 2);
+                cameraPostion = new Vector3(cameraX, 170.0f, 0.0f);
+                cameraLookAt = new Vector3(cameraX, 50.0f, -300.0f);
+                laneSeparators = new GuitarLaneSeparators(gameConfiguration.themeSetting.laneSizeGuitar, gameConfiguration.themeSetting.laneSeparatorSize, effect,
+                                                          laneSeparatorTexture, graphics.GraphicsDevice);
+                fretboardBorders = new GuitarFretboardBorders(gameConfiguration.themeSetting.laneSizeGuitar, gameConfiguration.themeSetting.laneSeparatorSize, effect,
+                                                        laneSeparatorTexture, graphics.GraphicsDevice, gameConfiguration.themeSetting.fretboardBorderSize);
+
+                notes = NoteInitializer.InitializeNotesGuitarSingle(noteSpriteSheetSize, notes, spriteSheetTex, gameConfiguration,
+                                                                    noteScaleValue, effect, graphics.GraphicsDevice);
+
                 if (gameConfiguration.useDrumStyleInputForGuitarMode)
                 {
                     //inputManager = new DrumInputManager();
@@ -171,6 +183,9 @@ namespace MinGH.GameScreen.SinglePlayer
                     inputManager = new GuitarInputManager();
                 }
             }
+
+            viewMatrix = Matrix.CreateLookAt(cameraPostion, cameraLookAt, new Vector3(0, 1, 0));
+            projectionMatrix = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, graphics.GraphicsDevice.Viewport.AspectRatio, 0.2f, 1000.0f);
 
             foreach (Emitter emitter in noteParticleEmitters.emitterList)
             {
@@ -260,7 +275,7 @@ namespace MinGH.GameScreen.SinglePlayer
                                     noteSpriteSheetSize, playerInformation, hitBox);
 
             FretboardUpdater.UpdateFretboards(fretboards, fretboardTex, effect, graphics.GraphicsDevice,
-                                              gameConfiguration, currStep);
+                                              gameConfiguration, currStep, mainChart.noteCharts[0].instrument);
 
             // Update varous strings
             strManager.SetString(0, "Hitbox Y: " + hitBox.physicalHitbox.Y + "\nHitbox Height: " + hitBox.physicalHitbox.Height);

@@ -26,20 +26,29 @@ namespace MinGH.Config
                     xmlReader.ReadToFollowing("noteSkinFile");
                     themeToReturn.noteSkinFile = xmlReader.ReadElementContentAsString();
 
+                    xmlReader.ReadToFollowing("fretboard");
+                    themeToReturn.fretboardTexture = xmlReader.ReadElementContentAsString();
+
+                    xmlReader.ReadToFollowing("laneSeparators");
+                    themeToReturn.laneSeparatorTexture = xmlReader.ReadElementContentAsString();
+
+                    xmlReader.ReadToFollowing("fretboardBorders");
+                    themeToReturn.laneSeparatorTexture = xmlReader.ReadElementContentAsString();
+
                     xmlReader.ReadToFollowing("backgroundDirectory");
                     themeToReturn.backgroundDirectory = xmlReader.ReadElementContentAsString();
 
-                    xmlReader.ReadToFollowing("distanceUntilLeftMostLane");
-                    xmlReader.ReadToFollowing("guitarSingle");
-                    themeToReturn.distanceUntilLeftMostLaneGuitarSingle = xmlReader.ReadElementContentAsInt();
-                    xmlReader.ReadToFollowing("drumSingle");
-                    themeToReturn.distanceUntilLeftMostLaneDrumSingle = xmlReader.ReadElementContentAsInt();
-
-                    xmlReader.ReadToFollowing("laneBorderSize");
-                    themeToReturn.laneBorderSize = xmlReader.ReadElementContentAsInt();
-
                     xmlReader.ReadToFollowing("laneSize");
-                    themeToReturn.laneSize = xmlReader.ReadElementContentAsInt();
+                    xmlReader.ReadToFollowing("guitarSingle");
+                    themeToReturn.laneSizeGuitar = xmlReader.ReadElementContentAsInt();
+                    xmlReader.ReadToFollowing("drumSingle");
+                    themeToReturn.laneSizeDrums = xmlReader.ReadElementContentAsInt();
+
+                    xmlReader.ReadToFollowing("laneSeparatorSize");
+                    themeToReturn.laneSeparatorSize = xmlReader.ReadElementContentAsInt();
+
+                    xmlReader.ReadToFollowing("fretboardBorderSize");
+                    themeToReturn.fretboardBorderSize = xmlReader.ReadElementContentAsInt();
                 }
             }
 

@@ -9,19 +9,25 @@ namespace MinGH.Config
     {
         public string noteSkinFile { get; set; }
         public string backgroundDirectory { get; set; }
-        public int distanceUntilLeftMostLaneGuitarSingle { get; set; }
-        public int distanceUntilLeftMostLaneDrumSingle { get; set; }
-        public int laneBorderSize { get; set; }
-        public int laneSize { get; set; }
+        public string fretboardTexture { get; set; }
+        public string laneSeparatorTexture { get; set; }
+        public string fretboardBorderTexture { get; set; }
+        public int laneSeparatorSize { get; set; }
+        public int laneSizeGuitar { get; set; }
+        public int laneSizeDrums { get; set; }
+        public int fretboardBorderSize { get; set; }
 
         public ThemeSetting()
         {
             noteSkinFile = ".\\Content\\Sprites\\DefaultSprites.png";
             backgroundDirectory = ".\\Content\\Backgrounds\\Default";
-            distanceUntilLeftMostLaneGuitarSingle = 194;
-            distanceUntilLeftMostLaneDrumSingle = 225;
-            laneBorderSize = 3;
-            laneSize = 83;
+            fretboardTexture = ".\\Content\\FretboardDefault.png";
+            laneSeparatorTexture = ".\\Content\\LaneSeparatorDefault.png";
+            fretboardBorderTexture = ".\\Content\\LaneSeparatorDefault.png";
+            laneSeparatorSize = 3;
+            laneSizeGuitar = 35;
+            laneSizeDrums = 55;
+            fretboardBorderSize = 6;
         }
     }
 }

@@ -74,6 +74,12 @@
                  is of the size 100x100 (See the provided sprite sheet to see what goes where).
                  The notes must be of 100 width and will be scaled to meet the lane size.-->
             <noteSkinFile>./Content/Sprites/DefaultSprites.png</noteSkinFile>
+
+            <fretboard>./Content/Fretboards/FretboardDefault.png</fretboard>
+          
+            <laneSeparators>./Content/Fretboards/LaneSeparatorDefault.png</laneSeparators>
+          
+            <fretboardBorders>./Content/Fretboards/LaneSeparatorDefault.png</fretboardBorders>
         
             <!-- The directory in which the background files can be found.  The files must follow a 
                  standard naming format of:
@@ -81,33 +87,19 @@
                     DrumsSingle.png
                     ..Will add more as time goes on -->
             <backgroundDirectory>./Content/Backgrounds/Default</backgroundDirectory>
-            
-            <!-- The distance from the left side of the screen until the first pixel of the leftmost lane's
-                 border is met (make sure to not include the border itself in this value).
-                 Each screen has it's own value.-->
-            <distanceUntilLeftMostLane>
-                <guitarSingle>194</guitarSingle>
-                <drumSingle>225</drumSingle>
-            </distanceUntilLeftMostLane>
+
+            <!-- The size of the lanes themselves (WITHOUT the border size included).
+                 Know that every lane must be of the same size -->
+            <laneSize>
+                <guitarSingle>35</guitarSingle>
+                <drumSingle>35</drumSingle>
+            </laneSize>
             
             <!-- The size of the lane borders (e.g. The grey lines on the default background).
                  Know that every border must be the same size. -->
-            <laneBorderSize>3</laneBorderSize>
-            
-            <!-- The size of the lanes themselves (WITHOUT the border size included).
-                 Know that every lane must be of the same size -->
-            <laneSize>35</laneSize>
-        </theme>
-        
-        <theme id="2">
-            <noteSkinFile>./Content/Sprites/DefaultSprites.png</noteSkinFile>
-            <backgroundDirectory>./Content/Backgrounds/Alt</backgroundDirectory>
-            <distanceUntilLeftMostLane>
-                <guitarSingle>270</guitarSingle>
-                <drumSingle>300</drumSingle>
-            </distanceUntilLeftMostLane>
-            <laneBorderSize>1</laneBorderSize>
-            <laneSize>49</laneSize>
+            <laneSeparatorSize>3</laneSeparatorSize>
+          
+            <fretboardBorderSize>6</fretboardBorderSize>
         </theme>
     </themes>
 
