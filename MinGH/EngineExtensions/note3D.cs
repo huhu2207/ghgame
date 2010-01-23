@@ -8,7 +8,7 @@ namespace MinGH.EngineExtensions
 	/// An extended class of gameObject that contains data and functionality 
 	/// specific to the drawable notes within the MinGH game.
 	/// </summary>
-    public class Note : GameObject
+    public class Note3D : GameObject3D
     {
 		/// <summary>
 		/// The same constructor overloaded from the gameObject class.  The parameter
@@ -25,8 +25,8 @@ namespace MinGH.EngineExtensions
 		/// The padding on the left side of the spritesheet.  Use this if all the
         /// sprites appear to be pushed to the right slightly.
 		/// </param>
-        public Note(Texture2D loadedTex, Rectangle spritePos, int offset)
-            : base(loadedTex, spritePos, offset)
+        public Note3D(Texture2D loadedTex, Rectangle spritePos, Effect effectToUse, GraphicsDevice device)
+            : base(loadedTex, spritePos, effectToUse, device)
         {
             noteChartIndex = 0;
             precedsHOPO = false;
@@ -49,7 +49,39 @@ namespace MinGH.EngineExtensions
             isChord = false;
             rootNote = new Point(-1 , -1);
             wasTicked = false;
-        }     
+        }
+
+        public void initalizeVerticies(int XSheetValue, int YSheetValue, int sheetStep)
+        {
+            float desiredTop = (XSheetValue * sheetStep) / (float)spriteSheet.Height;
+            float desiredBottom = ((XSheetValue + 1) * sheetStep) / (float)spriteSheet.Height;
+            float desiredLeft = (YSheetValue * sheetStep) / (float)spriteSheet.Width;
+            float desiredRight = ((YSheetValue + 1) * sheetStep) / (float)spriteSheet.Width;
+
+            vertices[0].Position = new Vector3(-10f, 10f, 0f);
+            vertices[0].TextureCoordinate.X = desiredLeft;
+            vertices[0].TextureCoordinate.Y = desiredTop;
+
+            vertices[1].Position = new Vector3(10f, -10f, 0f);
+            vertices[1].TextureCoordinate.X = desiredRight;
+            vertices[1].TextureCoordinate.Y = desiredBottom;
+
+            vertices[2].Position = new Vector3(-10f, -10f, 0f);
+            vertices[2].TextureCoordinate.X = desiredLeft;
+            vertices[2].TextureCoordinate.Y = desiredBottom;
+
+            vertices[3].Position = new Vector3(10f, -10f, 0f);
+            vertices[3].TextureCoordinate.X = desiredRight;
+            vertices[3].TextureCoordinate.Y = desiredBottom;
+
+            vertices[4].Position = new Vector3(-10f, 10f, 0f);
+            vertices[4].TextureCoordinate.X = desiredLeft;
+            vertices[4].TextureCoordinate.Y = desiredTop;
+
+            vertices[5].Position = new Vector3(10f, 10f, 0f);
+            vertices[5].TextureCoordinate.X = desiredRight;
+            vertices[5].TextureCoordinate.Y = desiredTop;
+        }
 
 		/// <summary>
 		/// The base point value of a note (this value may be in the wrong place,

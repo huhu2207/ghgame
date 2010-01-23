@@ -32,7 +32,7 @@ namespace MinGH.GameScreen.SinglePlayer
         Texture2D backgroundTex;  // The background texture
         Texture2D spriteSheetTex;
         SpriteFont gameFont;  // The font the game will use
-        Note[,] Notes;  // Will hold every note currently on the screen
+        Note3D[,] Notes;  // Will hold every note currently on the screen
         int noteIterator;  // This iterator is used to keep track of which note to draw next
         float noteScaleValue, bassNoteScaleValue;
         NoteUpdater noteUpdater;
@@ -42,6 +42,10 @@ namespace MinGH.GameScreen.SinglePlayer
         PlayerInformation playerInformation;
         Chart mainChart;  // Create the chart file
         GameStringManager strManager;  // Stores each string and its position on the screen
+        Vector3 cameraPostion, cameraLookAt;
+        Matrix viewMatrix, projectionMatrix;
+        VertexDeclaration texturedVertexDeclaration;
+        Effect effect;
 
         // Variables related to the audio playing and note syncing
         private GameEngine.FMOD.System system;
@@ -83,7 +87,9 @@ namespace MinGH.GameScreen.SinglePlayer
             currentMsec = 0;
             noteScaleValue = 0.0f;
             bassNoteScaleValue = 0.0f;
-            Notes = new Note[5, maxNotesOnscreen];
+            Notes = new Note3D[5, maxNotesOnscreen];
+            effect = gameReference.Content.Load<Effect>("effects");
+            texturedVertexDeclaration = new VertexDeclaration(graphics.GraphicsDevice, VertexPositionTexture.VertexElements);
 
             // Initialize FMOD variables
             system = new GameEngine.FMOD.System();
@@ -112,6 +118,12 @@ namespace MinGH.GameScreen.SinglePlayer
 
             strManager = SinglePlayerStringInitializer.initializeStrings(graphics.GraphicsDevice.Viewport.Width,
                                                 graphics.GraphicsDevice.Viewport.Height);
+
+            cameraPostion = new Vector3(0.0f, 1.0f, 50.0f);
+            cameraLookAt = new Vector3(0.0f, 0.0f, 0.0f);
+            viewMatrix = Matrix.CreateLookAt(cameraPostion, cameraLookAt, new Vector3(0, 1, 0));
+            projectionMatrix = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, graphics.GraphicsDevice.Viewport.AspectRatio, 0.2f, 500.0f);
+
             base.Initialize();
         }
 
@@ -129,8 +141,8 @@ namespace MinGH.GameScreen.SinglePlayer
                 noteParticleEmitters.initalizeEmittersDrumsSingle(gameConfiguration.themeSetting);
                 noteParticleEmitters.initializeLocationsDrumsSingle(gameConfiguration.themeSetting, hitBox.centerLocation);
                 backgroundFilename = "DrumsSingle.png";
-                Notes = NoteInitializer.InitializeNotesDrumSingle(noteSpriteSheetSize, Notes, spriteSheetTex, gameConfiguration, noteScaleValue, bassNoteScaleValue);
-                inputManager = new DrumInputManager();
+                //Notes = NoteInitializer.InitializeNotesDrumSingle(noteSpriteSheetSize, Notes, spriteSheetTex, gameConfiguration, noteScaleValue, bassNoteScaleValue);
+                //inputManager = new DrumInputManager();
             }
             else  // A guitar background and emitter setting will be the "default"
             {
@@ -138,10 +150,10 @@ namespace MinGH.GameScreen.SinglePlayer
                 noteParticleEmitters.initalizeEmittersGuitarSingle();
                 noteParticleEmitters.initializeLocationsGuitarSingle(gameConfiguration.themeSetting, hitBox.centerLocation);
                 backgroundFilename = "GuitarSingle.png";
-                Notes = NoteInitializer.InitializeNotesGuitarSingle(noteSpriteSheetSize, Notes, spriteSheetTex, gameConfiguration, noteScaleValue);
+                Notes = NoteInitializer.InitializeNotesGuitarSingle(noteSpriteSheetSize, Notes, spriteSheetTex, gameConfiguration, noteScaleValue, effect, graphics.GraphicsDevice);
                 if (gameConfiguration.useDrumStyleInputForGuitarMode)
                 {
-                    inputManager = new DrumInputManager();
+                    //inputManager = new DrumInputManager();
                 }
                 else
                 {
@@ -336,13 +348,22 @@ namespace MinGH.GameScreen.SinglePlayer
 
         public override void Draw(GameTime gameTime)
         {
-            spriteBatch.Begin(SpriteBlendMode.AlphaBlend);
+            //spriteBatch.Begin(SpriteBlendMode.AlphaBlend);
 
-            //Draw the background
-            spriteBatch.Draw(backgroundTex, viewportRectangle, Color.White);
+            ////Draw the background
+            //spriteBatch.Draw(backgroundTex, viewportRectangle, Color.White);
 
-            // Draw every string in str_manager
-            strManager.DrawStrings(spriteBatch, gameFont);
+            //// Draw every string in str_manager
+            //strManager.DrawStrings(spriteBatch, gameFont);
+
+            //spriteBatch.End();
+
+            //foreach (Emitter emitter in noteParticleEmitters.emitterList)
+            //{
+            //    renderer.RenderEmitter(emitter);
+            //}
+
+            graphics.GraphicsDevice.Clear(ClearOptions.Target | ClearOptions.DepthBuffer, Color.DarkSlateBlue, 1.0f, 0);
 
             //Draw the notes
             for (int i = 0; i < Notes.GetLength(0); i++)
@@ -351,19 +372,13 @@ namespace MinGH.GameScreen.SinglePlayer
                 {
                     if (Notes[i, j].alive)
                     {
-                        spriteBatch.Draw(Notes[i, j].spriteSheet, Notes[i, j].position,
-                                         Notes[i, j].spriteSheetRectangle, Color.White,
-                                         Notes[i, j].rotation, new Vector2(0, 0),
-                                         Notes[i, j].scale, SpriteEffects.None, 0f);
+                        //spriteBatch.Draw(Notes[i, j].spriteSheet, Notes[i, j].position,
+                        //                 Notes[i, j].spriteSheetRectangle, Color.White,
+                        //                 Notes[i, j].rotation, new Vector2(0, 0),
+                        //                 Notes[i, j].scale, SpriteEffects.None, 0f);
+                        Notes[i, j].draw(graphics.GraphicsDevice, viewMatrix, projectionMatrix);
                     }
                 }
-            }
-
-            spriteBatch.End();
-
-            foreach (Emitter emitter in noteParticleEmitters.emitterList)
-            {
-                renderer.RenderEmitter(emitter);
             }
 
             base.Draw(gameTime);

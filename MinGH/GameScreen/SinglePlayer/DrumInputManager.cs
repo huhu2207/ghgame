@@ -11,7 +11,9 @@ namespace MinGH.GameScreen.SinglePlayer
     /// Encompasses most of the logic for interpreting the user's input during a
     /// single player session via drums.
     /// </summary>
-    public class DrumInputManager : IInputManager
+
+    //public class DrumInputManager : IInputManager
+    public class DrumInputManager
     {
         /// <summary>
         /// Uses the current keyboard state to figure out whether the user attempted to

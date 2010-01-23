@@ -15,70 +15,70 @@ namespace MinGH.GameScreen.SinglePlayer
         /// <param name="spriteSheetTex">The sprite sheet texture as a whole.</param>
         /// <param name="gameConfiguration">The current game configuration.</param>
         /// <returns>A filled out drawable note 2d array.</returns>
-        public static Note[,] InitializeNotesDrumSingle(int noteSpriteSheetSize, Note[,] Notes, Texture2D spriteSheetTex,
-                                                        GameConfiguration gameConfiguration, float noteScaleValue, float bassNoteScaleValue)
-        {
-            // Setup the notes appearance and velocity
-            for (int i = 0; i < Notes.GetLength(0); i++)
-            {
-                for (int j = 0; j < Notes.GetLength(1); j++)
-                {
-                    switch (i)
-                    {
-                        case 0:  // Bass Notes
-                            Notes[i, j] = new Note(spriteSheetTex,
-                                          new Rectangle(0, noteSpriteSheetSize * 5, noteSpriteSheetSize * 4, noteSpriteSheetSize), 0);
-                            Notes[i, j].position.X = Notes[i, j].spriteSheetOffset +
-                                             gameConfiguration.themeSetting.distanceUntilLeftMostLaneDrumSingle +
-                                             gameConfiguration.themeSetting.laneBorderSize;
-                            Notes[i, j].originalSpritePosition = new Rectangle(0, noteSpriteSheetSize * 5, noteSpriteSheetSize * 4, noteSpriteSheetSize);
-                            Notes[i, j].scale = new Vector2(bassNoteScaleValue, bassNoteScaleValue);
-                            break;
-                        case 1:  // Red Notes
-                            Notes[i, j] = new Note(spriteSheetTex,
-                                          new Rectangle(noteSpriteSheetSize * 1, 0, noteSpriteSheetSize, noteSpriteSheetSize), 0);
-                            Notes[i, j].position.X = Notes[i, j].spriteSheetOffset +
-                                             gameConfiguration.themeSetting.distanceUntilLeftMostLaneDrumSingle +
-                                             gameConfiguration.themeSetting.laneBorderSize;
-                            Notes[i, j].originalSpritePosition = new Rectangle(noteSpriteSheetSize * 1, 0, noteSpriteSheetSize, noteSpriteSheetSize);
-                            Notes[i, j].scale = new Vector2(noteScaleValue, noteScaleValue);
-                            break;
-                        case 2:  // Yellow Notes
-                            Notes[i, j] = new Note(spriteSheetTex,
-                                          new Rectangle(noteSpriteSheetSize * 2, 0, noteSpriteSheetSize, noteSpriteSheetSize), 0);
-                            Notes[i, j].position.X = Notes[i, j].spriteSheetOffset +
-                                             gameConfiguration.themeSetting.distanceUntilLeftMostLaneDrumSingle +
-                                             ((gameConfiguration.themeSetting.laneSize + gameConfiguration.themeSetting.laneBorderSize) * 1) +
-                                             gameConfiguration.themeSetting.laneBorderSize;
-                            Notes[i, j].originalSpritePosition = new Rectangle(noteSpriteSheetSize * 2, 0, noteSpriteSheetSize, noteSpriteSheetSize);
-                            Notes[i, j].scale = new Vector2(noteScaleValue, noteScaleValue);
-                            break;
-                        case 3:  // Blue Notes
-                            Notes[i, j] = new Note(spriteSheetTex,
-                                          new Rectangle(noteSpriteSheetSize * 3, 0, noteSpriteSheetSize, noteSpriteSheetSize), 0);
-                            Notes[i, j].position.X = Notes[i, j].spriteSheetOffset +
-                                             gameConfiguration.themeSetting.distanceUntilLeftMostLaneDrumSingle +
-                                             ((gameConfiguration.themeSetting.laneSize + gameConfiguration.themeSetting.laneBorderSize) * 2) +
-                                             gameConfiguration.themeSetting.laneBorderSize;
-                            Notes[i, j].originalSpritePosition = new Rectangle(noteSpriteSheetSize * 3, 0, noteSpriteSheetSize, noteSpriteSheetSize);
-                            Notes[i, j].scale = new Vector2(noteScaleValue, noteScaleValue);
-                            break;
-                        case 4:  // Green Notes
-                            Notes[i, j] = new Note(spriteSheetTex,
-                                          new Rectangle(noteSpriteSheetSize * 0, 0, noteSpriteSheetSize, noteSpriteSheetSize), 0);
-                            Notes[i, j].position.X = Notes[i, j].spriteSheetOffset +
-                                             gameConfiguration.themeSetting.distanceUntilLeftMostLaneDrumSingle +
-                                             ((gameConfiguration.themeSetting.laneSize + gameConfiguration.themeSetting.laneBorderSize) * 3) +
-                                             gameConfiguration.themeSetting.laneBorderSize;
-                            Notes[i, j].originalSpritePosition = new Rectangle(noteSpriteSheetSize * 0, 0, noteSpriteSheetSize, noteSpriteSheetSize);
-                            Notes[i, j].scale = new Vector2(noteScaleValue, noteScaleValue);
-                            break;
-                    }
-                    Notes[i, j].velocity = new Vector2(0.0f, (float)gameConfiguration.speedModValue.noteVelocityMultiplier);
-                }
-            }
-            return Notes;
-        }
+        //public static Note[,] InitializeNotesDrumSingle(int noteSpriteSheetSize, Note3D[,] Notes, Texture2D spriteSheetTex,
+        //                                                GameConfiguration gameConfiguration, float noteScaleValue, float bassNoteScaleValue)
+        //{
+        //    // Setup the notes appearance and velocity
+        //    for (int i = 0; i < Notes.GetLength(0); i++)
+        //    {
+        //        for (int j = 0; j < Notes.GetLength(1); j++)
+        //        {
+        //            switch (i)
+        //            {
+        //                case 0:  // Bass Notes
+        //                    Notes[i, j] = new Note3D(spriteSheetTex,
+        //                                  new Rectangle(0, noteSpriteSheetSize * 5, noteSpriteSheetSize * 4, noteSpriteSheetSize), 0);
+        //                    Notes[i, j].position.X = Notes[i, j].spriteSheetOffset +
+        //                                     gameConfiguration.themeSetting.distanceUntilLeftMostLaneDrumSingle +
+        //                                     gameConfiguration.themeSetting.laneBorderSize;
+        //                    Notes[i, j].originalSpritePosition = new Rectangle(0, noteSpriteSheetSize * 5, noteSpriteSheetSize * 4, noteSpriteSheetSize);
+        //                    Notes[i, j].scale = new Vector2(bassNoteScaleValue, bassNoteScaleValue);
+        //                    break;
+        //                case 1:  // Red Notes
+        //                    Notes[i, j] = new Note(spriteSheetTex,
+        //                                  new Rectangle(noteSpriteSheetSize * 1, 0, noteSpriteSheetSize, noteSpriteSheetSize), 0);
+        //                    Notes[i, j].position.X = Notes[i, j].spriteSheetOffset +
+        //                                     gameConfiguration.themeSetting.distanceUntilLeftMostLaneDrumSingle +
+        //                                     gameConfiguration.themeSetting.laneBorderSize;
+        //                    Notes[i, j].originalSpritePosition = new Rectangle(noteSpriteSheetSize * 1, 0, noteSpriteSheetSize, noteSpriteSheetSize);
+        //                    Notes[i, j].scale = new Vector2(noteScaleValue, noteScaleValue);
+        //                    break;
+        //                case 2:  // Yellow Notes
+        //                    Notes[i, j] = new Note(spriteSheetTex,
+        //                                  new Rectangle(noteSpriteSheetSize * 2, 0, noteSpriteSheetSize, noteSpriteSheetSize), 0);
+        //                    Notes[i, j].position.X = Notes[i, j].spriteSheetOffset +
+        //                                     gameConfiguration.themeSetting.distanceUntilLeftMostLaneDrumSingle +
+        //                                     ((gameConfiguration.themeSetting.laneSize + gameConfiguration.themeSetting.laneBorderSize) * 1) +
+        //                                     gameConfiguration.themeSetting.laneBorderSize;
+        //                    Notes[i, j].originalSpritePosition = new Rectangle(noteSpriteSheetSize * 2, 0, noteSpriteSheetSize, noteSpriteSheetSize);
+        //                    Notes[i, j].scale = new Vector2(noteScaleValue, noteScaleValue);
+        //                    break;
+        //                case 3:  // Blue Notes
+        //                    Notes[i, j] = new Note(spriteSheetTex,
+        //                                  new Rectangle(noteSpriteSheetSize * 3, 0, noteSpriteSheetSize, noteSpriteSheetSize), 0);
+        //                    Notes[i, j].position.X = Notes[i, j].spriteSheetOffset +
+        //                                     gameConfiguration.themeSetting.distanceUntilLeftMostLaneDrumSingle +
+        //                                     ((gameConfiguration.themeSetting.laneSize + gameConfiguration.themeSetting.laneBorderSize) * 2) +
+        //                                     gameConfiguration.themeSetting.laneBorderSize;
+        //                    Notes[i, j].originalSpritePosition = new Rectangle(noteSpriteSheetSize * 3, 0, noteSpriteSheetSize, noteSpriteSheetSize);
+        //                    Notes[i, j].scale = new Vector2(noteScaleValue, noteScaleValue);
+        //                    break;
+        //                case 4:  // Green Notes
+        //                    Notes[i, j] = new Note(spriteSheetTex,
+        //                                  new Rectangle(noteSpriteSheetSize * 0, 0, noteSpriteSheetSize, noteSpriteSheetSize), 0);
+        //                    Notes[i, j].position.X = Notes[i, j].spriteSheetOffset +
+        //                                     gameConfiguration.themeSetting.distanceUntilLeftMostLaneDrumSingle +
+        //                                     ((gameConfiguration.themeSetting.laneSize + gameConfiguration.themeSetting.laneBorderSize) * 3) +
+        //                                     gameConfiguration.themeSetting.laneBorderSize;
+        //                    Notes[i, j].originalSpritePosition = new Rectangle(noteSpriteSheetSize * 0, 0, noteSpriteSheetSize, noteSpriteSheetSize);
+        //                    Notes[i, j].scale = new Vector2(noteScaleValue, noteScaleValue);
+        //                    break;
+        //            }
+        //            Notes[i, j].velocity = new Vector2(0.0f, (float)gameConfiguration.speedModValue.noteVelocityMultiplier);
+        //        }
+        //    }
+        //    return Notes;
+        //}
 
         /// <summary>
         /// Initialize the notes array according to the guitar sprite specification.
@@ -88,23 +88,26 @@ namespace MinGH.GameScreen.SinglePlayer
         /// <param name="spriteSheetTex">The sprite sheet texture as a whole.</param>
         /// <param name="gameConfiguration">The current game configuration.</param>
         /// <returns>A filled out drawable note 2d array.</returns>
-        public static Note[,] InitializeNotesGuitarSingle(int noteSpriteSheetSize, Note[,] Notes, Texture2D spriteSheetTex,
-                                                          GameConfiguration gameConfiguration, float noteScaleValue)
+        public static Note3D[,] InitializeNotesGuitarSingle(int noteSpriteSheetSize, Note3D[,] Notes, Texture2D spriteSheetTex,
+                                                          GameConfiguration gameConfiguration, float noteScaleValue, Effect effect,
+                                                          GraphicsDevice device)
         {
             // Setup the notes appearance and velocity
             for (int i = 0; i < Notes.GetLength(0); i++)
             {
                 for (int j = 0; j < Notes.GetLength(1); j++)
                 {
-                    Notes[i, j] = new Note(spriteSheetTex,
-                                  new Rectangle(noteSpriteSheetSize * i, 0, noteSpriteSheetSize, noteSpriteSheetSize), 0);
-                    Notes[i, j].velocity = new Vector2(0.0f, (float)gameConfiguration.speedModValue.noteVelocityMultiplier);
-                    Notes[i, j].position.X = Notes[i, j].spriteSheetOffset +
-                                             gameConfiguration.themeSetting.distanceUntilLeftMostLaneGuitarSingle +
-                                             ((gameConfiguration.themeSetting.laneSize + gameConfiguration.themeSetting.laneBorderSize) * i) +
-                                             gameConfiguration.themeSetting.laneBorderSize;
+                    Notes[i, j] = new Note3D(spriteSheetTex,
+                                  new Rectangle(noteSpriteSheetSize * i, 0, noteSpriteSheetSize, noteSpriteSheetSize),
+                                  effect, device);
+                    Notes[i, j].velocity3D = new Vector3(0.0f, 0.0f, (float)gameConfiguration.speedModValue.noteVelocityMultiplier);
+                    Notes[i, j].position3D.X = gameConfiguration.themeSetting.distanceUntilLeftMostLaneGuitarSingle +
+                                               ((gameConfiguration.themeSetting.laneSize + gameConfiguration.themeSetting.laneBorderSize) * i) +
+                                               gameConfiguration.themeSetting.laneBorderSize;
+                    Notes[i, j].position3D.Z = -30;
                     Notes[i, j].originalSpritePosition = new Rectangle(noteSpriteSheetSize * i, 0, noteSpriteSheetSize, noteSpriteSheetSize);
-                    Notes[i, j].scale = new Vector2(noteScaleValue, noteScaleValue);
+                    Notes[i, j].scale3D = new Vector3(noteScaleValue, noteScaleValue, 1.0f);
+                    Notes[i, j].initalizeVerticies(i, 0, 100);
                 }
             }
             return Notes;

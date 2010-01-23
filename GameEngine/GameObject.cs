@@ -70,12 +70,12 @@ namespace GameEngine
 		/// The center point of the sprite texture used.  This is really calculated using
 		/// the provided sprite sheet rectangle.
 		/// </summary>
-        public Vector2 center { get; set; }
+        public Vector2 center;
 		
 		/// <summary>
 		/// The speed and direction in which the sprite is to be currently moving
 		/// </summary>
-        public Vector2 velocity { get; set; }
+        public Vector2 velocity;
 		
 		/// <summary>
 		/// A boolean value that dictates wether this sprite is to be drawn or not.
