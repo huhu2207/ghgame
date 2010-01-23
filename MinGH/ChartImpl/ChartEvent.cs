@@ -5,7 +5,7 @@ namespace MinGH.ChartImpl
     /// <summary>
     /// Contains information of an event from a chart.
     /// </summary>
-    class ChartEvent : NotechartEntity
+    public class ChartEvent : NotechartEntity
     {
         /// <summary>
         /// Default constructor.

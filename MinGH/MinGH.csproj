@@ -129,7 +129,9 @@
     <Compile Include="EngineExtensions\note3D.cs" />
     <Compile Include="Enum\GameStateEnum.cs" />
     <Compile Include="GameScreen\MainMenu\MainMenuScreen.cs" />
+    <Compile Include="GameScreen\SinglePlayer\AudioInitializer.cs" />
     <Compile Include="GameScreen\SinglePlayer\DrumInputManager.cs" />
+    <Compile Include="GameScreen\SinglePlayer\FretboardUpdater.cs" />
     <Compile Include="GameScreen\SinglePlayer\IInputManager.cs" />
     <Compile Include="GameScreen\SinglePlayer\NoteInitializer.cs" />
     <Compile Include="GameScreen\SinglePlayer\SinglePlayerScreen.cs" />

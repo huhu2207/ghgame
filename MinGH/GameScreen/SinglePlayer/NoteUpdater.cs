@@ -84,7 +84,7 @@ namespace MinGH.GameScreen.SinglePlayer
                                         currentRoot = new Point(currentNoteset, i);
                                     }
                                 }
-                                physicalNotes[currentNoteset, i].position3D = new Vector3(currentNoteset * (gameConfig.themeSetting.laneSize + gameConfig.themeSetting.laneBorderSize), 0f, -1000f);
+                                physicalNotes[currentNoteset, i].position3D = new Vector3(currentNoteset * (gameConfig.themeSetting.laneSize + gameConfig.themeSetting.laneBorderSize), physicalNotes[currentNoteset, i].position3D.Y, -1000f);
                                 break;
                             }
                         }
