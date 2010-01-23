@@ -12,6 +12,7 @@ using ProjectMercury.Emitters;
 using ProjectMercury.Modifiers;
 using ProjectMercury.Renderers;
 using System.Threading;
+using System.Collections.Generic;
 
 namespace MinGH.GameScreen.SinglePlayer
 {
@@ -29,10 +30,10 @@ namespace MinGH.GameScreen.SinglePlayer
         GameConfiguration gameConfiguration;
         SpriteBatch spriteBatch;  // Draws the shapes
         Rectangle viewportRectangle;  // The window itself
-        Texture2D backgroundTex;  // The background texture
-        Texture2D spriteSheetTex;
+        Texture2D backgroundTex, spriteSheetTex, fretboardTex;
         SpriteFont gameFont;  // The font the game will use
-        Note3D[,] Notes;  // Will hold every note currently on the screen
+        Note3D[,] notes;  // Will hold every note currently on the screen
+        List<Fretboard3D> fretboards;
         int noteIterator;  // This iterator is used to keep track of which note to draw next
         float noteScaleValue, bassNoteScaleValue;
         NoteUpdater noteUpdater;
@@ -87,9 +88,10 @@ namespace MinGH.GameScreen.SinglePlayer
             currentMsec = 0;
             noteScaleValue = 0.0f;
             bassNoteScaleValue = 0.0f;
-            Notes = new Note3D[5, maxNotesOnscreen];
+            notes = new Note3D[5, maxNotesOnscreen];
             effect = gameReference.Content.Load<Effect>("effects");
             texturedVertexDeclaration = new VertexDeclaration(graphics.GraphicsDevice, VertexPositionTexture.VertexElements);
+            fretboards = new List<Fretboard3D>();
 
             // Initialize FMOD variables
             system = new GameEngine.FMOD.System();
@@ -107,9 +109,7 @@ namespace MinGH.GameScreen.SinglePlayer
             gameConfiguration = new GameConfiguration("./config.xml");
             noteScaleValue = gameConfiguration.themeSetting.laneSize / (float)noteSpriteSheetSize;
             bassNoteScaleValue = (gameConfiguration.themeSetting.laneSize + gameConfiguration.themeSetting.laneBorderSize) / 
-                                 ((float)noteSpriteSheetSize);
-
-            
+                                 ((float)noteSpriteSheetSize);     
 
             hitBox = new HorizontalHitBox(new Rectangle(0, 0,
                                           graphics.GraphicsDevice.Viewport.Width,
@@ -118,9 +118,12 @@ namespace MinGH.GameScreen.SinglePlayer
 
             strManager = SinglePlayerStringInitializer.initializeStrings(graphics.GraphicsDevice.Viewport.Width,
                                                 graphics.GraphicsDevice.Viewport.Height);
+            float cameraX = (gameConfiguration.themeSetting.laneSize * 2) +
+                            (gameConfiguration.themeSetting.laneBorderSize * 3) +
+                            (gameConfiguration.themeSetting.laneSize / 2);
 
-            cameraPostion = new Vector3(250.0f, 400.0f, 0.0f);
-            cameraLookAt = new Vector3(250.0f, 0.0f, -1000.0f);
+            cameraPostion = new Vector3(cameraX, 170.0f, 0.0f);
+            cameraLookAt = new Vector3(cameraX, 50.0f, -300.0f);
             viewMatrix = Matrix.CreateLookAt(cameraPostion, cameraLookAt, new Vector3(0, 1, 0));
             projectionMatrix = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, graphics.GraphicsDevice.Viewport.AspectRatio, 0.2f, 1000.0f);
 
@@ -150,7 +153,7 @@ namespace MinGH.GameScreen.SinglePlayer
                 noteParticleEmitters.initalizeEmittersGuitarSingle();
                 noteParticleEmitters.initializeLocationsGuitarSingle(gameConfiguration.themeSetting, hitBox.centerLocation);
                 backgroundFilename = "GuitarSingle.png";
-                Notes = NoteInitializer.InitializeNotesGuitarSingle(noteSpriteSheetSize, Notes, spriteSheetTex, gameConfiguration, noteScaleValue, effect, graphics.GraphicsDevice);
+                notes = NoteInitializer.InitializeNotesGuitarSingle(noteSpriteSheetSize, notes, spriteSheetTex, gameConfiguration, noteScaleValue, effect, graphics.GraphicsDevice);
                 if (gameConfiguration.useDrumStyleInputForGuitarMode)
                 {
                     //inputManager = new DrumInputManager();
@@ -168,6 +171,14 @@ namespace MinGH.GameScreen.SinglePlayer
 
             backgroundTex = Texture2D.FromFile(graphics.GraphicsDevice,
                                 gameConfiguration.themeSetting.backgroundDirectory + "\\" + backgroundFilename);
+            fretboardTex = Texture2D.FromFile(graphics.GraphicsDevice, ".\\Content\\Fretboards\\FretboardDefault.png");
+
+            //Fretboard3D fretboardToAdd = new Fretboard3D(fretboardTex, effect, graphics.GraphicsDevice);
+            //float newScale = (gameConfiguration.themeSetting.laneSize * 5) / (float)fretboardTex.Width;
+            //fretboardToAdd.scale3D = new Vector3(newScale, 1f, newScale);
+            //fretboardToAdd.position3D = new Vector3(0f, 0f, -1000f);
+            //fretboardToAdd.alive = true;
+            //fretboards.Add(fretboardToAdd);
 
             // Add the "Song Title" and "Artist Name" to the string manager
             string songInformation = "Song Title:\n" + mainChart.chartInfo.songName + "\n\n" +
@@ -299,14 +310,43 @@ namespace MinGH.GameScreen.SinglePlayer
             // The distance each note must step to be in sync with this current update
             float currStep = (float)(gameTime.ElapsedGameTime.TotalMilliseconds * gameConfiguration.speedModValue.noteVelocityMultiplier);
             
-            inputManager.processPlayerInput(Notes, noteParticleEmitters, hitBox,
+            inputManager.processPlayerInput(notes, noteParticleEmitters, hitBox,
                                                   playerInformation, keyboardInputManager,
                                                   mainChart.noteCharts[0]);
 
-            NoteUpdater.updateNotes(mainChart.noteCharts[0], ref noteIterator, Notes, viewportRectangle,
-                                    currStep, gameConfiguration.themeSetting,
+            NoteUpdater.updateNotes(mainChart.noteCharts[0], ref noteIterator, notes, viewportRectangle,
+                                    currStep, gameConfiguration,
                                     currentMsec + gameConfiguration.speedModValue.milisecondOffset,
                                     noteSpriteSheetSize, playerInformation, hitBox);
+
+            foreach (Fretboard3D fretboard in fretboards)
+            {
+                fretboard.position3D += new Vector3(0f, 0f, currStep);
+            }
+            float fretboardHeight = fretboardTex.Height * ((gameConfiguration.themeSetting.laneSize * 5) / (float)fretboardTex.Width);
+
+            if (fretboards.Count == 0)
+            {
+                Fretboard3D fretboardToAdd = new Fretboard3D(fretboardTex, effect, graphics.GraphicsDevice);
+                float newScale = (gameConfiguration.themeSetting.laneSize * 5) / (float)fretboardTex.Width;
+                fretboardToAdd.scale3D = new Vector3(newScale, 1f, newScale);
+                fretboardToAdd.position3D = new Vector3(0f, 0f, -1000f);
+                fretboardToAdd.alive = true;
+                fretboards.Add(fretboardToAdd);
+            }
+            if (fretboards[fretboards.Count - 1].position3D.Z > -1000)
+            {
+                Fretboard3D fretboardToAdd = new Fretboard3D(fretboardTex, effect, graphics.GraphicsDevice);
+                float newScale = (gameConfiguration.themeSetting.laneSize * 5) / (float)fretboardTex.Width;
+                fretboardToAdd.scale3D = new Vector3(newScale, 1f, newScale);
+                fretboardToAdd.position3D = new Vector3(0f, 0f, fretboards[fretboards.Count - 1].position3D.Z - fretboardHeight);
+                fretboardToAdd.alive = true;
+                fretboards.Add(fretboardToAdd);
+            }
+            if (fretboards[0].position3D.Z > 0)
+            {
+                fretboards.RemoveAt(0);
+            }
 
             // Update varous strings
             strManager.SetString(0, "Hitbox Y: " + hitBox.physicalHitbox.Y + "\nHitbox Height: " + hitBox.physicalHitbox.Height);
@@ -348,35 +388,43 @@ namespace MinGH.GameScreen.SinglePlayer
 
         public override void Draw(GameTime gameTime)
         {
-            //spriteBatch.Begin(SpriteBlendMode.AlphaBlend);
+            spriteBatch.Begin(SpriteBlendMode.AlphaBlend);
 
-            ////Draw the background
-            //spriteBatch.Draw(backgroundTex, viewportRectangle, Color.White);
+            //Draw the background
+            spriteBatch.Draw(backgroundTex, viewportRectangle, Color.White);
 
-            //// Draw every string in str_manager
-            //strManager.DrawStrings(spriteBatch, gameFont);
+            // Draw every string in str_manager
+            strManager.DrawStrings(spriteBatch, gameFont);
 
-            //spriteBatch.End();
+            spriteBatch.End();
 
-            //foreach (Emitter emitter in noteParticleEmitters.emitterList)
-            //{
-            //    renderer.RenderEmitter(emitter);
-            //}
+            foreach (Emitter emitter in noteParticleEmitters.emitterList)
+            {
+                renderer.RenderEmitter(emitter);
+            }
 
-            graphics.GraphicsDevice.Clear(ClearOptions.Target | ClearOptions.DepthBuffer, Color.DarkSlateBlue, 1.0f, 0);
+            //graphics.GraphicsDevice.Clear(ClearOptions.Target | ClearOptions.DepthBuffer, Color.DarkSlateBlue, 1.0f, 0);
+
+            foreach (Fretboard3D fretboard in fretboards)
+            {
+                if (fretboard.alive)
+                {
+                    fretboard.draw(graphics.GraphicsDevice, viewMatrix, projectionMatrix);
+                }
+            }
 
             //Draw the notes
-            for (int i = 0; i < Notes.GetLength(0); i++)
+            for (int i = 0; i < notes.GetLength(0); i++)
             {
-                for (int j = 0; j < Notes.GetLength(1); j++)
+                for (int j = 0; j < notes.GetLength(1); j++)
                 {
-                    if (Notes[i, j].alive)
+                    if (notes[i, j].alive)
                     {
                         //spriteBatch.Draw(Notes[i, j].spriteSheet, Notes[i, j].position,
                         //                 Notes[i, j].spriteSheetRectangle, Color.White,
                         //                 Notes[i, j].rotation, new Vector2(0, 0),
                         //                 Notes[i, j].scale, SpriteEffects.None, 0f);
-                        Notes[i, j].draw(graphics.GraphicsDevice, viewMatrix, projectionMatrix);
+                        notes[i, j].draw(graphics.GraphicsDevice, viewMatrix, projectionMatrix);
                     }
                 }
             }

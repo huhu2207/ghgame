@@ -100,7 +100,7 @@ namespace MinGH.GameScreen.SinglePlayer
                     Notes[i, j] = new Note3D(spriteSheetTex,
                                   new Rectangle(noteSpriteSheetSize * i, 0, noteSpriteSheetSize, noteSpriteSheetSize),
                                   effect, device);
-                    Notes[i, j].initalizeVerticies(i, 0, 100);
+                    Notes[i, j].initalizeTextureCoords(i * 100, 0, 100);
                     Notes[i, j].velocity3D = new Vector3(0.0f, 0.0f, (float)gameConfiguration.speedModValue.noteVelocityMultiplier);
 
                     //float newX = gameConfiguration.themeSetting.distanceUntilLeftMostLaneGuitarSingle +

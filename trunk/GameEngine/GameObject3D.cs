@@ -30,7 +30,12 @@ namespace GameEngine
         /// this object will currently use.  If it is set to the size of the sprite sheet
         /// this will operate as a normal texture.
         /// </summary>
-        public Rectangle spriteSheetRectangle;
+        public virtual Rectangle spriteSheetRectangle
+        {
+            get { return _spriteSheetRectangle; }
+            set { _spriteSheetRectangle = value; }
+        }
+        protected Rectangle _spriteSheetRectangle;
 
         /// <summary>
         /// The physical texture this object will use.  This can be a sprite or a
@@ -52,7 +57,12 @@ namespace GameEngine
         /// <summary>
         /// The current scaling for this GameObject.
         /// </summary>
-        public Vector3 scale3D;
+        public virtual Vector3 scale3D
+        {
+            get { return _scale3D; }
+            set { _scale3D = value; }
+        }
+        protected Vector3 _scale3D;
 
         /// <summary>
         /// A boolean value that dictates wether this sprite is to be drawn or not.
