@@ -8,7 +8,10 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace MinGH.EngineExtensions
 {
-    class Fretboard3D : GameObject3D
+    /// <summary>
+    /// A 3D game object that underlays the notes.
+    /// </summary>
+    public class Fretboard3D : GameObject3D
     {
         public Fretboard3D(Texture2D loadedTex, Effect effectToUse, GraphicsDevice device)
             : base(loadedTex, new Rectangle(0, 0, loadedTex.Width, loadedTex.Height), effectToUse, device)
@@ -18,6 +21,9 @@ namespace MinGH.EngineExtensions
             spriteSheetStep = 100;
         }
 
+        /// <summary>
+        /// Sets up the texture coordniates to completly fill the texture.
+        /// </summary>
         public void initalizeTextureCoords()
         {
             float desiredTop = 0;
@@ -44,6 +50,9 @@ namespace MinGH.EngineExtensions
             vertices[5].TextureCoordinate.Y = desiredTop;
         }
 
+        /// <summary>
+        /// The position of this fretboard in 3D space.
+        /// </summary>
         public override Vector3 position3D
         {
             get
@@ -63,6 +72,9 @@ namespace MinGH.EngineExtensions
             }
         }
 
+        /// <summary>
+        /// The scaling value of this fretboard.
+        /// </summary>
         public override Vector3 scale3D
         {
             get

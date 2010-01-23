@@ -92,7 +92,6 @@ namespace MinGH.GameScreen.SinglePlayer
                                                           GameConfiguration gameConfiguration, float noteScaleValue, Effect effect,
                                                           GraphicsDevice device)
         {
-            // Setup the notes appearance and velocity
             for (int i = 0; i < Notes.GetLength(0); i++)
             {
                 for (int j = 0; j < Notes.GetLength(1); j++)
@@ -103,11 +102,9 @@ namespace MinGH.GameScreen.SinglePlayer
                     Notes[i, j].initalizeTextureCoords(i * 100, 0, 100);
                     Notes[i, j].velocity3D = new Vector3(0.0f, 0.0f, (float)gameConfiguration.speedModValue.noteVelocityMultiplier);
 
-                    //float newX = gameConfiguration.themeSetting.distanceUntilLeftMostLaneGuitarSingle +
-                    //             ((gameConfiguration.themeSetting.laneSize + gameConfiguration.themeSetting.laneBorderSize) * i) +
-                    //             gameConfiguration.themeSetting.laneBorderSize;
+                    float newY = -50 * noteScaleValue;
 
-                    Notes[i, j].position3D = new Vector3(i * 100, 0, -30);
+                    Notes[i, j].position3D = new Vector3(i * 100, newY, 0);
                     Notes[i, j].originalSpritePosition = new Rectangle(noteSpriteSheetSize * i, 0, noteSpriteSheetSize, noteSpriteSheetSize);
                     Notes[i, j].scale3D = new Vector3(noteScaleValue, noteScaleValue, 1.0f);
                 }

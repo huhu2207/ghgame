@@ -3,7 +3,7 @@
 	/// <summary>
 	/// Stores the various data on the chart that have single instances (only appear once).
 	/// </summary>
-    class ChartInfo
+    public class ChartInfo
     {
         /// <summary>
         /// Default constructor.

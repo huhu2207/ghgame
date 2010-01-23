@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Threading;
 using GameEngine.FMOD;
 using GameEngine.GameStringImpl;
 using Microsoft.Xna.Framework;
@@ -9,10 +11,7 @@ using MinGH.Config;
 using MinGH.EngineExtensions;
 using MinGH.Enum;
 using ProjectMercury.Emitters;
-using ProjectMercury.Modifiers;
 using ProjectMercury.Renderers;
-using System.Threading;
-using System.Collections.Generic;
 
 namespace MinGH.GameScreen.SinglePlayer
 {
@@ -33,7 +32,7 @@ namespace MinGH.GameScreen.SinglePlayer
         Texture2D backgroundTex, spriteSheetTex, fretboardTex;
         SpriteFont gameFont;  // The font the game will use
         Note3D[,] notes;  // Will hold every note currently on the screen
-        List<Fretboard3D> fretboards;
+        List<Fretboard3D> fretboards;  // A set of fretboards aligned next to each other giving a continous effect
         int noteIterator;  // This iterator is used to keep track of which note to draw next
         float noteScaleValue, bassNoteScaleValue;
         NoteUpdater noteUpdater;
@@ -97,6 +96,7 @@ namespace MinGH.GameScreen.SinglePlayer
             system = new GameEngine.FMOD.System();
             musicChannel = new GameEngine.FMOD.Channel();
             guitarChannel = new GameEngine.FMOD.Channel();
+            bassChannel = new GameEngine.FMOD.Channel();
             drumChannel = new GameEngine.FMOD.Channel();
             musicStream = new GameEngine.FMOD.Sound();
             guitarStream = new GameEngine.FMOD.Sound();
@@ -173,13 +173,6 @@ namespace MinGH.GameScreen.SinglePlayer
                                 gameConfiguration.themeSetting.backgroundDirectory + "\\" + backgroundFilename);
             fretboardTex = Texture2D.FromFile(graphics.GraphicsDevice, ".\\Content\\Fretboards\\FretboardDefault.png");
 
-            //Fretboard3D fretboardToAdd = new Fretboard3D(fretboardTex, effect, graphics.GraphicsDevice);
-            //float newScale = (gameConfiguration.themeSetting.laneSize * 5) / (float)fretboardTex.Width;
-            //fretboardToAdd.scale3D = new Vector3(newScale, 1f, newScale);
-            //fretboardToAdd.position3D = new Vector3(0f, 0f, -1000f);
-            //fretboardToAdd.alive = true;
-            //fretboards.Add(fretboardToAdd);
-
             // Add the "Song Title" and "Artist Name" to the string manager
             string songInformation = "Song Title:\n" + mainChart.chartInfo.songName + "\n\n" +
                                      "Artist Name:\n" + mainChart.chartInfo.artistName + "\n\n" +
@@ -214,72 +207,9 @@ namespace MinGH.GameScreen.SinglePlayer
             // Start the song immediately
             if (audioIsPlaying == false)
             {
-                GameEngine.FMOD.Factory.System_Create(ref system);
-                system.init(32, INITFLAGS.NORMAL, (IntPtr)null);
-
-                // Load up the audio tracks.
-                // NOTE: I assume the audio tracks for midi files are lowercase (e.g. song.ogg)
-                //       so if a file is not found, I also assume it is cause the audio track is
-                //       capatalized (e.g. Song.ogg).  
-                if (mainChart.chartInfo.musicStream != null)
-                {
-                    string musicLocation = chartSelection.directory + "\\" + mainChart.chartInfo.musicStream;
-                    result = system.createStream(musicLocation, MODE.CREATESTREAM, ref musicStream);
-                    if (result == RESULT.ERR_FILE_NOTFOUND)
-                    {
-                        result = system.createStream(chartSelection.directory + "\\Song.ogg", MODE.HARDWARE, ref musicStream);
-                    }
-                    result = system.playSound(CHANNELINDEX.FREE, musicStream, true, ref musicChannel);
-                }
-                if (mainChart.chartInfo.guitarStream != null)
-                {
-                    string guitarLocation = chartSelection.directory + "\\" + mainChart.chartInfo.guitarStream;
-                    result = system.createStream(guitarLocation, MODE.CREATESTREAM, ref guitarStream);
-                    if (result == RESULT.ERR_FILE_NOTFOUND)
-                    {
-                        result = system.createStream(chartSelection.directory + "\\Guitar.ogg", MODE.CREATESTREAM, ref guitarStream);
-                    }
-                    result = system.playSound(CHANNELINDEX.FREE, guitarStream, true, ref guitarChannel);
-                }
-                if (mainChart.chartInfo.bassStream != null)
-                {
-                    string bassLocation = chartSelection.directory + "\\" + mainChart.chartInfo.bassStream;
-                    result = system.createStream(bassLocation, MODE.CREATESTREAM, ref bassStream);
-                    if (result == RESULT.ERR_FILE_NOTFOUND)
-                    {
-                        result = system.createStream(chartSelection.directory + "\\Rhythm.ogg", MODE.CREATESTREAM, ref bassStream);
-                    }
-                    result = system.playSound(CHANNELINDEX.FREE, bassStream, true, ref bassChannel);
-                }
-                if (mainChart.chartInfo.drumStream != null)
-                {
-                    string drumLocation = chartSelection.directory + "\\" + mainChart.chartInfo.drumStream;
-                    result = system.createStream(drumLocation, MODE.CREATESTREAM, ref drumStream);
-                    if (result == RESULT.ERR_FILE_NOTFOUND)
-                    {
-                        result = system.createStream(chartSelection.directory + "\\Drums.ogg", MODE.CREATESTREAM, ref drumStream);
-                    }
-                    result = system.playSound(CHANNELINDEX.FREE, drumStream, true, ref drumChannel);
-                }
-
-                Thread.Sleep(2000);
-
-                if (mainChart.chartInfo.musicStream != null)
-                {
-                    result = musicChannel.setPaused(false);
-                }
-                if (mainChart.chartInfo.guitarStream != null)
-                {
-                    result = guitarChannel.setPaused(false);
-                }
-                if (mainChart.chartInfo.bassStream != null)
-                {
-                    result = bassChannel.setPaused(false);
-                }
-                if (mainChart.chartInfo.drumStream != null)
-                {
-                    result = drumChannel.setPaused(false);   
-                }
+                AudioInitializer.InitaliazeAudio(system, chartSelection, mainChart, result, musicChannel,
+                                                 bassChannel, guitarChannel, drumChannel, musicStream,
+                                                 bassStream, guitarStream, drumStream);
 
                 audioIsPlaying = true;
             }
@@ -319,34 +249,8 @@ namespace MinGH.GameScreen.SinglePlayer
                                     currentMsec + gameConfiguration.speedModValue.milisecondOffset,
                                     noteSpriteSheetSize, playerInformation, hitBox);
 
-            foreach (Fretboard3D fretboard in fretboards)
-            {
-                fretboard.position3D += new Vector3(0f, 0f, currStep);
-            }
-            float fretboardHeight = fretboardTex.Height * ((gameConfiguration.themeSetting.laneSize * 5) / (float)fretboardTex.Width);
-
-            if (fretboards.Count == 0)
-            {
-                Fretboard3D fretboardToAdd = new Fretboard3D(fretboardTex, effect, graphics.GraphicsDevice);
-                float newScale = (gameConfiguration.themeSetting.laneSize * 5) / (float)fretboardTex.Width;
-                fretboardToAdd.scale3D = new Vector3(newScale, 1f, newScale);
-                fretboardToAdd.position3D = new Vector3(0f, 0f, -1000f);
-                fretboardToAdd.alive = true;
-                fretboards.Add(fretboardToAdd);
-            }
-            if (fretboards[fretboards.Count - 1].position3D.Z > -1000)
-            {
-                Fretboard3D fretboardToAdd = new Fretboard3D(fretboardTex, effect, graphics.GraphicsDevice);
-                float newScale = (gameConfiguration.themeSetting.laneSize * 5) / (float)fretboardTex.Width;
-                fretboardToAdd.scale3D = new Vector3(newScale, 1f, newScale);
-                fretboardToAdd.position3D = new Vector3(0f, 0f, fretboards[fretboards.Count - 1].position3D.Z - fretboardHeight);
-                fretboardToAdd.alive = true;
-                fretboards.Add(fretboardToAdd);
-            }
-            if (fretboards[0].position3D.Z > 0)
-            {
-                fretboards.RemoveAt(0);
-            }
+            FretboardUpdater.UpdateFretboards(fretboards, fretboardTex, effect, graphics.GraphicsDevice,
+                                              gameConfiguration, currStep);
 
             // Update varous strings
             strManager.SetString(0, "Hitbox Y: " + hitBox.physicalHitbox.Y + "\nHitbox Height: " + hitBox.physicalHitbox.Height);
@@ -388,6 +292,8 @@ namespace MinGH.GameScreen.SinglePlayer
 
         public override void Draw(GameTime gameTime)
         {
+            //graphics.GraphicsDevice.Clear(ClearOptions.Target | ClearOptions.DepthBuffer, Color.DarkSlateBlue, 1.0f, 0);
+
             spriteBatch.Begin(SpriteBlendMode.AlphaBlend);
 
             //Draw the background
@@ -402,8 +308,6 @@ namespace MinGH.GameScreen.SinglePlayer
             {
                 renderer.RenderEmitter(emitter);
             }
-
-            //graphics.GraphicsDevice.Clear(ClearOptions.Target | ClearOptions.DepthBuffer, Color.DarkSlateBlue, 1.0f, 0);
 
             foreach (Fretboard3D fretboard in fretboards)
             {
@@ -420,10 +324,6 @@ namespace MinGH.GameScreen.SinglePlayer
                 {
                     if (notes[i, j].alive)
                     {
-                        //spriteBatch.Draw(Notes[i, j].spriteSheet, Notes[i, j].position,
-                        //                 Notes[i, j].spriteSheetRectangle, Color.White,
-                        //                 Notes[i, j].rotation, new Vector2(0, 0),
-                        //                 Notes[i, j].scale, SpriteEffects.None, 0f);
                         notes[i, j].draw(graphics.GraphicsDevice, viewMatrix, projectionMatrix);
                     }
                 }

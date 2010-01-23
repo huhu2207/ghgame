@@ -5,7 +5,7 @@ namespace MinGH.ChartImpl
     /// <summary>
     /// Contains information on a BPM Change.  Is derived from the Entity class.
     /// </summary>
-    class BPMChange : NotechartEntity
+    public class BPMChange : NotechartEntity
     {
         /// <summary>
         /// Default Constructor.

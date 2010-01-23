@@ -8,7 +8,7 @@ namespace MinGH.ChartImpl
     /// <summary>
     /// The master chart class.  All data pertaining to a particular chart is located here.
     /// </summary>
-    class Chart
+    public class Chart
     {
         /// <summary>
         /// Default Constructor.  Should never be used since no input function exists yet.
