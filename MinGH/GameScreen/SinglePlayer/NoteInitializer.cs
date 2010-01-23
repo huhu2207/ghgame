@@ -100,14 +100,16 @@ namespace MinGH.GameScreen.SinglePlayer
                     Notes[i, j] = new Note3D(spriteSheetTex,
                                   new Rectangle(noteSpriteSheetSize * i, 0, noteSpriteSheetSize, noteSpriteSheetSize),
                                   effect, device);
+                    Notes[i, j].initalizeVerticies(i, 0, 100);
                     Notes[i, j].velocity3D = new Vector3(0.0f, 0.0f, (float)gameConfiguration.speedModValue.noteVelocityMultiplier);
-                    Notes[i, j].position3D.X = gameConfiguration.themeSetting.distanceUntilLeftMostLaneGuitarSingle +
-                                               ((gameConfiguration.themeSetting.laneSize + gameConfiguration.themeSetting.laneBorderSize) * i) +
-                                               gameConfiguration.themeSetting.laneBorderSize;
-                    Notes[i, j].position3D.Z = -30;
+
+                    //float newX = gameConfiguration.themeSetting.distanceUntilLeftMostLaneGuitarSingle +
+                    //             ((gameConfiguration.themeSetting.laneSize + gameConfiguration.themeSetting.laneBorderSize) * i) +
+                    //             gameConfiguration.themeSetting.laneBorderSize;
+
+                    Notes[i, j].position3D = new Vector3(i * 100, 0, -30);
                     Notes[i, j].originalSpritePosition = new Rectangle(noteSpriteSheetSize * i, 0, noteSpriteSheetSize, noteSpriteSheetSize);
                     Notes[i, j].scale3D = new Vector3(noteScaleValue, noteScaleValue, 1.0f);
-                    Notes[i, j].initalizeVerticies(i, 0, 100);
                 }
             }
             return Notes;
