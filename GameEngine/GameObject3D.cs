@@ -12,7 +12,6 @@ namespace GameEngine
         public VertexPositionTexture[] vertices;
         public Effect myEffect;
         public int spriteSheetStep;
-        public float[] polygonEdges;
 
         /// <summary>
         /// The position this game object is currently located.  This position is where
@@ -69,7 +68,7 @@ namespace GameEngine
         /// </summary>
         public bool alive { get; set; }
 
-        public void draw(GraphicsDevice device, Matrix viewMatrix, Matrix projectionMatrix)
+        public virtual void draw(GraphicsDevice device, Matrix viewMatrix, Matrix projectionMatrix)
         {
             Matrix worldMatrix = Matrix.Identity;
             myEffect.CurrentTechnique = myEffect.Techniques["Textured"];
