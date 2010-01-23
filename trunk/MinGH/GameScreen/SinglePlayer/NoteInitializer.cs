@@ -32,10 +32,10 @@ namespace MinGH.GameScreen.SinglePlayer
                                           new Rectangle(0, noteSpriteSheetSize * 5, noteSpriteSheetSize * 4, noteSpriteSheetSize), effect, device);
                             Notes[i, j].initalizeTextureCoords(0, 0, 500);
 
-                            newY = -50;
+                            newY = -50 * noteScaleValue;
                             Notes[i, j].position3D = new Vector3(0, newY, 0);
                             Notes[i, j].originalSpritePosition = new Rectangle(0, noteSpriteSheetSize * 5, noteSpriteSheetSize * 4, noteSpriteSheetSize);
-                            Notes[i, j].scale3D = new Vector3(bassNoteScaleValue, 1.0f, 1.0f);
+                            Notes[i, j].scale3D = new Vector3(bassNoteScaleValue, noteScaleValue, 1.0f);
                             break;
                         case 1:  // Red Notes
                             Notes[i, j] = new Note3D(spriteSheetTex,
