@@ -125,8 +125,12 @@
     <Compile Include="Config\SpeedModReader.cs" />
     <Compile Include="Config\ThemeSetting.cs" />
     <Compile Include="Config\ThemeSettingReader.cs" />
+    <Compile Include="EngineExtensions\DrumFretboardBorders.cs" />
+    <Compile Include="EngineExtensions\DrumLaneSeparators.cs" />
     <Compile Include="EngineExtensions\Fretboard3D.cs" />
     <Compile Include="EngineExtensions\FretboardBorders.cs" />
+    <Compile Include="EngineExtensions\GuitarFretboardBorders.cs" />
+    <Compile Include="EngineExtensions\GuitarLaneSeparators.cs" />
     <Compile Include="EngineExtensions\LaneSeparators.cs" />
     <Compile Include="EngineExtensions\note3D.cs" />
     <Compile Include="Enum\GameStateEnum.cs" />

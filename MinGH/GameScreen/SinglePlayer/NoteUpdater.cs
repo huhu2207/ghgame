@@ -84,7 +84,15 @@ namespace MinGH.GameScreen.SinglePlayer
                                         currentRoot = new Point(currentNoteset, i);
                                     }
                                 }
-                                physicalNotes[currentNoteset, i].position3D = new Vector3(currentNoteset * (gameConfig.themeSetting.laneSize + gameConfig.themeSetting.laneBorderSize), physicalNotes[currentNoteset, i].position3D.Y, -1000f);
+
+                                //if (inputNotechart.instrument == "Drums")
+                                //{
+                                physicalNotes[currentNoteset, i].position3D = new Vector3(physicalNotes[currentNoteset, i].position3D.X, physicalNotes[currentNoteset, i].position3D.Y, -1000f);
+                                //}
+                                //else
+                                //{
+                                //    physicalNotes[currentNoteset, i].position3D = new Vector3(currentNoteset * (gameConfig.themeSetting.laneSizeGuitar + gameConfig.themeSetting.laneSeparatorSize), physicalNotes[currentNoteset, i].position3D.Y, -1000f);
+                                //}
                                 break;
                             }
                         }

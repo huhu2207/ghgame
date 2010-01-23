@@ -94,7 +94,7 @@ namespace MinGH.GameScreen.SinglePlayer
             lineEmitterToAdd.Term = 0.3f;
             lineEmitterToAdd.ParticleTextureAssetName = "Particles\\FlowerBurst";
             lineEmitterToAdd.ReleaseColour = Color.Orange.ToVector3();
-            lineEmitterToAdd.Length = (themeSetting.laneBorderSize * 4) + (themeSetting.laneSize * 4);
+            lineEmitterToAdd.Length = (themeSetting.laneSeparatorSize * 4) + (themeSetting.laneSizeDrums * 4);
             emitterList.Add(lineEmitterToAdd);
 
             CircleEmitter circleEmitterToAdd;
@@ -145,8 +145,8 @@ namespace MinGH.GameScreen.SinglePlayer
         {
             for (int i = 0; i < 5; i++)
             {
-                int X = themeSetting.distanceUntilLeftMostLaneGuitarSingle + (themeSetting.laneSize * i) +
-                        (themeSetting.laneBorderSize * i + 1) + (themeSetting.laneSize / 2);
+                int X = (themeSetting.laneSizeGuitar * i) +
+                        (themeSetting.laneSeparatorSize * i + 1) + (themeSetting.laneSizeGuitar / 2);
 
                 explosionLocations.Add(new Vector2(X, hitBarYValue));
             }
@@ -155,14 +155,14 @@ namespace MinGH.GameScreen.SinglePlayer
         public void initializeLocationsDrumsSingle(ThemeSetting themeSetting, int hitBarYValue)
         {
             // We have to move the bass pedal emitter to the center of the drum lanes
-            int bassX = themeSetting.distanceUntilLeftMostLaneDrumSingle + (themeSetting.laneBorderSize * 2) +
-                        (themeSetting.laneSize * 2);
+            int bassX = (themeSetting.laneSeparatorSize * 2) +
+                        (themeSetting.laneSizeDrums * 2);
             explosionLocations.Add(new Vector2(bassX, hitBarYValue));
 
             for (int i = 0; i < 4; i++)
             {
-                int notesX = themeSetting.distanceUntilLeftMostLaneDrumSingle + (themeSetting.laneSize * i) +
-                        (themeSetting.laneBorderSize * i + 1) + (themeSetting.laneSize / 2);
+                int notesX = (themeSetting.laneSizeDrums * i) +
+                        (themeSetting.laneSeparatorSize * i + 1) + (themeSetting.laneSizeDrums / 2);
 
                 explosionLocations.Add(new Vector2(notesX, hitBarYValue));
             }
