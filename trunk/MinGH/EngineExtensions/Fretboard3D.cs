@@ -93,5 +93,26 @@ namespace MinGH.EngineExtensions
             }
         }
 
+        //public override void draw(GraphicsDevice device, Matrix viewMatrix, Matrix projectionMatrix)
+        //{
+        //    Matrix worldMatrix = Matrix.Identity;
+        //    myEffect.CurrentTechnique = myEffect.Techniques["Textured"];
+        //    myEffect.Parameters["xWorld"].SetValue(worldMatrix);
+        //    myEffect.Parameters["xView"].SetValue(viewMatrix);
+        //    myEffect.Parameters["xProjection"].SetValue(projectionMatrix);
+        //    myEffect.Parameters["xTexture"].SetValue(spriteSheet);
+        //    myEffect.Begin();
+        //    foreach (EffectPass pass in myEffect.CurrentTechnique.Passes)
+        //    {
+        //        pass.Begin();
+
+        //        device.VertexDeclaration = texturedVertexDeclaration;
+        //        device.DrawUserPrimitives(PrimitiveType.TriangleList, vertices, 0, 2);
+
+        //        pass.End();
+        //    }
+
+        //    myEffect.End();
+        //}
     }
 }

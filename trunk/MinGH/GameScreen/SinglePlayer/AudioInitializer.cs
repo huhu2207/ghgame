@@ -14,9 +14,6 @@ namespace MinGH.GameScreen.SinglePlayer
                                            Channel musicChannel, Channel bassChannel, Channel guitarChannel, Channel drumChannel,
                                            Sound musicStream, Sound bassStream, Sound guitarStream, Sound drumStream)
         {
-            GameEngine.FMOD.Factory.System_Create(ref system);
-            system.init(32, INITFLAGS.NORMAL, (IntPtr)null);
-
             // Load up the audio tracks.
             // NOTE: I assume the audio tracks for midi files are lowercase (e.g. song.ogg)
             //       so if a file is not found, I also assume it is cause the audio track is

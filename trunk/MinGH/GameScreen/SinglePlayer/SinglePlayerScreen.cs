@@ -33,6 +33,8 @@ namespace MinGH.GameScreen.SinglePlayer
         SpriteFont gameFont;  // The font the game will use
         Note3D[,] notes;  // Will hold every note currently on the screen
         List<Fretboard3D> fretboards;  // A set of fretboards aligned next to each other giving a continous effect
+        LaneSeparators laneSeparators;
+        FretboardBorders fretboardBorders;
         int noteIterator;  // This iterator is used to keep track of which note to draw next
         float noteScaleValue, bassNoteScaleValue;
         NoteUpdater noteUpdater;
@@ -109,7 +111,7 @@ namespace MinGH.GameScreen.SinglePlayer
             gameConfiguration = new GameConfiguration("./config.xml");
             noteScaleValue = gameConfiguration.themeSetting.laneSize / (float)noteSpriteSheetSize;
             bassNoteScaleValue = (gameConfiguration.themeSetting.laneSize + gameConfiguration.themeSetting.laneBorderSize) / 
-                                 ((float)noteSpriteSheetSize);     
+                                 ((float)noteSpriteSheetSize);
 
             hitBox = new HorizontalHitBox(new Rectangle(0, 0,
                                           graphics.GraphicsDevice.Viewport.Width,
@@ -127,6 +129,12 @@ namespace MinGH.GameScreen.SinglePlayer
             viewMatrix = Matrix.CreateLookAt(cameraPostion, cameraLookAt, new Vector3(0, 1, 0));
             projectionMatrix = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, graphics.GraphicsDevice.Viewport.AspectRatio, 0.2f, 1000.0f);
 
+            Texture2D laneSeparatorTexture = Texture2D.FromFile(graphics.GraphicsDevice, ".\\Content\\Fretboards\\LaneSeparatorDefault.png");
+            laneSeparators = new LaneSeparators(gameConfiguration.themeSetting.laneSize, gameConfiguration.themeSetting.laneBorderSize, effect,
+                                                laneSeparatorTexture, graphics.GraphicsDevice);
+            fretboardBorders = new FretboardBorders(gameConfiguration.themeSetting.laneSize, gameConfiguration.themeSetting.laneBorderSize, effect,
+                                                    laneSeparatorTexture, graphics.GraphicsDevice, 6);
+                
             base.Initialize();
         }
 
@@ -207,10 +215,12 @@ namespace MinGH.GameScreen.SinglePlayer
             // Start the song immediately
             if (audioIsPlaying == false)
             {
+                GameEngine.FMOD.Factory.System_Create(ref system);
+                system.init(32, INITFLAGS.NORMAL, (IntPtr)null);
+
                 AudioInitializer.InitaliazeAudio(system, chartSelection, mainChart, result, musicChannel,
                                                  bassChannel, guitarChannel, drumChannel, musicStream,
                                                  bassStream, guitarStream, drumStream);
-
                 audioIsPlaying = true;
             }
 
@@ -292,7 +302,7 @@ namespace MinGH.GameScreen.SinglePlayer
 
         public override void Draw(GameTime gameTime)
         {
-            //graphics.GraphicsDevice.Clear(ClearOptions.Target | ClearOptions.DepthBuffer, Color.DarkSlateBlue, 1.0f, 0);
+            graphics.GraphicsDevice.Clear(ClearOptions.Target | ClearOptions.DepthBuffer, Color.DarkSlateBlue, 1.0f, 0);
 
             spriteBatch.Begin(SpriteBlendMode.AlphaBlend);
 
@@ -316,6 +326,9 @@ namespace MinGH.GameScreen.SinglePlayer
                     fretboard.draw(graphics.GraphicsDevice, viewMatrix, projectionMatrix);
                 }
             }
+
+            laneSeparators.draw(graphics.GraphicsDevice, viewMatrix, projectionMatrix);
+            fretboardBorders.draw(graphics.GraphicsDevice, viewMatrix, projectionMatrix);
 
             //Draw the notes
             for (int i = 0; i < notes.GetLength(0); i++)
