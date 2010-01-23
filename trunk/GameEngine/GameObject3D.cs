@@ -11,12 +11,19 @@ namespace GameEngine
         public VertexDeclaration texturedVertexDeclaration;
         public VertexPositionTexture[] vertices;
         public Effect myEffect;
+        public int spriteSheetStep;
+        public float[] polygonEdges;
 
         /// <summary>
         /// The position this game object is currently located.  This position is where
         /// the top left of the sprite is to be drawn.
         /// </summary>
-        public Vector3 position3D;
+        public virtual Vector3 position3D
+        {
+            get { return _position3D; }
+            set { _position3D = value; }
+        }
+        protected Vector3 _position3D;
 
         /// <summary>
         /// The rectangle that encompasses the desire section of the sprite sheet that
@@ -51,14 +58,6 @@ namespace GameEngine
         /// A boolean value that dictates wether this sprite is to be drawn or not.
         /// </summary>
         public bool alive { get; set; }
-
-        public void updateVerticies(float step)
-        {
-            for (int i = 0; i < vertices.GetLength(0); i++)
-            {
-                vertices[i].Position.Z += step;
-            }
-        }
 
         public void draw(GraphicsDevice device, Matrix viewMatrix, Matrix projectionMatrix)
         {

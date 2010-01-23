@@ -119,10 +119,10 @@ namespace MinGH.GameScreen.SinglePlayer
             strManager = SinglePlayerStringInitializer.initializeStrings(graphics.GraphicsDevice.Viewport.Width,
                                                 graphics.GraphicsDevice.Viewport.Height);
 
-            cameraPostion = new Vector3(0.0f, 1.0f, 50.0f);
-            cameraLookAt = new Vector3(0.0f, 0.0f, 0.0f);
+            cameraPostion = new Vector3(250.0f, 400.0f, 0.0f);
+            cameraLookAt = new Vector3(250.0f, 0.0f, -1000.0f);
             viewMatrix = Matrix.CreateLookAt(cameraPostion, cameraLookAt, new Vector3(0, 1, 0));
-            projectionMatrix = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, graphics.GraphicsDevice.Viewport.AspectRatio, 0.2f, 500.0f);
+            projectionMatrix = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, graphics.GraphicsDevice.Viewport.AspectRatio, 0.2f, 1000.0f);
 
             base.Initialize();
         }

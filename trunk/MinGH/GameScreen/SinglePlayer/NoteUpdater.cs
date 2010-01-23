@@ -80,7 +80,7 @@ namespace MinGH.GameScreen.SinglePlayer
                                         currentRoot = new Point(currentNoteset, i);
                                     }
                                 }
-                                physicalNotes[currentNoteset, i].position3D.Y = 50;
+                                physicalNotes[currentNoteset, i].position3D = new Vector3(currentNoteset * 100, -50f, -1000f);
                                 break;
                             }
                         }
@@ -96,8 +96,7 @@ namespace MinGH.GameScreen.SinglePlayer
                 {
                     if (physicalNotes[i, j].alive == true)
                     {
-                        physicalNotes[i, j].position3D.Z -= currStep;
-                        physicalNotes[i, j].updateVerticies(currStep);
+                        physicalNotes[i, j].position3D += new Vector3(0, 0, currStep);
                     }
 
                     if ((physicalNotes[i, j].getCenterPosition().Y >= hitBox.centerLocation +  hitBox.goodThreshold) &&
@@ -108,7 +107,7 @@ namespace MinGH.GameScreen.SinglePlayer
                     }
 
                     // Actually kill the notes that leave the screen
-                    if ((viewportRectangle.Height < (int)physicalNotes[i, j].position3D.Y) && (physicalNotes[i, j].alive))
+                    if ((physicalNotes[i, j].position3D.Z > 0) && (physicalNotes[i, j].alive))
                     {
                         physicalNotes[i, j].alive = false;
                     }
