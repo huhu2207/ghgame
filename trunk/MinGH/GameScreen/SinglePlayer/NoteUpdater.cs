@@ -26,7 +26,7 @@ namespace MinGH.GameScreen.SinglePlayer
         /// <param name="playerInfo">The player's current status.</param>
         /// <param name="hitBox">The current hit window.</param>
         public static void updateNotes(Notechart inputNotechart, ref int inputNoteIterator,
-                                       Note[,] physicalNotes, Rectangle viewportRectangle,
+                                       Note3D[,] physicalNotes, Rectangle viewportRectangle,
                                        float currStep, ThemeSetting themeSetting, double currentMsec,
                                        int spriteSheetSize, PlayerInformation playerInfo,
                                        HorizontalHitBox hitBox)
@@ -80,7 +80,7 @@ namespace MinGH.GameScreen.SinglePlayer
                                         currentRoot = new Point(currentNoteset, i);
                                     }
                                 }
-                                physicalNotes[currentNoteset, i].position.Y = -spriteSheetSize;
+                                physicalNotes[currentNoteset, i].position3D.Y = 50;
                                 break;
                             }
                         }
@@ -96,7 +96,8 @@ namespace MinGH.GameScreen.SinglePlayer
                 {
                     if (physicalNotes[i, j].alive == true)
                     {
-                        physicalNotes[i, j].position += new Vector2(0.0f, currStep);
+                        physicalNotes[i, j].position3D.Z -= currStep;
+                        physicalNotes[i, j].updateVerticies(currStep);
                     }
 
                     if ((physicalNotes[i, j].getCenterPosition().Y >= hitBox.centerLocation +  hitBox.goodThreshold) &&
@@ -107,7 +108,7 @@ namespace MinGH.GameScreen.SinglePlayer
                     }
 
                     // Actually kill the notes that leave the screen
-                    if ((viewportRectangle.Height < (int)physicalNotes[i, j].position.Y) && (physicalNotes[i, j].alive))
+                    if ((viewportRectangle.Height < (int)physicalNotes[i, j].position3D.Y) && (physicalNotes[i, j].alive))
                     {
                         physicalNotes[i, j].alive = false;
                     }
