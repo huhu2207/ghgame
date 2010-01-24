@@ -11,9 +11,9 @@ namespace MinGH.EngineExtensions
     /// <summary>
     /// A 3D game object that underlays the notes.
     /// </summary>
-    public class Fretboard3D : GameObject3D
+    public class Fretboard : GameObject3D
     {
-        public Fretboard3D(Texture2D loadedTex, Effect effectToUse, GraphicsDevice device)
+        public Fretboard(Texture2D loadedTex, Effect effectToUse, GraphicsDevice device)
             : base(loadedTex, new Rectangle(0, 0, loadedTex.Width, loadedTex.Height), effectToUse, device)
         {
             initalizeTextureCoords();

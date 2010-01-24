@@ -32,6 +32,14 @@ namespace MinGH.Config
                     xmlReader.ReadToFollowing("laneSeparators");
                     themeToReturn.laneSeparatorTexture = xmlReader.ReadElementContentAsString();
 
+                    xmlReader.ReadToFollowing("hitMarkerTexture");
+                    themeToReturn.hitMarkerTexture = xmlReader.ReadElementContentAsString();
+
+                    xmlReader.ReadToFollowing("hitMarkerDepth");
+                    themeToReturn.hitMarkerDepth = xmlReader.ReadElementContentAsInt();
+                    xmlReader.ReadToFollowing("hitMarkerSize");
+                    themeToReturn.hitMarkerSize = xmlReader.ReadElementContentAsInt();
+
                     xmlReader.ReadToFollowing("fretboardBorders");
                     themeToReturn.laneSeparatorTexture = xmlReader.ReadElementContentAsString();
 

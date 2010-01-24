@@ -121,14 +121,17 @@
     <Compile Include="Config\SpeedModReader.cs" />
     <Compile Include="Config\ThemeSetting.cs" />
     <Compile Include="Config\ThemeSettingReader.cs" />
+    <Compile Include="EngineExtensions\DrumHitMarker.cs" />
     <Compile Include="EngineExtensions\DrumFretboardBorders.cs" />
     <Compile Include="EngineExtensions\DrumLaneSeparators.cs" />
-    <Compile Include="EngineExtensions\Fretboard3D.cs" />
+    <Compile Include="EngineExtensions\Fretboard.cs" />
     <Compile Include="EngineExtensions\FretboardBorders.cs" />
     <Compile Include="EngineExtensions\GuitarFretboardBorders.cs" />
+    <Compile Include="EngineExtensions\GuitarHitMarker.cs" />
     <Compile Include="EngineExtensions\GuitarLaneSeparators.cs" />
+    <Compile Include="EngineExtensions\HitMarker.cs" />
     <Compile Include="EngineExtensions\LaneSeparators.cs" />
-    <Compile Include="EngineExtensions\note3D.cs" />
+    <Compile Include="EngineExtensions\Note.cs" />
     <Compile Include="Enum\GameStateEnum.cs" />
     <Compile Include="GameScreen\MainMenu\MainMenuScreen.cs" />
     <Compile Include="GameScreen\SinglePlayer\AudioInitializer.cs" />
@@ -151,7 +154,7 @@
     <Compile Include="Main.cs" />
     <Compile Include="MinGH.cs" />
     <Compile Include="Config\KeyboardConfiguration.cs" />
-    <Compile Include="EngineExtensions\Note.cs" />
+    <Compile Include="EngineExtensions\Note2D.cs" />
     <Compile Include="GameScreen\PlayerInformation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

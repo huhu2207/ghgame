@@ -15,7 +15,7 @@ namespace MinGH.GameScreen.SinglePlayer
         /// <param name="spriteSheetTex">The sprite sheet texture as a whole.</param>
         /// <param name="gameConfiguration">The current game configuration.</param>
         /// <returns>A filled out drawable note 2d array.</returns>
-        public static Note3D[,] InitializeNotesDrumSingle(int noteSpriteSheetSize, Note3D[,] Notes, Texture2D spriteSheetTex,
+        public static Note[,] InitializeNotesDrumSingle(int noteSpriteSheetSize, Note[,] Notes, Texture2D spriteSheetTex,
                                                         GameConfiguration gameConfiguration, float noteScaleValue, float bassNoteScaleValue,
                                                         Effect effect, GraphicsDevice device)
         {
@@ -28,7 +28,7 @@ namespace MinGH.GameScreen.SinglePlayer
                     switch (i)
                     {
                         case 0:  // Bass Notes
-                            Notes[i, j] = new Note3D(spriteSheetTex,
+                            Notes[i, j] = new Note(spriteSheetTex,
                                           new Rectangle(0, noteSpriteSheetSize * 5, noteSpriteSheetSize * 4, noteSpriteSheetSize), effect, device);
                             Notes[i, j].initalizeTextureCoords(0, 0, 500);
 
@@ -38,7 +38,7 @@ namespace MinGH.GameScreen.SinglePlayer
                             Notes[i, j].scale3D = new Vector3(bassNoteScaleValue, noteScaleValue, 1.0f);
                             break;
                         case 1:  // Red Notes
-                            Notes[i, j] = new Note3D(spriteSheetTex,
+                            Notes[i, j] = new Note(spriteSheetTex,
                                           new Rectangle(noteSpriteSheetSize * 1, 0, noteSpriteSheetSize, noteSpriteSheetSize), effect, device);
                             
                             newY = -50 * noteScaleValue;
@@ -47,7 +47,7 @@ namespace MinGH.GameScreen.SinglePlayer
                             Notes[i, j].scale3D = new Vector3(noteScaleValue, noteScaleValue, 1.0f);
                             break;
                         case 2:  // Yellow Notes
-                            Notes[i, j] = new Note3D(spriteSheetTex,
+                            Notes[i, j] = new Note(spriteSheetTex,
                                           new Rectangle(noteSpriteSheetSize * 2, 0, noteSpriteSheetSize, noteSpriteSheetSize), effect, device);
                             newY = -50 * noteScaleValue;
                             Notes[i, j].position3D = new Vector3(100 * noteScaleValue + (gameConfiguration.themeSetting.laneSeparatorSize * 1), newY, 0);
@@ -55,7 +55,7 @@ namespace MinGH.GameScreen.SinglePlayer
                             Notes[i, j].scale3D = new Vector3(noteScaleValue, noteScaleValue, 1.0f);
                             break;
                         case 3:  // Blue Notes
-                            Notes[i, j] = new Note3D(spriteSheetTex,
+                            Notes[i, j] = new Note(spriteSheetTex,
                                           new Rectangle(noteSpriteSheetSize * 3, 0, noteSpriteSheetSize, noteSpriteSheetSize), effect, device);
                             newY = -50 * noteScaleValue;
                             Notes[i, j].position3D = new Vector3(2 * 100 * noteScaleValue + (gameConfiguration.themeSetting.laneSeparatorSize * 2), newY, 0);
@@ -63,7 +63,7 @@ namespace MinGH.GameScreen.SinglePlayer
                             Notes[i, j].scale3D = new Vector3(noteScaleValue, noteScaleValue, 1.0f);
                             break;
                         case 4:  // Green Notes
-                            Notes[i, j] = new Note3D(spriteSheetTex,
+                            Notes[i, j] = new Note(spriteSheetTex,
                                           new Rectangle(0, 0, noteSpriteSheetSize, noteSpriteSheetSize), effect, device);
                             newY = -50 * noteScaleValue;
                             Notes[i, j].position3D = new Vector3(3 * 100 * noteScaleValue + (gameConfiguration.themeSetting.laneSeparatorSize * 3), newY, 0);
@@ -85,7 +85,7 @@ namespace MinGH.GameScreen.SinglePlayer
         /// <param name="spriteSheetTex">The sprite sheet texture as a whole.</param>
         /// <param name="gameConfiguration">The current game configuration.</param>
         /// <returns>A filled out drawable note 2d array.</returns>
-        public static Note3D[,] InitializeNotesGuitarSingle(int noteSpriteSheetSize, Note3D[,] Notes, Texture2D spriteSheetTex,
+        public static Note[,] InitializeNotesGuitarSingle(int noteSpriteSheetSize, Note[,] Notes, Texture2D spriteSheetTex,
                                                           GameConfiguration gameConfiguration, float noteScaleValue, Effect effect,
                                                           GraphicsDevice device)
         {
@@ -93,7 +93,7 @@ namespace MinGH.GameScreen.SinglePlayer
             {
                 for (int j = 0; j < Notes.GetLength(1); j++)
                 {
-                    Notes[i, j] = new Note3D(spriteSheetTex,
+                    Notes[i, j] = new Note(spriteSheetTex,
                                   new Rectangle(noteSpriteSheetSize * i, 0, noteSpriteSheetSize, noteSpriteSheetSize),
                                   effect, device);
                     Notes[i, j].initalizeTextureCoords(i * 100, 0, 100);

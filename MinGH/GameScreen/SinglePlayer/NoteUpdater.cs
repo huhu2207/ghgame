@@ -26,7 +26,7 @@ namespace MinGH.GameScreen.SinglePlayer
         /// <param name="playerInfo">The player's current status.</param>
         /// <param name="hitBox">The current hit window.</param>
         public static void updateNotes(Notechart inputNotechart, ref int inputNoteIterator,
-                                       Note3D[,] physicalNotes, Rectangle viewportRectangle,
+                                       Note[,] physicalNotes, Rectangle viewportRectangle,
                                        float currStep, GameConfiguration gameConfig, double currentMsec,
                                        int spriteSheetSize, PlayerInformation playerInfo,
                                        HorizontalHitBox hitBox)
