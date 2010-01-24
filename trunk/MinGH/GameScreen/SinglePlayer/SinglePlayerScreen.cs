@@ -30,10 +30,11 @@ namespace MinGH.GameScreen.SinglePlayer
         Rectangle viewportRectangle;  // The window itself
         Texture2D backgroundTex, spriteSheetTex, fretboardTex;
         SpriteFont gameFont;  // The font the game will use
-        Note3D[,] notes;  // Will hold every note currently on the screen
-        List<Fretboard3D> fretboards;  // A set of fretboards aligned next to each other giving a continous effect
+        Note[,] notes;  // Will hold every note currently on the screen
+        List<Fretboard> fretboards;  // A set of fretboards aligned next to each other giving a continous effect
         LaneSeparators laneSeparators;
         FretboardBorders fretboardBorders;
+        HitMarker hitMarker;
         int noteIterator;  // This iterator is used to keep track of which note to draw next
         float noteScaleValue, bassNoteScaleValue;
         NoteUpdater noteUpdater;
@@ -88,10 +89,10 @@ namespace MinGH.GameScreen.SinglePlayer
             currentMsec = 0;
             noteScaleValue = 0.0f;
             bassNoteScaleValue = 0.0f;
-            notes = new Note3D[5, maxNotesOnscreen];
+            notes = new Note[5, maxNotesOnscreen];
             effect = gameReference.Content.Load<Effect>("effects");
             texturedVertexDeclaration = new VertexDeclaration(graphics.GraphicsDevice, VertexPositionTexture.VertexElements);
-            fretboards = new List<Fretboard3D>();
+            fretboards = new List<Fretboard>();
 
             // Initialize FMOD variables
             system = new GameEngine.FMOD.System();
@@ -129,6 +130,7 @@ namespace MinGH.GameScreen.SinglePlayer
             string backgroundFilename = "";
             spriteSheetTex = Texture2D.FromFile(graphics.GraphicsDevice, gameConfiguration.themeSetting.noteSkinFile);
             Texture2D laneSeparatorTexture = Texture2D.FromFile(graphics.GraphicsDevice, gameConfiguration.themeSetting.laneSeparatorTexture);
+            Texture2D hitMarkerTexture = Texture2D.FromFile(graphics.GraphicsDevice, gameConfiguration.themeSetting.hitMarkerTexture);
 
             if (mainChart.noteCharts[0].instrument == "Drums")
             {
@@ -149,9 +151,16 @@ namespace MinGH.GameScreen.SinglePlayer
                 cameraLookAt = new Vector3(cameraX, 50.0f, -300.0f);
                 laneSeparators = new DrumLaneSeparators(gameConfiguration.themeSetting.laneSizeDrums, gameConfiguration.themeSetting.laneSeparatorSize, effect,
                                                         laneSeparatorTexture, graphics.GraphicsDevice);
+
                 fretboardBorders = new DrumFretboardBorders(gameConfiguration.themeSetting.laneSizeDrums, gameConfiguration.themeSetting.laneSeparatorSize, effect,
-                                                        laneSeparatorTexture, graphics.GraphicsDevice, gameConfiguration.themeSetting.fretboardBorderSize);
-                notes = NoteInitializer.InitializeNotesDrumSingle(noteSpriteSheetSize, notes, spriteSheetTex, gameConfiguration, noteScaleValue, bassNoteScaleValue, effect, graphics.GraphicsDevice);
+                                                            laneSeparatorTexture, graphics.GraphicsDevice, gameConfiguration.themeSetting.fretboardBorderSize);
+
+                hitMarker = new DrumHitMarker(gameConfiguration.themeSetting.hitMarkerDepth, gameConfiguration.themeSetting.hitMarkerSize,
+                                                gameConfiguration.themeSetting.laneSizeDrums, gameConfiguration.themeSetting.laneSeparatorSize,
+                                                gameConfiguration.themeSetting.fretboardBorderSize, effect, hitMarkerTexture, graphics.GraphicsDevice);
+
+                notes = NoteInitializer.InitializeNotesDrumSingle(noteSpriteSheetSize, notes, spriteSheetTex, gameConfiguration, noteScaleValue, bassNoteScaleValue,
+                                                                  effect, graphics.GraphicsDevice);
             }
             else  // A guitar background and emitter setting will be the "default"
             {
@@ -170,6 +179,10 @@ namespace MinGH.GameScreen.SinglePlayer
                                                           laneSeparatorTexture, graphics.GraphicsDevice);
                 fretboardBorders = new GuitarFretboardBorders(gameConfiguration.themeSetting.laneSizeGuitar, gameConfiguration.themeSetting.laneSeparatorSize, effect,
                                                         laneSeparatorTexture, graphics.GraphicsDevice, gameConfiguration.themeSetting.fretboardBorderSize);
+
+                hitMarker = new GuitarHitMarker(gameConfiguration.themeSetting.hitMarkerDepth, gameConfiguration.themeSetting.hitMarkerSize,
+                                                gameConfiguration.themeSetting.laneSizeGuitar, gameConfiguration.themeSetting.laneSeparatorSize,
+                                                gameConfiguration.themeSetting.fretboardBorderSize, effect, hitMarkerTexture, graphics.GraphicsDevice);
 
                 notes = NoteInitializer.InitializeNotesGuitarSingle(noteSpriteSheetSize, notes, spriteSheetTex, gameConfiguration,
                                                                     noteScaleValue, effect, graphics.GraphicsDevice);
@@ -343,7 +356,7 @@ namespace MinGH.GameScreen.SinglePlayer
                 renderer.RenderEmitter(emitter);
             }
 
-            foreach (Fretboard3D fretboard in fretboards)
+            foreach (Fretboard fretboard in fretboards)
             {
                 if (fretboard.alive)
                 {
@@ -353,6 +366,7 @@ namespace MinGH.GameScreen.SinglePlayer
 
             laneSeparators.draw(graphics.GraphicsDevice, viewMatrix, projectionMatrix);
             fretboardBorders.draw(graphics.GraphicsDevice, viewMatrix, projectionMatrix);
+            hitMarker.draw(graphics.GraphicsDevice, viewMatrix, projectionMatrix);
 
             //Draw the notes
             for (int i = 0; i < notes.GetLength(0); i++)

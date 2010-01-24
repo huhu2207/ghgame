@@ -22,7 +22,7 @@ namespace MinGH.GameScreen.SinglePlayer
         /// <param name="playerInformation">The player's current status.</param>
         /// <param name="keyboardInputManager">The current state of the keyboard.</param>
         /// <param name="inputNotechart">The Notechart currently being played.</param>
-        public void processPlayerInput(Note3D[,] physicalNotes,
+        public void processPlayerInput(Note[,] physicalNotes,
                                        NoteParticleEmitters noteParticleExplosionEmitters,
                                        HorizontalHitBox hitBox, PlayerInformation playerInformation,
                                        IKeyboardInputManager keyboardInputManager,
@@ -56,7 +56,7 @@ namespace MinGH.GameScreen.SinglePlayer
         /// <param name="playerInformation">The player's current status.</param>
         /// <param name="inputNotechart">The Notechart currently being played.</param>
         /// <param name="wasStrummed">Whether a strum was executed.</param>
-        private static void triggerInput(Note3D[,] physicalNotes,
+        private static void triggerInput(Note[,] physicalNotes,
                                          NoteParticleEmitters noteParticleExplosionEmitters,
                                          HorizontalHitBox hitBox, IKeyboardInputManager keyboardInputManager, 
                                          PlayerInformation playerInformation,
@@ -166,7 +166,7 @@ namespace MinGH.GameScreen.SinglePlayer
                         {
                             // Apply the miss penalty to every note past the one the user hit,
                             // and kill them, but do not break the combo.
-                            foreach (Note3D currNote in physicalNotes)
+                            foreach (Note currNote in physicalNotes)
                             {
                                 if ((currNote.getCenterPosition().Y > physicalNotes[hitNote, farthestNoteIndex].getCenterPosition().Y) &&
                                     (currNote.alive == true))
@@ -189,11 +189,11 @@ namespace MinGH.GameScreen.SinglePlayer
 
                             if (physicalNotes[hitNote, farthestNoteIndex].precedsHOPO)
                             {
-                                playerInformation.hitNote(true, Note.pointValue * chordDegree);
+                                playerInformation.hitNote(true, Note2D.pointValue * chordDegree);
                             }
                             else
                             {
-                                playerInformation.hitNote(false, Note.pointValue * chordDegree);
+                                playerInformation.hitNote(false, Note2D.pointValue * chordDegree);
                             }
                         }
                     }
@@ -201,7 +201,7 @@ namespace MinGH.GameScreen.SinglePlayer
                     {
                         // Apply the miss penalty to every note past the one the user hit,
                         // and kill them, but do not break the combo.
-                        foreach (Note3D currNote in physicalNotes)
+                        foreach (Note currNote in physicalNotes)
                         {
                             if ((currNote.getCenterPosition().Y > physicalNotes[hitNote, farthestNoteIndex].getCenterPosition().Y) && 
                                 (currNote.alive == true))
@@ -216,11 +216,11 @@ namespace MinGH.GameScreen.SinglePlayer
 
                         if (physicalNotes[hitNote, farthestNoteIndex].precedsHOPO)
                         {
-                            playerInformation.hitNote(true, Note.pointValue);
+                            playerInformation.hitNote(true, Note2D.pointValue);
                         }
                         else
                         {
-                            playerInformation.hitNote(false, Note.pointValue);
+                            playerInformation.hitNote(false, Note2D.pointValue);
                         }
                     }
                 }

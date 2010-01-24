@@ -78,8 +78,12 @@
             <fretboard>./Content/Fretboards/FretboardDefault.png</fretboard>
           
             <laneSeparators>./Content/Fretboards/LaneSeparatorDefault.png</laneSeparators>
-          
-            <fretboardBorders>./Content/Fretboards/LaneSeparatorDefault.png</fretboardBorders>
+
+            <hitMarkerTexture>./Content/Fretboards/HitMarkerDefault.png</hitMarkerTexture>
+            <hitMarkerDepth>240</hitMarkerDepth>
+          <hitMarkerSize>6</hitMarkerSize>
+
+          <fretboardBorders>./Content/Fretboards/LaneSeparatorDefault.png</fretboardBorders>
         
             <!-- The directory in which the background files can be found.  The files must follow a 
                  standard naming format of:

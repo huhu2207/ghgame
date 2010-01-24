@@ -25,7 +25,7 @@ namespace MinGH.GameScreen.SinglePlayer
         /// <param name="playerInformation">The player's current status.</param>
         /// <param name="keyboardInputManager">The current state of the keyboard.</param>
         /// <param name="inputNotechart">The Notechart currently being played.</param>
-        public void processPlayerInput(Note[,] physicalNotes,
+        public void processPlayerInput(Note2D[,] physicalNotes,
                                        NoteParticleEmitters noteParticleExplosionEmitters,
                                        HorizontalHitBox hitBox, PlayerInformation playerInformation,
                                        IKeyboardInputManager keyboardInputManager,
@@ -47,7 +47,7 @@ namespace MinGH.GameScreen.SinglePlayer
         /// <param name="keyboardInputManager">The current state of the keyboard.</param>
         /// <param name="playerInformation">The player's current status.</param>
         /// <param name="inputNotechart">The Notechart currently being played.</param>
-        private static void triggerInput(Note[,] physicalNotes,
+        private static void triggerInput(Note2D[,] physicalNotes,
                                          NoteParticleEmitters noteParticleExplosionEmitters,
                                          HorizontalHitBox hitBox, IKeyboardInputManager keyboardInputManager, 
                                          PlayerInformation playerInformation,
@@ -87,7 +87,7 @@ namespace MinGH.GameScreen.SinglePlayer
                     noteParticleExplosionEmitters.emitterList[hitNote].Trigger(noteParticleExplosionEmitters.explosionLocations[hitNote]);
                     physicalNotes[hitNote, farthestNoteIndex].alive = false;
 
-                    playerInformation.hitNote(false, Note.pointValue);
+                    playerInformation.hitNote(false, Note2D.pointValue);
                 }
                 else
                 {

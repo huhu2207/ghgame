@@ -8,11 +8,11 @@ namespace MinGH.GameScreen.SinglePlayer
 {
     public static class FretboardUpdater
     {
-        public static void UpdateFretboards(List<Fretboard3D> fretboards, Texture2D fretboardTex,
+        public static void UpdateFretboards(List<Fretboard> fretboards, Texture2D fretboardTex,
                                             Effect effect, GraphicsDevice graphics,
                                             GameConfiguration gameConfiguration, float currStep, string instrument)
         {
-            foreach (Fretboard3D fretboard in fretboards)
+            foreach (Fretboard fretboard in fretboards)
             {
                 fretboard.position3D += new Vector3(0f, 0f, currStep);
             }
@@ -38,7 +38,7 @@ namespace MinGH.GameScreen.SinglePlayer
 
             if (fretboards.Count == 0)
             {
-                Fretboard3D fretboardToAdd = new Fretboard3D(fretboardTex, effect, graphics);
+                Fretboard fretboardToAdd = new Fretboard(fretboardTex, effect, graphics);
                 fretboardToAdd.scale3D = new Vector3(newScale, 1f, newScale);
                 fretboardToAdd.position3D = new Vector3(0f, 0f, -1000f);
                 fretboardToAdd.alive = true;
@@ -46,7 +46,7 @@ namespace MinGH.GameScreen.SinglePlayer
             }
             if (fretboards[fretboards.Count - 1].position3D.Z > -1000)
             {
-                Fretboard3D fretboardToAdd = new Fretboard3D(fretboardTex, effect, graphics);
+                Fretboard fretboardToAdd = new Fretboard(fretboardTex, effect, graphics);
                 fretboardToAdd.scale3D = new Vector3(newScale, 1f, newScale);
                 fretboardToAdd.position3D = new Vector3(0f, 0f, fretboards[fretboards.Count - 1].position3D.Z - fretboardDepth);
                 fretboardToAdd.alive = true;
