@@ -58,6 +58,10 @@ namespace MinGH.GameScreen.SinglePlayer
                 int hitNote = KeyboardConfiguration.getDrumNumberFromKey(currentKey);
                 Vector3 currentCenterPoint = new Vector3();
                 int farthestNoteIndex = -1;
+
+                // Since -10000 is an impossible distance away from the screen,
+                // it is a good value to start with when comparing how close
+                // notes are to the screen.
                 float farthestNoteDistance = -10000;
 
                 for (int i = 0; i < physicalNotes.GetLength(1); i++)
