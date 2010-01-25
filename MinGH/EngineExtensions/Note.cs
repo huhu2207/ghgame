@@ -31,7 +31,8 @@ namespace MinGH.EngineExtensions
             noteChartIndex = 0;
             precedsHOPO = false;
             isUnhittable = false;
-            isChord = false;
+            isChordStart = false;
+            isPartOfChord = false;
             rootNote = new Point();
             wasTicked = false;
             originalSpritePosition = new Rectangle();
@@ -48,7 +49,8 @@ namespace MinGH.EngineExtensions
             noteChartIndex = 0;
             precedsHOPO = false;
             isUnhittable = false;
-            isChord = false;
+            isChordStart = false;
+            isPartOfChord = false;
             rootNote = new Point(-1 , -1);
             wasTicked = false;
         }
@@ -173,9 +175,14 @@ namespace MinGH.EngineExtensions
         public bool isUnhittable { get; set; }
 
         /// <summary>
+        /// Is the note the starting note of a chord
+        /// </summary>
+        public bool isChordStart { get; set; }
+
+        /// <summary>
         /// Is this note part of a chord.
         /// </summary>
-        public bool isChord { get; set; }
+        public bool isPartOfChord { get; set; }
 
         /// <summary>
         /// The next lower placed note in a chord (emulates a linked list where the highest

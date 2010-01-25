@@ -142,10 +142,10 @@ namespace MinGH.GameScreen.SinglePlayer
                 projectionMatrix = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, graphics.GraphicsDevice.Viewport.AspectRatio, 0.2f, 1000.0f);
 
                 // Set up the particle explosions
-                noteParticleEmitters.initalizeEmittersDrumsSingle(gameConfiguration.themeSetting);
-                noteParticleEmitters.initializeLocationsDrumsSingle(gameConfiguration.themeSetting, hitBox.centerLocation);
+                noteParticleEmitters.initalizeEmittersDrumsSingle(gameConfiguration.themeSetting, graphics.GraphicsDevice, viewMatrix, projectionMatrix);
+                noteParticleEmitters.initializeLocationsDrumsSingle(gameConfiguration.themeSetting, graphics.GraphicsDevice, viewMatrix, projectionMatrix);
                 backgroundFilename = "DrumsSingle.png";
-                inputManager = new GuitarInputManager();
+                inputManager = new DrumInputManager();
 
                 noteScaleValue = gameConfiguration.themeSetting.laneSizeDrums / (float)noteSpriteSheetSize;
                 bassNoteScaleValue = ((gameConfiguration.themeSetting.laneSizeDrums * 4) + (gameConfiguration.themeSetting.laneSeparatorSize * 3)) /
@@ -196,7 +196,7 @@ namespace MinGH.GameScreen.SinglePlayer
 
                 if (gameConfiguration.useDrumStyleInputForGuitarMode)
                 {
-                    //inputManager = new DrumInputManager();
+                    inputManager = new DrumInputManager();
                 }
                 else
                 {
@@ -239,6 +239,10 @@ namespace MinGH.GameScreen.SinglePlayer
 
         protected override void UnloadContent()
         {
+            foreach (Note currNote in notes)
+            {
+                currNote.texturedVertexDeclaration.Dispose();
+            }
             system.close();
         }
 

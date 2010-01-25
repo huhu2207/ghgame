@@ -93,14 +93,15 @@ namespace MinGH.GameScreen.SinglePlayer
             // If a note was found, process the players input.
             if (farthestNoteIndex != -1)
             {
+
                 // Dont hit the note if the player was holding prior to passing the hit window's center
                 // unless they strummed or explicitly hit the note (i.e. he hammered on too early)
                 if (keyboardInputManager.keyIsHit(currentKey) ||
-                   (farthestNoteDistance > hitBox.centerLocation) ||
+                   (farthestNoteDistance > -hitBox.centerLocation) ||
                    (wasStrummed))
                 {
                     // If true, we hit a chord...
-                    if (physicalNotes[hitNote, farthestNoteIndex].rootNote != new Point(-1, -1))
+                    if (physicalNotes[hitNote, farthestNoteIndex].isChordStart)
                     {
                         int chordDegree = 1;
                         Point currentRoot = new Point(hitNote, farthestNoteIndex);
@@ -197,13 +198,21 @@ namespace MinGH.GameScreen.SinglePlayer
                             }
                         }
                     }
+
+                    // If true, we tried to hit a chord, but did not hit the highest note
+                    else if (physicalNotes[hitNote, farthestNoteIndex].isPartOfChord)
+                    {
+                        playerInformation.missNote();
+                    }
+
+                    // If we get here, we hit a single note
                     else
                     {
                         // Apply the miss penalty to every note past the one the user hit,
                         // and kill them, but do not break the combo.
                         foreach (Note currNote in physicalNotes)
                         {
-                            if ((currNote.getCenterPosition().Y > physicalNotes[hitNote, farthestNoteIndex].getCenterPosition().Y) && 
+                            if ((currNote.getCenterPosition().Z > physicalNotes[hitNote, farthestNoteIndex].getCenterPosition().Z) && 
                                 (currNote.alive == true))
                             {
                                 currNote.alive = false;
@@ -216,11 +225,11 @@ namespace MinGH.GameScreen.SinglePlayer
 
                         if (physicalNotes[hitNote, farthestNoteIndex].precedsHOPO)
                         {
-                            playerInformation.hitNote(true, Note2D.pointValue);
+                            playerInformation.hitNote(true, Note.pointValue);
                         }
                         else
                         {
-                            playerInformation.hitNote(false, Note2D.pointValue);
+                            playerInformation.hitNote(false, Note.pointValue);
                         }
                     }
                 }
