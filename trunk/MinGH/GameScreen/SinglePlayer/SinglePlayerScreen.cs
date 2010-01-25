@@ -129,8 +129,18 @@ namespace MinGH.GameScreen.SinglePlayer
             hitBox = new HorizontalHitBox((int)(gameConfiguration.themeSetting.hitMarkerDepth - (gameConfiguration.themeSetting.hitMarkerSize / 2.0f)),
                                           gameConfiguration.speedModValue);
 
+            
+
             if (mainChart.noteCharts[0].instrument == "Drums")
             {
+                float cameraX = (gameConfiguration.themeSetting.laneSizeDrums * 2) +
+                                (gameConfiguration.themeSetting.laneSeparatorSize * 1) +
+                                (gameConfiguration.themeSetting.laneSeparatorSize / 2);
+                cameraPostion = new Vector3(cameraX, 170.0f, 0.0f);
+                cameraLookAt = new Vector3(cameraX, 50.0f, -300.0f);
+                viewMatrix = Matrix.CreateLookAt(cameraPostion, cameraLookAt, new Vector3(0, 1, 0));
+                projectionMatrix = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, graphics.GraphicsDevice.Viewport.AspectRatio, 0.2f, 1000.0f);
+
                 // Set up the particle explosions
                 noteParticleEmitters.initalizeEmittersDrumsSingle(gameConfiguration.themeSetting);
                 noteParticleEmitters.initializeLocationsDrumsSingle(gameConfiguration.themeSetting, hitBox.centerLocation);
@@ -141,11 +151,7 @@ namespace MinGH.GameScreen.SinglePlayer
                 bassNoteScaleValue = ((gameConfiguration.themeSetting.laneSizeDrums * 4) + (gameConfiguration.themeSetting.laneSeparatorSize * 3)) /
                                      ((float)noteSpriteSheetSize);
 
-                float cameraX = (gameConfiguration.themeSetting.laneSizeDrums * 2) +
-                                (gameConfiguration.themeSetting.laneSeparatorSize * 1) +
-                                (gameConfiguration.themeSetting.laneSeparatorSize / 2);
-                cameraPostion = new Vector3(cameraX, 170.0f, 0.0f);
-                cameraLookAt = new Vector3(cameraX, 50.0f, -300.0f);
+                
                 laneSeparators = new DrumLaneSeparators(gameConfiguration.themeSetting.laneSizeDrums, gameConfiguration.themeSetting.laneSeparatorSize, effect,
                                                         laneSeparatorTexture, graphics.GraphicsDevice);
 
@@ -161,17 +167,21 @@ namespace MinGH.GameScreen.SinglePlayer
             }
             else  // A guitar background and emitter setting will be the "default"
             {
-                // Set up the particle explosions
-                noteParticleEmitters.initalizeEmittersGuitarSingle();
-                noteParticleEmitters.initializeLocationsGuitarSingle(gameConfiguration.themeSetting, hitBox.centerLocation);
-                backgroundFilename = "GuitarSingle.png";
-                noteScaleValue = gameConfiguration.themeSetting.laneSizeGuitar / (float)noteSpriteSheetSize;
-                
                 float cameraX = (gameConfiguration.themeSetting.laneSizeGuitar * 2) +
                                 (gameConfiguration.themeSetting.laneSeparatorSize * 3) +
                                 (gameConfiguration.themeSetting.laneSizeGuitar / 2);
                 cameraPostion = new Vector3(cameraX, 170.0f, 0.0f);
                 cameraLookAt = new Vector3(cameraX, 50.0f, -300.0f);
+                viewMatrix = Matrix.CreateLookAt(cameraPostion, cameraLookAt, new Vector3(0, 1, 0));
+                projectionMatrix = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, graphics.GraphicsDevice.Viewport.AspectRatio, 0.2f, 1000.0f);
+
+                // Set up the particle explosions
+                noteParticleEmitters.initalizeEmittersGuitarSingle();
+                noteParticleEmitters.initializeLocationsGuitarSingle(gameConfiguration.themeSetting, graphics.GraphicsDevice, viewMatrix, projectionMatrix);
+                backgroundFilename = "GuitarSingle.png";
+                noteScaleValue = gameConfiguration.themeSetting.laneSizeGuitar / (float)noteSpriteSheetSize;
+                
+                
                 laneSeparators = new GuitarLaneSeparators(gameConfiguration.themeSetting.laneSizeGuitar, gameConfiguration.themeSetting.laneSeparatorSize, effect,
                                                           laneSeparatorTexture, graphics.GraphicsDevice);
                 fretboardBorders = new GuitarFretboardBorders(gameConfiguration.themeSetting.laneSizeGuitar, gameConfiguration.themeSetting.laneSeparatorSize, effect,
@@ -193,9 +203,6 @@ namespace MinGH.GameScreen.SinglePlayer
                     inputManager = new GuitarInputManager();
                 }
             }
-
-            viewMatrix = Matrix.CreateLookAt(cameraPostion, cameraLookAt, new Vector3(0, 1, 0));
-            projectionMatrix = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, graphics.GraphicsDevice.Viewport.AspectRatio, 0.2f, 1000.0f);
 
             foreach (Emitter emitter in noteParticleEmitters.emitterList)
             {
