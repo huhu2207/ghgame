@@ -25,7 +25,7 @@ namespace MinGH.GameScreen.SinglePlayer
         /// <param name="playerInformation">The player's current status.</param>
         /// <param name="keyboardInputManager">The current state of the keyboard.</param>
         /// <param name="inputNotechart">The Notechart currently being played.</param>
-        public void processPlayerInput(Note2D[,] physicalNotes,
+        public void processPlayerInput(Note[,] physicalNotes,
                                        NoteParticleEmitters noteParticleExplosionEmitters,
                                        HorizontalHitBox hitBox, PlayerInformation playerInformation,
                                        IKeyboardInputManager keyboardInputManager,
@@ -47,7 +47,7 @@ namespace MinGH.GameScreen.SinglePlayer
         /// <param name="keyboardInputManager">The current state of the keyboard.</param>
         /// <param name="playerInformation">The player's current status.</param>
         /// <param name="inputNotechart">The Notechart currently being played.</param>
-        private static void triggerInput(Note2D[,] physicalNotes,
+        private static void triggerInput(Note[,] physicalNotes,
                                          NoteParticleEmitters noteParticleExplosionEmitters,
                                          HorizontalHitBox hitBox, IKeyboardInputManager keyboardInputManager, 
                                          PlayerInformation playerInformation,
@@ -57,24 +57,24 @@ namespace MinGH.GameScreen.SinglePlayer
             foreach (Keys currentKey in currentKeyArray)
             {
                 int hitNote = KeyboardConfiguration.getDrumNumberFromKey(currentKey);
-                Point currentCenterPoint = new Point();
+                Vector3 currentCenterPoint = new Vector3();
                 int farthestNoteIndex = -1;
-                int farthestNoteDistance = -1;
+                float farthestNoteDistance = -1;
 
                 for (int i = 0; i < physicalNotes.GetLength(1); i++)
                 {
                     if ((hitNote > -1) && (physicalNotes[hitNote, i].alive))
                     {
-                        currentCenterPoint = new Point((int)physicalNotes[hitNote, i].getCenterPosition().X, (int)physicalNotes[hitNote, i].getCenterPosition().Y);
+                        currentCenterPoint = physicalNotes[hitNote, i].getCenterPosition();
 
                         // If the current physical note is alive and inside the hitbox...
-                        if (hitBox.physicalHitbox.Contains(currentCenterPoint))
+                        if (hitBox.Contains(currentCenterPoint.Z))
                         {
                             // and has the farthest distance from the top
-                            if (currentCenterPoint.Y >= farthestNoteDistance)
+                            if (currentCenterPoint.Z >= farthestNoteDistance)
                             {
                                 // set it to be the note to explode
-                                farthestNoteDistance = currentCenterPoint.Y;
+                                farthestNoteDistance = currentCenterPoint.Z;
                                 farthestNoteIndex = i;
                             }
                         }

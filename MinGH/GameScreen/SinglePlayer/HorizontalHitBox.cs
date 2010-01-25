@@ -8,12 +8,7 @@ namespace MinGH.GameScreen.SinglePlayer
     /// while playing MinGH.
     /// </summary>
     public class HorizontalHitBox
-    {
-		/// <summary>
-		/// The actual bounding rectangle of the hitbox.
-		/// </summary>
-        public Rectangle physicalHitbox;
-		
+    {	
 		/// <summary>
 		/// The center of the hitbox.  Note that since this is a horiziontal hitbox, we only
 		/// need to concern ourselves with the Y value since the bounding rectangle will
@@ -56,7 +51,6 @@ namespace MinGH.GameScreen.SinglePlayer
         /// </summary>
         public HorizontalHitBox()
         {
-            physicalHitbox = new Rectangle();
             centerLocation = 0;
         }
 
@@ -69,23 +63,21 @@ namespace MinGH.GameScreen.SinglePlayer
         /// The dimensions for the entire screen (i.e. 800x600).  This is usally gotten
         /// from a graphics object.
         /// </param>
-        public HorizontalHitBox(Rectangle gameScreenRectangle, SpeedModValue currHyperspeed)
+        public HorizontalHitBox(int hitMarkerCenter, SpeedModValue currHyperspeed)
         {
             // The hit box center is at 85% towards the bottom.
             // NOTE: we convert to int...this may introduce slight error on some resolutions
-            centerLocation = (int)(gameScreenRectangle.Height * 0.85);
+            centerLocation = hitMarkerCenter;
 
             goodThreshold = (int)(currHyperspeed.noteVelocityMultiplier * goodThresholdConstant);
             greatThreshold = goodThreshold / 2;
             perfectThreshold = greatThreshold / 2;
+        }
 
-            physicalHitbox = new Rectangle
-            {
-                Width = gameScreenRectangle.Width,
-                Height = goodThreshold * 2,
-                Y = centerLocation - (goodThreshold),
-                X = 0
-            };
+        public bool Contains(float point)
+        {
+            return (point > (-centerLocation - goodThreshold) &&
+                    point < (-centerLocation + goodThreshold));
         }
     }
 }

@@ -109,12 +109,6 @@ namespace MinGH.GameScreen.SinglePlayer
 
             spriteBatch = new SpriteBatch(graphics.GraphicsDevice);
             gameConfiguration = new GameConfiguration("./config.xml");
-          
-
-            hitBox = new HorizontalHitBox(new Rectangle(0, 0,
-                                          graphics.GraphicsDevice.Viewport.Width,
-                                          graphics.GraphicsDevice.Viewport.Height),
-                                          gameConfiguration.speedModValue);
 
             strManager = SinglePlayerStringInitializer.initializeStrings(graphics.GraphicsDevice.Viewport.Width,
                                                 graphics.GraphicsDevice.Viewport.Height);
@@ -131,6 +125,9 @@ namespace MinGH.GameScreen.SinglePlayer
             spriteSheetTex = Texture2D.FromFile(graphics.GraphicsDevice, gameConfiguration.themeSetting.noteSkinFile);
             Texture2D laneSeparatorTexture = Texture2D.FromFile(graphics.GraphicsDevice, gameConfiguration.themeSetting.laneSeparatorTexture);
             Texture2D hitMarkerTexture = Texture2D.FromFile(graphics.GraphicsDevice, gameConfiguration.themeSetting.hitMarkerTexture);
+
+            hitBox = new HorizontalHitBox((int)(gameConfiguration.themeSetting.hitMarkerDepth - (gameConfiguration.themeSetting.hitMarkerSize / 2.0f)),
+                                          gameConfiguration.speedModValue);
 
             if (mainChart.noteCharts[0].instrument == "Drums")
             {
@@ -300,7 +297,7 @@ namespace MinGH.GameScreen.SinglePlayer
                            "Guitar: " + guitarPosition + "\n" +
                            "Bass: " + bassPosition + "\n" +
                            "Drum: " + drumPosition;
-            strManager.SetString(0, "Hitbox Y: " + hitBox.physicalHitbox.Y + "\nHitbox Height: " + hitBox.physicalHitbox.Height);
+            strManager.SetString(0, "Hitbox Y: " + hitBox.centerLocation + "\nHitbox Height: " + hitBox.goodThreshold / 2);
             strManager.SetString(1, times);
             strManager.SetString(3, "Score: " + playerInformation.currentScore.ToString() + "\n\n" +
                                      "Multiplier : " + playerInformation.currentMultiplier.ToString() + "\n\n" +
@@ -349,12 +346,7 @@ namespace MinGH.GameScreen.SinglePlayer
             // Draw every string in str_manager
             strManager.DrawStrings(spriteBatch, gameFont);
 
-            spriteBatch.End();
-
-            foreach (Emitter emitter in noteParticleEmitters.emitterList)
-            {
-                renderer.RenderEmitter(emitter);
-            }
+            spriteBatch.End(); 
 
             foreach (Fretboard fretboard in fretboards)
             {
@@ -378,6 +370,11 @@ namespace MinGH.GameScreen.SinglePlayer
                         notes[i, j].draw(graphics.GraphicsDevice, viewMatrix, projectionMatrix);
                     }
                 }
+            }
+
+            foreach (Emitter emitter in noteParticleEmitters.emitterList)
+            {
+                renderer.RenderEmitter(emitter);
             }
 
             base.Draw(gameTime);
