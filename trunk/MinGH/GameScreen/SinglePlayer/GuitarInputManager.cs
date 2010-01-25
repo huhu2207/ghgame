@@ -62,9 +62,9 @@ namespace MinGH.GameScreen.SinglePlayer
                                          PlayerInformation playerInformation,
                                          Notechart inputNotechart, bool wasStrummed)
         {
-            Point currentCenterPoint = new Point();
+            Vector3 currentCenterPoint = new Vector3();
             int farthestNoteIndex = -1;
-            int farthestNoteDistance = -1;
+            float farthestNoteDistance = -10000;
             
             Keys currentKey = keyboardInputManager.getHighestHeldKey();
             int hitNote = KeyboardConfiguration.getGuitarNumberFromKey(currentKey);
@@ -74,16 +74,16 @@ namespace MinGH.GameScreen.SinglePlayer
             {
                 if ((hitNote > -1) && (physicalNotes[hitNote, j].alive))
                 {
-                    currentCenterPoint = new Point((int)physicalNotes[hitNote, j].getCenterPosition().X, (int)physicalNotes[hitNote, j].getCenterPosition().Y);
+                    currentCenterPoint = physicalNotes[hitNote, j].getCenterPosition();
 
                     // If the current physical note is alive and inside the hitbox...
-                    if (hitBox.physicalHitbox.Contains(currentCenterPoint))
+                    if (hitBox.Contains(currentCenterPoint.Z))
                     {
                         // and has the farthest distance from the top
-                        if (currentCenterPoint.Y >= farthestNoteDistance)
+                        if (currentCenterPoint.Z >= farthestNoteDistance)
                         {
                             // set it to be the note to explode
-                            farthestNoteDistance = currentCenterPoint.Y;
+                            farthestNoteDistance = currentCenterPoint.Z;
                             farthestNoteIndex = j;
                         }
                     }
