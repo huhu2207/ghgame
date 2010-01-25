@@ -59,9 +59,7 @@ namespace MinGH.GameScreen.SinglePlayer
                 result = system.playSound(CHANNELINDEX.FREE, drumStream, true, ref drumChannel);
             }
 
-            // I wished that sleeping by 2 seconds would give the pc time to syncronize the audio
-            // before I let it loose, but it still desyncs.  Not as much as without though...i think.
-            Thread.Sleep(2000);
+            Thread.Sleep(200);
 
             if (mainChart.chartInfo.musicStream != null)
             {

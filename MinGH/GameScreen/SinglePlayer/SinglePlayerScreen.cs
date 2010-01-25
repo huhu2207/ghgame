@@ -299,7 +299,8 @@ namespace MinGH.GameScreen.SinglePlayer
                                               gameConfiguration, currStep, mainChart.noteCharts[0].instrument);
 
             // Update varous strings
-            uint guitarPosition = 0, bassPosition = 0, drumPosition = 0;
+            uint guitarPosition = 0, bassPosition = 0, drumPosition = 0, musicPosition = 0;
+            musicChannel.getPosition(ref musicPosition, TIMEUNIT.MS);
             guitarChannel.getPosition(ref guitarPosition, TIMEUNIT.MS);
             bassChannel.getPosition(ref bassPosition, TIMEUNIT.MS);
             drumChannel.getPosition(ref drumPosition, TIMEUNIT.MS);
@@ -314,6 +315,26 @@ namespace MinGH.GameScreen.SinglePlayer
                                      "Multiplier : " + playerInformation.currentMultiplier.ToString() + "\n\n" +
                                      "Combo :" + playerInformation.currentCombo.ToString());
             strManager.SetString(4, "Health: " + playerInformation.currentHealth.ToString());
+
+            // Ensure the audio tracks are within 50 MS accuracy
+            if ((((int)guitarPosition - (int)musicPosition > 50) ||
+                ((int)guitarPosition - (int)musicPosition < -50)) &&
+                (mainChart.chartInfo.guitarStream != null))
+            {
+                guitarChannel.setPosition(musicPosition, TIMEUNIT.MS);
+            }
+            if ((((int)bassPosition - (int)musicPosition > 50) ||
+                ((int)bassPosition - (int)musicPosition < -50)) &&
+                (mainChart.chartInfo.bassStream != null))
+            {
+                bassChannel.setPosition(musicPosition, TIMEUNIT.MS);
+            }
+            if ((((int)drumPosition - (int)musicPosition > 50) ||
+                ((int)drumPosition - (int)musicPosition < -50)) &&
+                (mainChart.chartInfo.drumStream != null))
+            {
+                drumChannel.setPosition(musicPosition, TIMEUNIT.MS);
+            }
 
             // Stop playing music when chart is over or when the screen goes inactive
             if (currentMsec > mainChart.chartInfo.chartLengthMiliseconds)

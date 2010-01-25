@@ -27,36 +27,31 @@
                         or slow. -->
     <speedMods>
     
-        <selectedSpeedMod>1</selectedSpeedMod>
+        <selectedSpeedMod>2</selectedSpeedMod>
         
         <speedMod id="1">
-            <MSOffset>1830</MSOffset>
+            <MSOffset>1900</MSOffset>
             <NVMultiplier>0.4</NVMultiplier>
         </speedMod>
         
         <speedMod id="2">
-            <MSOffset>1125</MSOffset>
+            <MSOffset>1470</MSOffset>
             <NVMultiplier>0.5</NVMultiplier>
         </speedMod>
         
         <speedMod id="3">
-            <MSOffset>955</MSOffset>
+            <MSOffset>1200</MSOffset>
             <NVMultiplier>0.6</NVMultiplier>
         </speedMod>
 
         <speedMod id="4">
-            <MSOffset>813</MSOffset>
+            <MSOffset>1049</MSOffset>
             <NVMultiplier>0.7</NVMultiplier>
         </speedMod>
 
         <speedMod id="5">
-            <MSOffset>695</MSOffset>
+            <MSOffset>905</MSOffset>
             <NVMultiplier>0.8</NVMultiplier>
-        </speedMod>
-        
-        <speedMod id="6">
-            <MSOffset>620</MSOffset>
-            <NVMultiplier>0.9</NVMultiplier>
         </speedMod>
         
     </speedMods>
