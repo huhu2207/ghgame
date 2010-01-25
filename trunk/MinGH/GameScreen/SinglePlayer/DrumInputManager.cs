@@ -12,8 +12,7 @@ namespace MinGH.GameScreen.SinglePlayer
     /// single player session via drums.
     /// </summary>
 
-    //public class DrumInputManager : IInputManager
-    public class DrumInputManager
+    public class DrumInputManager : IInputManager
     {
         /// <summary>
         /// Uses the current keyboard state to figure out whether the user attempted to
@@ -59,7 +58,7 @@ namespace MinGH.GameScreen.SinglePlayer
                 int hitNote = KeyboardConfiguration.getDrumNumberFromKey(currentKey);
                 Vector3 currentCenterPoint = new Vector3();
                 int farthestNoteIndex = -1;
-                float farthestNoteDistance = -1;
+                float farthestNoteDistance = -10000;
 
                 for (int i = 0; i < physicalNotes.GetLength(1); i++)
                 {
@@ -87,7 +86,7 @@ namespace MinGH.GameScreen.SinglePlayer
                     noteParticleExplosionEmitters.emitterList[hitNote].Trigger(noteParticleExplosionEmitters.explosionLocations[hitNote]);
                     physicalNotes[hitNote, farthestNoteIndex].alive = false;
 
-                    playerInformation.hitNote(false, Note2D.pointValue);
+                    playerInformation.hitNote(false, Note.pointValue);
                 }
                 else
                 {

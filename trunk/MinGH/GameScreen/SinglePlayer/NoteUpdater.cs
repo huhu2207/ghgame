@@ -72,7 +72,15 @@ namespace MinGH.GameScreen.SinglePlayer
 
                                 if (inputNotechart.notes[inputNoteIterator].isChord)
                                 {
-                                    physicalNotes[currentNoteset, i].isChord = true;
+                                    if (j == inputNotechart.notes[inputNoteIterator].getNoteCount() - 1)
+                                    {
+                                        physicalNotes[currentNoteset, i].isChordStart = true;
+                                    }
+                                    else
+                                    {
+                                        physicalNotes[currentNoteset, i].isPartOfChord = true;
+                                    }
+
                                     if (currentRoot == new Point(-1, -1))
                                     {
                                         physicalNotes[currentNoteset, i].rootNote = currentRoot;
@@ -84,15 +92,7 @@ namespace MinGH.GameScreen.SinglePlayer
                                         currentRoot = new Point(currentNoteset, i);
                                     }
                                 }
-
-                                //if (inputNotechart.instrument == "Drums")
-                                //{
                                 physicalNotes[currentNoteset, i].position3D = new Vector3(physicalNotes[currentNoteset, i].position3D.X, physicalNotes[currentNoteset, i].position3D.Y, -1000f);
-                                //}
-                                //else
-                                //{
-                                //    physicalNotes[currentNoteset, i].position3D = new Vector3(currentNoteset * (gameConfig.themeSetting.laneSizeGuitar + gameConfig.themeSetting.laneSeparatorSize), physicalNotes[currentNoteset, i].position3D.Y, -1000f);
-                                //}
                                 break;
                             }
                         }
@@ -111,7 +111,7 @@ namespace MinGH.GameScreen.SinglePlayer
                         physicalNotes[i, j].position3D += new Vector3(0, 0, currStep);
                     }
 
-                    if ((physicalNotes[i, j].getCenterPosition().Y >= hitBox.centerLocation +  hitBox.goodThreshold) &&
+                    if ((physicalNotes[i, j].getCenterPosition().Z >= -hitBox.centerLocation + hitBox.goodThreshold) &&
                         (physicalNotes[i, j].isUnhittable == false))
                     {
                         playerInfo.missNote();

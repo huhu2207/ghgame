@@ -17,6 +17,7 @@ namespace MinGH.ChartImpl
             Duration = 0;
             noteType = new NoteType();
             isHOPO = false;
+            isChord = false;
 
             noteType.Green = false;
             noteType.Red = false;
@@ -174,7 +175,7 @@ namespace MinGH.ChartImpl
         public bool isHOPO { get; set; }
 
         /// <summary>
-        /// Is this note a part of a chord?
+        /// Is this note a chord
         /// </summary>
         public bool isChord { get; set; }
     }
