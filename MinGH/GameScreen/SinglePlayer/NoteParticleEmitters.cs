@@ -141,14 +141,19 @@ namespace MinGH.GameScreen.SinglePlayer
         /// <param name="gameConfiguration">
         /// The current game configuration.
         /// </param>
-        public void initializeLocationsGuitarSingle(ThemeSetting themeSetting, int hitBarYValue)
+        public void initializeLocationsGuitarSingle(ThemeSetting themeSetting, GraphicsDevice graphics, Matrix viewMatrix,
+                                                    Matrix projectionMatrix)
         {
+            Matrix worldMatrix = Matrix.Identity;
+            float theZ = -themeSetting.hitMarkerDepth - (themeSetting.hitMarkerSize / 2.0f);
+
             for (int i = 0; i < 5; i++)
             {
-                int X = (themeSetting.laneSizeGuitar * i) +
-                        (themeSetting.laneSeparatorSize * i + 1) + (themeSetting.laneSizeGuitar / 2);
-
-                explosionLocations.Add(new Vector2(X, hitBarYValue));
+                int theX = (themeSetting.laneSizeGuitar / 2) + (themeSetting.laneSizeGuitar * i) +
+                        (themeSetting.laneSeparatorSize * i);
+                Vector3 vectorToUse = new Vector3(theX, 0.0f, theZ);
+                Vector3 screenSpaceVector = graphics.Viewport.Project( vectorToUse, projectionMatrix, viewMatrix, worldMatrix);
+                explosionLocations.Add(new Vector2(screenSpaceVector.X, screenSpaceVector.Y));
             }
         }
 
