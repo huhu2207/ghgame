@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using MinGH.Config;
 using MinGH.Enum;
+using MinGH.Interfaces;
 
 namespace MinGH.GameScreen.MainMenu
 {

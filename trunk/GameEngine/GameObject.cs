@@ -6,6 +6,7 @@ namespace GameEngine
     /// <summary>
     /// The wrapper class that allows for easy creation and manipulation of visible
     /// objects on the game screen.  Note this class has functionality for sprite sheets.
+    /// NOTE: This is an outdated class intended for use on a 2D plane.
     /// </summary>
     public class GameObject
     {

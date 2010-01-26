@@ -2,8 +2,9 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using MinGH.ChartImpl;
-using MinGH.EngineExtensions;
 using MinGH.Config;
+using MinGH.EngineExtensions;
+using MinGH.Interfaces;
 
 namespace MinGH.GameScreen.SinglePlayer
 {
@@ -11,7 +12,6 @@ namespace MinGH.GameScreen.SinglePlayer
     /// Encompasses most of the logic for interpreting the user's input during a
     /// single player session via drums.
     /// </summary>
-
     public class DrumInputManager : IInputManager
     {
         /// <summary>
@@ -25,7 +25,7 @@ namespace MinGH.GameScreen.SinglePlayer
         /// <param name="keyboardInputManager">The current state of the keyboard.</param>
         /// <param name="inputNotechart">The Notechart currently being played.</param>
         public void processPlayerInput(Note[,] physicalNotes,
-                                       NoteParticleEmitters noteParticleExplosionEmitters,
+                                       NoteParticleEmitters noteParticleEmitters,
                                        HorizontalHitBox hitBox, PlayerInformation playerInformation,
                                        IKeyboardInputManager keyboardInputManager,
                                        Notechart inputNotechart)
@@ -33,7 +33,7 @@ namespace MinGH.GameScreen.SinglePlayer
                 if (keyboardInputManager.anyKeyIsHit())
                 {
                     // Strums are ignored when the user is in the HOPO state (i.e. GH5 style)
-                    triggerInput(physicalNotes, noteParticleExplosionEmitters, hitBox, keyboardInputManager, playerInformation, inputNotechart);
+                    triggerInput(physicalNotes, noteParticleEmitters, hitBox, keyboardInputManager, playerInformation, inputNotechart);
                 }
         }
 
@@ -90,7 +90,7 @@ namespace MinGH.GameScreen.SinglePlayer
                     noteParticleExplosionEmitters.emitterList[hitNote].Trigger(noteParticleExplosionEmitters.explosionLocations[hitNote]);
                     physicalNotes[hitNote, farthestNoteIndex].alive = false;
 
-                    playerInformation.hitNote(false, Note.pointValue);
+                    playerInformation.hitNote(false, physicalNotes[hitNote, farthestNoteIndex].pointValue);
                 }
                 else
                 {

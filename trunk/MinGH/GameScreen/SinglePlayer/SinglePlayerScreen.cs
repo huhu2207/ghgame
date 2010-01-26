@@ -9,6 +9,7 @@ using MinGH.ChartImpl;
 using MinGH.Config;
 using MinGH.EngineExtensions;
 using MinGH.Enum;
+using MinGH.Interfaces;
 using ProjectMercury.Emitters;
 using ProjectMercury.Renderers;
 
@@ -37,9 +38,9 @@ namespace MinGH.GameScreen.SinglePlayer
         HitMarker hitMarker;
         int noteIterator;  // This iterator is used to keep track of which note to draw next
         float noteScaleValue, bassNoteScaleValue;
-        NoteUpdater noteUpdater;
         IKeyboardInputManager keyboardInputManager;
         IInputManager inputManager;
+        INoteUpdater noteUpdater;
         HorizontalHitBox hitBox;
         PlayerInformation playerInformation;
         Chart mainChart;  // Create the chart file
@@ -60,7 +61,7 @@ namespace MinGH.GameScreen.SinglePlayer
         private GameEngine.FMOD.Sound bassStream;
         private GameEngine.FMOD.Sound drumStream;
         RESULT result;
-        uint currentMsec;
+        uint currentMsec;  // The current place of the audio stream the game will follow
         bool audioIsPlaying;  // So we don't play the song again every single update
 
         // Project Mercury Particle Engine related variables
@@ -77,14 +78,12 @@ namespace MinGH.GameScreen.SinglePlayer
 
         public override void Initialize()
         {
-            
             // Initialize some variables
             renderer = new PointSpriteRenderer();
             noteParticleEmitters = new NoteParticleEmitters();
             playerInformation = new PlayerInformation();
             strManager = new GameStringManager();
             keyboardInputManager = new KeyboardInputManager();
-            noteUpdater = new NoteUpdater();
             noteIterator = 0;
             currentMsec = 0;
             noteScaleValue = 0.0f;
@@ -93,6 +92,10 @@ namespace MinGH.GameScreen.SinglePlayer
             effect = gameReference.Content.Load<Effect>("effects");
             texturedVertexDeclaration = new VertexDeclaration(graphics.GraphicsDevice, VertexPositionTexture.VertexElements);
             fretboards = new List<Fretboard>();
+            spriteBatch = new SpriteBatch(graphics.GraphicsDevice);
+            gameConfiguration = new GameConfiguration("./config.xml");
+            strManager = SinglePlayerStringInitializer.initializeStrings(graphics.GraphicsDevice.Viewport.Width,
+                                                graphics.GraphicsDevice.Viewport.Height);
 
             // Initialize FMOD variables
             system = new GameEngine.FMOD.System();
@@ -107,11 +110,14 @@ namespace MinGH.GameScreen.SinglePlayer
             result = new RESULT();
             audioIsPlaying = false;
 
-            spriteBatch = new SpriteBatch(graphics.GraphicsDevice);
-            gameConfiguration = new GameConfiguration("./config.xml");
-
-            strManager = SinglePlayerStringInitializer.initializeStrings(graphics.GraphicsDevice.Viewport.Width,
-                                                graphics.GraphicsDevice.Viewport.Height);
+            if (gameConfiguration.autoplay)
+            {
+                noteUpdater = new AutoplayNoteUpdater();
+            }
+            else
+            {
+                noteUpdater = new NoteUpdater();
+            }
 
             base.Initialize();
         }
@@ -122,14 +128,12 @@ namespace MinGH.GameScreen.SinglePlayer
             mainChart = new Chart(chartSelection);
 
             string backgroundFilename = "";
-            spriteSheetTex = Texture2D.FromFile(graphics.GraphicsDevice, gameConfiguration.themeSetting.noteSkinFile);
+            spriteSheetTex = Texture2D.FromFile(graphics.GraphicsDevice, gameConfiguration.themeSetting.noteSkinTexture);
             Texture2D laneSeparatorTexture = Texture2D.FromFile(graphics.GraphicsDevice, gameConfiguration.themeSetting.laneSeparatorTexture);
             Texture2D hitMarkerTexture = Texture2D.FromFile(graphics.GraphicsDevice, gameConfiguration.themeSetting.hitMarkerTexture);
 
             hitBox = new HorizontalHitBox((int)(gameConfiguration.themeSetting.hitMarkerDepth - (gameConfiguration.themeSetting.hitMarkerSize / 2.0f)),
                                           gameConfiguration.speedModValue);
-
-            
 
             if (mainChart.noteCharts[0].instrument == "Drums")
             {
@@ -159,11 +163,11 @@ namespace MinGH.GameScreen.SinglePlayer
                                                             laneSeparatorTexture, graphics.GraphicsDevice, gameConfiguration.themeSetting.fretboardBorderSize);
 
                 hitMarker = new DrumHitMarker(gameConfiguration.themeSetting.hitMarkerDepth, gameConfiguration.themeSetting.hitMarkerSize,
-                                                gameConfiguration.themeSetting.laneSizeDrums, gameConfiguration.themeSetting.laneSeparatorSize,
-                                                gameConfiguration.themeSetting.fretboardBorderSize, effect, hitMarkerTexture, graphics.GraphicsDevice);
+                                              gameConfiguration.themeSetting.laneSizeDrums, gameConfiguration.themeSetting.laneSeparatorSize,
+                                              gameConfiguration.themeSetting.fretboardBorderSize, effect, hitMarkerTexture, graphics.GraphicsDevice);
 
-                notes = NoteInitializer.InitializeNotesDrumSingle(noteSpriteSheetSize, notes, spriteSheetTex, gameConfiguration, noteScaleValue, bassNoteScaleValue,
-                                                                  effect, graphics.GraphicsDevice);
+                notes = NoteInitializer.InitializeNotesDrumSingle(noteSpriteSheetSize, notes, spriteSheetTex, gameConfiguration.themeSetting,
+                                                                  noteScaleValue, bassNoteScaleValue, effect, graphics.GraphicsDevice);
             }
             else  // A guitar background and emitter setting will be the "default"
             {
@@ -191,7 +195,7 @@ namespace MinGH.GameScreen.SinglePlayer
                                                 gameConfiguration.themeSetting.laneSizeGuitar, gameConfiguration.themeSetting.laneSeparatorSize,
                                                 gameConfiguration.themeSetting.fretboardBorderSize, effect, hitMarkerTexture, graphics.GraphicsDevice);
 
-                notes = NoteInitializer.InitializeNotesGuitarSingle(noteSpriteSheetSize, notes, spriteSheetTex, gameConfiguration,
+                notes = NoteInitializer.InitializeNotesGuitarSingle(noteSpriteSheetSize, notes, spriteSheetTex, gameConfiguration.themeSetting,
                                                                     noteScaleValue, effect, graphics.GraphicsDevice);
 
                 if (gameConfiguration.useDrumStyleInputForGuitarMode)
@@ -211,7 +215,7 @@ namespace MinGH.GameScreen.SinglePlayer
 
             backgroundTex = Texture2D.FromFile(graphics.GraphicsDevice,
                                 gameConfiguration.themeSetting.backgroundDirectory + "\\" + backgroundFilename);
-            fretboardTex = Texture2D.FromFile(graphics.GraphicsDevice, ".\\Content\\Fretboards\\FretboardDefault.png");
+            fretboardTex = Texture2D.FromFile(graphics.GraphicsDevice, gameConfiguration.themeSetting.fretboardTexture);
 
             // Add the "Song Title" and "Artist Name" to the string manager
             string songInformation = "Song Title:\n" + mainChart.chartInfo.songName + "\n\n" +
@@ -260,6 +264,9 @@ namespace MinGH.GameScreen.SinglePlayer
                 audioIsPlaying = true;
             }
 
+            // Update the FMOD system
+            system.update();
+
             if (keyboardInputManager.keyIsHit(Keys.Escape))
             {
                 UnloadContent();
@@ -277,9 +284,6 @@ namespace MinGH.GameScreen.SinglePlayer
                 guitarChannel.getPosition(ref currentMsec, TIMEUNIT.MS);
             }
 
-            // Update the FMOD system
-            system.update();
-
             // Get the current keyboard state
             keyboardInputManager.processKeyboardState(Keyboard.GetState());
 
@@ -290,13 +294,12 @@ namespace MinGH.GameScreen.SinglePlayer
                                                   playerInformation, keyboardInputManager,
                                                   mainChart.noteCharts[0]);
 
-            NoteUpdater.updateNotes(mainChart.noteCharts[0], ref noteIterator, notes, viewportRectangle,
-                                    currStep, gameConfiguration,
-                                    currentMsec + gameConfiguration.speedModValue.milisecondOffset,
-                                    noteSpriteSheetSize, playerInformation, hitBox);
+            noteUpdater.updateNotes(mainChart.noteCharts[0], ref noteIterator, notes, viewportRectangle,
+                                    currStep, currentMsec + gameConfiguration.speedModValue.milisecondOffset,
+                                    noteSpriteSheetSize, playerInformation, hitBox, noteParticleEmitters);
 
             FretboardUpdater.UpdateFretboards(fretboards, fretboardTex, effect, graphics.GraphicsDevice,
-                                              gameConfiguration, currStep, mainChart.noteCharts[0].instrument);
+                                              gameConfiguration.themeSetting, currStep, mainChart.noteCharts[0].instrument);
 
             // Update varous strings
             uint guitarPosition = 0, bassPosition = 0, drumPosition = 0, musicPosition = 0;
@@ -317,20 +320,20 @@ namespace MinGH.GameScreen.SinglePlayer
             strManager.SetString(4, "Health: " + playerInformation.currentHealth.ToString());
 
             // Ensure the audio tracks are within 50 MS accuracy
-            if ((((int)guitarPosition - (int)musicPosition > 50) ||
-                ((int)guitarPosition - (int)musicPosition < -50)) &&
+            if ((((int)guitarPosition - (int)currentMsec > 50) ||
+                ((int)guitarPosition - (int)currentMsec < -50)) &&
                 (mainChart.chartInfo.guitarStream != null))
             {
                 guitarChannel.setPosition(musicPosition, TIMEUNIT.MS);
             }
-            if ((((int)bassPosition - (int)musicPosition > 50) ||
-                ((int)bassPosition - (int)musicPosition < -50)) &&
+            if ((((int)bassPosition - (int)currentMsec > 50) ||
+                ((int)bassPosition - (int)currentMsec < -50)) &&
                 (mainChart.chartInfo.bassStream != null))
             {
                 bassChannel.setPosition(musicPosition, TIMEUNIT.MS);
             }
-            if ((((int)drumPosition - (int)musicPosition > 50) ||
-                ((int)drumPosition - (int)musicPosition < -50)) &&
+            if ((((int)drumPosition - (int)currentMsec > 50) ||
+                ((int)drumPosition - (int)currentMsec < -50)) &&
                 (mainChart.chartInfo.drumStream != null))
             {
                 drumChannel.setPosition(musicPosition, TIMEUNIT.MS);

@@ -24,7 +24,9 @@ namespace MinGH.EngineExtensions
         /// <param name="effectToUse">
         /// The predefined shader effect to use on this note.
         /// </param>
-        /// <param name="device">A graphics device.</param>
+        /// <param name="device">
+        /// A graphics device.
+        /// </param>
         public Note(Texture2D loadedTex, Rectangle spritePos, Effect effectToUse, GraphicsDevice device)
             : base(loadedTex, spritePos, effectToUse, device)
         {
@@ -38,6 +40,7 @@ namespace MinGH.EngineExtensions
             originalSpritePosition = new Rectangle();
             spriteSheetStep = 100;
             _scale3D = Vector3.One;
+            pointValue = 50;
         }
 
         /// <summary>
@@ -53,6 +56,7 @@ namespace MinGH.EngineExtensions
             isPartOfChord = false;
             rootNote = new Point(-1 , -1);
             wasTicked = false;
+            pointValue = 50;
         }
 
         /// <summary>
@@ -157,7 +161,7 @@ namespace MinGH.EngineExtensions
 		/// The base point value of a note (this value may be in the wrong place,
 		/// but I'll keep it there for now).
 		/// </summary>
-        public const int pointValue = 50;
+        public int pointValue { get; set; }
 
         /// <summary>
         /// Where the note is located on the currently playing notechart.

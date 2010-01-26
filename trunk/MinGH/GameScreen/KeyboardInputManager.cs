@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework.Input;
 using MinGH.Config;
+using MinGH.Interfaces;
 
 namespace MinGH.GameScreen
 {

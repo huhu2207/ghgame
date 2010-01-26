@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Input;
 using MinGH.ChartImpl;
 using MinGH.Config;
 using MinGH.EngineExtensions;
+using MinGH.Interfaces;
 
 namespace MinGH.GameScreen.SinglePlayer
 {
@@ -23,7 +24,7 @@ namespace MinGH.GameScreen.SinglePlayer
         /// <param name="keyboardInputManager">The current state of the keyboard.</param>
         /// <param name="inputNotechart">The Notechart currently being played.</param>
         public void processPlayerInput(Note[,] physicalNotes,
-                                       NoteParticleEmitters noteParticleExplosionEmitters,
+                                       NoteParticleEmitters noteParticleEmitters,
                                        HorizontalHitBox hitBox, PlayerInformation playerInformation,
                                        IKeyboardInputManager keyboardInputManager,
                                        Notechart inputNotechart)
@@ -33,7 +34,7 @@ namespace MinGH.GameScreen.SinglePlayer
                 if (keyboardInputManager.getHighestHeldKey() != Keys.None)
                 {
                     // Strums are ignored when the user is in the HOPO state (i.e. GH5 style)
-                    triggerInput(physicalNotes, noteParticleExplosionEmitters, hitBox, keyboardInputManager, playerInformation, inputNotechart, false);
+                    triggerInput(physicalNotes, noteParticleEmitters, hitBox, keyboardInputManager, playerInformation, inputNotechart, false);
                 }
             }
             else
@@ -41,7 +42,7 @@ namespace MinGH.GameScreen.SinglePlayer
                 if ((keyboardInputManager.keyIsHit(KeyboardConfiguration.upStrum) || keyboardInputManager.keyIsHit(KeyboardConfiguration.downStrum)) &&
                     (keyboardInputManager.getHighestHeldKey() != Keys.None))
                 {
-                    triggerInput(physicalNotes, noteParticleExplosionEmitters, hitBox, keyboardInputManager, playerInformation, inputNotechart, true);
+                    triggerInput(physicalNotes, noteParticleEmitters, hitBox, keyboardInputManager, playerInformation, inputNotechart, true);
                 }
             }
         }
@@ -225,11 +226,11 @@ namespace MinGH.GameScreen.SinglePlayer
 
                         if (physicalNotes[hitNote, farthestNoteIndex].precedsHOPO)
                         {
-                            playerInformation.hitNote(true, Note.pointValue);
+                            playerInformation.hitNote(true, physicalNotes[hitNote, farthestNoteIndex].pointValue);
                         }
                         else
                         {
-                            playerInformation.hitNote(false, Note.pointValue);
+                            playerInformation.hitNote(false, physicalNotes[hitNote, farthestNoteIndex].pointValue);
                         }
                     }
                 }

@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using GameEngine;
+﻿using GameEngine;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace MinGH.EngineExtensions
 {
     /// <summary>
-    /// A 3D game object that underlays the notes.
+    /// Initializes and maintains the textured game object below the notes that represents
+    /// the base of the fretboard.
     /// </summary>
     public class Fretboard : GameObject3D
     {
@@ -92,27 +89,5 @@ namespace MinGH.EngineExtensions
                 vertices[5].Position = _position3D * value;
             }
         }
-
-        //public override void draw(GraphicsDevice device, Matrix viewMatrix, Matrix projectionMatrix)
-        //{
-        //    Matrix worldMatrix = Matrix.Identity;
-        //    myEffect.CurrentTechnique = myEffect.Techniques["Textured"];
-        //    myEffect.Parameters["xWorld"].SetValue(worldMatrix);
-        //    myEffect.Parameters["xView"].SetValue(viewMatrix);
-        //    myEffect.Parameters["xProjection"].SetValue(projectionMatrix);
-        //    myEffect.Parameters["xTexture"].SetValue(spriteSheet);
-        //    myEffect.Begin();
-        //    foreach (EffectPass pass in myEffect.CurrentTechnique.Passes)
-        //    {
-        //        pass.Begin();
-
-        //        device.VertexDeclaration = texturedVertexDeclaration;
-        //        device.DrawUserPrimitives(PrimitiveType.TriangleList, vertices, 0, 2);
-
-        //        pass.End();
-        //    }
-
-        //    myEffect.End();
-        //}
     }
 }

@@ -8,9 +8,24 @@ namespace GameEngine
     /// </summary>
     public class GameObject3D
     {
+        /// <summary>
+        /// Used so the shader knows what kind of vertices to expect.
+        /// </summary>
         public VertexDeclaration texturedVertexDeclaration;
+
+        /// <summary>
+        /// The actual verticies (and thier respective texture coordinates)
+        /// </summary>
         public VertexPositionTexture[] vertices;
+
+        /// <summary>
+        /// The effect for the shader to use (I simply use an effect file I found online)
+        /// </summary>
         public Effect myEffect;
+
+        /// <summary>
+        /// The number of pixels between elements in the used sprite sheet.
+        /// </summary>
         public int spriteSheetStep;
 
         /// <summary>
@@ -102,6 +117,10 @@ namespace GameEngine
             texturedVertexDeclaration = new VertexDeclaration(device, VertexPositionTexture.VertexElements);
         }
 
+        /// <summary>
+        /// Obtains the center position of this object in 3D space.
+        /// </summary>
+        /// <returns>A Vector3 representing the position.</returns>
         public Vector3 getCenterPosition()
         {
             return new Vector3(position3D.X + (center3D.X * scale3D.X),

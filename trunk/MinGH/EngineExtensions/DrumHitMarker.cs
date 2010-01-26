@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace MinGH.EngineExtensions
@@ -10,9 +6,9 @@ namespace MinGH.EngineExtensions
     public class DrumHitMarker : HitMarker
     {
         /// <summary>
-        /// The verticies of the two fretboard borders.
+        /// The verticies of the hitmarker.
         /// </summary>
-        VertexPositionTexture[] hitMarker;
+        private VertexPositionTexture[] hitMarker;
 
         public DrumHitMarker(int hitMarkerDepth, int hitMarkerSize, int laneSize, int laneBorderSize, int fretboardBorderSize, Effect effectToUse, Texture2D texture, GraphicsDevice graphics)
             : base(texture, new Rectangle(0, 0, texture.Width, texture.Height), effectToUse, graphics)
@@ -23,10 +19,14 @@ namespace MinGH.EngineExtensions
         }
 
         /// <summary>
-        /// Initializes the position and texture verticies
+        /// Initalizes the position and appearance of the hit marker according to the
+        /// user input.
         /// </summary>
-        /// <param name="laneSize">The size of the fretboard lanes.</param>
-        /// <param name="laneBorderSize">The size of the fretboard medians.</param>
+        /// <param name="hitMarkerDepth">The distance in which the marker is positioned.</param>
+        /// <param name="hitMarkerSize">The height of the hit marker.</param>
+        /// <param name="fretboardBorderSize">The size of the fretboard boarders.</param>
+        /// <param name="laneBorderSize">The size of the lane borders.</param>
+        /// <param name="laneSize">The size of the lanes themselves.</param>
         public override void initalizeHitMarker(int hitMarkerDepth, int hitMarkerSize, int fretboardBorderSize, int laneBorderSize, int laneSize)
         {
             float top = -hitMarkerDepth - hitMarkerSize;

@@ -104,22 +104,22 @@ namespace MinGH.ChartImpl
 
             if (File.Exists(inputPath + "\\song.ogg"))
             {
-                chartInfoToReturn.musicStream = inputPath + "\\song.ogg";
+                chartInfoToReturn.musicStream = "song.ogg";
             }
 
             if (File.Exists(inputPath + "\\guitar.ogg"))
             {
-                chartInfoToReturn.guitarStream = inputPath + "\\guitar.ogg";
+                chartInfoToReturn.guitarStream = "guitar.ogg";
             }
 
             if (File.Exists(inputPath + "\\rhythm.ogg"))
             {
-                chartInfoToReturn.bassStream = inputPath + "\\rhythm.ogg";
+                chartInfoToReturn.bassStream = "rhythm.ogg";
             }
 
             if (File.Exists(inputPath + "\\drums.ogg"))
             {
-                chartInfoToReturn.drumStream = inputPath + "\\drums.ogg";
+                chartInfoToReturn.drumStream = "drums.ogg";
             }
 
             if (File.Exists(inputPath + "\\song.ini"))
@@ -143,6 +143,10 @@ namespace MinGH.ChartImpl
                     else if ((parsedLine[0] == "name") || (parsedLine[0] == "Name"))
                     {
                         chartInfoToReturn.songName = ProperStringCreator.createProperString(parsedLine.SubArray(2, parsedLine.Length));
+                    }
+                    else if (parsedLine[0] == "hopo_note")
+                    {
+                        chartInfoToReturn.HOPOThreshold = int.Parse(parsedLine[2]);
                     }
                 }
             }

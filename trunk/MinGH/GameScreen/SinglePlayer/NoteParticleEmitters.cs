@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MinGH.Config;
 using ProjectMercury;
 using ProjectMercury.Emitters;
-using MinGH.Config;
 
 namespace MinGH.GameScreen.SinglePlayer
 {
@@ -36,9 +36,9 @@ namespace MinGH.GameScreen.SinglePlayer
         }
 
 		/// <summary>
-		/// Initializes each of the emitters and adds them to the emitter list.
-		/// To know more about the emitters themselves, look at the Mercury
-		/// Particle Engine documentation.
+		/// Initializes each of the emitters and adds them to the emitter list according
+        /// to the guitar color specification. To know more about the emitters themselves,
+        /// look at the Mercury Particle Engine documentation.
 		/// </summary>
         public void initalizeEmittersGuitarSingle()
         {
@@ -51,9 +51,9 @@ namespace MinGH.GameScreen.SinglePlayer
                 emitterToAdd.Budget = 3000;
                 emitterToAdd.ReleaseQuantity = 500;
                 emitterToAdd.ReleaseScale = new VariableFloat { Anchor = 40f, Variation = 0.5f };
-                emitterToAdd.ReleaseSpeed = new VariableFloat { Anchor = 200f, Variation = 1f };
+                emitterToAdd.ReleaseSpeed = new VariableFloat { Anchor = 300f, Variation = 1f };
                 emitterToAdd.ReleaseOpacity = new VariableFloat { Anchor = 0.2f, Variation = 0f };
-                emitterToAdd.Term = 0.3f;
+                emitterToAdd.Term = 0.2f;
                 emitterToAdd.Radiate = true;
                 emitterToAdd.Ring = false;
                 emitterToAdd.Radius = 10f;
@@ -82,6 +82,11 @@ namespace MinGH.GameScreen.SinglePlayer
             }
         }
 
+        /// <summary>
+        /// Initializes each of the emitters and adds them to the emitter list.
+        /// To know more about the emitters themselves, look at the Mercury
+        /// Particle Engine documentation.
+        /// </summary>
         public void initalizeEmittersDrumsSingle(ThemeSetting themeSetting, GraphicsDevice graphics, Matrix viewMatrix,
                                                  Matrix projectionMatrix)
         {
@@ -109,6 +114,7 @@ namespace MinGH.GameScreen.SinglePlayer
             lineEmitterToAdd.Length = (int)length;
             emitterList.Add(lineEmitterToAdd);
 
+            // Initialize the drum pad emitters
             CircleEmitter circleEmitterToAdd;
             for (int i = 1; i < 5; i++)
             {
@@ -117,7 +123,7 @@ namespace MinGH.GameScreen.SinglePlayer
                 circleEmitterToAdd.Budget = 3000;
                 circleEmitterToAdd.ReleaseQuantity = 500;
                 circleEmitterToAdd.ReleaseScale = new VariableFloat { Anchor = 40f, Variation = 0.5f };
-                circleEmitterToAdd.ReleaseSpeed = new VariableFloat { Anchor = 200f, Variation = 1f };
+                circleEmitterToAdd.ReleaseSpeed = new VariableFloat { Anchor = 300f, Variation = 1f };
                 circleEmitterToAdd.ReleaseOpacity = new VariableFloat { Anchor = 0.2f, Variation = 0f };
                 circleEmitterToAdd.Term = 0.2f;
                 circleEmitterToAdd.Radiate = true;
@@ -147,12 +153,10 @@ namespace MinGH.GameScreen.SinglePlayer
 
       
 		/// <summary>
-		/// Generates the locations for all the emitters according to a padding, noteWidth
-		/// and the hitbar's Y value
+		/// Generates the locations for all the emitters according to the current theme
+        /// setting.  Since these emitters are located on a 2D space, we must convert
+        /// the emitter locations from 3D world space, to 2D screen space.
 		/// </summary>
-        /// <param name="gameConfiguration">
-        /// The current game configuration.
-        /// </param>
         public void initializeLocationsGuitarSingle(ThemeSetting themeSetting, GraphicsDevice graphics, Matrix viewMatrix,
                                                     Matrix projectionMatrix)
         {
@@ -169,6 +173,11 @@ namespace MinGH.GameScreen.SinglePlayer
             }
         }
 
+        /// <summary>
+        /// Generates the locations for all the emitters according to the current theme
+        /// setting.  Since these emitters are located on a 2D space, we must convert
+        /// the emitter locations from 3D world space, to 2D screen space.
+        /// </summary>
         public void initializeLocationsDrumsSingle(ThemeSetting themeSetting, GraphicsDevice graphics, Matrix viewMatrix,
                                                    Matrix projectionMatrix)
         {
