@@ -2,7 +2,8 @@
 using System.IO;
 using System.Text.RegularExpressions;
 using MinGH.GameScreen;
-using Toub.Sound.Midi;
+//using Toub.Sound.Midi;
+using Sanford.Multimedia.Midi;
 
 namespace MinGH.ChartImpl
 {
@@ -148,7 +149,9 @@ namespace MinGH.ChartImpl
 
         /// <summary>
         /// Creates a notechart from the specified midi path and the actual charttype
-        /// (i.e. ExpertSingle from notes.mid)
+        /// (i.e. ExpertSingle from notes.mid).  Due to the overhead necessary to
+        /// parse a midi file.  I am going to cram all midi->chart operations into
+        /// one function call.
         /// </summary>
         /// <param name="chartSelection">
         /// The information on which particular notechart to use.
@@ -156,7 +159,8 @@ namespace MinGH.ChartImpl
         /// <returns>
         /// A filled out Notechart containing the needed information from the *.mid file.
         /// </returns>
-        public static Notechart GenerateNotechartFromMidi(ChartSelection chartSelection)
+        public static Notechart GenerateNotechartFromMidi(ChartSelection chartSelection,
+                                                          ChartInfo chartInfo)
         {
             Notechart notechartToReturn = new Notechart();
             notechartToReturn.instrument = chartSelection.instrument;
@@ -165,11 +169,11 @@ namespace MinGH.ChartImpl
             // The following two switch's are used to get the proper midi terminology for
             // the selected track and difficulty.
             string instrumentPart = null;
-            string greenKey = null;
-            string redKey = null;
-            string yellowKey = null;
-            string blueKey = null;
-            string orangeKey = null;
+            int greenKey = 0;
+            int redKey = 0;
+            int yellowKey = 0;
+            int blueKey = 0;
+            int orangeKey = 0;
 
             switch (chartSelection.instrument)
             {
@@ -193,105 +197,117 @@ namespace MinGH.ChartImpl
             switch (chartSelection.difficulty)
             {
                 case "Expert":
-                    greenKey = "C8";
-                    redKey = "C#8";
-                    yellowKey = "D8";
-                    blueKey = "D#8";
-                    orangeKey = "E8";
+                    greenKey = 96;
+                    redKey = 97;
+                    yellowKey = 98;
+                    blueKey = 99;
+                    orangeKey = 100;
                     break;
                 case "Hard":
-                    greenKey = "C7";
-                    redKey = "C#7";
-                    yellowKey = "D7";
-                    blueKey = "D#7";
-                    orangeKey = "E7";
+                    greenKey = 84;
+                    redKey = 85;
+                    yellowKey = 86;
+                    blueKey = 87;
+                    orangeKey = 88;
                     break;
                 case "Medium":
-                    greenKey = "C6";
-                    redKey = "C#6";
-                    yellowKey = "D6";
-                    blueKey = "D#6";
-                    orangeKey = "E6";
+                    greenKey = 72;
+                    redKey = 73;
+                    yellowKey = 74;
+                    blueKey = 75;
+                    orangeKey = 76;
                     break;
                 case "Easy":
-                    greenKey = "C5";
-                    redKey = "C#5";
-                    yellowKey = "D5";
-                    blueKey = "D#5";
-                    orangeKey = "E5";
+                    greenKey = 60;
+                    redKey = 61;
+                    yellowKey = 62;
+                    blueKey = 63;
+                    orangeKey = 64;
                     break;
                 default:
-                    greenKey = "C8";
-                    redKey = "C#8";
-                    yellowKey = "D8";
-                    blueKey = "D#8";
-                    orangeKey = "E8";
+                    greenKey = 96;
+                    redKey = 97;
+                    yellowKey = 98;
+                    blueKey = 99;
+                    orangeKey = 100;
                     break;
             }
 
-            MidiSequence mySequence = MidiSequence.Import(chartSelection.directory + "\\notes.mid");
-            MidiTrack[] myTracks = mySequence.GetTracks();
-            MidiTrack trackToUse = new MidiTrack();
+            Sequence mySequence = new Sequence(chartSelection.directory + "\\notes.mid");
+            Track trackToUse = new Track();
+            chartInfo.resolution = mySequence.Division;
 
             // Find the specified instrument's track
-            foreach (MidiTrack currTrack in myTracks)
+            for (int i = 0; i < mySequence.Count; i++)
             {
-                string trackHeader = currTrack.Events[0].ToString();
-                string[] splitHeader = trackHeader.Split('\t');
-
-                // If we run into a track named "T1 GEMS", we are dealing with a
-                // GH1 based midi file and must use that specific track.
-                if ((splitHeader[3] == instrumentPart) || (splitHeader[3] == "T1 GEMS"))
+                Track sanTrack = mySequence[i];
+                for (int j = 0; j < sanTrack.Count; j++)
                 {
-                    trackToUse = currTrack;
+                    MidiEvent currEvent = sanTrack.GetMidiEvent(j);
+
+                    if (currEvent.MidiMessage.MessageType == MessageType.Meta)
+                    {
+                        MetaMessage currMessage = currEvent.MidiMessage as MetaMessage;
+                        if (currMessage.MetaType == MetaType.TrackName)
+                        {
+                            MetaTextBuilder trackName = new MetaTextBuilder(currMessage);
+
+                            // -If we come across a "T1 GEMS" track, we're in GH1 territory.
+                            // -GH2 has both PART BASS and PART RHYTHM (one or the other depending
+                            //  on the chart).  This is the only game that has this as far as I know.
+                            if ((trackName.Text == instrumentPart) || (trackName.Text == "T1 GEMS") ||
+                                ((trackName.Text == "PART RHYTHM") && (instrumentPart == "PART BASS")))
+                            {
+                                trackToUse = sanTrack;
+                            }
+                        }
+                    }
                 }
             }
 
-            uint totalTickValue = 0;
-            uint currTickValue = 0;
             NotechartNote currNote = new NotechartNote();
             bool blankNote = true;
             // Scan through and record every note specific to the selected difficulty
-            for (int i = 0; i < trackToUse.Events.Count; i++)
+            for (int i = 0; i < trackToUse.Count; i++)
             {
-                string currEvent = trackToUse.Events[i].ToString();
-                string[] splitEvent = currEvent.Split('\t');
-                currTickValue = Convert.ToUInt32(splitEvent[1]);
-                totalTickValue += currTickValue;
+                MidiEvent currEvent = trackToUse.GetMidiEvent(i);
 
                 // We need to specify wether a note is blank or not so we don't add
                 // blank notes from other difficulties into the chart, but if we have
                 // a filled out note, any nonzero tick value means we are moving to a
                 // new note, so we must cut our ties and add this note to the chart.
-                if ((currTickValue != 0) && !blankNote)
+                if ((currEvent.DeltaTicks != 0) && !blankNote)
                 {
                     notechartToReturn.notes.Add(currNote);
                     currNote = new NotechartNote();
                     blankNote = true;
                 }
 
-                // The "0x64" I think means "not was hit."  There is another
-                // set of notes that use "0x00" that all appear slightly after
-                // the "0x64" notes.
-                if ((splitEvent[0] == "NoteOn") && (splitEvent[4] != "0x00"))
+                if (currEvent.MidiMessage.MessageType == MessageType.Channel)
                 {
-                    // Only consider notes within the octave our difficulty is in.
-                    if ((splitEvent[3] == greenKey) || (splitEvent[3] == redKey) ||
-                        (splitEvent[3] == yellowKey) || (splitEvent[3] == blueKey) ||
-                        (splitEvent[3] == orangeKey))
+                    ChannelMessage currMessage = currEvent.MidiMessage as ChannelMessage;
+                    if (currMessage.Command == ChannelCommand.NoteOn)
                     {
-                        // If it's a new note, we need to setup the tick value of it.
-                        if (blankNote)
+                        // Only consider notes within the octave our difficulty is in.
+                        if (((currMessage.Data1 == greenKey) || (currMessage.Data1 == redKey) ||
+                            (currMessage.Data1 == yellowKey) || (currMessage.Data1 == blueKey) ||
+                            (currMessage.Data1 == orangeKey)) && (currMessage.Data2 != 0))
                         {
-                            currNote.TickValue = totalTickValue;
-                            blankNote = false;
+                            // If it's a new note, we need to setup the tick value of it.
+                            if (blankNote)
+                            {
+                                //currNote.TickValue = totalTickValue;
+                                currNote.TickValue = (uint)currEvent.AbsoluteTicks;
+                                blankNote = false;
+                            }
+                            if (currMessage.Data1 == greenKey) { currNote.addNote(0); }
+                            else if (currMessage.Data1 == redKey) { currNote.addNote(1); }
+                            else if (currMessage.Data1 == yellowKey) { currNote.addNote(2); }
+                            else if (currMessage.Data1 == blueKey) { currNote.addNote(3); }
+                            else if (currMessage.Data1 == orangeKey) { currNote.addNote(4); }
                         }
-                        if (splitEvent[3] == greenKey) { currNote.addNote(0); }
-                        else if (splitEvent[3] == redKey) { currNote.addNote(1); }
-                        else if (splitEvent[3] == yellowKey) { currNote.addNote(2); }
-                        else if (splitEvent[3] == blueKey) { currNote.addNote(3); }
-                        else if (splitEvent[3] == orangeKey) { currNote.addNote(4); }
                     }
+
                 }
             }
 
