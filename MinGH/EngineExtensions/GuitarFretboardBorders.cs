@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using GameEngine;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace MinGH.EngineExtensions
 {
+    /// <summary>
+    /// Initializes and maintains the two borders on each side of the fretboard.
+    /// </summary>
     class GuitarFretboardBorders : FretboardBorders
     {
         /// <summary>
@@ -49,23 +47,23 @@ namespace MinGH.EngineExtensions
                     right = (5 * laneSize) + (4 * laneBorderSize) + fretboardBorderSize;
                 }
 
-                float desiredTop = 0;
-                float desiredBottom = 1;
-                float desiredLeft = 0;
-                float desiredRight = 1;
+                float textureTop = 0;
+                float textureBottom = 1;
+                float textureLeft = 0;
+                float textureRight = 1;
 
                 fretboardBorders[i][0].Position = new Vector3(left, 0.1f, top);
-                fretboardBorders[i][0].TextureCoordinate = new Vector2(desiredLeft, desiredTop);
+                fretboardBorders[i][0].TextureCoordinate = new Vector2(textureLeft, textureTop);
                 fretboardBorders[i][1].Position = new Vector3(right, 0.1f, bottom);
-                fretboardBorders[i][1].TextureCoordinate = new Vector2(desiredRight, desiredBottom);
+                fretboardBorders[i][1].TextureCoordinate = new Vector2(textureRight, textureBottom);
                 fretboardBorders[i][2].Position = new Vector3(left, 0.1f, bottom);
-                fretboardBorders[i][2].TextureCoordinate = new Vector2(desiredLeft, desiredBottom);
+                fretboardBorders[i][2].TextureCoordinate = new Vector2(textureLeft, textureBottom);
                 fretboardBorders[i][3].Position = new Vector3(right, 0.1f, bottom);
-                fretboardBorders[i][3].TextureCoordinate = new Vector2(desiredRight, desiredBottom);
+                fretboardBorders[i][3].TextureCoordinate = new Vector2(textureRight, textureBottom);
                 fretboardBorders[i][4].Position = new Vector3(left, 0.1f, top);
-                fretboardBorders[i][4].TextureCoordinate = new Vector2(desiredLeft, desiredTop);
+                fretboardBorders[i][4].TextureCoordinate = new Vector2(textureLeft, textureTop);
                 fretboardBorders[i][5].Position = new Vector3(right, 0.1f, top);
-                fretboardBorders[i][5].TextureCoordinate = new Vector2(desiredRight, desiredTop);
+                fretboardBorders[i][5].TextureCoordinate = new Vector2(textureRight, textureTop);
             }
         }
 

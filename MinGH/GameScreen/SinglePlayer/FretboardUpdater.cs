@@ -6,11 +6,25 @@ using MinGH.EngineExtensions;
 
 namespace MinGH.GameScreen.SinglePlayer
 {
+    /// <summary>
+    /// Maintains the status of a fretboard list.
+    /// </summary>
     public static class FretboardUpdater
     {
+        /// <summary>
+        /// Updates The fretboard list so that all pixels from 0 to -1000 will have a part
+        /// of a fretboard.  This gives off an endless board effect.
+        /// </summary>
+        /// <param name="fretboards">A list of fretboard objects lined up one after another.</param>
+        /// <param name="fretboardTex">The texture used for the fretboards.</param>
+        /// <param name="effect">The shader effect to use.</param>
+        /// <param name="graphics">A graphics device.</param>
+        /// <param name="themeSetting">The current game's theme setting.</param>
+        /// <param name="currStep">The current step in which every fretboard must move this update.</param>
+        /// <param name="instrument">Which instrument is currently being played.</param>
         public static void UpdateFretboards(List<Fretboard> fretboards, Texture2D fretboardTex,
                                             Effect effect, GraphicsDevice graphics,
-                                            GameConfiguration gameConfiguration, float currStep, string instrument)
+                                            ThemeSetting themeSetting, float currStep, string instrument)
         {
             foreach (Fretboard fretboard in fretboards)
             {
@@ -23,15 +37,15 @@ namespace MinGH.GameScreen.SinglePlayer
             float newScale = 0;
             if (instrument == "Drums")
             {
-                laneSize = gameConfiguration.themeSetting.laneSizeDrums;
-                newScale = ((laneSize * 4) + (gameConfiguration.themeSetting.laneSeparatorSize * 3))
+                laneSize = themeSetting.laneSizeDrums;
+                newScale = ((laneSize * 4) + (themeSetting.laneSeparatorSize * 3))
                            / (float)fretboardTex.Width;
                 fretboardDepth = fretboardTex.Height * ((laneSize * 4) / (float)fretboardTex.Width);
             }
             else
             {
-                laneSize = gameConfiguration.themeSetting.laneSizeGuitar;
-                newScale = ((laneSize * 5) + (gameConfiguration.themeSetting.laneSeparatorSize * 4))
+                laneSize = themeSetting.laneSizeGuitar;
+                newScale = ((laneSize * 5) + (themeSetting.laneSeparatorSize * 4))
                            / (float)fretboardTex.Width;
                 fretboardDepth = fretboardTex.Height * ((laneSize * 5) / (float)fretboardTex.Width);
             }

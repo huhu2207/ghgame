@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using GameEngine;
 
 namespace MinGH.EngineExtensions
 {
+    /// <summary>
+    /// Draws the medians between the note lanes (not including the outside lanes).
+    /// </summary>
     public class DrumLaneSeparators : LaneSeparators
     {
         /// <summary>

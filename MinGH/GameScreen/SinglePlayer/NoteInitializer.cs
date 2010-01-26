@@ -1,22 +1,22 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using MinGH.EngineExtensions;
 using MinGH.Config;
+using MinGH.EngineExtensions;
 
 namespace MinGH.GameScreen.SinglePlayer
 {
+    /// <summary>
+    /// Initializes a 2D array of drawable notes acording to the difficulty specified.
+    /// </summary>
     public static class NoteInitializer
     {
         /// <summary>
         /// Initialize the notes array according to the drum sprite specification.
+        /// Due to the differences of how the drum notes are laid out, we must use a
+        /// lengthy switch statment as opposed simply iterating through like guitar.
         /// </summary>
-        /// <param name="noteSpriteSheetSize">The size of an individual element in the sprite sheet</param>
-        /// <param name="Notes">The array containing all the drawable notes to initalize.</param>
-        /// <param name="spriteSheetTex">The sprite sheet texture as a whole.</param>
-        /// <param name="gameConfiguration">The current game configuration.</param>
-        /// <returns>A filled out drawable note 2d array.</returns>
         public static Note[,] InitializeNotesDrumSingle(int noteSpriteSheetSize, Note[,] Notes, Texture2D spriteSheetTex,
-                                                        GameConfiguration gameConfiguration, float noteScaleValue, float bassNoteScaleValue,
+                                                        ThemeSetting themeSetting, float noteScaleValue, float bassNoteScaleValue,
                                                         Effect effect, GraphicsDevice device)
         {
             float newY = 0.0f;
@@ -50,7 +50,7 @@ namespace MinGH.GameScreen.SinglePlayer
                             Notes[i, j] = new Note(spriteSheetTex,
                                           new Rectangle(noteSpriteSheetSize * 2, 0, noteSpriteSheetSize, noteSpriteSheetSize), effect, device);
                             newY = -50 * noteScaleValue;
-                            Notes[i, j].position3D = new Vector3(100 * noteScaleValue + (gameConfiguration.themeSetting.laneSeparatorSize * 1), newY, 0);
+                            Notes[i, j].position3D = new Vector3(100 * noteScaleValue + (themeSetting.laneSeparatorSize * 1), newY, 0);
                             Notes[i, j].originalSpritePosition = new Rectangle(noteSpriteSheetSize * 2, 0, noteSpriteSheetSize, noteSpriteSheetSize);
                             Notes[i, j].scale3D = new Vector3(noteScaleValue, noteScaleValue, 1.0f);
                             break;
@@ -58,7 +58,7 @@ namespace MinGH.GameScreen.SinglePlayer
                             Notes[i, j] = new Note(spriteSheetTex,
                                           new Rectangle(noteSpriteSheetSize * 3, 0, noteSpriteSheetSize, noteSpriteSheetSize), effect, device);
                             newY = -50 * noteScaleValue;
-                            Notes[i, j].position3D = new Vector3(2 * 100 * noteScaleValue + (gameConfiguration.themeSetting.laneSeparatorSize * 2), newY, 0);
+                            Notes[i, j].position3D = new Vector3(2 * 100 * noteScaleValue + (themeSetting.laneSeparatorSize * 2), newY, 0);
                             Notes[i, j].originalSpritePosition = new Rectangle(noteSpriteSheetSize * 3, 0, noteSpriteSheetSize, noteSpriteSheetSize);
                             Notes[i, j].scale3D = new Vector3(noteScaleValue, noteScaleValue, 1.0f);
                             break;
@@ -66,12 +66,11 @@ namespace MinGH.GameScreen.SinglePlayer
                             Notes[i, j] = new Note(spriteSheetTex,
                                           new Rectangle(0, 0, noteSpriteSheetSize, noteSpriteSheetSize), effect, device);
                             newY = -50 * noteScaleValue;
-                            Notes[i, j].position3D = new Vector3(3 * 100 * noteScaleValue + (gameConfiguration.themeSetting.laneSeparatorSize * 3), newY, 0);
+                            Notes[i, j].position3D = new Vector3(3 * 100 * noteScaleValue + (themeSetting.laneSeparatorSize * 3), newY, 0);
                             Notes[i, j].originalSpritePosition = new Rectangle(0, 0, noteSpriteSheetSize, noteSpriteSheetSize);
                             Notes[i, j].scale3D = new Vector3(noteScaleValue, noteScaleValue, 1.0f);
                             break;
                     }
-                    //Notes[i, j].velocity = new Vector2(0.0f, (float)gameConfiguration.speedModValue.noteVelocityMultiplier);
                 }
             }
             return Notes;
@@ -80,13 +79,8 @@ namespace MinGH.GameScreen.SinglePlayer
         /// <summary>
         /// Initialize the notes array according to the guitar sprite specification.
         /// </summary>
-        /// <param name="noteSpriteSheetSize">The size of an individual element in the sprite sheet</param>
-        /// <param name="Notes">The array containing all the drawable notes to initalize.</param>
-        /// <param name="spriteSheetTex">The sprite sheet texture as a whole.</param>
-        /// <param name="gameConfiguration">The current game configuration.</param>
-        /// <returns>A filled out drawable note 2d array.</returns>
         public static Note[,] InitializeNotesGuitarSingle(int noteSpriteSheetSize, Note[,] Notes, Texture2D spriteSheetTex,
-                                                          GameConfiguration gameConfiguration, float noteScaleValue, Effect effect,
+                                                          ThemeSetting themeSetting, float noteScaleValue, Effect effect,
                                                           GraphicsDevice device)
         {
             for (int i = 0; i < Notes.GetLength(0); i++)
@@ -99,7 +93,7 @@ namespace MinGH.GameScreen.SinglePlayer
                     Notes[i, j].initalizeTextureCoords(i * 100, 0, 100);
 
                     float newY = -50 * noteScaleValue;
-                    Notes[i, j].position3D = new Vector3((i * 100 * noteScaleValue) + (gameConfiguration.themeSetting.laneSeparatorSize * i), newY, 0);
+                    Notes[i, j].position3D = new Vector3((i * 100 * noteScaleValue) + (themeSetting.laneSeparatorSize * i), newY, 0);
                     Notes[i, j].originalSpritePosition = new Rectangle(noteSpriteSheetSize * i, 0, noteSpriteSheetSize, noteSpriteSheetSize);
                     Notes[i, j].scale3D = new Vector3(noteScaleValue, noteScaleValue, 1.0f);
                 }

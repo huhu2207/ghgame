@@ -1,13 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Xml;
 
 namespace MinGH.Config
 {
+    /// <summary>
+    /// Reads in the current themes settings from the config.xml file
+    /// </summary>
     public class ThemeSettingReader
     {
+        /// <summary>
+        /// Scans through the config.xml file for the current theme settings.
+        /// </summary>
+        /// <param name="sourceXMLFile">The config file's path.</param>
+        /// <returns>A fully filled out ThemeSetting</returns>
         public static ThemeSetting ReadInCurrentThemeFromXML(string sourceXMLFile)
         {
             ThemeSetting themeToReturn = new ThemeSetting();
@@ -24,7 +29,7 @@ namespace MinGH.Config
                 if (selectedTheme == Convert.ToInt32(xmlReader.GetAttribute("id")))
                 {
                     xmlReader.ReadToFollowing("noteSkinFile");
-                    themeToReturn.noteSkinFile = xmlReader.ReadElementContentAsString();
+                    themeToReturn.noteSkinTexture = xmlReader.ReadElementContentAsString();
 
                     xmlReader.ReadToFollowing("fretboard");
                     themeToReturn.fretboardTexture = xmlReader.ReadElementContentAsString();

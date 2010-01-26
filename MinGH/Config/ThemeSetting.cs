@@ -1,14 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace MinGH.Config
+﻿namespace MinGH.Config
 {
+    /// <summary>
+    /// Contains information on how the game screen should be laid out.
+    /// </summary>
     public class ThemeSetting
     {
-        public string noteSkinFile { get; set; }
+        /// <summary>
+        /// The directory in which the backgrounds are stored.
+        /// </summary>
         public string backgroundDirectory { get; set; }
+
+        public string noteSkinTexture { get; set; }
         public string fretboardTexture { get; set; }
         public string laneSeparatorTexture { get; set; }
         public string fretboardBorderTexture { get; set; }
@@ -22,7 +24,7 @@ namespace MinGH.Config
 
         public ThemeSetting()
         {
-            noteSkinFile = ".\\Content\\Sprites\\DefaultSprites.png";
+            noteSkinTexture = ".\\Content\\Sprites\\DefaultSprites.png";
             backgroundDirectory = ".\\Content\\Backgrounds\\Default";
             fretboardTexture = ".\\Content\\FretboardDefault.png";
             laneSeparatorTexture = ".\\Content\\LaneSeparatorDefault.png";

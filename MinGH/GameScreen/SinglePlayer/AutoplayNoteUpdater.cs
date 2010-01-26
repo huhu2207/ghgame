@@ -8,9 +8,10 @@ namespace MinGH.GameScreen.SinglePlayer
 {
     /// <summary>
     /// Encompasses most of the logic to be done during the single player game for every
-    /// update.
+    /// update.  This special updater will also autohit any note that passes the center
+    /// of the hitbox.
     /// </summary>
-    public class NoteUpdater : INoteUpdater
+    class AutoplayNoteUpdater : INoteUpdater
     {
         /// <summary>
         /// Updates the position of viewable notes and creates/destroys notes when necessary
@@ -19,17 +20,14 @@ namespace MinGH.GameScreen.SinglePlayer
         /// <param name="inputNoteIterator">Indicates the next note to be drawn.</param>
         /// <param name="physicalNotes">The 2D array of drawable notes.</param>
         /// <param name="viewportRectangle">The rectangle surrounding the game screen.</param>
-        /// <param name="currStep">
-        /// The number of pixels each note on screen must move for this current update.
-        /// </param>
+        /// <param name="currStep">The number of pixels each note on screen must move for
+        ///                        this current update.</param>
         /// <param name="themeSetting">The current theme setting of the game.</param>
         /// <param name="currentMsec">The current milisecond position the playing song is on.</param>
         /// <param name="spriteSheetSize">The size of an individual note on the sprite sheets (i.e. 100px)</param>
         /// <param name="playerInfo">The player's current status.</param>
         /// <param name="hitBox">The current hit window.</param>
-        /// <param name="noteParticleEmitters">
-        /// Not used in this class (but necessary for the interface.
-        /// </param>
+        /// <param name="noteParticleEmitters">Used for the autohit functionality.</param>
         public void updateNotes(Notechart inputNotechart, ref int inputNoteIterator,
                                 Note[,] physicalNotes, Rectangle viewportRectangle,
                                 float currStep, double currentMsec,
@@ -115,11 +113,11 @@ namespace MinGH.GameScreen.SinglePlayer
                     {
                         physicalNotes[i, j].position3D += new Vector3(0, 0, currStep);
 
-                        if ((physicalNotes[i, j].getCenterPosition().Z >= -hitBox.centerLocation + hitBox.goodThreshold) &&
-                        (physicalNotes[i, j].isUnhittable == false))
+                        if (physicalNotes[i, j].getCenterPosition().Z >= -hitBox.centerLocation)
                         {
-                            playerInfo.missNote();
-                            physicalNotes[i, j].isUnhittable = true;
+                            noteParticleEmitters.emitterList[i].Trigger(noteParticleEmitters.explosionLocations[i]);
+                            playerInfo.hitNote(false, physicalNotes[i, j].pointValue);
+                            physicalNotes[i, j].alive = false;
                         }
 
                         // Actually kill the notes that leave the screen

@@ -6,11 +6,19 @@
     public class GameConfiguration
     {
         /// <summary>
+        /// Have the game play for you.
+        /// </summary>
+        public bool autoplay { get; set; }
+
+        /// <summary>
         /// The currently used speed mod (i.e. how fast the notes come down and how
         /// spread apart they are).
         /// </summary>
         public SpeedModValue speedModValue { get; set; }
 
+        /// <summary>
+        /// The current theme settings.
+        /// </summary>
         public ThemeSetting themeSetting { get; set; }
 
         /// <summary>
@@ -40,6 +48,7 @@
             fullscreen = FullscreenReader.ReadInFullscreenSelectionFromXML(sourceXMLFile);
             useDrumStyleInputForGuitarMode = DrumInputForGuitarReader.ReadInInputStyleFromXML(sourceXMLFile);
             themeSetting = ThemeSettingReader.ReadInCurrentThemeFromXML(sourceXMLFile);
+            autoplay = AutoplayReader.ReadInAutoplaySelectionFromXML(sourceXMLFile);
         }
     }
 }
