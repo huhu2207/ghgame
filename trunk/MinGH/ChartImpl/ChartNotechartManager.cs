@@ -176,6 +176,9 @@ namespace MinGH.ChartImpl
                 case "Single":
                     instrumentPart = "PART GUITAR";
                     break;
+                case "DoubleGuitar":
+                    instrumentPart = "PART GUITAR COOP";
+                    break;
                 case "DoubleBass":
                     instrumentPart = "PART BASS";
                     break;
@@ -236,6 +239,8 @@ namespace MinGH.ChartImpl
                 string trackHeader = currTrack.Events[0].ToString();
                 string[] splitHeader = trackHeader.Split('\t');
 
+                // If we run into a track named "T1 GEMS", we are dealing with a
+                // GH1 based midi file and must use that specific track.
                 if ((splitHeader[3] == instrumentPart) || (splitHeader[3] == "T1 GEMS"))
                 {
                     trackToUse = currTrack;

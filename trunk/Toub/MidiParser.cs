@@ -126,103 +126,111 @@ namespace Toub.Sound.Midi
 					long deltaTime = ReadVariableLength(data, ref pos);
 
 					// Get the next character
-					byte nextValue = data[pos];
+                    // **Bounds checking necessary for GH2 midis.**
+                    if (pos < data.GetLength(0))
+                    {
+                        byte nextValue = data[pos];
 
-					// Are we continuing a sys ex?  If so, the next value better be 0x7F
-					if (sysExContinue && (nextValue != 0x7f)) throw new MidiParserException("Expected to find a system exclusive continue byte.", pos);
+                        // Are we continuing a sys ex?  If so, the next value better be 0x7F
+                        if (sysExContinue && (nextValue != 0x7f)) throw new MidiParserException("Expected to find a system exclusive continue byte.", pos);
 
-					// Are we in running status?  Determine whether we're running and
-					// what the current status byte is.
-					if ((nextValue & 0x80) == 0) 
-					{
-						// We're now in running status... if the last status was 0, uh oh!
-						if (status == 0) throw new MidiParserException("Status byte required for running status.", pos);
-					
-						// Keep the last iteration's status byte, and now we're in running mode
-						running = true;
-					}
-					else 
-					{
-						// Not running, so store the current status byte and mark running as false
-						status = nextValue;
-						running = false;
-					}
+                        // Are we in running status?  Determine whether we're running and
+                        // what the current status byte is.
+                        if ((nextValue & 0x80) == 0)
+                        {
+                            // We're now in running status... if the last status was 0, uh oh!
+                            if (status == 0) throw new MidiParserException("Status byte required for running status.", pos);
 
-					// Grab the 4-bit identifier
-					byte messageType = (byte)((status >> 4) & 0xF);
+                            // Keep the last iteration's status byte, and now we're in running mode
+                            running = true;
+                        }
+                        else
+                        {
+                            // Not running, so store the current status byte and mark running as false
+                            status = nextValue;
+                            running = false;
+                        }
 
-					MidiEvent tempEvent = null;
+                        // Grab the 4-bit identifier
+                        byte messageType = (byte)((status >> 4) & 0xF);
 
-					// Handle voice events
-					if (messageType >= 0x8 && messageType <= 0xE) 
-					{
-						if (!running) pos++; // if we're running, we don't advance; if we're not running, we do
-						byte channel = (byte)(status & 0xF); // grab the channel from the status byte
-						tempEvent = ParseVoiceEvent(deltaTime, messageType, channel, data, ref pos);
-					} 
-						// Handle meta events
-					else if (status == 0xFF)
-					{
-						pos++;
-						byte eventType = data[pos];
-						pos++;
-						tempEvent = ParseMetaEvent(deltaTime, eventType, data, ref pos);
-					}
-						// Handle system exclusive events
-					else if (status == 0xF0)
-					{
-						pos++;
-						long length = ReadVariableLength(data, ref pos); // figure out how much data to read
+                        MidiEvent tempEvent = null;
 
-						// If this is single-segment message, process the whole thing
-						if (data[pos+length-1] == 0xF7) 
-						{
-                            sysExData = new byte[length - 1];
-                            Array.Copy(data, (int)pos, sysExData, 0, (int)length - 1);
-                            tempEvent = new SystemExclusiveMidiEvent(deltaTime, sysExData);
-						}
-							// It's multi-segment, so add the new data to the previously aquired data
-						else 
-						{
-							// Add to previously aquired sys ex data
-							int oldLength = (sysExData == null ? 0 : sysExData.Length);
-							byte [] newSysExData = new byte[oldLength + length];
-							if (sysExData != null) sysExData.CopyTo(newSysExData, 0);
-							Array.Copy(data, (int)pos, newSysExData, oldLength, (int)length);
-							sysExData = newSysExData;
-							sysExContinue = true;
-						}
-						pos += length;
-					} 
-						// Handle system exclusive continuations
-					else if (status == 0xF7)
-					{
-						if (!sysExContinue) sysExData = null;
+                        // Handle voice events
+                        if (messageType >= 0x8 && messageType <= 0xE)
+                        {
+                            if (!running) pos++; // if we're running, we don't advance; if we're not running, we do
+                            byte channel = (byte)(status & 0xF); // grab the channel from the status byte
+                            tempEvent = ParseVoiceEvent(deltaTime, messageType, channel, data, ref pos);
+                        }
+                        // Handle meta events
+                        else if (status == 0xFF)
+                        {
+                            pos++;
+                            // **Bounds checking necessary for GH2 midis.**
+                            if (pos < data.GetLength(0))
+                            {
+                                byte eventType = data[pos];
+                                pos++;
+                                tempEvent = ParseMetaEvent(deltaTime, eventType, data, ref pos);
+                            }
+                        }
+                        // Handle system exclusive events
+                        else if (status == 0xF0)
+                        {
+                            pos++;
+                            long length = ReadVariableLength(data, ref pos); // figure out how much data to read
 
-						// Figure out how much data there is
-						pos++;
-						long length = ReadVariableLength(data, ref pos);
+                            // If this is single-segment message, process the whole thing
+                            if (data[pos + length - 1] == 0xF7)
+                            {
+                                sysExData = new byte[length - 1];
+                                Array.Copy(data, (int)pos, sysExData, 0, (int)length - 1);
+                                tempEvent = new SystemExclusiveMidiEvent(deltaTime, sysExData);
+                            }
+                            // It's multi-segment, so add the new data to the previously aquired data
+                            else
+                            {
+                                // Add to previously aquired sys ex data
+                                int oldLength = (sysExData == null ? 0 : sysExData.Length);
+                                byte[] newSysExData = new byte[oldLength + length];
+                                if (sysExData != null) sysExData.CopyTo(newSysExData, 0);
+                                Array.Copy(data, (int)pos, newSysExData, oldLength, (int)length);
+                                sysExData = newSysExData;
+                                sysExContinue = true;
+                            }
+                            pos += length;
+                        }
+                        // Handle system exclusive continuations
+                        else if (status == 0xF7)
+                        {
+                            if (!sysExContinue) sysExData = null;
 
-						// Add to previously aquired sys ex data
-						int oldLength = (sysExData == null ? 0 : sysExData.Length);
-						byte [] newSysExData = new byte[oldLength + length];
-						if (sysExData != null) sysExData.CopyTo(newSysExData, 0);
-						Array.Copy(data, (int)pos, newSysExData, oldLength, (int)length);
-						sysExData = newSysExData;
+                            // Figure out how much data there is
+                            pos++;
+                            long length = ReadVariableLength(data, ref pos);
 
-						// Make it a system message if necessary (i.e. if we find an end marker)
-						if (data[pos+length-1] == 0xF7) 
-						{
-							tempEvent = new SystemExclusiveMidiEvent(deltaTime, sysExData);
-							sysExData = null;
-							sysExContinue = false;
-						}
-					}
-						// Nothing we know about
-					else throw new MidiParserException("Invalid status byte found.", pos);
+                            // Add to previously aquired sys ex data
+                            int oldLength = (sysExData == null ? 0 : sysExData.Length);
+                            byte[] newSysExData = new byte[oldLength + length];
+                            if (sysExData != null) sysExData.CopyTo(newSysExData, 0);
+                            Array.Copy(data, (int)pos, newSysExData, oldLength, (int)length);
+                            sysExData = newSysExData;
 
-					// Add the newly parsed event if we got one
-					if (tempEvent != null) track.Events.Add(tempEvent);
+                            // Make it a system message if necessary (i.e. if we find an end marker)
+                            if (data[pos + length - 1] == 0xF7)
+                            {
+                                tempEvent = new SystemExclusiveMidiEvent(deltaTime, sysExData);
+                                sysExData = null;
+                                sysExContinue = false;
+                            }
+                        }
+                        // Nothing we know about
+                        else throw new MidiParserException("Invalid status byte found.", pos);
+
+                        // Add the newly parsed event if we got one
+                        if (tempEvent != null) track.Events.Add(tempEvent);
+                    }
 				}
 
 				// Return the newly populated track
@@ -254,9 +262,13 @@ namespace Toub.Sound.Midi
 						// Sequence number
 					case 0x00:
 						pos++; // skip past the 0x02
-						int number = ((data[pos] << 8) | data[pos+1]);
-						tempEvent = new SequenceNumber(deltaTime, number);
-						pos += 2; // skip read values
+                        // **Bounds checking necessary for GH2 midis.**
+                        if (pos < data.GetLength(0) - 1)
+                        {
+                            int number = ((data[pos] << 8) | data[pos + 1]);
+                            tempEvent = new SequenceNumber(deltaTime, number);
+                        }
+                        pos += 2; // skip read values
 						break;
 
 						// Text events (copyright, lyrics, etc)
@@ -336,7 +348,7 @@ namespace Toub.Sound.Midi
 						// Read in the variable length and that much data, then store it
 						length = ReadVariableLength(data, ref pos);
 						byte [] unknownData = new byte[length];
-						Array.Copy(data, (int)pos, unknownData, 0, (int)length);
+						//Array.Copy(data, (int)pos, unknownData, 0, (int)length);
 						tempEvent = new UnknownMetaMidiEvent(deltaTime, eventType, unknownData);
 						pos += length;
 						break;
@@ -365,7 +377,7 @@ namespace Toub.Sound.Midi
 				{
 						// NOTE OFF
 					case 0x8:
-                        // This check is needed to parse GH1 files
+                        // **This check is needed to parse GH1 files**
                         if (pos < data.GetLength(0) - 1)
                         {
                             tempEvent = new NoteOff(deltaTime, channel, data[pos], data[pos + 1]);
