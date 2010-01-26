@@ -212,9 +212,9 @@
       <Project>{FCEF5128-DE5F-4F1A-ABBF-1FCB9B6C0FFF}</Project>
       <Name>GameEngine</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Toub\Toub.Sound.Midi.csproj">
-      <Project>{40753431-42F5-46CD-8F79-22AE7FCADFF9}</Project>
-      <Name>Toub.Sound.Midi</Name>
+    <ProjectReference Include="..\Sanford.Multimedia.Midi\Sanford.Multimedia.Midi.csproj">
+      <Project>{4269C72A-8D3A-4737-8F89-72EAA33EA9E1}</Project>
+      <Name>Sanford.Multimedia.Midi</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

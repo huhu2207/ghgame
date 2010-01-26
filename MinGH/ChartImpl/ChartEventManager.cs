@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
 using GameEngine.Extensions;
-using Toub.Sound.Midi;
 
 namespace MinGH.ChartImpl
 {
@@ -63,45 +62,45 @@ namespace MinGH.ChartImpl
         public static List<ChartEvent> AddEventsFromMidi(string midiFilePath, ChartInfo chartInfo)
         {
             List<ChartEvent> listToReturn = new List<ChartEvent>();
-            MidiSequence mySequence = MidiSequence.Import(midiFilePath + "\\notes.mid");
-            chartInfo.resolution = mySequence.Division;
-            MidiTrack[] myTracks = mySequence.GetTracks();
-            MidiTrack trackToUse = new MidiTrack();
+            //MidiSequence mySequence = MidiSequence.Import(midiFilePath + "\\notes.mid");
+            //chartInfo.resolution = mySequence.Division;
+            //MidiTrack[] myTracks = mySequence.GetTracks();
+            //MidiTrack trackToUse = new MidiTrack();
 
-            // Find the specified instrument's track
-            foreach (MidiTrack currTrack in myTracks)
-            {
-                string trackHeader = currTrack.Events[0].ToString();
-                string[] splitHeader = trackHeader.Split('\t');
+            //// Find the specified instrument's track
+            //foreach (MidiTrack currTrack in myTracks)
+            //{
+            //    string trackHeader = currTrack.Events[0].ToString();
+            //    string[] splitHeader = trackHeader.Split('\t');
 
-                if (splitHeader[3] == "EVENTS")
-                {
-                    trackToUse = currTrack;
-                }
-            }
+            //    if (splitHeader[3] == "EVENTS")
+            //    {
+            //        trackToUse = currTrack;
+            //    }
+            //}
 
-            uint currTickValue = 0;
+            //uint currTickValue = 0;
 
-            // Go through each event in the first track (which contains the BPM changes)
-            // and parse the resulting string.
-            for (int i = 0; i < trackToUse.Events.Count; i++)
-            {
-                MidiEvent currEvent = trackToUse.Events[i];
-                string eventString = currEvent.ToString();
-                string[] splitEventString = eventString.Split('\t');
+            //// Go through each event in the first track (which contains the BPM changes)
+            //// and parse the resulting string.
+            //for (int i = 0; i < trackToUse.Events.Count; i++)
+            //{
+            //    MidiEvent currEvent = trackToUse.Events[i];
+            //    string eventString = currEvent.ToString();
+            //    string[] splitEventString = eventString.Split('\t');
 
-                // Since ticks are stored relative to each other (e.g. 300 ticks
-                // until next note), we must maintain the total tick amout.
-                currTickValue += Convert.ToUInt32(splitEventString[1]);
-                if (splitEventString[0] == "Tempo")
-                {
-                    if (splitEventString[3] == "[end]")
-                    {
-                        // TODO: Use this with the time manager to get the REAL end
-                    }
-                    //listToReturn.Add(new BPMChange(currTickValue, BPMToAdd));
-                }
-            }
+            //    // Since ticks are stored relative to each other (e.g. 300 ticks
+            //    // until next note), we must maintain the total tick amout.
+            //    currTickValue += Convert.ToUInt32(splitEventString[1]);
+            //    if (splitEventString[0] == "Tempo")
+            //    {
+            //        if (splitEventString[3] == "[end]")
+            //        {
+            //            // TODO: Use this with the time manager to get the REAL end
+            //        }
+            //        //listToReturn.Add(new BPMChange(currTickValue, BPMToAdd));
+            //    }
+            //}
 
             return listToReturn;
         }
