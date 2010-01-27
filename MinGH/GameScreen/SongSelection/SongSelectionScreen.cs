@@ -49,7 +49,8 @@ namespace MinGH.GameScreen.SongSelection
             songSelectionMenu.scrollable = true;
             for (int i = 0; i < chartPaths.Count; i++)
             {
-                songSelectionMenu.AddEntry(chartPaths[i].directory);
+                string newEntry = SongSelectionEntryCreator.CreateProperSongSelectionEntry(chartPaths[i].directory);
+                songSelectionMenu.AddEntry(newEntry);
             }
             songSelectionMenuSet.AddMenu(songSelectionMenu);
 
@@ -105,7 +106,8 @@ namespace MinGH.GameScreen.SongSelection
             if (keyboardInputManager.keyIsHit(Keys.Enter) || keyboardInputManager.keyIsHit(KeyboardConfiguration.greenFret) ||
                 keyboardInputManager.keyIsHit(KeyboardConfiguration.greenDrum))
             {
-                if (songSelectionMenuSet.currentlySelectedMenu == songSelectionMenuSet.menus.Count - 1)
+                // Dont bother showing the midi parser menu if the player has selected a *.chart file
+                if (songSelectionMenuSet.currentlySelectedMenu == 2)
                 {
                     ChartSelection chartToUse = new ChartSelection(chartPaths[songSelectionMenuSet.menus[0].currentlySelectedEntry - 1]);
 
