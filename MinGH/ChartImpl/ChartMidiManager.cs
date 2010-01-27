@@ -140,8 +140,8 @@ namespace MinGH.ChartImpl
                         MetaTextBuilder trackName = new MetaTextBuilder(currMessage);
 
                         // -If we come across a "T1 GEMS" track, we're in GH1 territory.
-                        // -GH2 has both PART BASS and PART RHYTHM (one or the other depending
-                        //  on the chart).  This is the only game that has this as far as I know.
+                        // -GH2/FoF has both PART BASS and PART RHYTHM (one or the other depending
+                        //  on the chart).
                         if ((trackName.Text == instrumentPart) || (trackName.Text == "T1 GEMS") ||
                             ((trackName.Text == "PART RHYTHM") && (instrumentPart == "PART BASS")))
                         {
@@ -236,6 +236,9 @@ namespace MinGH.ChartImpl
                 case "Single":
                     instrumentPart = "PART GUITAR";
                     break;
+                case "DoubleGuitar":
+                    instrumentPart = "PART GUITAR COOP";
+                    break;
                 case "DoubleBass":
                     instrumentPart = "PART BASS";
                     break;
@@ -322,7 +325,11 @@ namespace MinGH.ChartImpl
                 string trackHeader = currTrack.Events[0].ToString();
                 string[] splitHeader = trackHeader.Split('\t');
 
-                if ((splitHeader[3] == instrumentPart) || (splitHeader[3] == "T1 GEMS"))
+                // -If we come across a "T1 GEMS" track, we're in GH1 territory.
+                // -GH2/FoF has both PART BASS and PART RHYTHM (one or the other depending
+                //  on the chart).
+                if (((splitHeader[3] == instrumentPart) || (splitHeader[3] == "T1 GEMS")) ||
+                    ((splitHeader[3] == "PART RHYTHM") && (instrumentPart == "PART BASS")))
                 {
                     trackToUse = currTrack;
                 }

@@ -1,5 +1,4 @@
 <!-- MinGH Configuration File (must be named config.xml) -->
-
 <configuration>
 
     <!-- The directory in which the game will search for songs. If not specified,
@@ -10,7 +9,7 @@
     <fullscreen>false</fullscreen>
 
     <!-- Have the game hit the notes for you. -->
-    <autoplay>true</autoplay>
+    <autoplay>false</autoplay>
     
     <!--Sets the game so the guitar charts can be played like a drum chart
     (i.e. No strumming and no HOPOs, just flat button hitting)
@@ -80,16 +79,20 @@
             <!-- The path to the fretboard file used.  This will also be scaled
                  to the proper size.  As far as I know, any size should work.
                  Just horizontal rectangles will be scaled horribly.-->
-            <fretboard>./Content/Fretboards/FretboardDefault.png</fretboard>
+            <fretboardTexture>./Content/Fretboards/Default/Fretboard.png</fretboardTexture>
           
             <!-- The texture used to separate each of the lanes.  This only includes the
                  separators INSIDE the fretboard. -->
-            <laneSeparators>./Content/Fretboards/LaneSeparatorDefault.png</laneSeparators>
+            <laneSeparatorTexture>./Content/Fretboards/Default/LaneSeparator.png</laneSeparatorTexture>
+
+            <!-- The texture used on each side of the fretboard (giving it a nice edge).
+                 This texture is only applied to the OUTSIDE separators on the fretboard.-->
+            <fretboardBorders>./Content/Fretboards/Default/LaneSeparator.png</fretboardBorders>
 
             <!-- The texture for the fretboard's hit marker.  It will be scaled to fit
                  the user specifications, so try to use a horizontal rectangle shaped
                  texture for the best scaling. -->
-            <hitMarkerTexture>./Content/Fretboards/HitMarkerDefault.png</hitMarkerTexture>
+            <hitMarkerTexture>./Content/Fretboards/Default/HitMarker.png</hitMarkerTexture>
           
             <!-- How far the hit marker will be from the screen.  Higher means the marker 
                  will be farther up the fretboard.  Know that changing this value will
@@ -101,10 +104,6 @@
                  hit marker.  As a result, changing this value will also require
                  readjusting the speed mod settings. -->
             <hitMarkerSize>6</hitMarkerSize>
-
-            <!-- The texture used on each side of the fretboard (giving it a nice edge).
-                 This texture is only applied to the OUTSIDE separators on the fretboard.-->
-            <fretboardBorders>./Content/Fretboards/LaneSeparatorDefault.png</fretboardBorders>
         
             <!-- The directory in which the background files can be found.  The files must follow a 
                  standard naming format of:
