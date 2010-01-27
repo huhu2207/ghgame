@@ -162,11 +162,11 @@ namespace GameEngine.GameStringImpl
         /// </summary>
         /// <param name="spriteBatch">The sprite batch to use.</param>
         /// <param name="spriteFont">The sprite font to use.</param>
-        public void Draw(SpriteBatch spriteBatch, SpriteFont spriteFont)
+        public void draw(SpriteBatch spriteBatch, SpriteFont spriteFont, Rectangle viewport)
         {
             if (visible)
             {
-                stringManager.DrawStrings(spriteBatch, spriteFont);
+                stringManager.draw(spriteBatch, spriteFont, viewport);
             }
         }
 
