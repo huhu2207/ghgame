@@ -33,7 +33,7 @@ namespace GameEngine.GameStringImpl
                 Point currPoint = new Point((int)input.position.X, (int)input.position.Y);
 				if ((input.alive == true) && (viewport.Contains(currPoint)))
 				{
-					input.Draw(game_font, spriteBatch);
+					input.draw(game_font, spriteBatch);
 				}
             }
         }
