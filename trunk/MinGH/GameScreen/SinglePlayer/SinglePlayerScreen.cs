@@ -379,7 +379,7 @@ namespace MinGH.GameScreen.SinglePlayer
             spriteBatch.Draw(backgroundTex, viewportRectangle, Color.White);
 
             // Draw every string in str_manager
-            strManager.DrawStrings(spriteBatch, gameFont);
+            strManager.draw(spriteBatch, gameFont, viewportRectangle);
 
             spriteBatch.End(); 
 

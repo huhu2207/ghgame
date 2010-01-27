@@ -16,10 +16,11 @@ namespace MinGH.GameScreen.MainMenu
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         MinGHMain gameReference;  // The refrence to the game itself, used for changing the state.
+        Rectangle viewportRectangle;
 
         Menu mainMenu;
         SpriteFont gameFont;
-        IKeyboardInputManager keyboardInputManager = new KeyboardInputManager();
+        IKeyboardInputManager keyboardInputManager;
 
         public MainMenuScreen(MinGHMain game, GraphicsDeviceManager graph)
             : base((Game)game)
@@ -31,6 +32,7 @@ namespace MinGH.GameScreen.MainMenu
         public override void Initialize()
         {
             mainMenu = new Menu("Main Menu", new Vector2(graphics.GraphicsDevice.Viewport.Width / 2f, graphics.GraphicsDevice.Viewport.Height / 4f));
+            keyboardInputManager = new KeyboardInputManager();
             
             mainMenu.titleScaling = new Vector2(5.0f, 5.0f);
             mainMenu.entryScaling = new Vector2(2.0f, 2.0f);
@@ -40,6 +42,9 @@ namespace MinGH.GameScreen.MainMenu
             mainMenu.AddEntry("Quit");
 
             spriteBatch = new SpriteBatch(graphics.GraphicsDevice);
+            viewportRectangle = new Rectangle(0, 0,
+                graphics.GraphicsDevice.Viewport.Width,
+                graphics.GraphicsDevice.Viewport.Height);
 
             base.Initialize();
         }
@@ -99,7 +104,7 @@ namespace MinGH.GameScreen.MainMenu
             graphics.GraphicsDevice.Clear(Color.Black);
 
             spriteBatch.Begin(SpriteBlendMode.AlphaBlend);
-            mainMenu.Draw(spriteBatch, gameFont);
+            mainMenu.draw(spriteBatch, gameFont, viewportRectangle);
             spriteBatch.End();
 
             base.Draw(gameTime);

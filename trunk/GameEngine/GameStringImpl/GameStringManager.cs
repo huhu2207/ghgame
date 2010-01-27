@@ -26,11 +26,12 @@ namespace GameEngine.GameStringImpl
         /// <param name="game_font">
         /// The font each string will use.
         /// </param>
-        public void DrawStrings(SpriteBatch spriteBatch, SpriteFont game_font)
+        public void draw(SpriteBatch spriteBatch, SpriteFont game_font, Rectangle viewport)
         {
             foreach (GameString input in strings)
             {
-				if (input.alive == true)
+                Point currPoint = new Point((int)input.position.X, (int)input.position.Y);
+				if ((input.alive == true) && (viewport.Contains(currPoint)))
 				{
 					input.Draw(game_font, spriteBatch);
 				}

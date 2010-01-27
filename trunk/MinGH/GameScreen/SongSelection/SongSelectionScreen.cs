@@ -21,6 +21,7 @@ namespace MinGH.GameScreen.SongSelection
         MinGHMain gameReference;
         List<ChartSelection> chartPaths;
         GameConfiguration gameConfiguration;
+        Rectangle viewportRectangle;
 
         MenuSet songSelectionMenuSet;
         SpriteFont gameFont;
@@ -75,6 +76,9 @@ namespace MinGH.GameScreen.SongSelection
             songSelectionMenuSet.AddMenu(difficultySelectionMenu);
 
             spriteBatch = new SpriteBatch(graphics.GraphicsDevice);
+            viewportRectangle = new Rectangle(0, 0,
+                graphics.GraphicsDevice.Viewport.Width,
+                graphics.GraphicsDevice.Viewport.Height);
 
             base.Initialize();
         }
@@ -179,7 +183,7 @@ namespace MinGH.GameScreen.SongSelection
             graphics.GraphicsDevice.Clear(Color.Black);
 
             spriteBatch.Begin(SpriteBlendMode.AlphaBlend);
-            songSelectionMenuSet.Draw(spriteBatch, gameFont);
+            songSelectionMenuSet.draw(spriteBatch, gameFont, viewportRectangle);
             spriteBatch.End();
 
             base.Draw(gameTime);

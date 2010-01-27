@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace GameEngine.GameStringImpl
@@ -93,13 +94,13 @@ namespace GameEngine.GameStringImpl
                 menus[currentlySelectedMenu].SelectPreviousEntry(windowHeight);
         }
 
-        public void Draw(SpriteBatch spriteBatch, SpriteFont spriteFont)
+        public void draw(SpriteBatch spriteBatch, SpriteFont spriteFont, Rectangle viewport)
         {
             if (!emptySet)
             {
                 foreach (Menu currMenu in menus)
                 {
-                    currMenu.Draw(spriteBatch, spriteFont);
+                    currMenu.draw(spriteBatch, spriteFont, viewport);
                 }
             }
         }
