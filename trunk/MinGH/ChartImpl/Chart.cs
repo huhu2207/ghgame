@@ -55,7 +55,18 @@ namespace MinGH.ChartImpl
             else if (chartSelection.chartType == "*.mid")
             {
                 chartInfo = ChartInfoManager.AddSongInfoFromMidi(chartSelection.directory);
-                noteCharts.Add(ChartMidiManager.ParseMidiInformation(chartSelection, chartInfo, BPMChanges));
+
+                // Try and parse with Toub.  If an exception is thrown, parse with Sanford.
+                try
+                {
+                    noteCharts.Add(ChartMidiManager.ParseMidiInformationToub(chartSelection, chartInfo, BPMChanges));
+                }
+                catch (Exception e)
+                {
+                    // Logging plz!
+                    e.ToString();
+                    noteCharts.Add(ChartMidiManager.ParseMidiInformationSanford(chartSelection, chartInfo, BPMChanges));
+                }
             }
 
             for (int i = 0; i < noteCharts.Count; i++)
