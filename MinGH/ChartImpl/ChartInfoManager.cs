@@ -89,7 +89,9 @@ namespace MinGH.ChartImpl
 
         /// <summary>
         /// Reads in the song information from the directory in which a midi file
-        /// and its supporting files are stored.
+        /// and its supporting files are stored.  Since this function never
+        /// actually accesses the midi file itself (just song.ini), it does not
+        /// need to be merged with the midi parsing function.
         /// </summary>
         /// <param name="inputPath">
         /// The path to the midi file (which also contains song.ini)

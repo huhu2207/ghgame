@@ -33,6 +33,7 @@ namespace MinGH.ChartImpl
             BPMChanges = new List<BPMChange>();
             events = new List<ChartEvent>();
             noteCharts = new List<Notechart>();
+            chartInfo = new ChartInfo();
 
             if (chartSelection.chartType == "*.chart" && File.Exists(chartSelection.chartPath))
             {
@@ -54,9 +55,7 @@ namespace MinGH.ChartImpl
             else if (chartSelection.chartType == "*.mid")
             {
                 chartInfo = ChartInfoManager.AddSongInfoFromMidi(chartSelection.directory);
-                BPMChanges = ChartBPMManager.AddBPMChangesFromMidi(chartSelection.directory);
-                events = ChartEventManager.AddEventsFromMidi(chartSelection.directory, chartInfo);
-                noteCharts.Add(ChartNotechartManager.GenerateNotechartFromMidi(chartSelection));
+                noteCharts.Add(ChartMidiManager.ParseMidiInformation(chartSelection, chartInfo, BPMChanges));
             }
 
             for (int i = 0; i < noteCharts.Count; i++)

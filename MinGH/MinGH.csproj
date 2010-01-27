@@ -101,6 +101,7 @@
     <Compile Include="ChartImpl\BPMChange.cs" />
     <Compile Include="ChartImpl\ChartBPMManager.cs" />
     <Compile Include="ChartImpl\ChartEventManager.cs" />
+    <Compile Include="ChartImpl\ChartMidiManager.cs" />
     <Compile Include="ChartImpl\NotechartHOPOManager.cs" />
     <Compile Include="ChartImpl\ChartInfo.cs" />
     <Compile Include="ChartImpl\ChartInfoManager.cs" />

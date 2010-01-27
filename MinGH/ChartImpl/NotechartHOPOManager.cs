@@ -33,6 +33,11 @@
                 currentNote = inputNotechart.notes[i];
                 nextNote = inputNotechart.notes[i + 1];
 
+                if (i == 470)
+                {
+                    nextNote.ToString();
+                }
+
                 // If difference is 0, it is a chord and should not be a hammeron.
                 // We need to check the third note in case the next note is the start
                 // of a chord.
