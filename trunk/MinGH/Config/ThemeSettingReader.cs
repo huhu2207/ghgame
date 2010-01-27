@@ -31,10 +31,13 @@ namespace MinGH.Config
                     xmlReader.ReadToFollowing("noteSkinFile");
                     themeToReturn.noteSkinTexture = xmlReader.ReadElementContentAsString();
 
-                    xmlReader.ReadToFollowing("fretboard");
+                    xmlReader.ReadToFollowing("fretboardTexture");
                     themeToReturn.fretboardTexture = xmlReader.ReadElementContentAsString();
 
-                    xmlReader.ReadToFollowing("laneSeparators");
+                    xmlReader.ReadToFollowing("laneSeparatorTexture");
+                    themeToReturn.laneSeparatorTexture = xmlReader.ReadElementContentAsString();
+
+                    xmlReader.ReadToFollowing("fretboardBorders");
                     themeToReturn.laneSeparatorTexture = xmlReader.ReadElementContentAsString();
 
                     xmlReader.ReadToFollowing("hitMarkerTexture");
@@ -44,9 +47,6 @@ namespace MinGH.Config
                     themeToReturn.hitMarkerDepth = xmlReader.ReadElementContentAsInt();
                     xmlReader.ReadToFollowing("hitMarkerSize");
                     themeToReturn.hitMarkerSize = xmlReader.ReadElementContentAsInt();
-
-                    xmlReader.ReadToFollowing("fretboardBorders");
-                    themeToReturn.laneSeparatorTexture = xmlReader.ReadElementContentAsString();
 
                     xmlReader.ReadToFollowing("backgroundDirectory");
                     themeToReturn.backgroundDirectory = xmlReader.ReadElementContentAsString();

@@ -81,40 +81,24 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Backgrounds\Alt\DrumsSingle.png">
-      <Name>DrumsSingle</Name>
+    <None Include="Fretboards\Default\Fretboard.png">
+      <Name>Fretboard</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Backgrounds\Alt\GuitarSingle.png">
-      <Name>GuitarSingle</Name>
+    <None Include="Fretboards\Default\LaneSeparator.png">
+      <Name>LaneSeparator</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Fretboards\FretboardDefault.png">
-      <Name>FretboardDefault</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Fretboards\LaneSeparatorDefault.png">
-      <Name>LaneSeparatorDefault</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Fretboards\HitMarkerDefault.png">
-      <Name>HitMarkerDefault</Name>
+    <None Include="Fretboards\Default\HitMarker.png">
+      <Name>HitMarker</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
