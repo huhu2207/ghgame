@@ -54,43 +54,5 @@ namespace MinGH.ChartImpl
 
             return BPMChangeListToReturn;
         }
-
-        /// <summary>
-        /// Generates a list of BPM changes from a midi source.
-        /// </summary>
-        /// <param name="midiFilePath">The directory in which the midi is held.</param>
-        /// <returns>A filled out list of BPM changes.</returns>
-        public static List<BPMChange> AddBPMChangesFromMidi(string midiFilePath)
-        {
-            List<BPMChange> listToReturn = new List<BPMChange>();
-            MidiSequence mySequence = MidiSequence.Import(midiFilePath + "\\notes.mid");
-            MidiTrack[] myTracks = mySequence.GetTracks();
-            MidiTrack trackToUse = new MidiTrack();
-            uint currTickValue = 0;
-
-            // Go through each event in the first track (which contains the BPM changes)
-            // and parse the resulting string.
-            for (int i = 0; i < myTracks[0].Events.Count; i++)
-            {
-                MidiEvent currEvent = myTracks[0].Events[i];
-                string eventString = currEvent.ToString();
-                string[] splitEventString = eventString.Split('\t');
-
-                // Since ticks are stored relative to each other (e.g. 300 ticks
-                // until next note), we must maintain the total tick amout.
-                currTickValue += Convert.ToUInt32(splitEventString[1]);
-                if (splitEventString[0] == "Tempo")
-                {
-                    // In midi files, bpm chages are stored as "microseconds per quarter note"
-                    // and must be converted to BPM, and then into the non decimal format the game
-                    // uses.
-                    double currBPMDouble = 60000000 / Convert.ToDouble(splitEventString[3]);
-                    uint BPMToAdd = (uint)(currBPMDouble * 1000);
-                    listToReturn.Add(new BPMChange(currTickValue, BPMToAdd));
-                }
-            }
-
-            return listToReturn;
-        }
     }
 }

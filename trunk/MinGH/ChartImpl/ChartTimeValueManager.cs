@@ -93,7 +93,7 @@ namespace MinGH.ChartImpl
                 }
 
                 // Update the BPM changes
-                if (!(BPMChangeIterator == inputBPMChanges.Count))
+                if (!(BPMChangeIterator >= inputBPMChanges.Count))
                 {
                     currentTicksPerMilisecond = ((inputBPMChanges[BPMChangeIterator].BPMValue * chartInfo.resolution) / 60000000.0);
 

@@ -14,7 +14,14 @@
             artistName = "default";
             offset = 0.0f;
             chartLengthMiliseconds = 0;
-            HOPOThreshold = 12;
+
+            // I really mean 12th notes (8th note triplets), but some midi files
+            // have notes that are a few ticks away from being classified as a 12th note
+            // due to the midi being a little TOO exact (i.e. 11.9999999th notes)...
+            // Since I cant imagine anyone using 11th notes, I use them as the 
+            // threshold to take care of these slight anomalies
+            HOPOThreshold = 11;
+
             resolution = 192;
             musicStream = null;
             guitarStream = null;
