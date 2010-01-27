@@ -24,6 +24,7 @@ namespace MinGH.GameScreen.SongSelection
         Rectangle viewportRectangle;
 
         MenuSet songSelectionMenuSet;
+        GameString warningString;
         SpriteFont gameFont;
         IKeyboardInputManager keyboardInputManager;
 
@@ -67,6 +68,7 @@ namespace MinGH.GameScreen.SongSelection
 
             Menu difficultySelectionMenu = new Menu("Difficulty Selection", new Vector2(graphics.GraphicsDevice.Viewport.Width / 2f, graphics.GraphicsDevice.Viewport.Height / 4f));
             difficultySelectionMenu.titleScaling = new Vector2(5.0f, 5.0f);
+            difficultySelectionMenu.titlePadding = 50;
             difficultySelectionMenu.entryScaling = new Vector2(2.0f, 2.0f);
             difficultySelectionMenu.scrollable = true;
             difficultySelectionMenu.AddEntry("Expert");
@@ -74,6 +76,13 @@ namespace MinGH.GameScreen.SongSelection
             difficultySelectionMenu.AddEntry("Medium");
             difficultySelectionMenu.AddEntry("Easy");
             songSelectionMenuSet.AddMenu(difficultySelectionMenu);
+
+            warningString = new GameString(new Vector2(graphics.GraphicsDevice.Viewport.Width / 2,
+                                                       graphics.GraphicsDevice.Viewport.Height * 0.80f),
+                                           Color.Yellow);
+            warningString.value = "** Some MIDI files will take a little while to load **";
+            warningString.scale = new Vector2(2.0f, 2.0f);
+            warningString.alive = false;
 
             spriteBatch = new SpriteBatch(graphics.GraphicsDevice);
             viewportRectangle = new Rectangle(0, 0,
@@ -175,6 +184,15 @@ namespace MinGH.GameScreen.SongSelection
                 }
             }
 
+            if (songSelectionMenuSet.currentlySelectedMenu == 2)
+            {
+                warningString.alive = true;
+            }
+            else
+            {
+                warningString.alive = false;
+            }
+
             base.Update(gameTime);
         }
 
@@ -184,6 +202,7 @@ namespace MinGH.GameScreen.SongSelection
 
             spriteBatch.Begin(SpriteBlendMode.AlphaBlend);
             songSelectionMenuSet.draw(spriteBatch, gameFont, viewportRectangle);
+            warningString.draw(gameFont, spriteBatch);
             spriteBatch.End();
 
             base.Draw(gameTime);

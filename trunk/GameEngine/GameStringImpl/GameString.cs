@@ -62,11 +62,14 @@ namespace GameEngine.GameStringImpl
         /// <param name="spriteBatch">
         /// The spritebatch used to physically draw the string.
         /// </param>
-        public void Draw (SpriteFont gameFont, SpriteBatch spriteBatch)
+        public void draw (SpriteFont gameFont, SpriteBatch spriteBatch)
         {
-            Vector2 curr_origin = gameFont.MeasureString(this.value) / 2;
-            spriteBatch.DrawString(gameFont, this.value, this.position, this.color,
-                                   0, curr_origin, this.scale, SpriteEffects.None, 0.5f);
+            if (alive)
+            {
+                Vector2 curr_origin = gameFont.MeasureString(this.value) / 2;
+                spriteBatch.DrawString(gameFont, this.value, this.position, this.color,
+                                       0, curr_origin, this.scale, SpriteEffects.None, 0.5f);
+            }
         }
 
 		/// <summary>
