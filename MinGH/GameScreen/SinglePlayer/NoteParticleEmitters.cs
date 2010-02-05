@@ -106,9 +106,9 @@ namespace MinGH.GameScreen.SinglePlayer
             lineEmitterToAdd.Budget = 3000;
             lineEmitterToAdd.ReleaseQuantity = 1500;
             lineEmitterToAdd.ReleaseScale = new VariableFloat { Anchor = 40f, Variation = 0.5f };
-            lineEmitterToAdd.ReleaseSpeed = new VariableFloat { Anchor = 300f, Variation = 1f };
+            lineEmitterToAdd.ReleaseSpeed = new VariableFloat { Anchor = 400f, Variation = 1f };
             lineEmitterToAdd.ReleaseOpacity = new VariableFloat { Anchor = 0.2f, Variation = 0f };
-            lineEmitterToAdd.Term = 0.2f;
+            lineEmitterToAdd.Term = 0.15f;
             lineEmitterToAdd.ParticleTextureAssetName = "Particles\\FlowerBurst";
             lineEmitterToAdd.ReleaseColour = Color.Orange.ToVector3();
             lineEmitterToAdd.Length = (int)length;
@@ -123,9 +123,9 @@ namespace MinGH.GameScreen.SinglePlayer
                 circleEmitterToAdd.Budget = 3000;
                 circleEmitterToAdd.ReleaseQuantity = 500;
                 circleEmitterToAdd.ReleaseScale = new VariableFloat { Anchor = 40f, Variation = 0.5f };
-                circleEmitterToAdd.ReleaseSpeed = new VariableFloat { Anchor = 300f, Variation = 1f };
+                circleEmitterToAdd.ReleaseSpeed = new VariableFloat { Anchor = 400f, Variation = 1f };
                 circleEmitterToAdd.ReleaseOpacity = new VariableFloat { Anchor = 0.2f, Variation = 0f };
-                circleEmitterToAdd.Term = 0.2f;
+                circleEmitterToAdd.Term = 0.15f;
                 circleEmitterToAdd.Radiate = true;
                 circleEmitterToAdd.Ring = false;
                 circleEmitterToAdd.Radius = 10f;

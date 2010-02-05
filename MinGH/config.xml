@@ -9,7 +9,7 @@
     <fullscreen>false</fullscreen>
 
     <!-- Have the game hit the notes for you. -->
-    <autoplay>false</autoplay>
+    <autoplay>true</autoplay>
     
     <!--Sets the game so the guitar charts can be played like a drum chart
     (i.e. No strumming and no HOPOs, just flat button hitting)
