@@ -14,7 +14,7 @@
         /// The currently used speed mod (i.e. how fast the notes come down and how
         /// spread apart they are).
         /// </summary>
-        public SpeedModValue speedModValue { get; set; }
+        public int MSTillHit { get; set; }
 
         /// <summary>
         /// The current theme settings.
@@ -38,17 +38,23 @@
         public bool useDrumStyleInputForGuitarMode { get; set; }
 
         /// <summary>
+        /// Fine tunes by the milisecond when the notes are actually hit
+        /// </summary>
+        public int MSOffset { get; set; }
+
+        /// <summary>
         /// Constructs a GameConfiguration using a path to a XML file.
         /// </summary>
         /// <param name="sourceXMLFile">Path to the configuration XML file.</param>
         public GameConfiguration(string sourceXMLFile)
         {
-            speedModValue = SpeedModReader.ReadInCurrentSpeedModFromXML(sourceXMLFile);
+            MSTillHit = MSTillHitReader.ReadInMSTillHitFromXML(sourceXMLFile);
             songDirectory = SongDirectoryReader.ReadInCurrentSongDirectoryFromXML(sourceXMLFile);
             fullscreen = FullscreenReader.ReadInFullscreenSelectionFromXML(sourceXMLFile);
             useDrumStyleInputForGuitarMode = DrumInputForGuitarReader.ReadInInputStyleFromXML(sourceXMLFile);
             themeSetting = ThemeSettingReader.ReadInCurrentThemeFromXML(sourceXMLFile);
             autoplay = AutoplayReader.ReadInAutoplaySelectionFromXML(sourceXMLFile);
+            MSOffset = MSOffsetReader.ReadInMSOffsetSelectionFromXML(sourceXMLFile);
         }
     }
 }

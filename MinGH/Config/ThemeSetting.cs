@@ -5,11 +5,7 @@
     /// </summary>
     public class ThemeSetting
     {
-        /// <summary>
-        /// The directory in which the backgrounds are stored.
-        /// </summary>
         public string backgroundDirectory { get; set; }
-
         public string noteSkinTexture { get; set; }
         public string fretboardTexture { get; set; }
         public string laneSeparatorTexture { get; set; }
@@ -21,6 +17,7 @@
         public int fretboardBorderSize { get; set; }
         public int hitMarkerDepth { get; set; }
         public int hitMarkerSize { get; set; }
+        public int fretboardDepth { get; set; }
 
         public ThemeSetting()
         {
@@ -36,6 +33,7 @@
             fretboardBorderSize = 6;
             hitMarkerDepth = 300;
             hitMarkerSize = 6;
+            fretboardDepth = 1000;
         }
     }
 }

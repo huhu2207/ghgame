@@ -57,11 +57,11 @@ namespace MinGH.GameScreen.SinglePlayer
         /// size of the game screen.  The hit box will be centered around a specified point
         /// which is expected to be the center of the drawn hitmarker.
         /// </summary>
-        public HorizontalHitBox(int hitMarkerCenter, SpeedModValue currHyperspeed)
+        public HorizontalHitBox(int hitMarkerCenter, int currMSTillHit)
         {
             centerLocation = hitMarkerCenter;
 
-            goodThreshold = (int)(currHyperspeed.noteVelocityMultiplier * hitBoxSize);
+            goodThreshold = 2000 / currMSTillHit * hitBoxSize;
             greatThreshold = goodThreshold / 2;
             perfectThreshold = greatThreshold / 2;
         }

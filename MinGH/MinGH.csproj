@@ -115,11 +115,12 @@
     <Compile Include="ChartImpl\NoteType.cs" />
     <Compile Include="ChartImpl\ProperStringCreator.cs" />
     <Compile Include="Config\AutoplayReader.cs" />
+    <Compile Include="Config\MSOffsetReader.cs" />
     <Compile Include="Config\DrumInputForGuitarReader.cs" />
     <Compile Include="Config\FullscreenReader.cs" />
     <Compile Include="Config\GameConfiguration.cs" />
     <Compile Include="Config\SongDirectoryReader.cs" />
-    <Compile Include="Config\SpeedModReader.cs" />
+    <Compile Include="Config\MSTillHitReader.cs" />
     <Compile Include="Config\ThemeSetting.cs" />
     <Compile Include="Config\ThemeSettingReader.cs" />
     <Compile Include="EngineExtensions\DrumHitMarker.cs" />
@@ -145,7 +146,6 @@
     <Compile Include="GameScreen\SinglePlayer\NoteInitializer.cs" />
     <Compile Include="GameScreen\SinglePlayer\SinglePlayerScreen.cs" />
     <Compile Include="GameScreen\SinglePlayer\HorizontalHitBox.cs" />
-    <Compile Include="Config\SpeedModValue.cs" />
     <Compile Include="GameScreen\SinglePlayer\NoteParticleEmitters.cs" />
     <Compile Include="GameScreen\SinglePlayer\NoteUpdater.cs" />
     <Compile Include="GameScreen\SinglePlayer\GuitarInputManager.cs" />
