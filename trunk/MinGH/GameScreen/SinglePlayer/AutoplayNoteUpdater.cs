@@ -16,7 +16,8 @@ namespace MinGH.GameScreen.SinglePlayer
                                 float currStep, double currentMsec,
                                 int spriteSheetSize, PlayerInformation playerInfo,
                                 HorizontalHitBox hitBox, NoteParticleEmitters noteParticleEmitters,
-                                float noteStartPosition, float timeNotesTakeToPassHitmarker)
+                                float noteStartPosition, float timeNotesTakeToPassHitmarker,
+                                float currStepPerMilisecond)
         {
             int currentNoteset = 0;
             
@@ -80,7 +81,10 @@ namespace MinGH.GameScreen.SinglePlayer
                                         currentRoot = new Point(currentNoteset, i);
                                     }
                                 }
-                                physicalNotes[currentNoteset, i].position3D = new Vector3(physicalNotes[currentNoteset, i].position3D.X, physicalNotes[currentNoteset, i].position3D.Y, -noteStartPosition);
+
+                                // Find out where a note should actually be upon spawning
+                                float actualPosition = noteStartPosition - (float)((currentMsec + timeNotesTakeToPassHitmarker - inputNotechart.notes[inputNoteIterator].TimeValue) * currStepPerMilisecond);
+                                physicalNotes[currentNoteset, i].position3D = new Vector3(physicalNotes[currentNoteset, i].position3D.X, physicalNotes[currentNoteset, i].position3D.Y, -actualPosition);
                                 break;
                             }
                         }
