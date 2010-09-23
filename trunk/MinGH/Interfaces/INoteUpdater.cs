@@ -7,6 +7,10 @@ using MinGH.GameScreen.SinglePlayer;
 
 namespace MinGH.Interfaces
 {
+    /// <summary>
+    /// Encompasses most of the logic to be done during the single player game for every
+    /// update.
+    /// </summary>
     public interface INoteUpdater
     {
         /// <summary>
@@ -24,10 +28,13 @@ namespace MinGH.Interfaces
         /// <param name="playerInfo">The player's current status.</param>
         /// <param name="hitBox">The current hit window.</param>
         /// <param name="noteParticleEmitters">Used for the autohit functionality.</param>
+        /// <param name="noteStartPosition">How far back on the fretboard a newly created note will be placed.</param>
+        /// <param name="timeNotesTakeToPassHitmarker">How many miliseconds it takes for a note to pass the hitmarker.</param>
         void updateNotes(Notechart inputNotechart, ref int inputNoteIterator,
                          Note[,] physicalNotes, Rectangle viewportRectangle,
                          float currStep, double currentMsec,
                          int spriteSheetSize, PlayerInformation playerInfo,
-                         HorizontalHitBox hitBox, NoteParticleEmitters noteParticleEmitters);
+                         HorizontalHitBox hitBox, NoteParticleEmitters noteParticleEmitters,
+                         float noteStartPosition, float timeNotesTakeToPassHitmarker);
     }
 }

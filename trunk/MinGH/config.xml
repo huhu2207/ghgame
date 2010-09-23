@@ -37,7 +37,7 @@
         </speedMod>
         
         <speedMod id="2">
-            <MSOffset>1490</MSOffset>
+            <MSOffset>0</MSOffset>
             <NVMultiplier>0.5</NVMultiplier>
         </speedMod>
         
@@ -116,7 +116,7 @@
                  Know that every lane will be of the same size for a single instrument. -->
             <laneSize>
                 <guitarSingle>35</guitarSingle>
-                <drumSingle>35</drumSingle>
+                <drumSingle>55</drumSingle>
             </laneSize>
             
             <!-- The physical size of the lane separators INSIDE the fretboard.

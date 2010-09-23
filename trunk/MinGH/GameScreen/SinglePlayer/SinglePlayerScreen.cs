@@ -20,7 +20,7 @@ namespace MinGH.GameScreen.SinglePlayer
     /// </summary>
     class SinglePlayerScreen : DrawableGameComponent
     {
-        const int maxNotesOnscreen = 50;  // Maximum amount of a single note (i.e. how many reds per frame)
+        const int maxNotesOnscreen = 500;  // Maximum amount of a single note (i.e. how many reds per frame)
         const int noteSpriteSheetSize = 100;  // How large each sprite is in the spritesheet (including the offset padding)
 
         MinGHMain gameReference;  // A reference to the game itself, allows for game state changing.
@@ -49,6 +49,10 @@ namespace MinGH.GameScreen.SinglePlayer
         Matrix viewMatrix, projectionMatrix;
         VertexDeclaration texturedVertexDeclaration;
         Effect effect;
+        float noteStartPosition = 1000f; // How far back on the fretboard a newly created note will be placed
+        float distanceFromNoteStartToHitmarker;
+        float timeNotesTakeToPassHitmarker = 1000f; // How many miliseconds it takes for a note to pass the hitmarker
+        float currStepPerMilisecond; // How many game space units a note must move per milisecond
 
         // Variables related to the audio playing and note syncing
         private GameEngine.FMOD.System system;
@@ -94,6 +98,10 @@ namespace MinGH.GameScreen.SinglePlayer
             fretboards = new List<Fretboard>();
             spriteBatch = new SpriteBatch(graphics.GraphicsDevice);
             gameConfiguration = new GameConfiguration("./config.xml");
+            hitBox = new HorizontalHitBox((int)(gameConfiguration.themeSetting.hitMarkerDepth - (gameConfiguration.themeSetting.hitMarkerSize / 2.0f)),
+                                          gameConfiguration.speedModValue);
+            distanceFromNoteStartToHitmarker = noteStartPosition - hitBox.centerLocation;
+            currStepPerMilisecond = distanceFromNoteStartToHitmarker / timeNotesTakeToPassHitmarker;
             strManager = SinglePlayerStringInitializer.initializeStrings(graphics.GraphicsDevice.Viewport.Width,
                                                 graphics.GraphicsDevice.Viewport.Height);
 
@@ -131,9 +139,6 @@ namespace MinGH.GameScreen.SinglePlayer
             spriteSheetTex = Texture2D.FromFile(graphics.GraphicsDevice, gameConfiguration.themeSetting.noteSkinTexture);
             Texture2D laneSeparatorTexture = Texture2D.FromFile(graphics.GraphicsDevice, gameConfiguration.themeSetting.laneSeparatorTexture);
             Texture2D hitMarkerTexture = Texture2D.FromFile(graphics.GraphicsDevice, gameConfiguration.themeSetting.hitMarkerTexture);
-
-            hitBox = new HorizontalHitBox((int)(gameConfiguration.themeSetting.hitMarkerDepth - (gameConfiguration.themeSetting.hitMarkerSize / 2.0f)),
-                                          gameConfiguration.speedModValue);
 
             if (mainChart.noteCharts[0].instrument == "Drums")
             {
@@ -288,18 +293,21 @@ namespace MinGH.GameScreen.SinglePlayer
             keyboardInputManager.processKeyboardState(Keyboard.GetState());
 
             // The distance each note must step to be in sync with this current update
-            float currStep = (float)(gameTime.ElapsedGameTime.TotalMilliseconds * gameConfiguration.speedModValue.noteVelocityMultiplier);
-            
+            //float currStep = (float)(gameTime.ElapsedGameTime.TotalMilliseconds * gameConfiguration.speedModValue.noteVelocityMultiplier);
+            float currStep = (float)(gameTime.ElapsedGameTime.TotalMilliseconds * currStepPerMilisecond);
+
             inputManager.processPlayerInput(notes, noteParticleEmitters, hitBox,
                                                   playerInformation, keyboardInputManager,
                                                   mainChart.noteCharts[0]);
 
             noteUpdater.updateNotes(mainChart.noteCharts[0], ref noteIterator, notes, viewportRectangle,
                                     currStep, currentMsec + gameConfiguration.speedModValue.milisecondOffset,
-                                    noteSpriteSheetSize, playerInformation, hitBox, noteParticleEmitters);
+                                    noteSpriteSheetSize, playerInformation, hitBox, noteParticleEmitters,
+                                    noteStartPosition, timeNotesTakeToPassHitmarker);
 
             FretboardUpdater.UpdateFretboards(fretboards, fretboardTex, effect, graphics.GraphicsDevice,
-                                              gameConfiguration.themeSetting, currStep, mainChart.noteCharts[0].instrument);
+                                              gameConfiguration.themeSetting, currStep,
+                                              mainChart.noteCharts[0].instrument);
 
             // Update varous strings
             uint guitarPosition = 0, bassPosition = 0, drumPosition = 0, musicPosition = 0;
