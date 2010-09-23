@@ -13,6 +13,6 @@ namespace MinGH.EngineExtensions
             : base(loadedTex, spriteRect, effectToUse, device)
         { }
 
-        public abstract void initalizeFretboardBorders(int laneSize, int fretboardBorderSize, int laneBorderSize);
+        public abstract void initalizeFretboardBorders(int laneSize, int fretboardBorderSize, int laneBorderSize, float laneDepth);
     }
 }

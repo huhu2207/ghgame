@@ -20,6 +20,10 @@ namespace MinGH.GameScreen.SinglePlayer
     /// </summary>
     class SinglePlayerScreen : DrawableGameComponent
     {
+        /* TODO: PUT INTO CONFIG FILE...NO MAGIC NUMBERS!! */
+        float timeNotesTakeToPassHitmarker = 1000f; // How many miliseconds it takes for a note to pass the hitmarker
+        float fretboardDepth = 5000f; // How far back on the fretboard a newly created note will be placed
+
         const int maxNotesOnscreen = 500;  // Maximum amount of a single note (i.e. how many reds per frame)
         const int noteSpriteSheetSize = 100;  // How large each sprite is in the spritesheet (including the offset padding)
 
@@ -49,9 +53,7 @@ namespace MinGH.GameScreen.SinglePlayer
         Matrix viewMatrix, projectionMatrix;
         VertexDeclaration texturedVertexDeclaration;
         Effect effect;
-        float noteStartPosition = 1000f; // How far back on the fretboard a newly created note will be placed
         float distanceFromNoteStartToHitmarker;
-        float timeNotesTakeToPassHitmarker = 1000f; // How many miliseconds it takes for a note to pass the hitmarker
         float currStepPerMilisecond; // How many game space units a note must move per milisecond
 
         // Variables related to the audio playing and note syncing
@@ -98,9 +100,9 @@ namespace MinGH.GameScreen.SinglePlayer
             fretboards = new List<Fretboard>();
             spriteBatch = new SpriteBatch(graphics.GraphicsDevice);
             gameConfiguration = new GameConfiguration("./config.xml");
-            hitBox = new HorizontalHitBox((int)(gameConfiguration.themeSetting.hitMarkerDepth - (gameConfiguration.themeSetting.hitMarkerSize / 2.0f)),
+            hitBox = new HorizontalHitBox((int)(gameConfiguration.themeSetting.hitMarkerDepth + (gameConfiguration.themeSetting.hitMarkerSize / 2.0f)),
                                           gameConfiguration.speedModValue);
-            distanceFromNoteStartToHitmarker = noteStartPosition - hitBox.centerLocation;
+            distanceFromNoteStartToHitmarker = fretboardDepth - hitBox.centerLocation;
             currStepPerMilisecond = distanceFromNoteStartToHitmarker / timeNotesTakeToPassHitmarker;
             strManager = SinglePlayerStringInitializer.initializeStrings(graphics.GraphicsDevice.Viewport.Width,
                                                 graphics.GraphicsDevice.Viewport.Height);
@@ -148,7 +150,7 @@ namespace MinGH.GameScreen.SinglePlayer
                 cameraPostion = new Vector3(cameraX, 170.0f, 0.0f);
                 cameraLookAt = new Vector3(cameraX, 50.0f, -300.0f);
                 viewMatrix = Matrix.CreateLookAt(cameraPostion, cameraLookAt, new Vector3(0, 1, 0));
-                projectionMatrix = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, graphics.GraphicsDevice.Viewport.AspectRatio, 0.2f, 1000.0f);
+                projectionMatrix = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, graphics.GraphicsDevice.Viewport.AspectRatio, 0.2f, fretboardDepth);
 
                 // Set up the particle explosions
                 noteParticleEmitters.initalizeEmittersDrumsSingle(gameConfiguration.themeSetting, graphics.GraphicsDevice, viewMatrix, projectionMatrix);
@@ -162,10 +164,10 @@ namespace MinGH.GameScreen.SinglePlayer
 
                 
                 laneSeparators = new DrumLaneSeparators(gameConfiguration.themeSetting.laneSizeDrums, gameConfiguration.themeSetting.laneSeparatorSize, effect,
-                                                        laneSeparatorTexture, graphics.GraphicsDevice);
+                                                        laneSeparatorTexture, graphics.GraphicsDevice, fretboardDepth);
 
                 fretboardBorders = new DrumFretboardBorders(gameConfiguration.themeSetting.laneSizeDrums, gameConfiguration.themeSetting.laneSeparatorSize, effect,
-                                                            laneSeparatorTexture, graphics.GraphicsDevice, gameConfiguration.themeSetting.fretboardBorderSize);
+                                                            laneSeparatorTexture, graphics.GraphicsDevice, gameConfiguration.themeSetting.fretboardBorderSize, fretboardDepth);
 
                 hitMarker = new DrumHitMarker(gameConfiguration.themeSetting.hitMarkerDepth, gameConfiguration.themeSetting.hitMarkerSize,
                                               gameConfiguration.themeSetting.laneSizeDrums, gameConfiguration.themeSetting.laneSeparatorSize,
@@ -182,7 +184,7 @@ namespace MinGH.GameScreen.SinglePlayer
                 cameraPostion = new Vector3(cameraX, 170.0f, 0.0f);
                 cameraLookAt = new Vector3(cameraX, 50.0f, -300.0f);
                 viewMatrix = Matrix.CreateLookAt(cameraPostion, cameraLookAt, new Vector3(0, 1, 0));
-                projectionMatrix = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, graphics.GraphicsDevice.Viewport.AspectRatio, 0.2f, 1000.0f);
+                projectionMatrix = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, graphics.GraphicsDevice.Viewport.AspectRatio, 0.2f, fretboardDepth);
 
                 // Set up the particle explosions
                 noteParticleEmitters.initalizeEmittersGuitarSingle();
@@ -192,9 +194,9 @@ namespace MinGH.GameScreen.SinglePlayer
                 
                 
                 laneSeparators = new GuitarLaneSeparators(gameConfiguration.themeSetting.laneSizeGuitar, gameConfiguration.themeSetting.laneSeparatorSize, effect,
-                                                          laneSeparatorTexture, graphics.GraphicsDevice);
+                                                          laneSeparatorTexture, graphics.GraphicsDevice, fretboardDepth);
                 fretboardBorders = new GuitarFretboardBorders(gameConfiguration.themeSetting.laneSizeGuitar, gameConfiguration.themeSetting.laneSeparatorSize, effect,
-                                                        laneSeparatorTexture, graphics.GraphicsDevice, gameConfiguration.themeSetting.fretboardBorderSize);
+                                                        laneSeparatorTexture, graphics.GraphicsDevice, gameConfiguration.themeSetting.fretboardBorderSize, fretboardDepth);
 
                 hitMarker = new GuitarHitMarker(gameConfiguration.themeSetting.hitMarkerDepth, gameConfiguration.themeSetting.hitMarkerSize,
                                                 gameConfiguration.themeSetting.laneSizeGuitar, gameConfiguration.themeSetting.laneSeparatorSize,
@@ -303,11 +305,11 @@ namespace MinGH.GameScreen.SinglePlayer
             noteUpdater.updateNotes(mainChart.noteCharts[0], ref noteIterator, notes, viewportRectangle,
                                     currStep, currentMsec + gameConfiguration.speedModValue.milisecondOffset,
                                     noteSpriteSheetSize, playerInformation, hitBox, noteParticleEmitters,
-                                    noteStartPosition, timeNotesTakeToPassHitmarker);
+                                    fretboardDepth, timeNotesTakeToPassHitmarker, currStepPerMilisecond);
 
             FretboardUpdater.UpdateFretboards(fretboards, fretboardTex, effect, graphics.GraphicsDevice,
                                               gameConfiguration.themeSetting, currStep,
-                                              mainChart.noteCharts[0].instrument);
+                                              mainChart.noteCharts[0].instrument, fretboardDepth);
 
             // Update varous strings
             uint guitarPosition = 0, bassPosition = 0, drumPosition = 0, musicPosition = 0;

@@ -13,11 +13,12 @@ namespace MinGH.EngineExtensions
         /// </summary>
         VertexPositionTexture[][] fretboardBorders;
 
-        public DrumFretboardBorders(int laneSize, int laneBorderSize, Effect effectToUse, Texture2D texture, GraphicsDevice graphics, int fretboardBorderSize)
+        public DrumFretboardBorders(int laneSize, int laneBorderSize, Effect effectToUse, Texture2D texture, GraphicsDevice graphics,
+                                    int fretboardBorderSize, float laneDepth)
             : base(texture, new Rectangle(0, 0, texture.Width, texture.Height), effectToUse, graphics)
         {
             fretboardBorders = new VertexPositionTexture[2][];
-            initalizeFretboardBorders(laneSize, fretboardBorderSize, laneBorderSize);
+            initalizeFretboardBorders(laneSize, fretboardBorderSize, laneBorderSize, laneDepth);
             myEffect = effectToUse;
         }
 
@@ -26,12 +27,12 @@ namespace MinGH.EngineExtensions
         /// </summary>
         /// <param name="laneSize">The size of the fretboard lanes.</param>
         /// <param name="laneBorderSize">The size of the fretboard medians.</param>
-        public override void initalizeFretboardBorders(int laneSize, int fretboardBorderSize, int laneBorderSize)
+        public override void initalizeFretboardBorders(int laneSize, int fretboardBorderSize, int laneBorderSize, float laneDepth)
         {
             for (int i = 0; i < fretboardBorders.GetLength(0); i++)
             {
                 fretboardBorders[i] = new VertexPositionTexture[6];
-                float top = -1000;
+                float top = -laneDepth;
                 float bottom = 0;
                 float left = 0;
                 float right = 0;

@@ -13,6 +13,6 @@ namespace MinGH.EngineExtensions
             : base(loadedTex, spriteRect, effectToUse, device)
         { }
 
-        public abstract void initalizeLaneSeparators(int laneSize, int laneBorderSize);
+        public abstract void initalizeLaneSeparators(int laneSize, int laneBorderSize, float depth);
     }
 }

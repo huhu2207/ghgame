@@ -30,11 +30,13 @@ namespace MinGH.Interfaces
         /// <param name="noteParticleEmitters">Used for the autohit functionality.</param>
         /// <param name="noteStartPosition">How far back on the fretboard a newly created note will be placed.</param>
         /// <param name="timeNotesTakeToPassHitmarker">How many miliseconds it takes for a note to pass the hitmarker.</param>
+        /// <param name="currStepPerMilisecond">How many game space units a note must move per milisecond.</param>
         void updateNotes(Notechart inputNotechart, ref int inputNoteIterator,
                          Note[,] physicalNotes, Rectangle viewportRectangle,
                          float currStep, double currentMsec,
                          int spriteSheetSize, PlayerInformation playerInfo,
                          HorizontalHitBox hitBox, NoteParticleEmitters noteParticleEmitters,
-                         float noteStartPosition, float timeNotesTakeToPassHitmarker);
+                         float noteStartPosition, float timeNotesTakeToPassHitmarker,
+                         float currStepPerMilisecond);
     }
 }

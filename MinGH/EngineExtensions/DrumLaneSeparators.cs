@@ -13,11 +13,12 @@ namespace MinGH.EngineExtensions
         /// </summary>
         VertexPositionTexture[][] laneSeparators;
 
-        public DrumLaneSeparators(int laneSize, int laneBorderSize, Effect effectToUse, Texture2D texture, GraphicsDevice graphics)
+        public DrumLaneSeparators(int laneSize, int laneBorderSize, Effect effectToUse, Texture2D texture,
+                                  GraphicsDevice graphics, float laneDepth)
             : base(texture, new Rectangle(0, 0, texture.Width, texture.Height), effectToUse, graphics)
         {
             laneSeparators = new VertexPositionTexture[3][];
-            initalizeLaneSeparators(laneSize, laneBorderSize);
+            initalizeLaneSeparators(laneSize, laneBorderSize, laneDepth);
             myEffect = effectToUse;
         }
 
@@ -26,12 +27,13 @@ namespace MinGH.EngineExtensions
         /// </summary>
         /// <param name="laneSize">The size of the fretboard lanes.</param>
         /// <param name="laneBorderSize">The size of the fretboard medians.</param>
-        public override void initalizeLaneSeparators(int laneSize, int laneBorderSize)
+        /// <param name="laneDepth">The depth of the fretboard lanes</param>
+        public override void initalizeLaneSeparators(int laneSize, int laneBorderSize, float laneDepth)
         {
             for (int i = 0; i < laneSeparators.GetLength(0); i++)
             {
                 laneSeparators[i] = new VertexPositionTexture[6];
-                float top = -1000;
+                float top = -laneDepth;
                 float bottom = 0;
                 float left = ((i + 1) * laneSize) + (i * laneBorderSize);
                 float right = ((i + 1) * laneSize) + (i * laneBorderSize) + laneBorderSize;
