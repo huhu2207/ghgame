@@ -1,10 +1,10 @@
 using Microsoft.Xna.Framework;
+using MinGH.Config;
 using MinGH.Enum;
 using MinGH.GameScreen;
 using MinGH.GameScreen.MainMenu;
 using MinGH.GameScreen.SinglePlayer;
 using MinGH.GameScreen.SongSelection;
-using MinGH.Config;
 
 namespace MinGH
 {
@@ -35,6 +35,9 @@ namespace MinGH
             if (gameConfiguration.fullscreen)
             {
                 graphics.ToggleFullScreen();
+                //graphics.PreferredBackBufferWidth = 1920;
+                //graphics.PreferredBackBufferHeight = 1080;
+                //graphics.ApplyChanges();
             }
 
             Window.Title = "MinGH";

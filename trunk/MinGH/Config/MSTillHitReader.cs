@@ -7,19 +7,18 @@ namespace MinGH.Config
     /// Reads an XML file for the currently selected speed mod.
     /// The XML file have a special format simiar to the provided file.
     /// </summary>
-    public class SpeedModReader
+    public class MSTillHitReader
     {
         /// <summary>
         /// Read in the currently specified speed mod as per the configuration XML file.
         /// </summary>
         /// <param name="sourceXMLFile">Path to the configuration XML file.</param>
-        /// <returns>A constructed SpeedModValue.</returns>
-        public static SpeedModValue ReadInCurrentSpeedModFromXML(string sourceXMLFile)
+        /// <returns>Number of milisezonds a note will take to travel the fretboard.</returns>
+        public static int ReadInMSTillHitFromXML(string sourceXMLFile)
         {
             bool speedModFound = false;
-            double NVMultiplier = 0.0;
             int selectedSpeedMod = 0;
-            int MSOffset = 0;
+            int MSTillHit = 0;
             XmlTextReader xmlReader = new XmlTextReader(sourceXMLFile);
 
             if (xmlReader.ReadToFollowing("selectedSpeedMod"))
@@ -31,11 +30,8 @@ namespace MinGH.Config
             {
                 if (selectedSpeedMod == Convert.ToInt32(xmlReader.GetAttribute("id")))
                 {
-                    xmlReader.ReadToFollowing("MSOffset");
-                    MSOffset = xmlReader.ReadElementContentAsInt();
-
-                    xmlReader.ReadToFollowing("NVMultiplier");
-                    NVMultiplier = xmlReader.ReadElementContentAsDouble();
+                    xmlReader.ReadToFollowing("MSTillHit");
+                    MSTillHit = xmlReader.ReadElementContentAsInt();
 
                     speedModFound = true;
                 }
@@ -43,11 +39,11 @@ namespace MinGH.Config
 
             if (speedModFound)
             {
-                return new SpeedModValue(MSOffset, NVMultiplier);
+                return MSTillHit;
             }
             else
             {
-                return new SpeedModValue();
+                return 2000;
             }
         }
     }

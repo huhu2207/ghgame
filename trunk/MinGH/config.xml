@@ -6,54 +6,49 @@
     <songDirectory>./Songs</songDirectory>
     
     <!-- Play the game fullscreen at 800x600 (will support custom resolutions later -->
-    <fullscreen>false</fullscreen>
+    <fullscreen>true</fullscreen>
 
     <!-- Have the game hit the notes for you. -->
     <autoplay>true</autoplay>
     
-    <!--Sets the game so the guitar charts can be played like a drum chart
+    <!-- Sets the game so the guitar charts can be played like a drum chart
     (i.e. No strumming and no HOPOs, just flat button hitting)
     NOTE: The drum keys will be used with this setting regardless of chart.
-    NOTE: This option can also turn this game into a keyboard Stepmania clone-->
+    NOTE: This option can also turn this game into a keyboard Stepmania clone -->
     <useDrumStyleInputForGuitarMode>false</useDrumStyleInputForGuitarMode>
 
-    <!-- The different speed mod settings.  You can edit or add however many settings 
-         you want as long as the selectedSpeedMod points to a speedMod of the same id,
-         else a default (probably wrong) value will be used.  Also ensure no two speedMods
-         share the same id, else untold things will happen.
-         -MSOffset: The number of milisecondsseconds a note should be displayed early
-                    (i.e. higher speeds need a lower offset).  Edit this if notes
-                    appear to come too early or late.  A higher number = earlier notes.
-         -NVMultiplier: The note velocity multiplier denotes how fast the notes will move down
-                        the screen (i.e. higher = faster).  Edit this if notes scroll too fast
-                        or slow. -->
+    <!-- Use this to fine tune when the notes are supposed to be hit
+         NOTE: Positive values = Notes come earlier
+               Negative values = Notes come later\
+         NOTE: No decimals allowed! -->
+    <MSOffset>0</MSOffset>
+
+    <!-- Specifies the number of miliseconds a note will take to completly
+         travel down the fretboard.
+         NOTE: The speed of the notes is also affected by the theme's hitmarker depth
+               AND fretboard depth -->
     <speedMods>
     
         <selectedSpeedMod>2</selectedSpeedMod>
         
         <speedMod id="1">
-            <MSOffset>1890</MSOffset>
-            <NVMultiplier>0.4</NVMultiplier>
+            <MSTillHit>2000</MSTillHit>
         </speedMod>
         
         <speedMod id="2">
-            <MSOffset>0</MSOffset>
-            <NVMultiplier>0.5</NVMultiplier>
+            <MSTillHit>1750</MSTillHit>
         </speedMod>
         
         <speedMod id="3">
-            <MSOffset>1200</MSOffset>
-            <NVMultiplier>0.6</NVMultiplier>
+            <MSTillHit>1500</MSTillHit>
         </speedMod>
 
         <speedMod id="4">
-            <MSOffset>1049</MSOffset>
-            <NVMultiplier>0.7</NVMultiplier>
+            <MSTillHit>1250</MSTillHit>
         </speedMod>
 
         <speedMod id="5">
-            <MSOffset>905</MSOffset>
-            <NVMultiplier>0.8</NVMultiplier>
+            <MSTillHit>1000</MSTillHit>
         </speedMod>
         
     </speedMods>
@@ -93,16 +88,19 @@
                  the user specifications, so try to use a horizontal rectangle shaped
                  texture for the best scaling. -->
             <hitMarkerTexture>./Content/Fretboards/Default/HitMarker.png</hitMarkerTexture>
+
+            <!-- How far back the fretboard will be visible in game space units.
+                   NOTE: This will affect the note speed -->
+            <fretbooardDepth>1500</fretbooardDepth>
           
-            <!-- How far the hit marker will be from the screen.  Higher means the marker 
-                 will be farther up the fretboard.  Know that changing this value will
-                 invalidate any current speed mod settings. -->
+            <!-- How far the hitbox and marker will be from the screen.  Higher means the marker 
+                 will be farther up the fretboad.
+                 NOTE: This will affect the note speed -->
             <hitMarkerDepth>240</hitMarkerDepth>
-          
+
             <!-- How large the hit marker will be.  The internal hitbox's center
                  (i.e. when you should hit a note), will always be in the center of the
-                 hit marker.  As a result, changing this value will also require
-                 readjusting the speed mod settings. -->
+                 hit marker. -->
             <hitMarkerSize>6</hitMarkerSize>
         
             <!-- The directory in which the background files can be found.  The files must follow a 
@@ -116,7 +114,7 @@
                  Know that every lane will be of the same size for a single instrument. -->
             <laneSize>
                 <guitarSingle>35</guitarSingle>
-                <drumSingle>55</drumSingle>
+                <drumSingle>35</drumSingle>
             </laneSize>
             
             <!-- The physical size of the lane separators INSIDE the fretboard.

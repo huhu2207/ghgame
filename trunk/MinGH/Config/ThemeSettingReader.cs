@@ -43,6 +43,9 @@ namespace MinGH.Config
                     xmlReader.ReadToFollowing("hitMarkerTexture");
                     themeToReturn.hitMarkerTexture = xmlReader.ReadElementContentAsString();
 
+                    xmlReader.ReadToFollowing("fretbooardDepth");
+                    themeToReturn.fretboardDepth = xmlReader.ReadElementContentAsInt();
+
                     xmlReader.ReadToFollowing("hitMarkerDepth");
                     themeToReturn.hitMarkerDepth = xmlReader.ReadElementContentAsInt();
                     xmlReader.ReadToFollowing("hitMarkerSize");
