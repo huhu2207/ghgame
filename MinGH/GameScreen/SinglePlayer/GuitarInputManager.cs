@@ -13,17 +13,7 @@ namespace MinGH.GameScreen.SinglePlayer
     /// </summary>
     class GuitarInputManager : IInputManager
     {
-        /// <summary>
-        /// Uses the current keyboard state to figure out whether the user attempted to
-        /// hit a note or not.
-        /// </summary>
-        /// <param name="physicalNotes">The 2D array of drawable notes.</param>
-        /// <param name="noteParticleExplosionEmitters">The project mercury explosion emitters.</param>
-        /// <param name="hitBox">The current hit window.</param>
-        /// <param name="playerInformation">The player's current status.</param>
-        /// <param name="keyboardInputManager">The current state of the keyboard.</param>
-        /// <param name="inputNotechart">The Notechart currently being played.</param>
-        public void processPlayerInput(Note[,] physicalNotes,
+        public Point processPlayerInput(Note[,] physicalNotes,
                                        NoteParticleEmitters noteParticleEmitters,
                                        HorizontalHitBox hitBox, PlayerInformation playerInformation,
                                        IKeyboardInputManager keyboardInputManager,
@@ -34,17 +24,17 @@ namespace MinGH.GameScreen.SinglePlayer
                 if (keyboardInputManager.getHighestHeldKey() != Keys.None)
                 {
                     // Strums are ignored when the user is in the HOPO state (i.e. GH5 style)
-                    triggerInput(physicalNotes, noteParticleEmitters, hitBox, keyboardInputManager, playerInformation, inputNotechart, false);
+                    return triggerInput(physicalNotes, noteParticleEmitters, hitBox, keyboardInputManager, playerInformation, inputNotechart, false);
                 }
             }
             else
             {
-                if ((keyboardInputManager.keyIsHit(KeyboardConfiguration.upStrum) || keyboardInputManager.keyIsHit(KeyboardConfiguration.downStrum)) &&
-                    (keyboardInputManager.getHighestHeldKey() != Keys.None))
+                if (keyboardInputManager.keyIsHit(KeyboardConfiguration.upStrum) || keyboardInputManager.keyIsHit(KeyboardConfiguration.downStrum))
                 {
-                    triggerInput(physicalNotes, noteParticleEmitters, hitBox, keyboardInputManager, playerInformation, inputNotechart, true);
+                    return triggerInput(physicalNotes, noteParticleEmitters, hitBox, keyboardInputManager, playerInformation, inputNotechart, true);
                 }
             }
+            return new Point(0, 0);
         }
 
         /// <summary>
@@ -57,7 +47,7 @@ namespace MinGH.GameScreen.SinglePlayer
         /// <param name="playerInformation">The player's current status.</param>
         /// <param name="inputNotechart">The Notechart currently being played.</param>
         /// <param name="wasStrummed">Whether a strum was executed.</param>
-        private static void triggerInput(Note[,] physicalNotes,
+        private static Point triggerInput(Note[,] physicalNotes,
                                          NoteParticleEmitters noteParticleExplosionEmitters,
                                          HorizontalHitBox hitBox, IKeyboardInputManager keyboardInputManager, 
                                          PlayerInformation playerInformation,
@@ -198,6 +188,8 @@ namespace MinGH.GameScreen.SinglePlayer
                                 playerInformation.hitNote(false, Note2D.pointValue * chordDegree);
                             }
                         }
+                        // Calculate how far the hit note is from the center of the hitbox and return
+                        return new Point(1, (int)(physicalNotes[hitNote, farthestNoteIndex].position3D.Z + hitBox.centerLocation));
                     }
 
                     // If true, we tried to hit a chord, but did not hit the highest note
@@ -232,6 +224,9 @@ namespace MinGH.GameScreen.SinglePlayer
                         {
                             playerInformation.hitNote(false, physicalNotes[hitNote, farthestNoteIndex].pointValue);
                         }
+
+                        // Calculate how far the hit note is from the center of the hitbox and return
+                        return new Point(1, (int)(physicalNotes[hitNote, farthestNoteIndex].position3D.Z + hitBox.centerLocation));
                     }
                 }
             }
@@ -243,6 +238,7 @@ namespace MinGH.GameScreen.SinglePlayer
                     playerInformation.missNote();
                 }
             }
+            return new Point(0, 0);
         }
     }
 }

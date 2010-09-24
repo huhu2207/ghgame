@@ -9,7 +9,7 @@
     <fullscreen>true</fullscreen>
 
     <!-- Have the game hit the notes for you. -->
-    <autoplay>true</autoplay>
+    <autoplay>false</autoplay>
     
     <!-- Sets the game so the guitar charts can be played like a drum chart
     (i.e. No strumming and no HOPOs, just flat button hitting)
@@ -19,9 +19,9 @@
 
     <!-- Use this to fine tune when the notes are supposed to be hit
          NOTE: Positive values = Notes come earlier
-               Negative values = Notes come later\
+               Negative values = Notes come later
          NOTE: No decimals allowed! -->
-    <MSOffset>0</MSOffset>
+    <MSOffset>-80</MSOffset>
 
     <!-- Specifies the number of miliseconds a note will take to completly
          travel down the fretboard.
@@ -29,7 +29,7 @@
                AND fretboard depth -->
     <speedMods>
     
-        <selectedSpeedMod>2</selectedSpeedMod>
+        <selectedSpeedMod>1</selectedSpeedMod>
         
         <speedMod id="1">
             <MSTillHit>2000</MSTillHit>

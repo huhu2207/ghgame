@@ -37,8 +37,15 @@ namespace MinGH
                 graphics.ToggleFullScreen();
                 graphics.PreferredBackBufferWidth = 1920;
                 graphics.PreferredBackBufferHeight = 1080;
-                graphics.ApplyChanges();
+                
             }
+            else
+            {
+                graphics.PreferredBackBufferWidth = 1024;
+                graphics.PreferredBackBufferHeight = 768;
+            }
+
+            graphics.ApplyChanges();
 
             Window.Title = "MinGH";
             Components.Add(new MainMenuScreen(this, graphics));
