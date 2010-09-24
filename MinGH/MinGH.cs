@@ -35,9 +35,9 @@ namespace MinGH
             if (gameConfiguration.fullscreen)
             {
                 graphics.ToggleFullScreen();
-                //graphics.PreferredBackBufferWidth = 1920;
-                //graphics.PreferredBackBufferHeight = 1080;
-                //graphics.ApplyChanges();
+                graphics.PreferredBackBufferWidth = 1920;
+                graphics.PreferredBackBufferHeight = 1080;
+                graphics.ApplyChanges();
             }
 
             Window.Title = "MinGH";

@@ -48,13 +48,13 @@
         /// <param name="sourceXMLFile">Path to the configuration XML file.</param>
         public GameConfiguration(string sourceXMLFile)
         {
-            MSTillHit = MSTillHitReader.ReadInMSTillHitFromXML(sourceXMLFile);
-            songDirectory = SongDirectoryReader.ReadInCurrentSongDirectoryFromXML(sourceXMLFile);
-            fullscreen = FullscreenReader.ReadInFullscreenSelectionFromXML(sourceXMLFile);
-            useDrumStyleInputForGuitarMode = DrumInputForGuitarReader.ReadInInputStyleFromXML(sourceXMLFile);
-            themeSetting = ThemeSettingReader.ReadInCurrentThemeFromXML(sourceXMLFile);
-            autoplay = AutoplayReader.ReadInAutoplaySelectionFromXML(sourceXMLFile);
-            MSOffset = MSOffsetReader.ReadInMSOffsetSelectionFromXML(sourceXMLFile);
+            MSTillHit = ConfigFileReader.ReadInMSTillHitFromXML(sourceXMLFile);
+            songDirectory = ConfigFileReader.ReadInCurrentSongDirectoryFromXML(sourceXMLFile);
+            fullscreen = ConfigFileReader.ReadInFullscreenSelectionFromXML(sourceXMLFile);
+            useDrumStyleInputForGuitarMode = ConfigFileReader.ReadInInputStyleFromXML(sourceXMLFile);
+            themeSetting = ConfigFileReader.ReadInCurrentThemeFromXML(sourceXMLFile);
+            autoplay = ConfigFileReader.ReadInAutoplaySelectionFromXML(sourceXMLFile);
+            MSOffset = ConfigFileReader.ReadInMSOffsetSelectionFromXML(sourceXMLFile);
         }
     }
 }
