@@ -41,7 +41,7 @@ namespace MinGH.GameScreen.SinglePlayer
         /// The base size of the hitbox before the note velocity is taken into
         /// consideration.
         /// </summary>
-        public const int hitBoxSize = 90;
+        public const int hitBoxSize = 50;
 
         /// <summary>
         /// Default Constructor.  Doesn't really serve any purpose, but will be kept for

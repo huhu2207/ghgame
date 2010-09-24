@@ -24,6 +24,7 @@ namespace MinGH.GameScreen.SinglePlayer
              *      [2] = Song Information
              *      [3] = Player Score, multiplier and combo
              *      [4] = Player Health
+             *      [5] = Perfect Meter
              */
             GameStringManager stringManagerToReturn = new GameStringManager();
 
@@ -32,6 +33,7 @@ namespace MinGH.GameScreen.SinglePlayer
             stringManagerToReturn.Add(new GameString(new Vector2(screenWidth - 80f, 120f), Color.White));  // 2
             stringManagerToReturn.Add(new GameString(new Vector2(screenWidth - 80f, screenHeight - 100f), Color.White));  // 3
             stringManagerToReturn.Add(new GameString(new Vector2(80f, screenHeight - 100f), Color.White));  // 4
+            stringManagerToReturn.Add(new GameString(new Vector2(screenWidth - 80f, 250f), Color.White)); // 5
 
             return stringManagerToReturn;
         }

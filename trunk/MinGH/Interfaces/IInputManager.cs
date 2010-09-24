@@ -2,6 +2,7 @@
 using MinGH.EngineExtensions;
 using MinGH.GameScreen.SinglePlayer;
 using MinGH.GameScreen;
+using Microsoft.Xna.Framework;
 
 namespace MinGH.Interfaces
 {
@@ -17,7 +18,11 @@ namespace MinGH.Interfaces
         /// <param name="playerInformation">The player's current status.</param>
         /// <param name="keyboardInputManager">The current state of the keyboard.</param>
         /// <param name="inputNotechart">The Notechart currently being played.</param>
-        void processPlayerInput(Note[,] physicalNotes,
+        /// <returns>A two number mechanism (point is used due to its avaliblity).
+        ///          The X number tells if the returned value is valid (i.e. was a note hit)
+        ///          The Y number tells how far the note was hit from the center of the hitbox
+        ///             NOTE: Negative Y means hit early and Positive Y means hit late.</returns>
+        Point processPlayerInput(Note[,] physicalNotes,
                                 NoteParticleEmitters noteParticleEmitters,
                                 HorizontalHitBox hitBox, PlayerInformation playerInformation,
                                 IKeyboardInputManager keyboardInputManager,

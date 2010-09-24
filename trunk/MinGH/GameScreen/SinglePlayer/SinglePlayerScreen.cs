@@ -55,6 +55,7 @@ namespace MinGH.GameScreen.SinglePlayer
         Effect effect;
         float distanceFromNoteStartToHitmarker;
         float currStepPerMilisecond; // How many game space units a note must move per milisecond
+        Point currentGrade; // The grade of the last hit note (how close it was to the center of the hitbox)
 
         // Variables related to the audio playing and note syncing
         private GameEngine.FMOD.System system;
@@ -98,6 +99,7 @@ namespace MinGH.GameScreen.SinglePlayer
             effect = gameReference.Content.Load<Effect>("effects");
             texturedVertexDeclaration = new VertexDeclaration(graphics.GraphicsDevice, VertexPositionTexture.VertexElements);
             fretboards = new List<Fretboard>();
+            currentGrade = new Point();
             spriteBatch = new SpriteBatch(graphics.GraphicsDevice);
             gameConfiguration = new GameConfiguration("./config.xml");
             hitBox = new HorizontalHitBox((int)(gameConfiguration.themeSetting.hitMarkerDepth + (gameConfiguration.themeSetting.hitMarkerSize / 2.0f)),
@@ -298,9 +300,9 @@ namespace MinGH.GameScreen.SinglePlayer
             //float currStep = (float)(gameTime.ElapsedGameTime.TotalMilliseconds * gameConfiguration.speedModValue.noteVelocityMultiplier);
             float currStep = (float)(gameTime.ElapsedGameTime.TotalMilliseconds * currStepPerMilisecond);
 
-            inputManager.processPlayerInput(notes, noteParticleEmitters, hitBox,
-                                                  playerInformation, keyboardInputManager,
-                                                  mainChart.noteCharts[0]);
+            currentGrade = inputManager.processPlayerInput(notes, noteParticleEmitters, hitBox,
+                                                           playerInformation, keyboardInputManager,
+                                                           mainChart.noteCharts[0]);
 
             noteUpdater.updateNotes(mainChart.noteCharts[0], ref noteIterator, notes, viewportRectangle,
                                     currStep, currentMsec + gameConfiguration.MSOffset,
@@ -322,13 +324,50 @@ namespace MinGH.GameScreen.SinglePlayer
                            "Guitar: " + guitarPosition + "\n" +
                            "Bass: " + bassPosition + "\n" +
                            "Drum: " + drumPosition;
-            strManager.SetString(0, "Hitbox Y: " + hitBox.centerLocation + "\nHitbox Height: " + hitBox.goodThreshold / 2);
+            strManager.SetString(0, "Hitbox Y: " + hitBox.centerLocation + "\nHitbox Height: " + hitBox.goodThreshold * 2);
             strManager.SetString(1, times);
             strManager.SetString(3, "Score: " + playerInformation.currentScore.ToString() + "\n\n" +
                                      "Multiplier : " + playerInformation.currentMultiplier.ToString() + "\n\n" +
                                      "Combo :" + playerInformation.currentCombo.ToString());
             strManager.SetString(4, "Health: " + playerInformation.currentHealth.ToString());
 
+            
+            if (currentGrade.X == 1)  // Will not be 1 unless a note was hit and inside the hitbox
+            {
+                string gradeString = "Early <----> Late\n";
+                
+                // Top Good
+                if (currentGrade.Y < -hitBox.greatThreshold)
+                {
+                    gradeString += "<----";
+                }
+                
+                // Top Great
+                else if (currentGrade.Y < -hitBox.perfectThreshold)
+                {
+                    gradeString += "<--";
+                }
+
+                // Perfect
+                else if (currentGrade.Y < hitBox.perfectThreshold)
+                {
+                    gradeString += "(^_^)";
+                }
+
+                // Bottom Great
+                else if (currentGrade.Y < hitBox.greatThreshold)
+                {
+                    gradeString += "-->";
+                }
+
+                // Bottom Good
+                else
+                {
+                    gradeString += "---->";
+                }
+                strManager.SetString(5, gradeString);
+            }
+            
             // Ensure the audio tracks are within 50 MS accuracy
             if ((((int)guitarPosition - (int)currentMsec > 50) ||
                 ((int)guitarPosition - (int)currentMsec < -50)) &&
