@@ -114,15 +114,9 @@
     <Compile Include="ChartImpl\Notechart.cs" />
     <Compile Include="ChartImpl\NoteType.cs" />
     <Compile Include="ChartImpl\ProperStringCreator.cs" />
-    <Compile Include="Config\AutoplayReader.cs" />
-    <Compile Include="Config\MSOffsetReader.cs" />
-    <Compile Include="Config\DrumInputForGuitarReader.cs" />
-    <Compile Include="Config\FullscreenReader.cs" />
+    <Compile Include="Config\ConfigFileReader.cs" />
     <Compile Include="Config\GameConfiguration.cs" />
-    <Compile Include="Config\SongDirectoryReader.cs" />
-    <Compile Include="Config\MSTillHitReader.cs" />
     <Compile Include="Config\ThemeSetting.cs" />
-    <Compile Include="Config\ThemeSettingReader.cs" />
     <Compile Include="EngineExtensions\DrumHitMarker.cs" />
     <Compile Include="EngineExtensions\DrumFretboardBorders.cs" />
     <Compile Include="EngineExtensions\DrumLaneSeparators.cs" />
