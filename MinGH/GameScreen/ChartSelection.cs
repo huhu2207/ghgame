@@ -3,6 +3,12 @@
     /// <summary>
     /// A simple string class that stores all relavent information for picking
     /// a particular chart from a source file.
+    /// 
+    /// Current possible chartTypes:
+    ///      SingleGuitar
+    ///      DoubleGuitar
+    ///      DoubleBass
+    ///      Drums
     /// </summary>
     public class ChartSelection
     {

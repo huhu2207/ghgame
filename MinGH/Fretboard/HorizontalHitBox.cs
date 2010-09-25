@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using MinGH.Config;
 
-namespace MinGH.GameScreen.SinglePlayer
+namespace MinGH.Fretboard
 {
     /// <summary>
     /// An imaginary horizontal rectangle that is used to detect the accuracy

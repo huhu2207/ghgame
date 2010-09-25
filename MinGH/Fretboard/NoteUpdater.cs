@@ -2,9 +2,8 @@
 using MinGH.ChartImpl;
 using MinGH.Config;
 using MinGH.EngineExtensions;
-using MinGH.Interfaces;
 
-namespace MinGH.GameScreen.SinglePlayer
+namespace MinGH.Fretboard
 {
     /// <summary>
     /// See INoteUpdater for more information.

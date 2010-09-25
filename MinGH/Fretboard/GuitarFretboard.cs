@@ -8,7 +8,6 @@ using MinGH.Config;
 using Microsoft.Xna.Framework;
 using ProjectMercury.Emitters;
 using ProjectMercury.Renderers;
-using MinGH.Interfaces;
 
 namespace MinGH.Fretboard
 {
@@ -45,8 +44,6 @@ namespace MinGH.Fretboard
                                 Effect effect, Matrix viewMatrix, Matrix projectionMatrix, int noteSpriteSheetSize,
                                 GraphicsDeviceManager graphics, Game game)
         {
-            
-
             spriteSheetTex = Texture2D.FromFile(graphics.GraphicsDevice, gameConfiguration.themeSetting.noteSkinTexture);
             laneSeparatorTexture = Texture2D.FromFile(graphics.GraphicsDevice, gameConfiguration.themeSetting.laneSeparatorTexture);
             hitMarkerTexture = Texture2D.FromFile(graphics.GraphicsDevice, gameConfiguration.themeSetting.hitMarkerTexture);

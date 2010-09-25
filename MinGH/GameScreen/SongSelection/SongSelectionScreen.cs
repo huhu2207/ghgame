@@ -5,7 +5,6 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using MinGH.Config;
 using MinGH.Enum;
-using MinGH.Interfaces;
 
 namespace MinGH.GameScreen.SongSelection
 {
@@ -127,7 +126,7 @@ namespace MinGH.GameScreen.SongSelection
                     switch (songSelectionMenuSet.menus[1].currentlySelectedEntry)
                     {
                         case 1:
-                            chartToUse.instrument = "SingleGuitar";
+                            chartToUse.instrument = "Single";
                             break;
                         case 2:
                             chartToUse.instrument = "DoubleGuitar";
@@ -139,7 +138,7 @@ namespace MinGH.GameScreen.SongSelection
                             chartToUse.instrument = "Drums";
                             break;
                         default:
-                            chartToUse.instrument = "SingleGuitar";
+                            chartToUse.instrument = "Single";
                             break;
                     }
 
