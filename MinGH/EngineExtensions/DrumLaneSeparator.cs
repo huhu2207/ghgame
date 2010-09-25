@@ -6,18 +6,18 @@ namespace MinGH.EngineExtensions
     /// <summary>
     /// Draws the medians between the note lanes (not including the outside lanes).
     /// </summary>
-    public class GuitarLaneSeparators : LaneSeparator
+    public class DrumLaneSeparator : LaneSeparator
     {
         /// <summary>
         /// The verticies of all 4 lane separators.
         /// </summary>
         VertexPositionTexture[][] laneSeparators;
 
-        public GuitarLaneSeparators(int laneSize, int laneBorderSize, Effect effectToUse, Texture2D texture,
-                                    GraphicsDevice graphics, float laneDepth)
+        public DrumLaneSeparator(int laneSize, int laneBorderSize, Effect effectToUse, Texture2D texture,
+                                  GraphicsDevice graphics, float laneDepth)
             : base(texture, new Rectangle(0, 0, texture.Width, texture.Height), effectToUse, graphics)
         {
-            laneSeparators = new VertexPositionTexture[4][];
+            laneSeparators = new VertexPositionTexture[3][];
             initalizeLaneSeparators(laneSize, laneBorderSize, laneDepth);
             myEffect = effectToUse;
         }

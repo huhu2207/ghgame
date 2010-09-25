@@ -6,15 +6,15 @@ namespace MinGH.EngineExtensions
     /// <summary>
     /// Initializes and maintains the two borders on each side of the fretboard.
     /// </summary>
-    class DrumFretboardBorders : FretboardBorders
+    class GuitarFretboardBorder : FretboardBorder
     {
         /// <summary>
         /// The verticies of the two fretboard borders.
         /// </summary>
         VertexPositionTexture[][] fretboardBorders;
 
-        public DrumFretboardBorders(int laneSize, int laneBorderSize, Effect effectToUse, Texture2D texture, GraphicsDevice graphics,
-                                    int fretboardBorderSize, float laneDepth)
+        public GuitarFretboardBorder(int laneSize, int laneBorderSize, Effect effectToUse, Texture2D texture, GraphicsDevice graphics,
+                                      int fretboardBorderSize, float laneDepth)
             : base(texture, new Rectangle(0, 0, texture.Width, texture.Height), effectToUse, graphics)
         {
             fretboardBorders = new VertexPositionTexture[2][];
@@ -44,8 +44,8 @@ namespace MinGH.EngineExtensions
                 }
                 else if (i == 1)
                 {
-                    left = (4 * laneSize) + (3 * laneBorderSize);
-                    right = (4 * laneSize) + (3 * laneBorderSize) + fretboardBorderSize;
+                    left = (5 * laneSize) + (4 * laneBorderSize);
+                    right = (5 * laneSize) + (4 * laneBorderSize) + fretboardBorderSize;
                 }
 
                 float textureTop = 0;

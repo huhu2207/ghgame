@@ -1,27 +1,28 @@
 ﻿using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MinGH.ChartImpl;
+using MinGH.Config;
 using MinGH.EngineExtensions;
 using MinGH.GameScreen;
 using MinGH.GameScreen.SinglePlayer;
-using MinGH.Config;
-using Microsoft.Xna.Framework;
+using MinGH.Interfaces;
 using ProjectMercury.Emitters;
 using ProjectMercury.Renderers;
-using MinGH.Interfaces;
 
 namespace MinGH.Fretboard
 {
-    class GuitarFretboard : IFretboard
+    class DrumFretboard : IFretboard
     {
 
-        public GuitarFretboard(int maxNotesOnscreen, GameConfiguration gameConfiguration)
+        public DrumFretboard(int maxNotesOnscreen, GameConfiguration gameConfiguration)
         {
             renderer = new PointSpriteRenderer();
             noteParticleEmitters = new NoteParticleEmitters();
             playerInformation = new PlayerInformation();
             noteIterator = 0;
             noteScaleValue = 0.0f;
+            bassNoteScaleValue = 0.0f;
             notes = new Note[5, maxNotesOnscreen];
             fretboardBackgrounds = new List<FretboardBackground>();
             hitBox = new HorizontalHitBox((int)(gameConfiguration.themeSetting.hitMarkerDepth + (gameConfiguration.themeSetting.hitMarkerSize / 2.0f)),
@@ -52,32 +53,29 @@ namespace MinGH.Fretboard
             hitMarkerTexture = Texture2D.FromFile(graphics.GraphicsDevice, gameConfiguration.themeSetting.hitMarkerTexture);
             fretboardTex = Texture2D.FromFile(graphics.GraphicsDevice, gameConfiguration.themeSetting.fretboardTexture);
 
+
             // Set up the particle explosions
-            noteParticleEmitters.initalizeEmittersGuitarSingle();
-            noteParticleEmitters.initializeLocationsGuitarSingle(gameConfiguration.themeSetting, graphics.GraphicsDevice, viewMatrix, projectionMatrix);
-            noteScaleValue = gameConfiguration.themeSetting.laneSizeGuitar / (float)noteSpriteSheetSize;
+            noteParticleEmitters.initalizeEmittersDrumsSingle(gameConfiguration.themeSetting, graphics.GraphicsDevice, viewMatrix, projectionMatrix);
+            noteParticleEmitters.initializeLocationsDrumsSingle(gameConfiguration.themeSetting, graphics.GraphicsDevice, viewMatrix, projectionMatrix);
+            inputManager = new DrumInputManager();
+
+            noteScaleValue = gameConfiguration.themeSetting.laneSizeDrums / (float)noteSpriteSheetSize;
+            bassNoteScaleValue = ((gameConfiguration.themeSetting.laneSizeDrums * 4) + (gameConfiguration.themeSetting.laneSeparatorSize * 3)) /
+                                 ((float)noteSpriteSheetSize);
 
 
-            laneSeparators = new GuitarLaneSeparator(gameConfiguration.themeSetting.laneSizeGuitar, gameConfiguration.themeSetting.laneSeparatorSize, effect,
-                                                      laneSeparatorTexture, graphics.GraphicsDevice, gameConfiguration.themeSetting.fretboardDepth);
-            fretboardBorders = new GuitarFretboardBorder(gameConfiguration.themeSetting.laneSizeGuitar, gameConfiguration.themeSetting.laneSeparatorSize, effect,
-                                                          laneSeparatorTexture, graphics.GraphicsDevice, gameConfiguration.themeSetting.fretboardBorderSize, gameConfiguration.themeSetting.fretboardDepth);
+            laneSeparators = new DrumLaneSeparator(gameConfiguration.themeSetting.laneSizeDrums, gameConfiguration.themeSetting.laneSeparatorSize, effect,
+                                                    laneSeparatorTexture, graphics.GraphicsDevice, gameConfiguration.themeSetting.fretboardDepth);
 
-            hitMarker = new GuitarHitMarker(gameConfiguration.themeSetting.hitMarkerDepth, gameConfiguration.themeSetting.hitMarkerSize,
-                                            gameConfiguration.themeSetting.laneSizeGuitar, gameConfiguration.themeSetting.laneSeparatorSize,
-                                            gameConfiguration.themeSetting.fretboardBorderSize, effect, hitMarkerTexture, graphics.GraphicsDevice);
+            fretboardBorders = new DrumFretboardBorder(gameConfiguration.themeSetting.laneSizeDrums, gameConfiguration.themeSetting.laneSeparatorSize, effect,
+                                                        laneSeparatorTexture, graphics.GraphicsDevice, gameConfiguration.themeSetting.fretboardBorderSize, gameConfiguration.themeSetting.fretboardDepth);
 
-            notes = NoteInitializer.InitializeNotesGuitarSingle(noteSpriteSheetSize, notes, spriteSheetTex, gameConfiguration.themeSetting,
-                                                                noteScaleValue, effect, graphics.GraphicsDevice);
-           
-            if (gameConfiguration.useDrumStyleInputForGuitarMode)
-            {
-                inputManager = new DrumInputManager();
-            }
-            else
-            {
-                inputManager = new GuitarInputManager();
-            }
+            hitMarker = new DrumHitMarker(gameConfiguration.themeSetting.hitMarkerDepth, gameConfiguration.themeSetting.hitMarkerSize,
+                                          gameConfiguration.themeSetting.laneSizeDrums, gameConfiguration.themeSetting.laneSeparatorSize,
+                                          gameConfiguration.themeSetting.fretboardBorderSize, effect, hitMarkerTexture, graphics.GraphicsDevice);
+
+            notes = NoteInitializer.InitializeNotesDrumSingle(noteSpriteSheetSize, notes, spriteSheetTex, gameConfiguration.themeSetting,
+                                                              noteScaleValue, bassNoteScaleValue, effect, graphics.GraphicsDevice);
 
             foreach (Emitter emitter in noteParticleEmitters.emitterList)
             {
@@ -166,7 +164,7 @@ namespace MinGH.Fretboard
         FretboardBorder fretboardBorders;
         HitMarker hitMarker;
         int noteIterator;  // This iterator is used to keep track of which note to draw next
-        float noteScaleValue;
+        float noteScaleValue, bassNoteScaleValue;
         IInputManager inputManager;
         INoteUpdater noteUpdater;
         HorizontalHitBox hitBox;

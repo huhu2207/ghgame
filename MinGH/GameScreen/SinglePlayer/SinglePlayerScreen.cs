@@ -38,7 +38,7 @@ namespace MinGH.GameScreen.SinglePlayer
         Note[,] notes;  // Will hold every note currently on the screen
         List<FretboardBackground> fretboards;  // A set of fretboards aligned next to each other giving a continous effect
         LaneSeparator laneSeparators;
-        FretboardBorders fretboardBorders;
+        FretboardBorder fretboardBorders;
         HitMarker hitMarker;
         int noteIterator;  // This iterator is used to keep track of which note to draw next
         float noteScaleValue, bassNoteScaleValue;
@@ -131,7 +131,7 @@ namespace MinGH.GameScreen.SinglePlayer
                 noteUpdater = new NoteUpdater();
             }
 
-            fretboard = new GuitarFretboard(maxNotesOnscreen, gameConfiguration);
+            
 
             base.Initialize();
         }
@@ -148,6 +148,8 @@ namespace MinGH.GameScreen.SinglePlayer
 
             if (mainChart.noteCharts[0].instrument == "Drums")
             {
+                fretboard = new DrumFretboard(maxNotesOnscreen, gameConfiguration);
+
                 float cameraX = (gameConfiguration.themeSetting.laneSizeDrums * 2) +
                                 (gameConfiguration.themeSetting.laneSeparatorSize * 1) +
                                 (gameConfiguration.themeSetting.laneSeparatorSize / 2);
@@ -167,10 +169,10 @@ namespace MinGH.GameScreen.SinglePlayer
                                      ((float)noteSpriteSheetSize);
 
                 
-                laneSeparators = new DrumLaneSeparators(gameConfiguration.themeSetting.laneSizeDrums, gameConfiguration.themeSetting.laneSeparatorSize, effect,
+                laneSeparators = new DrumLaneSeparator(gameConfiguration.themeSetting.laneSizeDrums, gameConfiguration.themeSetting.laneSeparatorSize, effect,
                                                         laneSeparatorTexture, graphics.GraphicsDevice, gameConfiguration.themeSetting.fretboardDepth);
 
-                fretboardBorders = new DrumFretboardBorders(gameConfiguration.themeSetting.laneSizeDrums, gameConfiguration.themeSetting.laneSeparatorSize, effect,
+                fretboardBorders = new DrumFretboardBorder(gameConfiguration.themeSetting.laneSizeDrums, gameConfiguration.themeSetting.laneSeparatorSize, effect,
                                                             laneSeparatorTexture, graphics.GraphicsDevice, gameConfiguration.themeSetting.fretboardBorderSize, gameConfiguration.themeSetting.fretboardDepth);
 
                 hitMarker = new DrumHitMarker(gameConfiguration.themeSetting.hitMarkerDepth, gameConfiguration.themeSetting.hitMarkerSize,
@@ -182,6 +184,8 @@ namespace MinGH.GameScreen.SinglePlayer
             }
             else  // A guitar background and emitter setting will be the "default"
             {
+                fretboard = new GuitarFretboard(maxNotesOnscreen, gameConfiguration);
+
                 float cameraX = (gameConfiguration.themeSetting.laneSizeGuitar * 2) +
                                 (gameConfiguration.themeSetting.laneSeparatorSize * 3) +
                                 (gameConfiguration.themeSetting.laneSizeGuitar / 2);
@@ -197,9 +201,9 @@ namespace MinGH.GameScreen.SinglePlayer
                 noteScaleValue = gameConfiguration.themeSetting.laneSizeGuitar / (float)noteSpriteSheetSize;
                 
                 
-                laneSeparators = new GuitarLaneSeparators(gameConfiguration.themeSetting.laneSizeGuitar, gameConfiguration.themeSetting.laneSeparatorSize, effect,
+                laneSeparators = new GuitarLaneSeparator(gameConfiguration.themeSetting.laneSizeGuitar, gameConfiguration.themeSetting.laneSeparatorSize, effect,
                                                           laneSeparatorTexture, graphics.GraphicsDevice, gameConfiguration.themeSetting.fretboardDepth);
-                fretboardBorders = new GuitarFretboardBorders(gameConfiguration.themeSetting.laneSizeGuitar, gameConfiguration.themeSetting.laneSeparatorSize, effect,
+                fretboardBorders = new GuitarFretboardBorder(gameConfiguration.themeSetting.laneSizeGuitar, gameConfiguration.themeSetting.laneSeparatorSize, effect,
                                                         laneSeparatorTexture, graphics.GraphicsDevice, gameConfiguration.themeSetting.fretboardBorderSize, gameConfiguration.themeSetting.fretboardDepth);
 
                 hitMarker = new GuitarHitMarker(gameConfiguration.themeSetting.hitMarkerDepth, gameConfiguration.themeSetting.hitMarkerSize,
