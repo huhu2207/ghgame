@@ -22,12 +22,12 @@ namespace MinGH.GameScreen.SinglePlayer
         /// <param name="themeSetting">The current game's theme setting.</param>
         /// <param name="currStep">The current step in which every fretboard must move this update.</param>
         /// <param name="instrument">Which instrument is currently being played.</param>
-        public static void UpdateFretboards(List<Fretboard> fretboards, Texture2D fretboardTex,
+        public static void UpdateFretboards(List<FretboardBackground> fretboards, Texture2D fretboardTex,
                                             Effect effect, GraphicsDevice graphics,
                                             ThemeSetting themeSetting, float currStep, string instrument,
                                             float fretboardDepth)
         {
-            foreach (Fretboard fretboard in fretboards)
+            foreach (FretboardBackground fretboard in fretboards)
             {
                 fretboard.position3D += new Vector3(0f, 0f, currStep);
             }
@@ -53,7 +53,7 @@ namespace MinGH.GameScreen.SinglePlayer
 
             if (fretboards.Count == 0)
             {
-                Fretboard fretboardToAdd = new Fretboard(fretboardTex, effect, graphics);
+                FretboardBackground fretboardToAdd = new FretboardBackground(fretboardTex, effect, graphics);
                 fretboardToAdd.scale3D = new Vector3(newScale, 1f, newScale);
                 fretboardToAdd.position3D = new Vector3(0f, 0f, -fretboardDepth);
                 fretboardToAdd.alive = true;
@@ -61,7 +61,7 @@ namespace MinGH.GameScreen.SinglePlayer
             }
             if (fretboards[fretboards.Count - 1].position3D.Z > -fretboardDepth)
             {
-                Fretboard fretboardToAdd = new Fretboard(fretboardTex, effect, graphics);
+                FretboardBackground fretboardToAdd = new FretboardBackground(fretboardTex, effect, graphics);
                 fretboardToAdd.scale3D = new Vector3(newScale, 1f, newScale);
                 fretboardToAdd.position3D = new Vector3(0f, 0f, fretboards[fretboards.Count - 1].position3D.Z - fretboardTexDepth);
                 fretboardToAdd.alive = true;
