@@ -12,6 +12,7 @@ using MinGH.Enum;
 using MinGH.Interfaces;
 using ProjectMercury.Emitters;
 using ProjectMercury.Renderers;
+using MinGH.Fretboard;
 
 namespace MinGH.GameScreen.SinglePlayer
 {
@@ -23,6 +24,8 @@ namespace MinGH.GameScreen.SinglePlayer
 
         const int maxNotesOnscreen = 500;  // Maximum amount of a single note (i.e. how many reds per frame)
         const int noteSpriteSheetSize = 100;  // How large each sprite is in the spritesheet (including the offset padding)
+
+        IFretboard fretboard;
 
         MinGHMain gameReference;  // A reference to the game itself, allows for game state changing.
         GraphicsDeviceManager graphics;
@@ -127,6 +130,8 @@ namespace MinGH.GameScreen.SinglePlayer
             {
                 noteUpdater = new NoteUpdater();
             }
+
+            fretboard = new GuitarFretboard(maxNotesOnscreen, gameConfiguration);
 
             base.Initialize();
         }
@@ -244,6 +249,10 @@ namespace MinGH.GameScreen.SinglePlayer
                 emitter.LoadContent(Game.Content);
             }
 
+            fretboard.loadContent(gameConfiguration, laneSeparatorTexture, hitMarkerTexture, effect,
+                                        viewMatrix, projectionMatrix, noteSpriteSheetSize, graphics, Game,
+                                        chartSelection);
+
             base.LoadContent();
         }
 
@@ -254,6 +263,8 @@ namespace MinGH.GameScreen.SinglePlayer
                 currNote.texturedVertexDeclaration.Dispose();
             }
             system.close();
+
+            fretboard.unloadContent();
         }
 
         public override void Update(GameTime gameTime)
@@ -412,6 +423,9 @@ namespace MinGH.GameScreen.SinglePlayer
                 emitter.Update((float)gameTime.TotalGameTime.TotalSeconds, (float)gameTime.ElapsedGameTime.TotalSeconds);
             }
 
+            fretboard.update(keyboardInputManager, viewportRectangle, gameConfiguration, effect,
+                                   currStep, currentMsec, graphics, noteSpriteSheetSize, gameTime);
+
             base.Update(gameTime);
         }
 
@@ -427,36 +441,38 @@ namespace MinGH.GameScreen.SinglePlayer
             // Draw every string in str_manager
             strManager.draw(spriteBatch, gameFont, viewportRectangle);
 
-            spriteBatch.End(); 
+            spriteBatch.End();
 
-            foreach (FretboardBackground fretboard in fretboards)
-            {
-                if (fretboard.alive)
-                {
-                    fretboard.draw(graphics.GraphicsDevice, viewMatrix, projectionMatrix);
-                }
-            }
+            //foreach (FretboardBackground fretboard in fretboards)
+            //{
+            //    if (fretboard.alive)
+            //    {
+            //        fretboard.draw(graphics.GraphicsDevice, viewMatrix, projectionMatrix);
+            //    }
+            //}
 
-            laneSeparators.draw(graphics.GraphicsDevice, viewMatrix, projectionMatrix);
-            fretboardBorders.draw(graphics.GraphicsDevice, viewMatrix, projectionMatrix);
-            hitMarker.draw(graphics.GraphicsDevice, viewMatrix, projectionMatrix);
+            //laneSeparators.draw(graphics.GraphicsDevice, viewMatrix, projectionMatrix);
+            //fretboardBorders.draw(graphics.GraphicsDevice, viewMatrix, projectionMatrix);
+            //hitMarker.draw(graphics.GraphicsDevice, viewMatrix, projectionMatrix);
 
-            //Draw the notes
-            for (int i = 0; i < notes.GetLength(0); i++)
-            {
-                for (int j = 0; j < notes.GetLength(1); j++)
-                {
-                    if (notes[i, j].alive)
-                    {
-                        notes[i, j].draw(graphics.GraphicsDevice, viewMatrix, projectionMatrix);
-                    }
-                }
-            }
+            ////Draw the notes
+            //for (int i = 0; i < notes.GetLength(0); i++)
+            //{
+            //    for (int j = 0; j < notes.GetLength(1); j++)
+            //    {
+            //        if (notes[i, j].alive)
+            //        {
+            //            notes[i, j].draw(graphics.GraphicsDevice, viewMatrix, projectionMatrix);
+            //        }
+            //    }
+            //}
 
-            foreach (Emitter emitter in noteParticleEmitters.emitterList)
-            {
-                renderer.RenderEmitter(emitter);
-            }
+            //foreach (Emitter emitter in noteParticleEmitters.emitterList)
+            //{
+            //    renderer.RenderEmitter(emitter);
+            //}
+
+            fretboard.draw(graphics, viewMatrix, projectionMatrix);
 
             base.Draw(gameTime);
         }
