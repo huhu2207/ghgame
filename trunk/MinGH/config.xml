@@ -6,7 +6,7 @@
     <songDirectory>./Songs</songDirectory>
     
     <!-- Play the game fullscreen at 800x600 (will support custom resolutions later -->
-    <fullscreen>true</fullscreen>
+    <fullscreen>false</fullscreen>
 
     <!-- Have the game hit the notes for you. -->
     <autoplay>true</autoplay>

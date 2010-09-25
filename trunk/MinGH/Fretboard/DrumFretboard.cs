@@ -15,8 +15,9 @@ namespace MinGH.Fretboard
     class DrumFretboard : IFretboard
     {
 
-        public DrumFretboard(int maxNotesOnscreen, GameConfiguration gameConfiguration)
+        public DrumFretboard(int maxNotesOnscreen, GameConfiguration gameConfiguration, ChartSelection chartSelection)
         {
+            mainChart = new Chart(chartSelection);
             renderer = new PointSpriteRenderer();
             noteParticleEmitters = new NoteParticleEmitters();
             playerInformation = new PlayerInformation();
@@ -38,15 +39,13 @@ namespace MinGH.Fretboard
             {
                 noteUpdater = new NoteUpdater();
             }
-
-            
         }
 
         public void loadContent(GameConfiguration gameConfiguration, Texture2D laneSeparatorTexture, Texture2D hitMarkerTexture,
                                 Effect effect, Matrix viewMatrix, Matrix projectionMatrix, int noteSpriteSheetSize,
-                                GraphicsDeviceManager graphics, Game game, ChartSelection chartSelection)
+                                GraphicsDeviceManager graphics, Game game)
         {
-            mainChart = new Chart(chartSelection);
+            
 
             spriteSheetTex = Texture2D.FromFile(graphics.GraphicsDevice, gameConfiguration.themeSetting.noteSkinTexture);
             laneSeparatorTexture = Texture2D.FromFile(graphics.GraphicsDevice, gameConfiguration.themeSetting.laneSeparatorTexture);
@@ -57,6 +56,7 @@ namespace MinGH.Fretboard
             // Set up the particle explosions
             noteParticleEmitters.initalizeEmittersDrumsSingle(gameConfiguration.themeSetting, graphics.GraphicsDevice, viewMatrix, projectionMatrix);
             noteParticleEmitters.initializeLocationsDrumsSingle(gameConfiguration.themeSetting, graphics.GraphicsDevice, viewMatrix, projectionMatrix);
+
             inputManager = new DrumInputManager();
 
             noteScaleValue = gameConfiguration.themeSetting.laneSizeDrums / (float)noteSpriteSheetSize;
@@ -101,9 +101,11 @@ namespace MinGH.Fretboard
         }
 
         public void update(IKeyboardInputManager keyboardInputManager, Rectangle viewportRectangle,
-                           GameConfiguration gameConfiguration, Effect effect, float currStep, uint currentMsec,
+                           GameConfiguration gameConfiguration, Effect effect, uint currentMsec,
                            GraphicsDeviceManager graphics, int noteSpriteSheetSize, GameTime gameTime)
         {
+            float currStep = (float)(gameTime.ElapsedGameTime.TotalMilliseconds * currStepPerMilisecond);
+
             inputManager.processPlayerInput(notes, noteParticleEmitters, hitBox,
                                             playerInformation, keyboardInputManager,
                                             mainChart.noteCharts[0]);
@@ -155,6 +157,16 @@ namespace MinGH.Fretboard
                 renderer.RenderEmitter(emitter);
             }
 
+        }
+
+        public ChartInfo getChartInfo()
+        {
+            return mainChart.chartInfo;
+        }
+
+        public PlayerInformation getPlayerInfo()
+        {
+            return playerInformation;
         }
 
         Texture2D spriteSheetTex, fretboardTex;

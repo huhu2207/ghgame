@@ -127,7 +127,7 @@ namespace MinGH.GameScreen.SongSelection
                     switch (songSelectionMenuSet.menus[1].currentlySelectedEntry)
                     {
                         case 1:
-                            chartToUse.instrument = "Single";
+                            chartToUse.instrument = "SingleGuitar";
                             break;
                         case 2:
                             chartToUse.instrument = "DoubleGuitar";
@@ -139,7 +139,7 @@ namespace MinGH.GameScreen.SongSelection
                             chartToUse.instrument = "Drums";
                             break;
                         default:
-                            chartToUse.instrument = "Single";
+                            chartToUse.instrument = "SingleGuitar";
                             break;
                     }
 

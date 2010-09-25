@@ -15,7 +15,7 @@ namespace MinGH.Fretboard
     class GuitarFretboard : IFretboard
     {
 
-        public GuitarFretboard(int maxNotesOnscreen, GameConfiguration gameConfiguration)
+        public GuitarFretboard(int maxNotesOnscreen, GameConfiguration gameConfiguration, ChartSelection chartSelection)
         {
             renderer = new PointSpriteRenderer();
             noteParticleEmitters = new NoteParticleEmitters();
@@ -38,14 +38,14 @@ namespace MinGH.Fretboard
                 noteUpdater = new NoteUpdater();
             }
 
-            
+            mainChart = new Chart(chartSelection);
         }
 
         public void loadContent(GameConfiguration gameConfiguration, Texture2D laneSeparatorTexture, Texture2D hitMarkerTexture,
                                 Effect effect, Matrix viewMatrix, Matrix projectionMatrix, int noteSpriteSheetSize,
-                                GraphicsDeviceManager graphics, Game game, ChartSelection chartSelection)
+                                GraphicsDeviceManager graphics, Game game)
         {
-            mainChart = new Chart(chartSelection);
+            
 
             spriteSheetTex = Texture2D.FromFile(graphics.GraphicsDevice, gameConfiguration.themeSetting.noteSkinTexture);
             laneSeparatorTexture = Texture2D.FromFile(graphics.GraphicsDevice, gameConfiguration.themeSetting.laneSeparatorTexture);
@@ -103,9 +103,11 @@ namespace MinGH.Fretboard
         }
 
         public void update(IKeyboardInputManager keyboardInputManager, Rectangle viewportRectangle,
-                           GameConfiguration gameConfiguration, Effect effect, float currStep, uint currentMsec,
+                           GameConfiguration gameConfiguration, Effect effect, uint currentMsec,
                            GraphicsDeviceManager graphics, int noteSpriteSheetSize, GameTime gameTime)
         {
+            float currStep = (float)(gameTime.ElapsedGameTime.TotalMilliseconds * currStepPerMilisecond);
+
             inputManager.processPlayerInput(notes, noteParticleEmitters, hitBox,
                                             playerInformation, keyboardInputManager,
                                             mainChart.noteCharts[0]);
@@ -157,6 +159,16 @@ namespace MinGH.Fretboard
                 renderer.RenderEmitter(emitter);
             }
 
+        }
+
+        public ChartInfo getChartInfo()
+        {
+            return mainChart.chartInfo;
+        }
+
+        public PlayerInformation getPlayerInfo()
+        {
+            return playerInformation;
         }
 
         Texture2D spriteSheetTex, fretboardTex;
