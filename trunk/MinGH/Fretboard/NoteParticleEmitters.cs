@@ -5,7 +5,7 @@ using MinGH.Config;
 using ProjectMercury;
 using ProjectMercury.Emitters;
 
-namespace MinGH.GameScreen.SinglePlayer
+namespace MinGH.Fretboard
 {
     /// <summary>
     /// A manager class that generates and stores the particle emitters for the

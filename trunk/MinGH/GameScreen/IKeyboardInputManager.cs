@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework.Input;
 
-namespace MinGH.Interfaces
+namespace MinGH.GameScreen
 {
 	/// <summary>
 	/// A wrapper that allows for easy checking for keyboard keys

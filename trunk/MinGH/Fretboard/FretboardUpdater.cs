@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using MinGH.Config;
 using MinGH.EngineExtensions;
 
-namespace MinGH.GameScreen.SinglePlayer
+namespace MinGH.Fretboard
 {
     /// <summary>
     /// Maintains the status of a fretboard list.

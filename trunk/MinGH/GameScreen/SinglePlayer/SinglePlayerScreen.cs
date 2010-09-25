@@ -1,17 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using GameEngine.FMOD;
 using GameEngine.GameStringImpl;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using MinGH.ChartImpl;
 using MinGH.Config;
-using MinGH.EngineExtensions;
 using MinGH.Enum;
-using MinGH.Interfaces;
-using ProjectMercury.Emitters;
-using ProjectMercury.Renderers;
 using MinGH.Fretboard;
 
 namespace MinGH.GameScreen.SinglePlayer
@@ -26,7 +20,6 @@ namespace MinGH.GameScreen.SinglePlayer
         const int noteSpriteSheetSize = 100;  // How large each sprite is in the spritesheet (including the offset padding)
 
         IFretboard fretboard;
-
         MinGHMain gameReference;  // A reference to the game itself, allows for game state changing.
         GraphicsDeviceManager graphics;
         ChartSelection chartSelection;
@@ -35,27 +28,12 @@ namespace MinGH.GameScreen.SinglePlayer
         Rectangle viewportRectangle;  // The window itself
         Texture2D backgroundTex;// spriteSheetTex, fretboardTex;
         SpriteFont gameFont;  // The font the game will use
-        //Note[,] notes;  // Will hold every note currently on the screen
-        //List<FretboardBackground> fretboards;  // A set of fretboards aligned next to each other giving a continous effect
-        //LaneSeparator laneSeparators;
-        //FretboardBorder fretboardBorders;
-        //HitMarker hitMarker;
-        //int noteIterator;  // This iterator is used to keep track of which note to draw next
-        //float noteScaleValue, bassNoteScaleValue;
         IKeyboardInputManager keyboardInputManager;
-        IInputManager inputManager;
-        //INoteUpdater noteUpdater;
-        //HorizontalHitBox hitBox;
-        //PlayerInformation playerInformation;
-        //Chart mainChart;  // Create the chart file
         GameStringManager strManager;  // Stores each string and its position on the screen
         Vector3 cameraPostion, cameraLookAt;
         Matrix viewMatrix, projectionMatrix;
         VertexDeclaration texturedVertexDeclaration;
         Effect effect;
-        //float distanceFromNoteStartToHitmarker;
-        //float currStepPerMilisecond; // How many game space units a note must move per milisecond
-        //Point currentGrade; // The grade of the last hit note (how close it was to the center of the hitbox)
 
         // Variables related to the audio playing and note syncing
         private GameEngine.FMOD.System system;
@@ -71,10 +49,6 @@ namespace MinGH.GameScreen.SinglePlayer
         uint currentMsec;  // The current place of the audio stream the game will follow
         bool audioIsPlaying;  // So we don't play the song again every single update
 
-        // Project Mercury Particle Engine related variables
-        //NoteParticleEmitters noteParticleEmitters;
-        //PointSpriteRenderer renderer;
-
         public SinglePlayerScreen(MinGHMain game, GraphicsDeviceManager graph, ChartSelection inputLocation)
             : base(game)
         {
@@ -85,27 +59,13 @@ namespace MinGH.GameScreen.SinglePlayer
 
         public override void Initialize()
         {
-            // Initialize some variables
-            //renderer = new PointSpriteRenderer();
-            //noteParticleEmitters = new NoteParticleEmitters();
-            //playerInformation = new PlayerInformation();
             strManager = new GameStringManager();
             keyboardInputManager = new KeyboardInputManager();
-            //noteIterator = 0;
             currentMsec = 0;
-            //noteScaleValue = 0.0f;
-            //bassNoteScaleValue = 0.0f;
-            //notes = new Note[5, maxNotesOnscreen];
             effect = gameReference.Content.Load<Effect>("effects");
             texturedVertexDeclaration = new VertexDeclaration(graphics.GraphicsDevice, VertexPositionTexture.VertexElements);
-            //fretboards = new List<FretboardBackground>();
-            //currentGrade = new Point();
             spriteBatch = new SpriteBatch(graphics.GraphicsDevice);
             gameConfiguration = new GameConfiguration("./config.xml");
-            //hitBox = new HorizontalHitBox((int)(gameConfiguration.themeSetting.hitMarkerDepth + (gameConfiguration.themeSetting.hitMarkerSize / 2.0f)),
-                                          //gameConfiguration.MSTillHit);
-            //distanceFromNoteStartToHitmarker = gameConfiguration.themeSetting.fretboardDepth - hitBox.centerLocation;
-            //currStepPerMilisecond = distanceFromNoteStartToHitmarker / gameConfiguration.MSTillHit;
             strManager = SinglePlayerStringInitializer.initializeStrings(graphics.GraphicsDevice.Viewport.Width,
                                                 graphics.GraphicsDevice.Viewport.Height);
             
@@ -122,27 +82,14 @@ namespace MinGH.GameScreen.SinglePlayer
             result = new RESULT();
             audioIsPlaying = false;
 
-            //if (gameConfiguration.autoplay)
-            //{
-            //    noteUpdater = new AutoplayNoteUpdater();
-            //}
-            //else
-            //{
-            //    noteUpdater = new NoteUpdater();
-            //}
-
-            
-
             base.Initialize();
         }
 
         protected override void LoadContent()
         {
             gameFont = Game.Content.Load<SpriteFont>("Arial");  // Load the font
-            //mainChart = new Chart(chartSelection);
 
             string backgroundFilename = "";
-            //spriteSheetTex = Texture2D.FromFile(graphics.GraphicsDevice, gameConfiguration.themeSetting.noteSkinTexture);
             Texture2D laneSeparatorTexture = Texture2D.FromFile(graphics.GraphicsDevice, gameConfiguration.themeSetting.laneSeparatorTexture);
             Texture2D hitMarkerTexture = Texture2D.FromFile(graphics.GraphicsDevice, gameConfiguration.themeSetting.hitMarkerTexture);
 
@@ -159,30 +106,11 @@ namespace MinGH.GameScreen.SinglePlayer
                 projectionMatrix = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, graphics.GraphicsDevice.Viewport.AspectRatio, 0.2f, gameConfiguration.themeSetting.fretboardDepth);
 
                 // Set up the particle explosions
-                //noteParticleEmitters.initalizeEmittersDrumsSingle(gameConfiguration.themeSetting, graphics.GraphicsDevice, viewMatrix, projectionMatrix);
-                //noteParticleEmitters.initializeLocationsDrumsSingle(gameConfiguration.themeSetting, graphics.GraphicsDevice, viewMatrix, projectionMatrix);
                 backgroundFilename = "DrumsSingle.png";
-                inputManager = new DrumInputManager();
-
-                //noteScaleValue = gameConfiguration.themeSetting.laneSizeDrums / (float)noteSpriteSheetSize;
-                //bassNoteScaleValue = ((gameConfiguration.themeSetting.laneSizeDrums * 4) + (gameConfiguration.themeSetting.laneSeparatorSize * 3)) /
-                                     //((float)noteSpriteSheetSize);
-
-                
-                //laneSeparators = new DrumLaneSeparator(gameConfiguration.themeSetting.laneSizeDrums, gameConfiguration.themeSetting.laneSeparatorSize, effect,
-                                                       // laneSeparatorTexture, graphics.GraphicsDevice, gameConfiguration.themeSetting.fretboardDepth);
-                
-                //fretboardBorders = new DrumFretboardBorder(gameConfiguration.themeSetting.laneSizeDrums, gameConfiguration.themeSetting.laneSeparatorSize, effect,
-                                                          //  laneSeparatorTexture, graphics.GraphicsDevice, gameConfiguration.themeSetting.fretboardBorderSize, gameConfiguration.themeSetting.fretboardDepth);
-
-                //hitMarker = new DrumHitMarker(gameConfiguration.themeSetting.hitMarkerDepth, gameConfiguration.themeSetting.hitMarkerSize,
-                                            //  gameConfiguration.themeSetting.laneSizeDrums, gameConfiguration.themeSetting.laneSeparatorSize,
-                                           //   gameConfiguration.themeSetting.fretboardBorderSize, effect, hitMarkerTexture, graphics.GraphicsDevice);
-
-               // notes = NoteInitializer.InitializeNotesDrumSingle(noteSpriteSheetSize, notes, spriteSheetTex, gameConfiguration.themeSetting,
-                                                                //  noteScaleValue, bassNoteScaleValue, effect, graphics.GraphicsDevice);
             }
-            else if (chartSelection.instrument == "SingleGuitar")  // A guitar background and emitter setting will be the "default"
+            else if (chartSelection.instrument == "Single" ||
+                     chartSelection.instrument == "DoubleGuitar"||
+                     chartSelection.instrument == "DoubleBass")
             {
                 fretboard = new GuitarFretboard(maxNotesOnscreen, gameConfiguration, chartSelection);
 
@@ -195,32 +123,8 @@ namespace MinGH.GameScreen.SinglePlayer
                 projectionMatrix = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, graphics.GraphicsDevice.Viewport.AspectRatio, 0.2f, gameConfiguration.themeSetting.fretboardDepth);
 
                 // Set up the particle explosions
-                //noteParticleEmitters.initalizeEmittersGuitarSingle();
-               // noteParticleEmitters.initializeLocationsGuitarSingle(gameConfiguration.themeSetting, graphics.GraphicsDevice, viewMatrix, projectionMatrix);
                 backgroundFilename = "GuitarSingle.png";
-               // noteScaleValue = gameConfiguration.themeSetting.laneSizeGuitar / (float)noteSpriteSheetSize;
 
-
-                //laneSeparators = new GuitarLaneSeparator(gameConfiguration.themeSetting.laneSizeGuitar, gameConfiguration.themeSetting.laneSeparatorSize, effect,
-                                                        //  laneSeparatorTexture, graphics.GraphicsDevice, gameConfiguration.themeSetting.fretboardDepth);
-                //fretboardBorders = new GuitarFretboardBorder(gameConfiguration.themeSetting.laneSizeGuitar, gameConfiguration.themeSetting.laneSeparatorSize, effect,
-                                                       // laneSeparatorTexture, graphics.GraphicsDevice, gameConfiguration.themeSetting.fretboardBorderSize, gameConfiguration.themeSetting.fretboardDepth);
-
-                //hitMarker = new GuitarHitMarker(gameConfiguration.themeSetting.hitMarkerDepth, gameConfiguration.themeSetting.hitMarkerSize,
-                                              //  gameConfiguration.themeSetting.laneSizeGuitar, gameConfiguration.themeSetting.laneSeparatorSize,
-                                              //  gameConfiguration.themeSetting.fretboardBorderSize, effect, hitMarkerTexture, graphics.GraphicsDevice);
-
-                //notes = NoteInitializer.InitializeNotesGuitarSingle(noteSpriteSheetSize, notes, spriteSheetTex, gameConfiguration.themeSetting,
-                                                                   // noteScaleValue, effect, graphics.GraphicsDevice);
-
-                if (gameConfiguration.useDrumStyleInputForGuitarMode)
-                {
-                    inputManager = new DrumInputManager();
-                }
-                else
-                {
-                    inputManager = new GuitarInputManager();
-                }
             }
             else  // Quit out if an invalid chart type is used
             {
@@ -228,14 +132,8 @@ namespace MinGH.GameScreen.SinglePlayer
                 gameReference.ChangeGameState(GameStateEnum.MainMenu, null);
             }
 
-            //foreach (Emitter emitter in noteParticleEmitters.emitterList)
-            //{
-            //    emitter.Initialize();
-            //}
 
-            backgroundTex = Texture2D.FromFile(graphics.GraphicsDevice,
-                                gameConfiguration.themeSetting.backgroundDirectory + "\\" + backgroundFilename);
-            //fretboardTex = Texture2D.FromFile(graphics.GraphicsDevice, gameConfiguration.themeSetting.fretboardTexture);
+            backgroundTex = Texture2D.FromFile(graphics.GraphicsDevice, gameConfiguration.themeSetting.backgroundDirectory + "\\" + backgroundFilename);
 
             // Add the "Song Title" and "Artist Name" to the string manager
             string songInformation = "Song Title:\n" + fretboard.getChartInfo().songName + "\n\n" +
@@ -248,15 +146,6 @@ namespace MinGH.GameScreen.SinglePlayer
             viewportRectangle = new Rectangle(0, 0,
                 graphics.GraphicsDevice.Viewport.Width,
                 graphics.GraphicsDevice.Viewport.Height);
-            
-            //renderer.GraphicsDeviceService = graphics;
-            //renderer.BlendMode = SpriteBlendMode.Additive;
-            //renderer.LoadContent(Game.Content);
-
-            //foreach (Emitter emitter in noteParticleEmitters.emitterList)
-            //{
-            //    emitter.LoadContent(Game.Content);
-            //}
 
             fretboard.loadContent(gameConfiguration, laneSeparatorTexture, hitMarkerTexture, effect,
                                         viewMatrix, projectionMatrix, noteSpriteSheetSize, graphics, Game);
@@ -266,10 +155,6 @@ namespace MinGH.GameScreen.SinglePlayer
 
         protected override void UnloadContent()
         {
-            //foreach (Note currNote in notes)
-            //{
-            //    currNote.texturedVertexDeclaration.Dispose();
-            //}
             system.close();
 
             fretboard.unloadContent();
@@ -311,23 +196,6 @@ namespace MinGH.GameScreen.SinglePlayer
 
             // Get the current keyboard state
             keyboardInputManager.processKeyboardState(Keyboard.GetState());
-
-            // The distance each note must step to be in sync with this current update
-            //float currStep = (float)(gameTime.ElapsedGameTime.TotalMilliseconds * gameConfiguration.speedModValue.noteVelocityMultiplier);
-            //float currStep = (float)(gameTime.ElapsedGameTime.TotalMilliseconds * currStepPerMilisecond);
-
-            //currentGrade = inputManager.processPlayerInput(notes, noteParticleEmitters, hitBox,
-            //                                               playerInformation, keyboardInputManager,
-            //                                               mainChart.noteCharts[0]);
-
-            //noteUpdater.updateNotes(mainChart.noteCharts[0], ref noteIterator, notes, viewportRectangle,
-            //                        currStep, currentMsec + gameConfiguration.MSOffset,
-            //                        noteSpriteSheetSize, playerInformation, hitBox, noteParticleEmitters,
-            //                        gameConfiguration.themeSetting.fretboardDepth, gameConfiguration.MSTillHit, currStepPerMilisecond);
-
-            //FretboardUpdater.UpdateFretboards(fretboards, fretboardTex, effect, graphics.GraphicsDevice,
-            //                                  gameConfiguration.themeSetting, currStep,
-            //                                  mainChart.noteCharts[0].instrument, gameConfiguration.themeSetting.fretboardDepth);
 
             // Update varous strings
             uint guitarPosition = 0, bassPosition = 0, drumPosition = 0, musicPosition = 0;
@@ -425,12 +293,6 @@ namespace MinGH.GameScreen.SinglePlayer
                 }
             }
 
-            //// Update every particle explosion
-            //foreach (Emitter emitter in noteParticleEmitters.emitterList)
-            //{
-            //    emitter.Update((float)gameTime.TotalGameTime.TotalSeconds, (float)gameTime.ElapsedGameTime.TotalSeconds);
-            //}
-
             fretboard.update(keyboardInputManager, viewportRectangle, gameConfiguration, effect,
                              currentMsec, graphics, noteSpriteSheetSize, gameTime);
 
@@ -450,35 +312,6 @@ namespace MinGH.GameScreen.SinglePlayer
             strManager.draw(spriteBatch, gameFont, viewportRectangle);
 
             spriteBatch.End();
-
-            //foreach (FretboardBackground fretboard in fretboards)
-            //{
-            //    if (fretboard.alive)
-            //    {
-            //        fretboard.draw(graphics.GraphicsDevice, viewMatrix, projectionMatrix);
-            //    }
-            //}
-
-            //laneSeparators.draw(graphics.GraphicsDevice, viewMatrix, projectionMatrix);
-            //fretboardBorders.draw(graphics.GraphicsDevice, viewMatrix, projectionMatrix);
-            //hitMarker.draw(graphics.GraphicsDevice, viewMatrix, projectionMatrix);
-
-            ////Draw the notes
-            //for (int i = 0; i < notes.GetLength(0); i++)
-            //{
-            //    for (int j = 0; j < notes.GetLength(1); j++)
-            //    {
-            //        if (notes[i, j].alive)
-            //        {
-            //            notes[i, j].draw(graphics.GraphicsDevice, viewMatrix, projectionMatrix);
-            //        }
-            //    }
-            //}
-
-            //foreach (Emitter emitter in noteParticleEmitters.emitterList)
-            //{
-            //    renderer.RenderEmitter(emitter);
-            //}
 
             fretboard.draw(graphics, viewMatrix, projectionMatrix);
 

@@ -3,9 +3,9 @@ using Microsoft.Xna.Framework.Input;
 using MinGH.ChartImpl;
 using MinGH.Config;
 using MinGH.EngineExtensions;
-using MinGH.Interfaces;
+using MinGH.GameScreen;
 
-namespace MinGH.GameScreen.SinglePlayer
+namespace MinGH.Fretboard
 {
     /// <summary>
     /// Encompasses most of the logic for interpreting the user's input during a

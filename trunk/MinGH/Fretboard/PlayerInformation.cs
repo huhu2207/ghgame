@@ -1,4 +1,4 @@
-﻿namespace MinGH.GameScreen
+﻿namespace MinGH.Fretboard
 {
 	/// <summary>
 	/// Contains all information on a player during a MinGH session.

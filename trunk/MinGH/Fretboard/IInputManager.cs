@@ -4,7 +4,7 @@ using MinGH.GameScreen.SinglePlayer;
 using MinGH.GameScreen;
 using Microsoft.Xna.Framework;
 
-namespace MinGH.Interfaces
+namespace MinGH.Fretboard
 {
     public interface IInputManager
     {

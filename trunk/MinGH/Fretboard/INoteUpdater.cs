@@ -5,7 +5,7 @@ using MinGH.EngineExtensions;
 using MinGH.GameScreen;
 using MinGH.GameScreen.SinglePlayer;
 
-namespace MinGH.Interfaces
+namespace MinGH.Fretboard
 {
     /// <summary>
     /// Encompasses most of the logic to be done during the single player game for every

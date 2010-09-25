@@ -6,7 +6,6 @@ using MinGH.Config;
 using MinGH.EngineExtensions;
 using MinGH.GameScreen;
 using MinGH.GameScreen.SinglePlayer;
-using MinGH.Interfaces;
 using ProjectMercury.Emitters;
 using ProjectMercury.Renderers;
 
