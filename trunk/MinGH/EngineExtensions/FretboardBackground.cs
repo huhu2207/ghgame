@@ -8,9 +8,9 @@ namespace MinGH.EngineExtensions
     /// Initializes and maintains the textured game object below the notes that represents
     /// the base of the fretboard.
     /// </summary>
-    public class Fretboard : GameObject3D
+    public class FretboardBackground : GameObject3D
     {
-        public Fretboard(Texture2D loadedTex, Effect effectToUse, GraphicsDevice device)
+        public FretboardBackground(Texture2D loadedTex, Effect effectToUse, GraphicsDevice device)
             : base(loadedTex, new Rectangle(0, 0, loadedTex.Width, loadedTex.Height), effectToUse, device)
         {
             initalizeTextureCoords();

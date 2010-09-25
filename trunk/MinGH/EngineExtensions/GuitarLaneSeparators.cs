@@ -6,7 +6,7 @@ namespace MinGH.EngineExtensions
     /// <summary>
     /// Draws the medians between the note lanes (not including the outside lanes).
     /// </summary>
-    public class GuitarLaneSeparators : LaneSeparators
+    public class GuitarLaneSeparators : LaneSeparator
     {
         /// <summary>
         /// The verticies of all 4 lane separators.

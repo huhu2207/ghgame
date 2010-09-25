@@ -20,9 +20,6 @@ namespace MinGH.GameScreen.SinglePlayer
     /// </summary>
     class SinglePlayerScreen : DrawableGameComponent
     {
-        /* TODO: PUT INTO CONFIG FILE...NO MAGIC NUMBERS!! */
-        //float gameConfiguration.MSTillHit = 1000f; // How many miliseconds it takes for a note to pass the hitmarker
-        //float gameConfiguration.themeSetting.fretboardDepth = 5000f; // How far back on the fretboard a newly created note will be placed
 
         const int maxNotesOnscreen = 500;  // Maximum amount of a single note (i.e. how many reds per frame)
         const int noteSpriteSheetSize = 100;  // How large each sprite is in the spritesheet (including the offset padding)
@@ -36,8 +33,8 @@ namespace MinGH.GameScreen.SinglePlayer
         Texture2D backgroundTex, spriteSheetTex, fretboardTex;
         SpriteFont gameFont;  // The font the game will use
         Note[,] notes;  // Will hold every note currently on the screen
-        List<Fretboard> fretboards;  // A set of fretboards aligned next to each other giving a continous effect
-        LaneSeparators laneSeparators;
+        List<FretboardBackground> fretboards;  // A set of fretboards aligned next to each other giving a continous effect
+        LaneSeparator laneSeparators;
         FretboardBorders fretboardBorders;
         HitMarker hitMarker;
         int noteIterator;  // This iterator is used to keep track of which note to draw next
@@ -98,7 +95,7 @@ namespace MinGH.GameScreen.SinglePlayer
             notes = new Note[5, maxNotesOnscreen];
             effect = gameReference.Content.Load<Effect>("effects");
             texturedVertexDeclaration = new VertexDeclaration(graphics.GraphicsDevice, VertexPositionTexture.VertexElements);
-            fretboards = new List<Fretboard>();
+            fretboards = new List<FretboardBackground>();
             currentGrade = new Point();
             spriteBatch = new SpriteBatch(graphics.GraphicsDevice);
             gameConfiguration = new GameConfiguration("./config.xml");
@@ -432,7 +429,7 @@ namespace MinGH.GameScreen.SinglePlayer
 
             spriteBatch.End(); 
 
-            foreach (Fretboard fretboard in fretboards)
+            foreach (FretboardBackground fretboard in fretboards)
             {
                 if (fretboard.alive)
                 {
