@@ -130,14 +130,15 @@
     <Compile Include="EngineExtensions\Note.cs" />
     <Compile Include="Enum\GameStateEnum.cs" />
     <Compile Include="Fretboard\GuitarFretboard.cs" />
+    <Compile Include="Fretboard\IFretboard.cs" />
     <Compile Include="GameScreen\MainMenu\MainMenuScreen.cs" />
     <Compile Include="GameScreen\SinglePlayer\AudioInitializer.cs" />
     <Compile Include="Fretboard\AutoplayNoteUpdater.cs" />
     <Compile Include="Fretboard\DrumInputManager.cs" />
     <Compile Include="Fretboard\FretboardUpdater.cs" />
     <Compile Include="GameScreen\SongSelection\SongSelectionEntryCreator.cs" />
-    <Compile Include="Interfaces\IInputManager.cs" />
-    <Compile Include="Interfaces\INoteUpdater.cs" />
+    <Compile Include="Fretboard\IInputManager.cs" />
+    <Compile Include="Fretboard\INoteUpdater.cs" />
     <Compile Include="Fretboard\NoteInitializer.cs" />
     <Compile Include="GameScreen\SinglePlayer\SinglePlayerScreen.cs" />
     <Compile Include="Fretboard\HorizontalHitBox.cs" />
@@ -146,7 +147,7 @@
     <Compile Include="Fretboard\GuitarInputManager.cs" />
     <Compile Include="GameScreen\KeyboardInputManager.cs" />
     <Compile Include="GameScreen\SinglePlayer\SinglePlayerStringInitializer.cs" />
-    <Compile Include="Interfaces\IKeyboardInputManager.cs" />
+    <Compile Include="GameScreen\IKeyboardInputManager.cs" />
     <Compile Include="GameScreen\SongSelection\ChartFinder.cs" />
     <Compile Include="GameScreen\ChartSelection.cs" />
     <Compile Include="GameScreen\SongSelection\SongSelectionScreen.cs" />

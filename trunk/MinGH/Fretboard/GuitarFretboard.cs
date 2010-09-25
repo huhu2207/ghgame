@@ -12,7 +12,7 @@ using MinGH.Interfaces;
 
 namespace MinGH.Fretboard
 {
-    class GuitarFretboard
+    class GuitarFretboard : IFretboard
     {
 
         public GuitarFretboard(int maxNotesOnscreen, GameConfiguration gameConfiguration)
