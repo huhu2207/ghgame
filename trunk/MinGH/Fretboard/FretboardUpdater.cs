@@ -67,7 +67,7 @@ namespace MinGH.Fretboard
                 fretboardToAdd.alive = true;
                 fretboards.Add(fretboardToAdd);
             }
-            if (fretboards[0].position3D.Z > 0)
+            if (fretboards[0].position3D.Z > 0 + fretboards[0].pixelsPerSpriteSheetStepY)
             {
                 fretboards.RemoveAt(0);
             }

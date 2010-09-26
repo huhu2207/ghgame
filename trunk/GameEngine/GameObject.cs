@@ -24,18 +24,22 @@ namespace GameEngine
         public Effect myEffect;
 
         /// <summary>
-        /// The number of pixels between elements in the used sprite sheet.
-        /// </summary>
-        public int spriteSheetStep;
-
-        /// <summary>
         /// The position this game object is currently located.  This position is where
         /// the top left of the sprite is to be drawn.
         /// </summary>
         public virtual Vector3 position3D
         {
             get { return _position3D; }
-            set { _position3D = value; }
+            set 
+            {
+                Vector3 distanceMoved = value - _position3D;
+                _position3D = value;
+
+                for (int i = 0; i < vertices.GetLength(0); i++)
+                {
+                    vertices[i].Position += distanceMoved;
+                }
+            }
         }
         protected Vector3 _position3D;
 
@@ -44,12 +48,69 @@ namespace GameEngine
         /// this object will currently use.  If it is set to the size of the sprite sheet
         /// this will operate as a normal texture.
         /// </summary>
-        public virtual Rectangle spriteSheetRectangle
+        //public virtual Rectangle spriteSheetRectangle
+        //{
+        //    get { return _spriteSheetRectangle; }
+        //    set { _spriteSheetRectangle = value; }
+        //}
+        //protected Rectangle _spriteSheetRectangle;
+
+        public int spriteSheetStepX
         {
-            get { return _spriteSheetRectangle; }
-            set { _spriteSheetRectangle = value; }
+            get
+            {
+                return _spriteSheetStepX;
+            }
+            set
+            {
+                _spriteSheetStepX = value;
+                initalizeTextureCoords();
+            }
         }
-        protected Rectangle _spriteSheetRectangle;
+        protected int _spriteSheetStepX;
+
+        public int spriteSheetStepY 
+        {
+            get
+            {
+                return _spriteSheetStepY;
+            }
+            set
+            {
+                _spriteSheetStepY = value;
+                initalizeTextureCoords();
+            }
+        }
+        protected int _spriteSheetStepY;
+
+        public int pixelsPerSpriteSheetStepX { get; set; }
+        public int pixelsPerSpriteSheetStepY { get; set; }
+
+        private void initalizeTextureCoords()
+        {
+            float desiredTop = pixelsPerSpriteSheetStepY * _spriteSheetStepY / (float)spriteSheet.Height;
+            float desiredBottom = pixelsPerSpriteSheetStepY * (_spriteSheetStepY + 1) / (float)spriteSheet.Height;
+            float desiredLeft = pixelsPerSpriteSheetStepX * _spriteSheetStepX / (float)spriteSheet.Width;
+            float desiredRight = pixelsPerSpriteSheetStepX * (_spriteSheetStepX + 1) / (float)spriteSheet.Width;
+
+            vertices[0].TextureCoordinate.X = desiredLeft;
+            vertices[0].TextureCoordinate.Y = desiredTop;
+
+            vertices[1].TextureCoordinate.X = desiredRight;
+            vertices[1].TextureCoordinate.Y = desiredBottom;
+
+            vertices[2].TextureCoordinate.X = desiredLeft;
+            vertices[2].TextureCoordinate.Y = desiredBottom;
+
+            vertices[3].TextureCoordinate.X = desiredRight;
+            vertices[3].TextureCoordinate.Y = desiredBottom;
+
+            vertices[4].TextureCoordinate.X = desiredLeft;
+            vertices[4].TextureCoordinate.Y = desiredTop;
+
+            vertices[5].TextureCoordinate.X = desiredRight;
+            vertices[5].TextureCoordinate.Y = desiredTop;
+        }
 
         /// <summary>
         /// The physical texture this object will use.  This can be a sprite or a
@@ -74,7 +135,19 @@ namespace GameEngine
         public virtual Vector3 scale3D
         {
             get { return _scale3D; }
-            set { _scale3D = value; }
+            set 
+            {
+                _scale3D = value;
+                float newWidth = pixelsPerSpriteSheetStepX * value.X;
+                float newHeight = pixelsPerSpriteSheetStepY * value.Y;
+
+                vertices[0].Position = position3D + new Vector3(0, newHeight, 0);
+                vertices[1].Position = position3D + new Vector3(newWidth, 0, 0);
+                vertices[2].Position = position3D;
+                vertices[3].Position = position3D + new Vector3(newWidth, 0, 0);
+                vertices[4].Position = position3D + new Vector3(0, newHeight, 0);
+                vertices[5].Position = position3D + new Vector3(newWidth, newHeight, 0);
+            }
         }
         protected Vector3 _scale3D;
 
@@ -106,9 +179,13 @@ namespace GameEngine
 
         public GameObject(Texture2D loadedTex, Rectangle spriteRect, Effect effectToUse, GraphicsDevice device)
         {
+            _spriteSheetStepX = 1;
+            _spriteSheetStepY = 1;
+            pixelsPerSpriteSheetStepX = 1;
+            pixelsPerSpriteSheetStepY = 1;
             vertices = new VertexPositionTexture[6];
             spriteSheet = loadedTex;
-            spriteSheetRectangle = spriteRect;
+            //spriteSheetRectangle = spriteRect;
             myEffect = effectToUse;
             position3D = Vector3.Zero;
             center3D = Vector3.Zero;
