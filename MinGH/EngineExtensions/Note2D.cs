@@ -9,7 +9,7 @@ namespace MinGH.EngineExtensions
 	/// specific to the drawable notes within the MinGH game.
     /// NOTE: This is an outdated class designed for 2D use.
 	/// </summary>
-    public class Note2D : GameObject
+    public class Note2D : GameObject2D
     {
 		/// <summary>
 		/// The same constructor overloaded from the gameObject class.  The parameter

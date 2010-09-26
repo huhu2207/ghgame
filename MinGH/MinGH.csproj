@@ -119,14 +119,14 @@
     <Compile Include="Config\ThemeSetting.cs" />
     <Compile Include="EngineExtensions\DrumHitMarker.cs" />
     <Compile Include="EngineExtensions\DrumFretboardBorder.cs" />
-    <Compile Include="EngineExtensions\DrumLaneSeparator.cs" />
+    <Compile Include="EngineExtensions\DrumLaneSeparators.cs" />
     <Compile Include="EngineExtensions\FretboardBackground.cs" />
     <Compile Include="EngineExtensions\FretboardBorder.cs" />
     <Compile Include="EngineExtensions\GuitarFretboardBorder.cs" />
     <Compile Include="EngineExtensions\GuitarHitMarker.cs" />
-    <Compile Include="EngineExtensions\GuitarLaneSeparator.cs" />
+    <Compile Include="EngineExtensions\GuitarLaneSeparators.cs" />
     <Compile Include="EngineExtensions\HitMarker.cs" />
-    <Compile Include="EngineExtensions\LaneSeparator.cs" />
+    <Compile Include="EngineExtensions\LaneSeparators.cs" />
     <Compile Include="EngineExtensions\Note.cs" />
     <Compile Include="Enum\GameStateEnum.cs" />
     <Compile Include="Fretboard\DrumFretboard.cs" />

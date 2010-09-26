@@ -7,7 +7,7 @@ namespace MinGH.EngineExtensions
     /// <summary>
     /// The common abstract class that defines the borders of the fretboard.
     /// </summary>
-    public abstract class FretboardBorder : GameObject3D
+    public abstract class FretboardBorder : GameObject
     {
         public FretboardBorder(Texture2D loadedTex, Rectangle spriteRect, Effect effectToUse, GraphicsDevice device)
             : base(loadedTex, spriteRect, effectToUse, device)

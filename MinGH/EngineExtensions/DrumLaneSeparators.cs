@@ -6,30 +6,19 @@ namespace MinGH.EngineExtensions
     /// <summary>
     /// Draws the medians between the note lanes (not including the outside lanes).
     /// </summary>
-    public class DrumLaneSeparator : LaneSeparator
+    public class DrumLaneSeparators : LaneSeparators
     {
         /// <summary>
         /// The verticies of all 4 lane separators.
         /// </summary>
         VertexPositionTexture[][] laneSeparators;
 
-        public DrumLaneSeparator(int laneSize, int laneBorderSize, Effect effectToUse, Texture2D texture,
+        public DrumLaneSeparators(int laneSize, int laneBorderSize, Effect effectToUse, Texture2D texture,
                                   GraphicsDevice graphics, float laneDepth)
             : base(texture, new Rectangle(0, 0, texture.Width, texture.Height), effectToUse, graphics)
         {
-            laneSeparators = new VertexPositionTexture[3][];
-            initalizeLaneSeparators(laneSize, laneBorderSize, laneDepth);
             myEffect = effectToUse;
-        }
-
-        /// <summary>
-        /// Initializes the position and texture verticies
-        /// </summary>
-        /// <param name="laneSize">The size of the fretboard lanes.</param>
-        /// <param name="laneBorderSize">The size of the fretboard medians.</param>
-        /// <param name="laneDepth">The depth of the fretboard lanes</param>
-        public override void initalizeLaneSeparators(int laneSize, int laneBorderSize, float laneDepth)
-        {
+            laneSeparators = new VertexPositionTexture[3][];
             for (int i = 0; i < laneSeparators.GetLength(0); i++)
             {
                 laneSeparators[i] = new VertexPositionTexture[6];

@@ -16,6 +16,7 @@ namespace MinGH.Fretboard
 
         public GuitarFretboard(int maxNotesOnscreen, GameConfiguration gameConfiguration, ChartSelection chartSelection)
         {
+            //position = new Vector3();
             renderer = new PointSpriteRenderer();
             noteParticleEmitters = new NoteParticleEmitters();
             playerInformation = new PlayerInformation();
@@ -55,10 +56,10 @@ namespace MinGH.Fretboard
             noteScaleValue = gameConfiguration.themeSetting.laneSizeGuitar / (float)noteSpriteSheetSize;
 
 
-            laneSeparators = new GuitarLaneSeparator(gameConfiguration.themeSetting.laneSizeGuitar, gameConfiguration.themeSetting.laneSeparatorSize, effect,
-                                                      laneSeparatorTexture, graphics.GraphicsDevice, gameConfiguration.themeSetting.fretboardDepth);
+            laneSeparators = new GuitarLaneSeparators(gameConfiguration.themeSetting.laneSizeGuitar, gameConfiguration.themeSetting.laneSeparatorSize, effect,
+                                                     laneSeparatorTexture, graphics.GraphicsDevice, gameConfiguration.themeSetting.fretboardDepth);
             fretboardBorders = new GuitarFretboardBorder(gameConfiguration.themeSetting.laneSizeGuitar, gameConfiguration.themeSetting.laneSeparatorSize, effect,
-                                                          laneSeparatorTexture, graphics.GraphicsDevice, gameConfiguration.themeSetting.fretboardBorderSize, gameConfiguration.themeSetting.fretboardDepth);
+                                                         laneSeparatorTexture, graphics.GraphicsDevice, gameConfiguration.themeSetting.fretboardBorderSize, gameConfiguration.themeSetting.fretboardDepth);
 
             hitMarker = new GuitarHitMarker(gameConfiguration.themeSetting.hitMarkerDepth, gameConfiguration.themeSetting.hitMarkerSize,
                                             gameConfiguration.themeSetting.laneSizeGuitar, gameConfiguration.themeSetting.laneSeparatorSize,
@@ -168,10 +169,38 @@ namespace MinGH.Fretboard
             return playerInformation;
         }
 
+        public Vector3 position3D
+        {
+            get
+            {
+                return _position3D;
+            }
+
+            set
+            {
+                Vector3 distanceTraveled = value - _position3D;
+                _position3D = value;
+
+                foreach (Note note in notes)
+                {
+                    note.position3D += distanceTraveled;
+                }
+
+                foreach (FretboardBackground fretBG in fretboardBackgrounds)
+                {
+                    fretBG.position3D += distanceTraveled;
+                }
+
+                hitMarker.position3D += distanceTraveled;
+
+                //laneSeparators.
+            }
+        }
+
         Texture2D spriteSheetTex, fretboardTex;
         Note[,] notes;  // Will hold every note currently on the screen
         List<FretboardBackground> fretboardBackgrounds;  // A set of fretboards aligned next to each other giving a continous effect
-        LaneSeparator laneSeparators;
+        LaneSeparators laneSeparators;
         FretboardBorder fretboardBorders;
         HitMarker hitMarker;
         int noteIterator;  // This iterator is used to keep track of which note to draw next
@@ -182,7 +211,8 @@ namespace MinGH.Fretboard
         PlayerInformation playerInformation;
         Chart mainChart;  // Create the chart file
         float distanceFromNoteStartToHitmarker;
-        float currStepPerMilisecond; // How many game space units a note must move per milisecond
+        float currStepPerMilisecond; // How many game space units a note must move per milisecond`
+        Vector3 _position3D;
 
         // Project Mercury Particle Engine related variables
         NoteParticleEmitters noteParticleEmitters;

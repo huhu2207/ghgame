@@ -8,7 +8,7 @@ namespace MinGH.EngineExtensions
 	/// An extended class of gameObject3D that contains data and functionality 
 	/// specific to the drawable notes within the MinGH game.
 	/// </summary>
-    public class Note : GameObject3D
+    public class Note : GameObject
     {
 		/// <summary>
 		/// The same constructor overloaded from the gameObject class.  The parameter
