@@ -42,11 +42,7 @@ namespace MinGH.Fretboard
                                 if (inputNotechart.notes[inputNoteIterator].isHOPO == true)
                                 {
                                     // Use the HOPO note skin if note is HOPO
-                                    physicalNotes[currentNoteset, i].spriteSheetRectangle = 
-                                        new Rectangle(physicalNotes[currentNoteset, i].spriteSheetRectangle.X,
-                                                      physicalNotes[currentNoteset, i].spriteSheetRectangle.Y + spriteSheetSize,
-                                                      physicalNotes[currentNoteset, i].spriteSheetRectangle.Width,
-                                                      physicalNotes[currentNoteset, i].spriteSheetRectangle.Height);
+                                    physicalNotes[currentNoteset, i].spriteSheetStepY += 1;
                                 }
 
                                 physicalNotes[currentNoteset, i].alive = true;

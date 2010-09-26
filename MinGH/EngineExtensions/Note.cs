@@ -37,10 +37,22 @@ namespace MinGH.EngineExtensions
             isPartOfChord = false;
             rootNote = new Point();
             wasTicked = false;
-            originalSpritePosition = new Rectangle();
-            spriteSheetStep = 100;
+            spriteSheetStepX = 0;
+            spriteSheetStepY = 0;
+            pixelsPerSpriteSheetStepX = spritePos.Width;
+            pixelsPerSpriteSheetStepY = spritePos.Height;
+            originalSpriteStepX = 0;
+            originalSpriteStepY = 0;
+            _position3D = Vector3.Zero;
             _scale3D = Vector3.One;
             pointValue = 50;
+
+            vertices[0].Position = _position3D + new Vector3(0, spriteSheetStepY, 0) * new Vector3(1, _scale3D.Y, 1);
+            vertices[1].Position = _position3D + new Vector3(spriteSheetStepX, 0, 0) * new Vector3(_scale3D.X, 1, 1);
+            vertices[2].Position = _position3D;
+            vertices[3].Position = _position3D + new Vector3(spriteSheetStepX, 0, 0) * new Vector3(_scale3D.X, 1, 1);
+            vertices[4].Position = _position3D + new Vector3(0, spriteSheetStepY, 0) * new Vector3(1, _scale3D.Y, 1);
+            vertices[5].Position = _position3D + new Vector3(spriteSheetStepX, spriteSheetStepY, 0) * _scale3D;
         }
 
         /// <summary>
@@ -48,7 +60,8 @@ namespace MinGH.EngineExtensions
         /// </summary>
         public void ResetNote()
         {
-            spriteSheetRectangle = originalSpritePosition;
+            spriteSheetStepX = originalSpriteStepX;
+            spriteSheetStepY = originalSpriteStepY;
             noteChartIndex = 0;
             precedsHOPO = false;
             isUnhittable = false;
@@ -72,90 +85,93 @@ namespace MinGH.EngineExtensions
         /// <param name="sheetStep">
         /// The number of pixels each sprite sheet step is.
         /// </param>
-        public void initalizeTextureCoords(int XSheetValue, int YSheetValue, int sheetStep)
-        {
-            float desiredTop = YSheetValue / (float)spriteSheet.Height;
-            float desiredBottom = (YSheetValue + sheetStep) / (float)spriteSheet.Height;
-            float desiredLeft = XSheetValue / (float)spriteSheet.Width;
-            float desiredRight = (XSheetValue + sheetStep) / (float)spriteSheet.Width;
+        //public void initalizeTextureCoords(int XSheetValue, int YSheetValue, int sheetStepX, int sheetStepY)
+        //{
+        //    float desiredTop = YSheetValue / (float)spriteSheet.Height;
+        //    float desiredBottom = (YSheetValue * sheetStepY + sheetStepY) / (float)spriteSheet.Height;
+        //    float desiredLeft = XSheetValue * sheetStepX / (float)spriteSheet.Width;
+        //    float desiredRight = (XSheetValue * sheetStepX + sheetStepX) / (float)spriteSheet.Width;
 
-            vertices[0].TextureCoordinate.X = desiredLeft;
-            vertices[0].TextureCoordinate.Y = desiredTop;
+        //    vertices[0].TextureCoordinate.X = desiredLeft;
+        //    vertices[0].TextureCoordinate.Y = desiredTop;
 
-            vertices[1].TextureCoordinate.X = desiredRight;
-            vertices[1].TextureCoordinate.Y = desiredBottom;
+        //    vertices[1].TextureCoordinate.X = desiredRight;
+        //    vertices[1].TextureCoordinate.Y = desiredBottom;
 
-            vertices[2].TextureCoordinate.X = desiredLeft;
-            vertices[2].TextureCoordinate.Y = desiredBottom;
+        //    vertices[2].TextureCoordinate.X = desiredLeft;
+        //    vertices[2].TextureCoordinate.Y = desiredBottom;
 
-            vertices[3].TextureCoordinate.X = desiredRight;
-            vertices[3].TextureCoordinate.Y = desiredBottom;
+        //    vertices[3].TextureCoordinate.X = desiredRight;
+        //    vertices[3].TextureCoordinate.Y = desiredBottom;
 
-            vertices[4].TextureCoordinate.X = desiredLeft;
-            vertices[4].TextureCoordinate.Y = desiredTop;
+        //    vertices[4].TextureCoordinate.X = desiredLeft;
+        //    vertices[4].TextureCoordinate.Y = desiredTop;
 
-            vertices[5].TextureCoordinate.X = desiredRight;
-            vertices[5].TextureCoordinate.Y = desiredTop;
-        }
+        //    vertices[5].TextureCoordinate.X = desiredRight;
+        //    vertices[5].TextureCoordinate.Y = desiredTop;
+        //}
 
         /// <summary>
         /// The position of this note in 3D space.
         /// </summary>
-        public override Vector3 position3D
-        {
-            get
-            {
-                return _position3D;
-            }
+        //public override Vector3 position3D
+        //{
+        //    get
+        //    {
+        //        return _position3D;
+        //    }
 
-            set
-            {
-                _position3D = value;
-                vertices[0].Position = _position3D + new Vector3(0, spriteSheetStep, 0) * new Vector3(1, _scale3D.Y, 1);
-                vertices[1].Position = _position3D + new Vector3(spriteSheetStep, 0, 0) * new Vector3(_scale3D.X, 1, 1);
-                vertices[2].Position = _position3D;
-                vertices[3].Position = _position3D + new Vector3(spriteSheetStep, 0, 0) * new Vector3(_scale3D.X, 1, 1);
-                vertices[4].Position = _position3D + new Vector3(0, spriteSheetStep, 0) * new Vector3(1, _scale3D.Y, 1);
-                vertices[5].Position = _position3D + new Vector3(spriteSheetStep, spriteSheetStep, 0) * _scale3D;
-            }
-        }
+        //    set
+        //    {
+        //        _position3D = value;
+        //        vertices[0].Position = _position3D + new Vector3(0, spriteSheetStep, 0) * new Vector3(1, _scale3D.Y, 1);
+        //        vertices[1].Position = _position3D + new Vector3(spriteSheetStep, 0, 0) * new Vector3(_scale3D.X, 1, 1);
+        //        vertices[2].Position = _position3D;
+        //        vertices[3].Position = _position3D + new Vector3(spriteSheetStep, 0, 0) * new Vector3(_scale3D.X, 1, 1);
+        //        vertices[4].Position = _position3D + new Vector3(0, spriteSheetStep, 0) * new Vector3(1, _scale3D.Y, 1);
+        //        vertices[5].Position = _position3D + new Vector3(spriteSheetStep, spriteSheetStep, 0) * _scale3D;
+        //    }
+        //}
 
         /// <summary>
         /// The scaling value of this note.
         /// </summary>
-        public override Vector3 scale3D
-        {
-            get
-            {
-                return _scale3D;
-            }
-            set
-            {
-                _scale3D = value;
-                vertices[0].Position = _position3D * new Vector3(1, value.Y, 1);
-                vertices[1].Position = _position3D * new Vector3(value.X, 1, 1);
-                vertices[2].Position = _position3D;
-                vertices[3].Position = _position3D * new Vector3(value.X, 1, 1);
-                vertices[4].Position = _position3D * new Vector3(1, value.Y, 1);
-                vertices[5].Position = _position3D * value;
-            }
-        }
+        //public override Vector3 scale3D
+        //{
+        //    get
+        //    {
+        //        return _scale3D;
+        //    }
+        //    set
+        //    {
+        //        _scale3D = value;
+        //        float newWidth = pixelsPerSpriteSheetStepX * value.X;
+        //        float newHeight = pixelsPerSpriteSheetStepY * value.Y;
+
+        //        vertices[0].Position = position3D + new Vector3(0, newHeight, 0);
+        //        vertices[1].Position = position3D + new Vector3(newWidth, 0, 0);
+        //        vertices[2].Position = position3D;
+        //        vertices[3].Position = position3D + new Vector3(newWidth, 0, 0);
+        //        vertices[4].Position = position3D + new Vector3(0, newHeight, 0);
+        //        vertices[5].Position = position3D + new Vector3(newWidth, newHeight, 0);
+        //    }
+        //}
 
         /// <summary>
         /// The rectangle surrounding this note's section of the sprite sheet.
         /// </summary>
-        public override Rectangle spriteSheetRectangle
-        {
-            get
-            {
-                return _spriteSheetRectangle;
-            }
-            set
-            {
-                _spriteSheetRectangle = value;
-                initalizeTextureCoords(value.X, value.Y, spriteSheetStep);
-            }
-        }
+        //public override Rectangle spriteSheetRectangle
+        //{
+        //    get
+        //    {
+        //        return _spriteSheetRectangle;
+        //    }
+        //    set
+        //    {
+        //        _spriteSheetRectangle = value;
+        //        initalizeTextureCoords(value.X, value.Y, spriteSheetStepX, spriteSheetStepY);
+        //    }
+        //}
 
 		/// <summary>
 		/// The base point value of a note (this value may be in the wrong place,
@@ -203,9 +219,9 @@ namespace MinGH.EngineExtensions
         public bool wasTicked { get; set; }
 
         /// <summary>
-        /// The original sprite rectangle of a note (mainly used to preserve the 
-        /// drum bass note's appearance).
+        /// The original sprite step of this particular note
         /// </summary>
-        public Rectangle originalSpritePosition { get; set; }
+        public int originalSpriteStepX { get; set; }
+        public int originalSpriteStepY { get; set; }
     }
 }
