@@ -92,7 +92,7 @@
 
             <!-- How far back the fretboard will be visible in game space units.
                    NOTE: This will affect the note speed -->
-            <fretbooardDepth>1500</fretbooardDepth>
+            <fretbooardDepth>2000</fretbooardDepth>
           
             <!-- How far the hitbox and marker will be from the screen.  Higher means the marker 
                  will be farther up the fretboad.

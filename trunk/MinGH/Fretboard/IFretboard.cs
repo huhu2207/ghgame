@@ -23,5 +23,7 @@ namespace MinGH.Fretboard
         ChartInfo getChartInfo();
 
         PlayerInformation getPlayerInfo();
+
+        //Vector3 position { get; set; }
     }
 }
