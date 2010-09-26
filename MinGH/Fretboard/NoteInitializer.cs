@@ -53,6 +53,7 @@ namespace MinGH.Fretboard
                             Notes[i, j] = new Note(spriteSheetTex,
                                           new Rectangle(noteSpriteSheetSize * 2, 0, noteSpriteSheetSize, noteSpriteSheetSize), effect, device);
                             newY = -noteSpriteSheetSize / 2 * noteScaleValue;
+                            Notes[i, j].position3D = new Vector3(0, newY, 0);
                             Notes[i, j].originalSpriteStepX = 2;
                             Notes[i, j].originalSpriteStepY = 0;
                             Notes[i, j].scale3D = new Vector3(noteScaleValue, noteScaleValue, 1.0f);
@@ -61,6 +62,7 @@ namespace MinGH.Fretboard
                             Notes[i, j] = new Note(spriteSheetTex,
                                           new Rectangle(noteSpriteSheetSize * 3, 0, noteSpriteSheetSize, noteSpriteSheetSize), effect, device);
                             newY = -noteSpriteSheetSize / 2 * noteScaleValue;
+                            Notes[i, j].position3D = new Vector3(0, newY, 0);
                             Notes[i, j].originalSpriteStepX = 3;
                             Notes[i, j].originalSpriteStepY = 0;
                             Notes[i, j].scale3D = new Vector3(noteScaleValue, noteScaleValue, 1.0f);
@@ -69,6 +71,7 @@ namespace MinGH.Fretboard
                             Notes[i, j] = new Note(spriteSheetTex,
                                           new Rectangle(0, 0, noteSpriteSheetSize, noteSpriteSheetSize), effect, device);
                             newY = -noteSpriteSheetSize / 2 * noteScaleValue;
+                            Notes[i, j].position3D = new Vector3(0, newY, 0);
                             Notes[i, j].originalSpriteStepX = 4;
                             Notes[i, j].originalSpriteStepY = 0;
                             Notes[i, j].scale3D = new Vector3(noteScaleValue, noteScaleValue, 1.0f);

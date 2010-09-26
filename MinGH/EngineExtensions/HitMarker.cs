@@ -10,7 +10,7 @@ namespace MinGH.EngineExtensions
     public abstract class HitMarker : GameObject
     {
         public HitMarker(Texture2D loadedTex, Rectangle spriteRect, Effect effectToUse, GraphicsDevice device)
-            : base(loadedTex, spriteRect, effectToUse, device)
+            : base(loadedTex, effectToUse, device)
         { }
 
         /// <summary>

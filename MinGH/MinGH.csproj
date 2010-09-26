@@ -126,7 +126,6 @@
     <Compile Include="EngineExtensions\GuitarHitMarker.cs" />
     <Compile Include="EngineExtensions\GuitarLaneSeparators.cs" />
     <Compile Include="EngineExtensions\HitMarker.cs" />
-    <Compile Include="EngineExtensions\LaneSeparators.cs" />
     <Compile Include="EngineExtensions\Note.cs" />
     <Compile Include="Enum\GameStateEnum.cs" />
     <Compile Include="Fretboard\DrumFretboard.cs" />

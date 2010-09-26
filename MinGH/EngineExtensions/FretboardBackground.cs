@@ -11,7 +11,7 @@ namespace MinGH.EngineExtensions
     public class FretboardBackground : GameObject
     {
         public FretboardBackground(Texture2D loadedTex, Effect effectToUse, GraphicsDevice device)
-            : base(loadedTex, new Rectangle(0, 0, loadedTex.Width, loadedTex.Height), effectToUse, device)
+            : base(loadedTex, effectToUse, device)
         {
             pixelsPerSpriteSheetStepX = loadedTex.Width;
             pixelsPerSpriteSheetStepY = loadedTex.Height;

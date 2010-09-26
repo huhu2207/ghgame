@@ -28,7 +28,7 @@ namespace MinGH.EngineExtensions
         /// A graphics device.
         /// </param>
         public Note(Texture2D loadedTex, Rectangle spritePos, Effect effectToUse, GraphicsDevice device)
-            : base(loadedTex, spritePos, effectToUse, device)
+            : base(loadedTex, effectToUse, device)
         {
             noteChartIndex = 0;
             precedsHOPO = false;
