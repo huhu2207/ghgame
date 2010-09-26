@@ -1,12 +1,13 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using GameEngine;
 
 namespace MinGH.EngineExtensions
 {
     /// <summary>
     /// Draws the medians between the note lanes (not including the outside lanes).
     /// </summary>
-    public class DrumLaneSeparators : LaneSeparators
+    public class DrumLaneSeparators : GameObject
     {
         /// <summary>
         /// The verticies of all 4 lane separators.
@@ -15,7 +16,7 @@ namespace MinGH.EngineExtensions
 
         public DrumLaneSeparators(int laneSize, int laneBorderSize, Effect effectToUse, Texture2D texture,
                                   GraphicsDevice graphics, float laneDepth)
-            : base(texture, new Rectangle(0, 0, texture.Width, texture.Height), effectToUse, graphics)
+            : base(texture, effectToUse, graphics)
         {
             myEffect = effectToUse;
             laneSeparators = new VertexPositionTexture[3][];

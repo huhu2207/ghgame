@@ -171,7 +171,7 @@ namespace MinGH.Fretboard
         Texture2D spriteSheetTex, fretboardTex;
         Note[,] notes;  // Will hold every note currently on the screen
         List<FretboardBackground> fretboardBackgrounds;  // A set of fretboards aligned next to each other giving a continous effect
-        LaneSeparators laneSeparators;
+        DrumLaneSeparators laneSeparators;
         FretboardBorder fretboardBorders;
         HitMarker hitMarker;
         int noteIterator;  // This iterator is used to keep track of which note to draw next
