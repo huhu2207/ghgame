@@ -31,21 +31,19 @@ namespace MinGH.Fretboard
                             Notes[i, j] = new Note(spriteSheetTex, new Rectangle(0, noteSpriteSheetSize * 5, noteSpriteSheetSize * 4, noteSpriteSheetSize),
                                                    effect, device);
                             //Notes[i, j].initalizeTextureCoords(5, 0, 400, 100);
-                            Notes[i, j].spriteSheetStepY = 4;
 
                             newY = -noteScaleValue / 2;
                             Notes[i, j].position3D = new Vector3(0, newY, 0);
                             Notes[i, j].originalSpriteStepX = 0;
-                            Notes[i, j].originalSpriteStepY = 4;
-                            //Notes[i, j].scale3D = new Vector3(bassNoteScaleValue, noteScaleValue, 1.0f);
-                            Notes[i, j].scale3D = new Vector3(1000f, 1000f, 1.0f);
+                            Notes[i, j].originalSpriteStepY = 5;
+                            Notes[i, j].scale3D = new Vector3(bassNoteScaleValue, noteScaleValue, 1.0f);
                             break;
                         case 1:  // Red Notes
                             Notes[i, j] = new Note(spriteSheetTex,
                                           new Rectangle(noteSpriteSheetSize * 1, 0, noteSpriteSheetSize, noteSpriteSheetSize), effect, device);
 
                             newY = -noteScaleValue / 2;
-                            Notes[i, j].position3D = new Vector3((i * noteScaleValue) + (themeSetting.laneSeparatorSize * i), newY, 0);
+                            Notes[i, j].position3D = new Vector3(0, newY, 0);
                             Notes[i, j].originalSpriteStepX = 1;
                             Notes[i, j].originalSpriteStepY = 0;
                             Notes[i, j].scale3D = new Vector3(noteScaleValue, noteScaleValue, 1.0f);
@@ -54,7 +52,7 @@ namespace MinGH.Fretboard
                             Notes[i, j] = new Note(spriteSheetTex,
                                           new Rectangle(noteSpriteSheetSize * 2, 0, noteSpriteSheetSize, noteSpriteSheetSize), effect, device);
                             newY = -noteScaleValue / 2;
-                            Notes[i, j].position3D = new Vector3((i * noteScaleValue) + (themeSetting.laneSeparatorSize * i), newY, 0);
+                            Notes[i, j].position3D = new Vector3((1 * noteScaleValue) + (themeSetting.laneSeparatorSize * 1), newY, 0);
                             Notes[i, j].originalSpriteStepX = 2;
                             Notes[i, j].originalSpriteStepY = 0;
                             Notes[i, j].scale3D = new Vector3(noteScaleValue, noteScaleValue, 1.0f);
@@ -63,7 +61,7 @@ namespace MinGH.Fretboard
                             Notes[i, j] = new Note(spriteSheetTex,
                                           new Rectangle(noteSpriteSheetSize * 3, 0, noteSpriteSheetSize, noteSpriteSheetSize), effect, device);
                             newY = -noteScaleValue / 2;
-                            Notes[i, j].position3D = new Vector3((i * noteScaleValue) + (themeSetting.laneSeparatorSize * i), newY, 0);
+                            Notes[i, j].position3D = new Vector3((2 * noteScaleValue) + (themeSetting.laneSeparatorSize * 2), newY, 0);
                             Notes[i, j].originalSpriteStepX = 3;
                             Notes[i, j].originalSpriteStepY = 0;
                             Notes[i, j].scale3D = new Vector3(noteScaleValue, noteScaleValue, 1.0f);
@@ -72,8 +70,8 @@ namespace MinGH.Fretboard
                             Notes[i, j] = new Note(spriteSheetTex,
                                           new Rectangle(0, 0, noteSpriteSheetSize, noteSpriteSheetSize), effect, device);
                             newY = -noteScaleValue / 2;
-                            Notes[i, j].position3D = new Vector3((i * noteScaleValue) + (themeSetting.laneSeparatorSize * i), newY, 0);
-                            Notes[i, j].originalSpriteStepX = 4;
+                            Notes[i, j].position3D = new Vector3((3 * noteScaleValue) + (themeSetting.laneSeparatorSize * 3), newY, 0);
+                            Notes[i, j].originalSpriteStepX = 0;
                             Notes[i, j].originalSpriteStepY = 0;
                             Notes[i, j].scale3D = new Vector3(noteScaleValue, noteScaleValue, 1.0f);
                             break;

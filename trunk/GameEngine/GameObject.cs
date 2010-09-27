@@ -261,6 +261,8 @@ namespace GameEngine
             vertices[3].Position = new Vector3(1, 0, 0);
             vertices[4].Position = new Vector3(0, 1, 0);
             vertices[5].Position = new Vector3(1, 1, 0);
+
+            initalizeTextureCoords();
         }
 
         /// <summary>
