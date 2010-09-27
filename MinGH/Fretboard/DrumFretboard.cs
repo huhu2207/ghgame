@@ -63,11 +63,9 @@ namespace MinGH.Fretboard
                                  ((float)noteSpriteSheetSize);
 
 
-            laneSeparators = new DrumLaneSeparators(gameConfiguration.themeSetting.laneSizeDrums, gameConfiguration.themeSetting.laneSeparatorSize, effect,
-                                                    laneSeparatorTexture, graphics.GraphicsDevice, gameConfiguration.themeSetting.fretboardDepth);
+            laneSeparators = new DrumLaneSeparators(gameConfiguration, effect, laneSeparatorTexture, graphics.GraphicsDevice);
 
-            fretboardBorders = new DrumFretboardBorder(gameConfiguration.themeSetting.laneSizeDrums, gameConfiguration.themeSetting.laneSeparatorSize, effect,
-                                                        laneSeparatorTexture, graphics.GraphicsDevice, gameConfiguration.themeSetting.fretboardBorderSize, gameConfiguration.themeSetting.fretboardDepth);
+            fretboardBorders = new DrumFretboardBorder(effect, laneSeparatorTexture, graphics.GraphicsDevice, gameConfiguration);
 
             hitMarker = new DrumHitMarker(gameConfiguration.themeSetting.hitMarkerDepth, gameConfiguration.themeSetting.hitMarkerSize,
                                           gameConfiguration.themeSetting.laneSizeDrums, gameConfiguration.themeSetting.laneSeparatorSize,
@@ -172,7 +170,7 @@ namespace MinGH.Fretboard
         Note[,] notes;  // Will hold every note currently on the screen
         List<FretboardBackground> fretboardBackgrounds;  // A set of fretboards aligned next to each other giving a continous effect
         DrumLaneSeparators laneSeparators;
-        FretboardBorder fretboardBorders;
+        DrumFretboardBorder fretboardBorders;
         HitMarker hitMarker;
         int noteIterator;  // This iterator is used to keep track of which note to draw next
         float noteScaleValue, bassNoteScaleValue;

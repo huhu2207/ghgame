@@ -16,7 +16,7 @@ namespace MinGH.GameScreen.SinglePlayer
     class SinglePlayerScreen : DrawableGameComponent
     {
 
-        const int maxNotesOnscreen = 500;  // Maximum amount of a single note (i.e. how many reds per frame)
+        const int maxNotesOnscreen = 50;  // Maximum amount of a single note (i.e. how many reds per frame)
         const int noteSpriteSheetSize = 100;  // How large each sprite is in the spritesheet (including the offset padding)
 
         IFretboard fretboard;
