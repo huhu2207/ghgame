@@ -8,13 +8,13 @@ namespace MinGH.EngineExtensions
     /// <summary>
     /// Initializes and maintains the two borders on each side of the fretboard.
     /// </summary>
-    class DrumFretboardBorder
+    class GuitarFretboardBorders
     {
         GameObject[] _fretboardBorders;
 
         public Texture2D texture { get; set; }
 
-        public DrumFretboardBorder(Effect effectToUse, Texture2D texture, GraphicsDevice graphics, GameConfiguration gameConfig)
+        public GuitarFretboardBorders(Effect effectToUse, Texture2D texture, GraphicsDevice graphics, GameConfiguration gameConfig)
         {
             //fretboardBorders = new VertexPositionTexture[2][];
             //initalizeFretboardBorders(laneSize, fretboardBorderSize, laneBorderSize, laneDepth);
@@ -32,7 +32,7 @@ namespace MinGH.EngineExtensions
             }
 
             _fretboardBorders[0].position3D = new Vector3(-gameConfig.themeSetting.fretboardBorderSize, 0f, 0f);
-            _fretboardBorders[1].position3D = new Vector3(gameConfig.themeSetting.laneSizeDrums * 4 + gameConfig.themeSetting.laneSeparatorSize * 3, 0f, 0f);
+            _fretboardBorders[1].position3D = new Vector3(gameConfig.themeSetting.laneSizeGuitar * 5 + gameConfig.themeSetting.laneSeparatorSize * 4, 0f, 0f);
         }
 
         public void draw(GraphicsDevice device, Matrix viewMatrix, Matrix projectionMatrix)

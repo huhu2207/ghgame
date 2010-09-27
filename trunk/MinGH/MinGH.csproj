@@ -121,8 +121,7 @@
     <Compile Include="EngineExtensions\DrumFretboardBorder.cs" />
     <Compile Include="EngineExtensions\DrumLaneSeparators.cs" />
     <Compile Include="EngineExtensions\FretboardBackground.cs" />
-    <Compile Include="EngineExtensions\FretboardBorder.cs" />
-    <Compile Include="EngineExtensions\GuitarFretboardBorder.cs" />
+    <Compile Include="EngineExtensions\GuitarFretboardBorders.cs" />
     <Compile Include="EngineExtensions\GuitarHitMarker.cs" />
     <Compile Include="EngineExtensions\GuitarLaneSeparators.cs" />
     <Compile Include="EngineExtensions\HitMarker.cs" />
