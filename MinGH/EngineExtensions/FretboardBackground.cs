@@ -10,14 +10,13 @@ namespace MinGH.EngineExtensions
     /// </summary>
     public class FretboardBackground : GameObject
     {
-        public FretboardBackground(Texture2D loadedTex, Effect effectToUse, GraphicsDevice device)
+        public FretboardBackground(Texture2D loadedTex, Effect effectToUse, GraphicsDevice device, float scale)
             : base(loadedTex, effectToUse, device)
         {
             pixelsPerSpriteSheetStepX = loadedTex.Width;
             pixelsPerSpriteSheetStepY = loadedTex.Height;
             spriteSheetStepX = 0;
             spriteSheetStepY = 0;
-            _scale3D = Vector3.One;
         }
 
         /// <summary>
@@ -45,25 +44,25 @@ namespace MinGH.EngineExtensions
         /// <summary>
         /// The scaling value of this fretboard.
         /// </summary>
-        public override Vector3 scale3D
-        {
-            get
-            {
-                return _scale3D;
-            }
-            set
-            {
-                _scale3D = value;
-                float newWidth = pixelsPerSpriteSheetStepX * value.X;
-                float newHeight = pixelsPerSpriteSheetStepY * value.Z;
+        //public override Vector3 scale3D
+        //{
+        //    get
+        //    {
+        //        return _scale3D;
+        //    }
+        //    set
+        //    {
+        //        _scale3D = value;
+        //        float newWidth = pixelsPerSpriteSheetStepX * value.X;
+        //        float newHeight = pixelsPerSpriteSheetStepY * value.Z;
 
-                vertices[0].Position = _position3D + new Vector3(0, 0, -newHeight);
-                vertices[1].Position = _position3D + new Vector3(newWidth, 0, 0);
-                vertices[2].Position = _position3D;
-                vertices[3].Position = _position3D + new Vector3(newWidth, 0, 0);
-                vertices[4].Position = _position3D + new Vector3(0, 0, -newHeight);
-                vertices[5].Position = _position3D + new Vector3(newWidth, 0, -newHeight);
-            }
-        }
+        //        vertices[0].Position = _position3D + new Vector3(0, 0, -newHeight);
+        //        vertices[1].Position = _position3D + new Vector3(newWidth, 0, 0);
+        //        vertices[2].Position = _position3D;
+        //        vertices[3].Position = _position3D + new Vector3(newWidth, 0, 0);
+        //        vertices[4].Position = _position3D + new Vector3(0, 0, -newHeight);
+        //        vertices[5].Position = _position3D + new Vector3(newWidth, 0, -newHeight);
+        //    }
+        //}
     }
 }

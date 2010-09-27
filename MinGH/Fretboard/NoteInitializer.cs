@@ -97,8 +97,8 @@ namespace MinGH.Fretboard
                                            effect, device);
                     //Notes[i, j].initalizeTextureCoords(i, 0, noteSpriteSheetSize, noteSpriteSheetSize);
 
-                    float newY = -noteSpriteSheetSize / 2 * noteScaleValue;
-                    Notes[i, j].position3D = new Vector3((i * 100 * noteScaleValue) + (themeSetting.laneSeparatorSize * i), newY, 0);
+                    float newY =  -noteScaleValue / 2;
+                    Notes[i, j].position3D = new Vector3((i * noteScaleValue) + (themeSetting.laneSeparatorSize * i), newY, 0);
                     Notes[i, j].originalSpriteStepX = i;
                     Notes[i, j].originalSpriteStepY = 0;
                     Notes[i, j].scale3D = new Vector3(noteScaleValue, noteScaleValue, 1.0f);
