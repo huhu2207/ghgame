@@ -43,56 +43,6 @@ namespace GameEngine
         }
         protected Vector3 _position3D;
 
-        public void makeHorizontal()
-        {
-            for (int i = 0; i < vertices.GetLength(0); i++)
-            {
-                float y = vertices[i].Position.Y;
-                float z = vertices[i].Position.Z;
-
-                vertices[i].Position = new Vector3(vertices[i].Position.X, z, -y);
-            }
-           
-            //vertices[0].Position = new Vector3(0, newHeight, 0);
-            //vertices[1].Position = new Vector3(newWidth, 0, 0);
-            //vertices[2].Position = position3D;
-            //vertices[3].Position = new Vector3(newWidth, 0, 0);
-            //vertices[4].Position = new Vector3(0, newHeight, 0);
-            //vertices[5].Position = new Vector3(newWidth, newHeight, 0);
-        }
-
-        /// <summary>
-        /// The rectangle that encompasses the desire section of the sprite sheet that
-        /// this object will currently use.  If it is set to the size of the sprite sheet
-        /// this will operate as a normal texture.
-        /// </summary>
-        //public virtual Rectangle spriteSheetRectangle
-        //{
-        //    get { return _spriteSheetRectangle; }
-        //    set { _spriteSheetRectangle = value; }
-        //}
-        //protected Rectangle _spriteSheetRectangle;
-
-        public void setWidth(float newWidth)
-        {
-            //vertices[0].Position = new Vector3(0, newHeight, 0);
-            vertices[1].Position = new Vector3(newWidth, vertices[1].Position.Y, vertices[1].Position.Z);
-            //vertices[2].Position = position3D;
-            vertices[3].Position = new Vector3(newWidth, vertices[1].Position.Y, vertices[1].Position.Z);
-            //vertices[4].Position = new Vector3(0, newHeight, 0);
-            vertices[5].Position = new Vector3(newWidth, vertices[1].Position.Y, vertices[1].Position.Z);
-        }
-
-        public void setHeight(float newHeight)
-        {
-            vertices[0].Position = new Vector3(0, newHeight, 0);
-            //vertices[1].Position = new Vector3(vertices[1].Position.X, newHeight, vertices[1].Position.Z);
-            //vertices[2].Position = position3D;
-            //vertices[3].Position = new Vector3(vertices[1].Position.X,newHeight, vertices[1].Position.Z);
-            vertices[4].Position = new Vector3(0, newHeight, 0);
-            vertices[5].Position = new Vector3(vertices[1].Position.X, newHeight, vertices[1].Position.Z);
-        }
-
         public int spriteSheetStepX
         {
             get
@@ -212,13 +162,7 @@ namespace GameEngine
             Matrix worldMatrix = Matrix.Identity;
 
             worldMatrix *= Matrix.CreateScale(scale3D);
-            //worldMatrix *= Matrix.CreateFromAxisAngle(new Vector3(0.5f, 0f, 0f) * scale3D / 2, rotation3D.X);
-            //worldMatrix *= Matrix.CreateFromAxisAngle(new Vector3(0f, 0.5f, 0f) * scale3D / 2, rotation3D.Y);
-            //worldMatrix *= Matrix.CreateFromAxisAngle(new Vector3(0f, 0f, 0.5f) * scale3D / 2, rotation3D.Z);
-            //worldMatrix.Translation -= scale3D / 2;
             worldMatrix *= Matrix.CreateFromYawPitchRoll(rotation3D.Y, rotation3D.X, rotation3D.Z);
-            //worldMatrix.Translation += scale3D / 2;
-
             worldMatrix.Translation = position3D;
             myEffect.CurrentTechnique = myEffect.Techniques["Textured"];
             myEffect.Parameters["xWorld"].SetValue(worldMatrix);
