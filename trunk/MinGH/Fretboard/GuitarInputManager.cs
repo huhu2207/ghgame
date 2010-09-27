@@ -181,11 +181,11 @@ namespace MinGH.Fretboard
 
                             if (physicalNotes[hitNote, farthestNoteIndex].precedsHOPO)
                             {
-                                playerInformation.hitNote(true, Note2D.pointValue * chordDegree);
+                                playerInformation.hitNote(true, physicalNotes[hitNote, farthestNoteIndex].pointValue * chordDegree);
                             }
                             else
                             {
-                                playerInformation.hitNote(false, Note2D.pointValue * chordDegree);
+                                playerInformation.hitNote(false, physicalNotes[hitNote, farthestNoteIndex].pointValue * chordDegree);
                             }
                         }
                         // Calculate how far the hit note is from the center of the hitbox and return

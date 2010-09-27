@@ -27,21 +27,7 @@ namespace GameEngine
         /// The position this game object is currently located.  This position is where
         /// the top left of the sprite is to be drawn.
         /// </summary>
-        public virtual Vector3 position3D
-        {
-            get { return _position3D; }
-            set 
-            {
-                //Vector3 distanceMoved = value - _position3D;
-                _position3D = value;
-
-                //for (int i = 0; i < vertices.GetLength(0); i++)
-                //{
-                //    vertices[i].Position += distanceMoved;
-                //}
-            }
-        }
-        protected Vector3 _position3D;
+        public Vector3 position3D { get; set; }
 
         public int spriteSheetStepX
         {
@@ -120,37 +106,9 @@ namespace GameEngine
         /// <summary>
         /// The current scaling for this GameObject.
         /// </summary>
-        public virtual Vector3 scale3D
-        {
-            get { return _scale3D; }
-            set 
-            {
-                _scale3D = value;
-                //float newWidth = pixelsPerSpriteSheetStepX * value.X;
-                //float newHeight = pixelsPerSpriteSheetStepY * value.Y;
+        public virtual Vector3 scale3D { get; set; }
 
-                //vertices[0].Position = position3D + new Vector3(0, newHeight, 0);
-                //vertices[1].Position = position3D + new Vector3(newWidth, 0, 0);
-                //vertices[2].Position = position3D;
-                //vertices[3].Position = position3D + new Vector3(newWidth, 0, 0);
-                //vertices[4].Position = position3D + new Vector3(0, newHeight, 0);
-                //vertices[5].Position = position3D + new Vector3(newWidth, newHeight, 0);
-            }
-        }
-        protected Vector3 _scale3D;
-
-        public Vector3 rotation3D
-        {
-            get
-            {
-                return _rotation3D;
-            }
-            set
-            {
-                _rotation3D = value;
-            }
-        }
-        protected Vector3 _rotation3D;
+        public Vector3 rotation3D { get; set; }
 
         /// <summary>
         /// A boolean value that dictates wether this sprite is to be drawn or not.
