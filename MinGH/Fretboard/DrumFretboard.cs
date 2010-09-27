@@ -5,7 +5,6 @@ using MinGH.ChartImpl;
 using MinGH.Config;
 using MinGH.EngineExtensions;
 using MinGH.GameScreen;
-using MinGH.GameScreen.SinglePlayer;
 using ProjectMercury.Emitters;
 using ProjectMercury.Renderers;
 
@@ -58,9 +57,8 @@ namespace MinGH.Fretboard
 
             inputManager = new DrumInputManager();
 
-            noteScaleValue = gameConfiguration.themeSetting.laneSizeDrums / (float)noteSpriteSheetSize;
-            bassNoteScaleValue = ((gameConfiguration.themeSetting.laneSizeDrums * 4) + (gameConfiguration.themeSetting.laneSeparatorSize * 3)) /
-                                 ((float)noteSpriteSheetSize);
+            noteScaleValue = gameConfiguration.themeSetting.laneSizeDrums;
+            bassNoteScaleValue = ((gameConfiguration.themeSetting.laneSizeDrums * 4) + (gameConfiguration.themeSetting.laneSeparatorSize * 3));
 
 
             laneSeparators = new DrumLaneSeparators(gameConfiguration, effect, laneSeparatorTexture, graphics.GraphicsDevice);
