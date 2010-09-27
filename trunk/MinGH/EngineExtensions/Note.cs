@@ -43,16 +43,17 @@ namespace MinGH.EngineExtensions
             pixelsPerSpriteSheetStepY = spritePos.Height;
             originalSpriteStepX = 0;
             originalSpriteStepY = 0;
-            _position3D = Vector3.Zero;
-            _scale3D = Vector3.One;
+            position3D = Vector3.Zero;
+            scale3D = Vector3.One;
+            rotation3D = Vector3.Zero;
             pointValue = 50;
 
-            vertices[0].Position = _position3D + new Vector3(0, spriteSheetStepY, 0) * new Vector3(1, _scale3D.Y, 1);
-            vertices[1].Position = _position3D + new Vector3(spriteSheetStepX, 0, 0) * new Vector3(_scale3D.X, 1, 1);
-            vertices[2].Position = _position3D;
-            vertices[3].Position = _position3D + new Vector3(spriteSheetStepX, 0, 0) * new Vector3(_scale3D.X, 1, 1);
-            vertices[4].Position = _position3D + new Vector3(0, spriteSheetStepY, 0) * new Vector3(1, _scale3D.Y, 1);
-            vertices[5].Position = _position3D + new Vector3(spriteSheetStepX, spriteSheetStepY, 0) * _scale3D;
+            //vertices[0].Position = _position3D + new Vector3(0, spriteSheetStepY, 0) * new Vector3(1, _scale3D.Y, 1);
+            //vertices[1].Position = _position3D + new Vector3(spriteSheetStepX, 0, 0) * new Vector3(_scale3D.X, 1, 1);
+            //vertices[2].Position = _position3D;
+            //vertices[3].Position = _position3D + new Vector3(spriteSheetStepX, 0, 0) * new Vector3(_scale3D.X, 1, 1);
+            //vertices[4].Position = _position3D + new Vector3(0, spriteSheetStepY, 0) * new Vector3(1, _scale3D.Y, 1);
+            //vertices[5].Position = _position3D + new Vector3(spriteSheetStepX, spriteSheetStepY, 0) * _scale3D;
         }
 
         /// <summary>

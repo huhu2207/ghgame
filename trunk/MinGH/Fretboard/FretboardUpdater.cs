@@ -39,32 +39,33 @@ namespace MinGH.Fretboard
             if (instrument == "Drums")
             {
                 laneSize = themeSetting.laneSizeDrums;
-                newScale = ((laneSize * 4) + (themeSetting.laneSeparatorSize * 3))
-                           / (float)fretboardTex.Width;
+                newScale = (laneSize * 4) + (themeSetting.laneSeparatorSize * 3);
                 fretboardTexDepth = fretboardTex.Height * ((laneSize * 4) / (float)fretboardTex.Width);
             }
             else
             {
                 laneSize = themeSetting.laneSizeGuitar;
-                newScale = ((laneSize * 5) + (themeSetting.laneSeparatorSize * 4))
-                           / (float)fretboardTex.Width;
+                newScale = (laneSize * 5) + (themeSetting.laneSeparatorSize * 4);
                 fretboardTexDepth = fretboardTex.Height * ((laneSize * 5) / (float)fretboardTex.Width);
             }
 
             if (fretboards.Count == 0)
             {
-                FretboardBackground fretboardToAdd = new FretboardBackground(fretboardTex, effect, graphics);
-                fretboardToAdd.scale3D = new Vector3(newScale, 1f, newScale);
+                FretboardBackground fretboardToAdd = new FretboardBackground(fretboardTex, effect, graphics, newScale);
+                fretboardToAdd.scale3D = new Vector3(newScale, newScale, 1f);
                 fretboardToAdd.position3D = new Vector3(0f, 0f, -fretboardDepth);
                 fretboardToAdd.alive = true;
+                fretboardToAdd.rotation3D = new Vector3(-MathHelper.PiOver2, 0f, 0f);
                 fretboards.Add(fretboardToAdd);
+
             }
             if (fretboards[fretboards.Count - 1].position3D.Z > -fretboardDepth)
             {
-                FretboardBackground fretboardToAdd = new FretboardBackground(fretboardTex, effect, graphics);
-                fretboardToAdd.scale3D = new Vector3(newScale, 1f, newScale);
-                fretboardToAdd.position3D = new Vector3(0f, 0f, fretboards[fretboards.Count - 1].position3D.Z - fretboardTexDepth);
+                FretboardBackground fretboardToAdd = new FretboardBackground(fretboardTex, effect, graphics, laneSize);
+                fretboardToAdd.scale3D = new Vector3(newScale, newScale, 1f);
+                fretboardToAdd.position3D = new Vector3(0f, 0f, fretboards[fretboards.Count - 1].position3D.Z - newScale);
                 fretboardToAdd.alive = true;
+                fretboardToAdd.rotation3D = new Vector3(-MathHelper.PiOver2, 0f, 0f);
                 fretboards.Add(fretboardToAdd);
             }
             if (fretboards[0].position3D.Z > 0 + fretboards[0].pixelsPerSpriteSheetStepY)

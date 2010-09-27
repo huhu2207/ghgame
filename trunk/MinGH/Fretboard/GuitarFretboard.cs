@@ -52,11 +52,10 @@ namespace MinGH.Fretboard
             // Set up the particle explosions
             noteParticleEmitters.initalizeEmittersGuitarSingle();
             noteParticleEmitters.initializeLocationsGuitarSingle(gameConfiguration.themeSetting, graphics.GraphicsDevice, viewMatrix, projectionMatrix);
-            noteScaleValue = gameConfiguration.themeSetting.laneSizeGuitar / (float)noteSpriteSheetSize;
+            noteScaleValue = gameConfiguration.themeSetting.laneSizeGuitar;// / (float)noteSpriteSheetSize;
 
 
-            laneSeparators = new GuitarLaneSeparators(gameConfiguration.themeSetting.laneSizeGuitar, gameConfiguration.themeSetting.laneSeparatorSize, effect,
-                                                     laneSeparatorTexture, graphics.GraphicsDevice, gameConfiguration.themeSetting.fretboardDepth);
+            laneSeparators = new GuitarLaneSeparators(gameConfiguration, effect, laneSeparatorTexture, graphics.GraphicsDevice);
             fretboardBorders = new GuitarFretboardBorder(gameConfiguration.themeSetting.laneSizeGuitar, gameConfiguration.themeSetting.laneSeparatorSize, effect,
                                                          laneSeparatorTexture, graphics.GraphicsDevice, gameConfiguration.themeSetting.fretboardBorderSize, gameConfiguration.themeSetting.fretboardDepth);
 

@@ -32,13 +32,13 @@ namespace GameEngine
             get { return _position3D; }
             set 
             {
-                Vector3 distanceMoved = value - _position3D;
+                //Vector3 distanceMoved = value - _position3D;
                 _position3D = value;
 
-                for (int i = 0; i < vertices.GetLength(0); i++)
-                {
-                    vertices[i].Position += distanceMoved;
-                }
+                //for (int i = 0; i < vertices.GetLength(0); i++)
+                //{
+                //    vertices[i].Position += distanceMoved;
+                //}
             }
         }
         protected Vector3 _position3D;
@@ -176,18 +176,31 @@ namespace GameEngine
             set 
             {
                 _scale3D = value;
-                float newWidth = pixelsPerSpriteSheetStepX * value.X;
-                float newHeight = pixelsPerSpriteSheetStepY * value.Y;
+                //float newWidth = pixelsPerSpriteSheetStepX * value.X;
+                //float newHeight = pixelsPerSpriteSheetStepY * value.Y;
 
-                vertices[0].Position = position3D + new Vector3(0, newHeight, 0);
-                vertices[1].Position = position3D + new Vector3(newWidth, 0, 0);
-                vertices[2].Position = position3D;
-                vertices[3].Position = position3D + new Vector3(newWidth, 0, 0);
-                vertices[4].Position = position3D + new Vector3(0, newHeight, 0);
-                vertices[5].Position = position3D + new Vector3(newWidth, newHeight, 0);
+                //vertices[0].Position = position3D + new Vector3(0, newHeight, 0);
+                //vertices[1].Position = position3D + new Vector3(newWidth, 0, 0);
+                //vertices[2].Position = position3D;
+                //vertices[3].Position = position3D + new Vector3(newWidth, 0, 0);
+                //vertices[4].Position = position3D + new Vector3(0, newHeight, 0);
+                //vertices[5].Position = position3D + new Vector3(newWidth, newHeight, 0);
             }
         }
         protected Vector3 _scale3D;
+
+        public Vector3 rotation3D
+        {
+            get
+            {
+                return _rotation3D;
+            }
+            set
+            {
+                _rotation3D = value;
+            }
+        }
+        protected Vector3 _rotation3D;
 
         /// <summary>
         /// A boolean value that dictates wether this sprite is to be drawn or not.
@@ -197,6 +210,16 @@ namespace GameEngine
         public virtual void draw(GraphicsDevice device, Matrix viewMatrix, Matrix projectionMatrix)
         {
             Matrix worldMatrix = Matrix.Identity;
+
+            worldMatrix *= Matrix.CreateScale(scale3D);
+            //worldMatrix *= Matrix.CreateFromAxisAngle(new Vector3(0.5f, 0f, 0f) * scale3D / 2, rotation3D.X);
+            //worldMatrix *= Matrix.CreateFromAxisAngle(new Vector3(0f, 0.5f, 0f) * scale3D / 2, rotation3D.Y);
+            //worldMatrix *= Matrix.CreateFromAxisAngle(new Vector3(0f, 0f, 0.5f) * scale3D / 2, rotation3D.Z);
+            //worldMatrix.Translation -= scale3D / 2;
+            worldMatrix *= Matrix.CreateFromYawPitchRoll(rotation3D.Y, rotation3D.X, rotation3D.Z);
+            //worldMatrix.Translation += scale3D / 2;
+
+            worldMatrix.Translation = position3D;
             myEffect.CurrentTechnique = myEffect.Techniques["Textured"];
             myEffect.Parameters["xWorld"].SetValue(worldMatrix);
             myEffect.Parameters["xView"].SetValue(viewMatrix);
@@ -229,7 +252,15 @@ namespace GameEngine
             center3D = Vector3.Zero;
             velocity3D = Vector3.Zero;
             scale3D = Vector3.One;
+            rotation3D = Vector3.Zero;
             texturedVertexDeclaration = new VertexDeclaration(device, VertexPositionTexture.VertexElements);
+
+            vertices[0].Position = new Vector3(0, 1, 0);
+            vertices[1].Position = new Vector3(1, 0, 0);
+            vertices[2].Position = Vector3.Zero;
+            vertices[3].Position = new Vector3(1, 0, 0);
+            vertices[4].Position = new Vector3(0, 1, 0);
+            vertices[5].Position = new Vector3(1, 1, 0);
         }
 
         /// <summary>
