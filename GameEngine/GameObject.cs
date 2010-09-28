@@ -173,7 +173,6 @@ namespace GameEngine
             _pixelsperSpriteSheetStepY = 1;
             vertices = new VertexPositionTexture[6];
             spriteSheet = loadedTex;
-            //spriteSheetRectangle = spriteRect;
             myEffect = effectToUse;
             position3D = Vector3.Zero;
             center3D = Vector3.Zero;
