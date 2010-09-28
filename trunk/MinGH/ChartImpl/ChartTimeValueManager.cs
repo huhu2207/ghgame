@@ -33,10 +33,11 @@ namespace MinGH.ChartImpl
         /// A notechart that is the same as the input notechart, but every note has a milisecond value filled out.
         /// </returns>
         public static Notechart GenerateTimeValues(Notechart inputNotechart, List<BPMChange> inputBPMChanges,
-                                           List<ChartEvent> inputEvents, ChartInfo chartInfo)
+                                           List<ChartEvent> inputEvents, ChartInfo chartInfo, List<NotechartBeatmarker> beatMarkers)
         {
             double currentTick = 0.0;
-            double currentTicksPerMilisecond = 0.0;
+            double currentTickLoop = 0.0;
+            double currentTicksPerMilisecond = (inputBPMChanges[0].BPMValue * chartInfo.resolution) / 60000000.0;
             uint currentMilisecond = (uint)(chartInfo.offset * 1000);  // Convert the chart offset into flat miliseconds
 
             int notechartIterator = 0;
@@ -46,6 +47,7 @@ namespace MinGH.ChartImpl
 
             EndofChartCondition endofChartCondition = new EndofChartCondition();
             Notechart noteChartToReturn = inputNotechart;
+            beatMarkers.Add(new NotechartBeatmarker(0, 1));  // Add the initial beatmarker for the start of the song
 
             // Keep working until no more events or notes are found
             while (endofChartCondition)
@@ -53,9 +55,9 @@ namespace MinGH.ChartImpl
                 // Update the event time values
                 if (eventIterator < inputEvents.Count)
                 {
-                    if (currentTick >= inputEvents[eventIterator].TickValue)
+                    if (currentTick >= inputEvents[eventIterator].tickValue)
                     {
-                        inputEvents[eventIterator].TimeValue = currentMilisecond;
+                        inputEvents[eventIterator].timeValue = currentMilisecond;
                         eventIterator++;
                     }
                 }
@@ -67,9 +69,9 @@ namespace MinGH.ChartImpl
                 // Update the notes themselves
                 if (notechartIterator < inputNotechart.notes.Count)
                 {
-                    while ((notechartIterator < inputNotechart.notes.Count) && (currentTick >= inputNotechart.notes[notechartIterator].TickValue))
+                    while ((notechartIterator < inputNotechart.notes.Count) && (currentTick >= inputNotechart.notes[notechartIterator].tickValue))
                     {
-                        inputNotechart.notes[notechartIterator].TimeValue = currentMilisecond;
+                        inputNotechart.notes[notechartIterator].timeValue = currentMilisecond;
                         notechartIterator++;
                     }
                 }
@@ -81,9 +83,9 @@ namespace MinGH.ChartImpl
                 // Update the Star Power notes
                 if (SPNoteIterator < inputNotechart.SPNotes.Count)
                 {
-                    if (currentTick >= inputNotechart.SPNotes[SPNoteIterator].TickValue)
+                    if (currentTick >= inputNotechart.SPNotes[SPNoteIterator].tickValue)
                     {
-                        inputNotechart.SPNotes[SPNoteIterator].TimeValue = currentMilisecond;
+                        inputNotechart.SPNotes[SPNoteIterator].timeValue = currentMilisecond;
                         SPNoteIterator++;
                     }
                 }
@@ -101,13 +103,21 @@ namespace MinGH.ChartImpl
                     // (count is not zero based, and must be decremented by 1)
                     if (BPMChangeIterator < (inputBPMChanges.Count - 1))
                     {
-                        if ((currentTick >= inputBPMChanges[BPMChangeIterator + 1].TickValue))
+                        if ((currentTick >= inputBPMChanges[BPMChangeIterator + 1].tickValue))
                         {
                             BPMChangeIterator++;
                         }
                     }
                 }
 
+                if (currentTickLoop > chartInfo.resolution * 4)
+                {
+                    beatMarkers.Add(new NotechartBeatmarker(currentMilisecond, 1));
+                    currentTickLoop = 0;
+                }
+                //else if (currentTickLoop 
+
+                currentTickLoop += currentTicksPerMilisecond;
                 currentTick += currentTicksPerMilisecond;
                 currentMilisecond++;
             }

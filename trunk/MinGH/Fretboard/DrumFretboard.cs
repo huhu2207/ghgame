@@ -7,6 +7,7 @@ using MinGH.EngineExtensions;
 using MinGH.GameScreen;
 using ProjectMercury.Emitters;
 using ProjectMercury.Renderers;
+using GameEngine;
 
 namespace MinGH.Fretboard
 {
@@ -23,7 +24,7 @@ namespace MinGH.Fretboard
             noteScaleValue = 0.0f;
             bassNoteScaleValue = 0.0f;
             notes = new Note[5, maxNotesOnscreen];
-            fretboardBackgrounds = new List<FretboardBackground>();
+            fretboardBackgrounds = new List<GameObject>();
             hitBox = new HorizontalHitBox((int)(gameConfiguration.themeSetting.hitMarkerDepth + (gameConfiguration.themeSetting.hitMarkerSize / 2.0f)),
                                           gameConfiguration.MSTillHit);
             distanceFromNoteStartToHitmarker = gameConfiguration.themeSetting.fretboardDepth - hitBox.centerLocation;
@@ -65,9 +66,15 @@ namespace MinGH.Fretboard
 
             fretboardBorders = new DrumFretboardBorder(effect, laneSeparatorTexture, graphics.GraphicsDevice, gameConfiguration);
 
-            hitMarker = new DrumHitMarker(gameConfiguration.themeSetting.hitMarkerDepth, gameConfiguration.themeSetting.hitMarkerSize,
-                                          gameConfiguration.themeSetting.laneSizeDrums, gameConfiguration.themeSetting.laneSeparatorSize,
-                                          gameConfiguration.themeSetting.fretboardBorderSize, effect, hitMarkerTexture, graphics.GraphicsDevice);
+            hitMarker = new GameObject(hitMarkerTexture, effect, graphics.GraphicsDevice);
+            hitMarker.pixelsPerSpriteSheetStepX = hitMarkerTexture.Width;
+            hitMarker.pixelsPerSpriteSheetStepY = hitMarkerTexture.Height;
+            hitMarker.position3D = new Vector3(-gameConfiguration.themeSetting.fretboardBorderSize, 0f, -gameConfiguration.themeSetting.hitMarkerDepth);
+            hitMarker.scale3D = new Vector3((4 * gameConfiguration.themeSetting.laneSizeDrums) +
+                                            (3 * gameConfiguration.themeSetting.laneSeparatorSize) +
+                                            (2 * gameConfiguration.themeSetting.fretboardBorderSize),
+                                            gameConfiguration.themeSetting.hitMarkerSize, 1f);
+            hitMarker.rotation3D = new Vector3(-MathHelper.PiOver2, 0f, 0f);
 
             notes = NoteInitializer.InitializeNotesDrumSingle(noteSpriteSheetSize, notes, spriteSheetTex, gameConfiguration.themeSetting,
                                                               noteScaleValue, bassNoteScaleValue, effect, graphics.GraphicsDevice);
@@ -166,10 +173,10 @@ namespace MinGH.Fretboard
 
         Texture2D spriteSheetTex, fretboardTex;
         Note[,] notes;  // Will hold every note currently on the screen
-        List<FretboardBackground> fretboardBackgrounds;  // A set of fretboards aligned next to each other giving a continous effect
+        List<GameObject> fretboardBackgrounds;  // A set of fretboards aligned next to each other giving a continous effect
         DrumLaneSeparators laneSeparators;
         DrumFretboardBorder fretboardBorders;
-        HitMarker hitMarker;
+        GameObject hitMarker;
         int noteIterator;  // This iterator is used to keep track of which note to draw next
         float noteScaleValue, bassNoteScaleValue;
         IInputManager inputManager;

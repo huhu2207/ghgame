@@ -60,7 +60,7 @@ namespace MinGH.ChartImpl
                         if (parsed_line[2] == "N")
                         {
                             if ((notechartToReturn.notes.Count > 0) &&
-                                (Convert.ToUInt32(parsed_line[0]) == notechartToReturn.notes[notechartToReturn.notes.Count - 1].TickValue))
+                                (Convert.ToUInt32(parsed_line[0]) == notechartToReturn.notes[notechartToReturn.notes.Count - 1].tickValue))
                             {
                                 switch (Convert.ToInt32(parsed_line[3]))
                                 {
