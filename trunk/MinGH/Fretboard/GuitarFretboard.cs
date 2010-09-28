@@ -144,7 +144,7 @@ namespace MinGH.Fretboard
 
         public void draw(GraphicsDeviceManager graphics, Matrix viewMatrix, Matrix projectionMatrix)
         {
-            foreach (FretboardBackground fretboard in fretboardBackgrounds)
+            foreach (GameObject fretboard in fretboardBackgrounds)
             {
                 if (fretboard.alive)
                 {
@@ -172,7 +172,6 @@ namespace MinGH.Fretboard
             {
                 renderer.RenderEmitter(emitter);
             }
-
         }
 
         public ChartInfo getChartInfo()
@@ -202,7 +201,7 @@ namespace MinGH.Fretboard
                     note.position3D += distanceTraveled;
                 }
 
-                foreach (FretboardBackground fretBG in fretboardBackgrounds)
+                foreach (GameObject fretBG in fretboardBackgrounds)
                 {
                     fretBG.position3D += distanceTraveled;
                 }

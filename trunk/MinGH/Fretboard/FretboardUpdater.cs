@@ -28,48 +28,52 @@ namespace MinGH.Fretboard
                                             ThemeSetting themeSetting, float currStep, string instrument,
                                             float fretboardDepth)
         {
-            foreach (FretboardBackground fretboard in fretboards)
+            foreach (GameObject fretboard in fretboards)
             {
                 fretboard.position3D += new Vector3(0f, 0f, currStep);
             }
 
 
             int laneSize = 0;
-            float fretboardTexDepth = fretboardTex.Height * ((laneSize * 5) / (float)fretboardTex.Width);
-            float newScale = 0;
+            float newScaleX = 0;
+            float newScaleY = 0;
             if (instrument == "Drums")
             {
                 laneSize = themeSetting.laneSizeDrums;
-                newScale = (laneSize * 4) + (themeSetting.laneSeparatorSize * 3);
-                fretboardTexDepth = fretboardTex.Height * ((laneSize * 4) / (float)fretboardTex.Width);
+                newScaleX = (laneSize * 4) + (themeSetting.laneSeparatorSize * 3);
             }
             else
             {
                 laneSize = themeSetting.laneSizeGuitar;
-                newScale = (laneSize * 5) + (themeSetting.laneSeparatorSize * 4);
-                fretboardTexDepth = fretboardTex.Height * ((laneSize * 5) / (float)fretboardTex.Width);
+                newScaleX = (laneSize * 5) + (themeSetting.laneSeparatorSize * 4);
             }
+
+            newScaleY = fretboardTex.Height * newScaleX / fretboardTex.Width;
 
             if (fretboards.Count == 0)
             {
-                FretboardBackground fretboardToAdd = new FretboardBackground(fretboardTex, effect, graphics, newScale);
-                fretboardToAdd.scale3D = new Vector3(newScale, newScale, 1f);
+                GameObject fretboardToAdd = new GameObject(fretboardTex, effect, graphics);
+                fretboardToAdd.pixelsPerSpriteSheetStepX = fretboardTex.Width;
+                fretboardToAdd.pixelsPerSpriteSheetStepY = fretboardTex.Height;
+                fretboardToAdd.scale3D = new Vector3(newScaleX, newScaleY, 1f);
                 fretboardToAdd.position3D = new Vector3(0f, 0f, -fretboardDepth);
                 fretboardToAdd.alive = true;
                 fretboardToAdd.rotation3D = new Vector3(-MathHelper.PiOver2, 0f, 0f);
                 fretboards.Add(fretboardToAdd);
 
             }
-            if (fretboards[fretboards.Count - 1].position3D.Z > -fretboardDepth)
+            else if (fretboards[fretboards.Count - 1].position3D.Z > -fretboardDepth + newScaleY)
             {
-                FretboardBackground fretboardToAdd = new FretboardBackground(fretboardTex, effect, graphics, laneSize);
-                fretboardToAdd.scale3D = new Vector3(newScale, newScale, 1f);
-                fretboardToAdd.position3D = new Vector3(0f, 0f, fretboards[fretboards.Count - 1].position3D.Z - newScale);
+                GameObject fretboardToAdd = new GameObject(fretboardTex, effect, graphics);
+                fretboardToAdd.pixelsPerSpriteSheetStepX = fretboardTex.Width;
+                fretboardToAdd.pixelsPerSpriteSheetStepY = fretboardTex.Height;
+                fretboardToAdd.scale3D = new Vector3(newScaleX, newScaleY, 1f);
+                fretboardToAdd.position3D = new Vector3(0f, 0f, fretboards[fretboards.Count - 1].position3D.Z - newScaleY);
                 fretboardToAdd.alive = true;
                 fretboardToAdd.rotation3D = new Vector3(-MathHelper.PiOver2, 0f, 0f);
                 fretboards.Add(fretboardToAdd);
             }
-            if (fretboards[0].position3D.Z > 0 + fretboards[0].pixelsPerSpriteSheetStepY)
+            if (fretboards[0].position3D.Z > 0 + fretboards[0].scale3D.Y)
             {
                 fretboards.RemoveAt(0);
             }

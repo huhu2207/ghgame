@@ -130,7 +130,7 @@ namespace MinGH.Fretboard
 
         public void draw(GraphicsDeviceManager graphics, Matrix viewMatrix, Matrix projectionMatrix)
         {
-            foreach (FretboardBackground fretboard in fretboardBackgrounds)
+            foreach (GameObject fretboard in fretboardBackgrounds)
             {
                 if (fretboard.alive)
                 {

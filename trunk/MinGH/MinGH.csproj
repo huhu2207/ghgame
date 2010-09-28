@@ -120,7 +120,6 @@
     <Compile Include="Config\ThemeSetting.cs" />
     <Compile Include="EngineExtensions\DrumFretboardBorder.cs" />
     <Compile Include="EngineExtensions\DrumLaneSeparators.cs" />
-    <Compile Include="EngineExtensions\FretboardBackground.cs" />
     <Compile Include="EngineExtensions\GuitarFretboardBorders.cs" />
     <Compile Include="EngineExtensions\GuitarLaneSeparators.cs" />
     <Compile Include="EngineExtensions\Note.cs" />

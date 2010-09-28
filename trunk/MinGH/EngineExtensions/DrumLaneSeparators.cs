@@ -30,8 +30,6 @@ namespace MinGH.EngineExtensions
 
                 _laneSeparators[i].pixelsPerSpriteSheetStepX = loadedTex.Width;
                 _laneSeparators[i].pixelsPerSpriteSheetStepY = loadedTex.Height;
-                _laneSeparators[i].spriteSheetStepX = 0;
-                _laneSeparators[i].spriteSheetStepY = 0;
                 _laneSeparators[i].scale3D = new Vector3(gameConfig.themeSetting.laneSeparatorSize, gameConfig.themeSetting.fretboardDepth, 1f);
                 _laneSeparators[i].rotation3D = new Vector3(-MathHelper.PiOver2, 0f, 0f);
                 _laneSeparators[i].position3D = new Vector3((i + 1) * gameConfig.themeSetting.laneSizeDrums + (i * gameConfig.themeSetting.laneSeparatorSize), 0f, 0);
