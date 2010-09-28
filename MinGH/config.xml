@@ -30,22 +30,22 @@
                AND fretboard depth -->
     <speedMods>
     
-        <selectedSpeedMod>1</selectedSpeedMod>
+        <selectedSpeedMod>3</selectedSpeedMod>
         
         <speedMod id="1">
-            <MSTillHit>2000</MSTillHit>
+            <MSTillHit>3000</MSTillHit>
         </speedMod>
         
         <speedMod id="2">
-            <MSTillHit>1750</MSTillHit>
+            <MSTillHit>2750</MSTillHit>
         </speedMod>
         
         <speedMod id="3">
-            <MSTillHit>1500</MSTillHit>
+            <MSTillHit>2250</MSTillHit>
         </speedMod>
 
         <speedMod id="4">
-            <MSTillHit>1250</MSTillHit>
+            <MSTillHit>1750</MSTillHit>
         </speedMod>
 
         <speedMod id="5">
@@ -120,7 +120,7 @@
             
             <!-- The physical size of the lane separators INSIDE the fretboard.
                  Know that every separator will be the same size. -->
-            <laneSeparatorSize>3</laneSeparatorSize>
+            <laneSeparatorSize>2</laneSeparatorSize>
 
             <!-- The physical size of the borders on the OUTSIDE of the fretboard.
                  Know that both borders will be the same size. -->

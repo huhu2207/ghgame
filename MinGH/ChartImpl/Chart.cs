@@ -19,6 +19,7 @@ namespace MinGH.ChartImpl
             BPMChanges = new List<BPMChange>();
             events = new List<ChartEvent>();
             noteCharts = new List<Notechart>();
+            beatMarkers = new List<NotechartBeatmarker>();
         }
 
         /// <summary>
@@ -34,6 +35,7 @@ namespace MinGH.ChartImpl
             events = new List<ChartEvent>();
             noteCharts = new List<Notechart>();
             chartInfo = new ChartInfo();
+            beatMarkers = new List<NotechartBeatmarker>();
 
             if (chartSelection.chartType == "*.chart" && File.Exists(chartSelection.chartPath))
             {
@@ -60,6 +62,7 @@ namespace MinGH.ChartImpl
                 try
                 {
                     noteCharts.Add(ChartMidiManager.ParseMidiInformationToub(chartSelection, chartInfo, BPMChanges));
+                    //noteCharts.Add(ChartMidiManager.ParseMidiInformationSanford(chartSelection, chartInfo, BPMChanges));
                 }
                 catch (Exception e)
                 {
@@ -72,7 +75,7 @@ namespace MinGH.ChartImpl
             for (int i = 0; i < noteCharts.Count; i++)
             {
                 noteCharts[i] = ChartTimeValueManager.GenerateTimeValues(noteCharts[i], BPMChanges,
-                                 events, chartInfo);
+                                                                         events, chartInfo, beatMarkers);
                 if (noteCharts[i].instrument != "Drums")
                 {
                     noteCharts[i] = NotechartHOPOManager.AssignHOPOS(noteCharts[i], chartInfo);
@@ -134,5 +137,7 @@ namespace MinGH.ChartImpl
         /// valid chart within that particular file.  It only chooses ExpertSingle for now.
         /// </summary>
         public List<Notechart> noteCharts { get; set; }
+
+        public List<NotechartBeatmarker> beatMarkers { get; set; }
     }
 }

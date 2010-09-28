@@ -55,10 +55,35 @@ namespace GameEngine
                 initalizeTextureCoords();
             }
         }
-        protected int _spriteSheetStepY;
+        private int _spriteSheetStepY;
 
-        public int pixelsPerSpriteSheetStepX { get; set; }
-        public int pixelsPerSpriteSheetStepY { get; set; }
+        public int pixelsPerSpriteSheetStepX
+        {
+            get
+            {
+                return _pixelsperSpriteSheetStepX;
+            }
+            set
+            {
+                _pixelsperSpriteSheetStepX = value;
+                initalizeTextureCoords();
+            }
+        }
+        private int _pixelsperSpriteSheetStepX;
+
+        public int pixelsPerSpriteSheetStepY
+        {
+            get
+            {
+                return _pixelsperSpriteSheetStepY;
+            }
+            set
+            {
+                _pixelsperSpriteSheetStepY = value;
+                initalizeTextureCoords();
+            }
+        }
+        private int _pixelsperSpriteSheetStepY;
 
         private void initalizeTextureCoords()
         {
@@ -142,10 +167,10 @@ namespace GameEngine
 
         public GameObject(Texture2D loadedTex, Effect effectToUse, GraphicsDevice device)
         {
-            _spriteSheetStepX = 1;
-            _spriteSheetStepY = 1;
-            pixelsPerSpriteSheetStepX = 1;
-            pixelsPerSpriteSheetStepY = 1;
+            _spriteSheetStepX = 0;
+            _spriteSheetStepY = 0;
+            _pixelsperSpriteSheetStepX = 1;
+            _pixelsperSpriteSheetStepY = 1;
             vertices = new VertexPositionTexture[6];
             spriteSheet = loadedTex;
             //spriteSheetRectangle = spriteRect;

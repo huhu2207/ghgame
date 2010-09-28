@@ -181,7 +181,7 @@ namespace MinGH.ChartImpl
                             if (blankNote)
                             {
                                 //currNote.TickValue = totalTickValue;
-                                currNote.TickValue = (uint)currEvent.AbsoluteTicks;
+                                currNote.tickValue = (uint)currEvent.AbsoluteTicks;
                                 blankNote = false;
                             }
                             if (currMessage.Data1 == greenKey) { currNote.addNote(0); }
@@ -371,7 +371,7 @@ namespace MinGH.ChartImpl
                         // If it's a new note, we need to setup the tick value of it.
                         if (blankNote)
                         {
-                            currNote.TickValue = totalTickValue;
+                            currNote.tickValue = totalTickValue;
                             blankNote = false;
                         }
                         if (splitEvent[3] == greenKey) { currNote.addNote(0); }

@@ -12,8 +12,8 @@ namespace MinGH.ChartImpl
         /// </summary>
         public BPMChange()
         {
-            TimeValue = 0;
-            TickValue = 0;
+            timeValue = 0;
+            tickValue = 0;
             BPMValue = 0;
         }
 
@@ -28,8 +28,8 @@ namespace MinGH.ChartImpl
         /// </param>
         public BPMChange(uint inTickValue, uint inValue)
         {
-            TimeValue = 0;
-            TickValue = inTickValue;
+            timeValue = 0;
+            tickValue = inTickValue;
             BPMValue = inValue;
         }
 
@@ -38,7 +38,7 @@ namespace MinGH.ChartImpl
         /// </summary>
         public void print_info()
         {
-            Console.WriteLine("L = '{0}' V = '{1}'", TickValue, BPMValue);
+            Console.WriteLine("L = '{0}' V = '{1}'", tickValue, BPMValue);
         }
 
 		/// <summary>

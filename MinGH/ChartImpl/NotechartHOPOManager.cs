@@ -41,7 +41,7 @@
                 // If difference is 0, it is a chord and should not be a hammeron.
                 // We need to check the third note in case the next note is the start
                 // of a chord.
-                if (((nextNote.TickValue - currentNote.TickValue) <= HOPOTickThreshold) &&
+                if (((nextNote.tickValue - currentNote.tickValue) <= HOPOTickThreshold) &&
                     (!nextNote.noteType.isEqual(currentNote.noteType)) &&
                     (!nextNote.isChord))
                 {

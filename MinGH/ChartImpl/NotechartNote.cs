@@ -12,8 +12,8 @@ namespace MinGH.ChartImpl
         /// </summary>
         public NotechartNote()
         {
-            TimeValue = 0;
-            TickValue = 0;
+            timeValue = 0;
+            tickValue = 0;
             Duration = 0;
             noteType = new NoteType();
             isHOPO = false;
@@ -41,8 +41,8 @@ namespace MinGH.ChartImpl
         /// </param>
         public NotechartNote(uint inTickValue, int inDuration, int noteColumn)
         {
-            TimeValue = 0;
-            TickValue = inTickValue;
+            timeValue = 0;
+            tickValue = inTickValue;
             Duration = inDuration;
 
             noteType = new NoteType();
@@ -156,7 +156,7 @@ namespace MinGH.ChartImpl
         /// </summary>
         public void printInfo()
         {
-            Console.WriteLine("L = '{0}' D = '{1}' T = '{2}'", TickValue, Duration, TimeValue);
+            Console.WriteLine("L = '{0}' D = '{1}' T = '{2}'", tickValue, Duration, timeValue);
         }
 
 		/// <summary>

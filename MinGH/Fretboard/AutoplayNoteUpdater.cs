@@ -23,7 +23,7 @@ namespace MinGH.Fretboard
             // If the current time > the next note to be drawn...
             while ((inputNoteIterator < inputNotechart.notes.Count) &&
                    (currentMsec + timeNotesTakeToPassHitmarker >= 
-                    inputNotechart.notes[inputNoteIterator].TimeValue))
+                    inputNotechart.notes[inputNoteIterator].timeValue))
             {
                 if (!(inputNoteIterator >= inputNotechart.notes.Count))
                 {
@@ -78,7 +78,7 @@ namespace MinGH.Fretboard
                                 }
 
                                 // Find out where a note should actually be upon spawning
-                                float actualPosition = noteStartPosition - (float)((currentMsec + timeNotesTakeToPassHitmarker - inputNotechart.notes[inputNoteIterator].TimeValue) * currStepPerMilisecond);
+                                float actualPosition = noteStartPosition - (float)((currentMsec + timeNotesTakeToPassHitmarker - inputNotechart.notes[inputNoteIterator].timeValue) * currStepPerMilisecond);
                                 physicalNotes[currentNoteset, i].position3D = new Vector3(physicalNotes[currentNoteset, i].position3D.X, physicalNotes[currentNoteset, i].position3D.Y, -actualPosition);
                                 break;
                             }

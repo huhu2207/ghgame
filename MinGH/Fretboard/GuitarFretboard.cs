@@ -7,6 +7,7 @@ using MinGH.EngineExtensions;
 using MinGH.GameScreen;
 using ProjectMercury.Emitters;
 using ProjectMercury.Renderers;
+using GameEngine;
 
 namespace MinGH.Fretboard
 {
@@ -20,13 +21,15 @@ namespace MinGH.Fretboard
             noteParticleEmitters = new NoteParticleEmitters();
             playerInformation = new PlayerInformation();
             noteIterator = 0;
+            beatmarkerIterator = 0;
             noteScaleValue = 0.0f;
             notes = new Note[5, maxNotesOnscreen];
-            fretboardBackgrounds = new List<FretboardBackground>();
+            fretboardBackgrounds = new List<GameObject>();
             hitBox = new HorizontalHitBox((int)(gameConfiguration.themeSetting.hitMarkerDepth + (gameConfiguration.themeSetting.hitMarkerSize / 2.0f)),
                                           gameConfiguration.MSTillHit);
             distanceFromNoteStartToHitmarker = gameConfiguration.themeSetting.fretboardDepth - hitBox.centerLocation;
             currStepPerMilisecond = distanceFromNoteStartToHitmarker / gameConfiguration.MSTillHit;
+            beatMarkerScaleValue = ((gameConfiguration.themeSetting.laneSizeGuitar * 5) + (gameConfiguration.themeSetting.laneSeparatorSize * 4));
 
             if (gameConfiguration.autoplay)
             {
@@ -58,9 +61,20 @@ namespace MinGH.Fretboard
             laneSeparators = new GuitarLaneSeparators(gameConfiguration, effect, laneSeparatorTexture, graphics.GraphicsDevice);
             fretboardBorders = new GuitarFretboardBorders(effect, laneSeparatorTexture, graphics.GraphicsDevice, gameConfiguration);
 
-            hitMarker = new GuitarHitMarker(gameConfiguration.themeSetting.hitMarkerDepth, gameConfiguration.themeSetting.hitMarkerSize,
-                                            gameConfiguration.themeSetting.laneSizeGuitar, gameConfiguration.themeSetting.laneSeparatorSize,
-                                            gameConfiguration.themeSetting.fretboardBorderSize, effect, hitMarkerTexture, graphics.GraphicsDevice);
+            //hitMarker = new GuitarHitMarker(gameConfiguration.themeSetting.hitMarkerDepth, gameConfiguration.themeSetting.hitMarkerSize,
+            //                                gameConfiguration.themeSetting.laneSizeGuitar, gameConfiguration.themeSetting.laneSeparatorSize,
+            //                                gameConfiguration.themeSetting.fretboardBorderSize, effect, hitMarkerTexture, graphics.GraphicsDevice);
+
+            hitMarker = new GameObject(hitMarkerTexture, effect, graphics.GraphicsDevice);
+            hitMarker.pixelsPerSpriteSheetStepX = hitMarkerTexture.Width;
+            hitMarker.pixelsPerSpriteSheetStepY = hitMarkerTexture.Height;
+            hitMarker.position3D = new Vector3(-gameConfiguration.themeSetting.fretboardBorderSize, 0f, -gameConfiguration.themeSetting.hitMarkerDepth);
+            hitMarker.scale3D = new Vector3((5 * gameConfiguration.themeSetting.laneSizeGuitar) + 
+                                            (4 * gameConfiguration.themeSetting.laneSeparatorSize) +
+                                            (2 * gameConfiguration.themeSetting.fretboardBorderSize),
+                                            gameConfiguration.themeSetting.hitMarkerSize, 1f);
+            hitMarker.rotation3D = new Vector3(-MathHelper.PiOver2, 0f, 0f);
+            
 
             notes = NoteInitializer.InitializeNotesGuitarSingle(noteSpriteSheetSize, notes, spriteSheetTex, gameConfiguration.themeSetting,
                                                                 noteScaleValue, effect, graphics.GraphicsDevice);
@@ -102,6 +116,11 @@ namespace MinGH.Fretboard
                            GraphicsDeviceManager graphics, int noteSpriteSheetSize, GameTime gameTime)
         {
             float currStep = (float)(gameTime.ElapsedGameTime.TotalMilliseconds * currStepPerMilisecond);
+
+            if ((beatmarkerIterator < mainChart.beatMarkers.Count) && (currentMsec > mainChart.beatMarkers[beatmarkerIterator].timeValue))
+            {
+                beatmarkerIterator++;
+            }
 
             inputManager.processPlayerInput(notes, noteParticleEmitters, hitBox,
                                             playerInformation, keyboardInputManager,
@@ -196,12 +215,13 @@ namespace MinGH.Fretboard
 
         Texture2D spriteSheetTex, fretboardTex;
         Note[,] notes;  // Will hold every note currently on the screen
-        List<FretboardBackground> fretboardBackgrounds;  // A set of fretboards aligned next to each other giving a continous effect
+        List<GameObject> fretboardBackgrounds;  // A set of fretboards aligned next to each other giving a continous effect
+        //List<GameObject> beatMarkers;
         GuitarLaneSeparators laneSeparators;
         GuitarFretboardBorders fretboardBorders;
-        HitMarker hitMarker;
-        int noteIterator;  // This iterator is used to keep track of which note to draw next
-        float noteScaleValue;
+        GameObject hitMarker;
+        int noteIterator, beatmarkerIterator;  // This iterator is used to keep track of which note to draw next
+        float noteScaleValue, beatMarkerScaleValue;
         IInputManager inputManager;
         INoteUpdater noteUpdater;
         HorizontalHitBox hitBox;

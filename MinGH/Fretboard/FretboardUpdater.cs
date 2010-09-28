@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MinGH.Config;
 using MinGH.EngineExtensions;
+using GameEngine;
 
 namespace MinGH.Fretboard
 {
@@ -22,7 +23,7 @@ namespace MinGH.Fretboard
         /// <param name="themeSetting">The current game's theme setting.</param>
         /// <param name="currStep">The current step in which every fretboard must move this update.</param>
         /// <param name="instrument">Which instrument is currently being played.</param>
-        public static void UpdateFretboards(List<FretboardBackground> fretboards, Texture2D fretboardTex,
+        public static void UpdateFretboards(List<GameObject> fretboards, Texture2D fretboardTex,
                                             Effect effect, GraphicsDevice graphics,
                                             ThemeSetting themeSetting, float currStep, string instrument,
                                             float fretboardDepth)

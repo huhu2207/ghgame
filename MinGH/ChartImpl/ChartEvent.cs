@@ -12,8 +12,8 @@ namespace MinGH.ChartImpl
         /// </summary>
         public ChartEvent()
         {
-            TimeValue = 0;
-            TickValue = 0;
+            timeValue = 0;
+            tickValue = 0;
             Value = "default";
         }
 
@@ -28,8 +28,8 @@ namespace MinGH.ChartImpl
         /// </param>
         public ChartEvent(uint inTickValue, string inValue)
         {
-            TimeValue = 0;
-            TickValue = inTickValue;
+            timeValue = 0;
+            tickValue = inTickValue;
             Value = inValue;
         }
 
@@ -38,7 +38,7 @@ namespace MinGH.ChartImpl
         /// </summary>
         public void print_info()
         {
-            Console.WriteLine("L = '{0}' V = '{1}'", TickValue, Value);
+            Console.WriteLine("L = '{0}' V = '{1}'", tickValue, Value);
         }
 
 		/// <summary>

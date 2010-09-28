@@ -1,8 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MinGH.ChartImpl;
 using MinGH.Config;
 using MinGH.GameScreen;
-using MinGH.ChartImpl;
 
 namespace MinGH.Fretboard
 {
