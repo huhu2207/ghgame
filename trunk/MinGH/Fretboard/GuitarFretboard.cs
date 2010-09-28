@@ -20,6 +20,7 @@ namespace MinGH.Fretboard
             renderer = new PointSpriteRenderer();
             noteParticleEmitters = new NoteParticleEmitters();
             playerInformation = new PlayerInformation();
+            beatMarkers = new List<GameObject>();
             noteIterator = 0;
             beatmarkerIterator = 0;
             noteScaleValue = 0.0f;
@@ -61,10 +62,6 @@ namespace MinGH.Fretboard
             laneSeparators = new GuitarLaneSeparators(gameConfiguration, effect, laneSeparatorTexture, graphics.GraphicsDevice);
             fretboardBorders = new GuitarFretboardBorders(effect, laneSeparatorTexture, graphics.GraphicsDevice, gameConfiguration);
 
-            //hitMarker = new GuitarHitMarker(gameConfiguration.themeSetting.hitMarkerDepth, gameConfiguration.themeSetting.hitMarkerSize,
-            //                                gameConfiguration.themeSetting.laneSizeGuitar, gameConfiguration.themeSetting.laneSeparatorSize,
-            //                                gameConfiguration.themeSetting.fretboardBorderSize, effect, hitMarkerTexture, graphics.GraphicsDevice);
-
             hitMarker = new GameObject(hitMarkerTexture, effect, graphics.GraphicsDevice);
             hitMarker.pixelsPerSpriteSheetStepX = hitMarkerTexture.Width;
             hitMarker.pixelsPerSpriteSheetStepY = hitMarkerTexture.Height;
@@ -74,7 +71,8 @@ namespace MinGH.Fretboard
                                             (2 * gameConfiguration.themeSetting.fretboardBorderSize),
                                             gameConfiguration.themeSetting.hitMarkerSize, 1f);
             hitMarker.rotation3D = new Vector3(-MathHelper.PiOver2, 0f, 0f);
-            
+
+            beatMarkerTex = hitMarkerTexture;
 
             notes = NoteInitializer.InitializeNotesGuitarSingle(noteSpriteSheetSize, notes, spriteSheetTex, gameConfiguration.themeSetting,
                                                                 noteScaleValue, effect, graphics.GraphicsDevice);
@@ -117,9 +115,31 @@ namespace MinGH.Fretboard
         {
             float currStep = (float)(gameTime.ElapsedGameTime.TotalMilliseconds * currStepPerMilisecond);
 
-            if ((beatmarkerIterator < mainChart.beatMarkers.Count) && (currentMsec > mainChart.beatMarkers[beatmarkerIterator].timeValue))
+            // BEAT MARKER LOGIC.  WILL MOVE TO OWN CLASS ONCE WORKING PROPERLY.
+            if ((beatmarkerIterator < mainChart.beatMarkers.Count) && (currentMsec + gameConfiguration.MSTillHit + gameConfiguration.MSOffset > mainChart.beatMarkers[beatmarkerIterator].timeValue))
             {
+                float actualPosition = gameConfiguration.themeSetting.fretboardDepth -
+                                       (float)((currentMsec + gameConfiguration.MSTillHit - mainChart.beatMarkers[beatmarkerIterator].timeValue) * currStepPerMilisecond);
+                beatMarkers.Add(new GameObject(beatMarkerTex, effect, graphics.GraphicsDevice));
+                beatMarkers[beatMarkers.Count - 1].alive = true;
+                beatMarkers[beatMarkers.Count - 1].pixelsPerSpriteSheetStepX = beatMarkerTex.Width;
+                beatMarkers[beatMarkers.Count - 1].pixelsPerSpriteSheetStepY = beatMarkerTex.Height;
+                beatMarkers[beatMarkers.Count - 1].scale3D = new Vector3((5 * gameConfiguration.themeSetting.laneSizeGuitar) +
+                                                (4 * gameConfiguration.themeSetting.laneSeparatorSize),
+                                                gameConfiguration.themeSetting.hitMarkerSize / 2, 1f);
+                beatMarkers[beatMarkers.Count - 1].position3D = new Vector3(0f, 0f, -actualPosition + beatMarkers[beatMarkers.Count - 1].scale3D.Y / 2);
                 beatmarkerIterator++;
+            }
+            for (int i = 0; i < beatMarkers.Count - 1; i++)
+            {
+                if (beatMarkers[i].position3D.Z > 0)
+                {
+                    beatMarkers.RemoveAt(0);
+                }
+            }
+            foreach (GameObject beatMarker in beatMarkers)
+            {
+                beatMarker.position3D += new Vector3(0f, 0f, currStep);
             }
 
             inputManager.processPlayerInput(notes, noteParticleEmitters, hitBox,
@@ -151,6 +171,14 @@ namespace MinGH.Fretboard
                     fretboard.draw(graphics.GraphicsDevice, viewMatrix, projectionMatrix);
                 }
             }
+
+            //foreach (GameObject beatMarker in beatMarkers)
+            //{
+            //    if (beatMarker.alive)
+            //    {
+            //        beatMarker.draw(graphics.GraphicsDevice, viewMatrix, projectionMatrix);
+            //    }
+            //}
 
             laneSeparators.draw(graphics.GraphicsDevice, viewMatrix, projectionMatrix);
             fretboardBorders.draw(graphics.GraphicsDevice, viewMatrix, projectionMatrix);
@@ -212,10 +240,10 @@ namespace MinGH.Fretboard
             }
         }
 
-        Texture2D spriteSheetTex, fretboardTex;
+        Texture2D spriteSheetTex, fretboardTex, beatMarkerTex;
         Note[,] notes;  // Will hold every note currently on the screen
         List<GameObject> fretboardBackgrounds;  // A set of fretboards aligned next to each other giving a continous effect
-        //List<GameObject> beatMarkers;
+        List<GameObject> beatMarkers;
         GuitarLaneSeparators laneSeparators;
         GuitarFretboardBorders fretboardBorders;
         GameObject hitMarker;
