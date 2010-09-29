@@ -94,10 +94,10 @@ namespace MinGH.ChartImpl
                     endofChartCondition.noMoreSPNotes = true;
                 }
 
-                if (currentTickLoop > chartInfo.resolution)
+                if (currentTickLoop >= chartInfo.resolution)
                 {
                     beatMarkers.Add(new NotechartBeatmarker(currentMilisecond, 1));
-                    currentTickLoop = 0;
+                    currentTickLoop = currentTickLoop - chartInfo.resolution;
                 }
 
                 // Update the BPM changes

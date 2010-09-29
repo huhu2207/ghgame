@@ -172,13 +172,13 @@ namespace MinGH.Fretboard
                 }
             }
 
-            //foreach (GameObject beatMarker in beatMarkers)
-            //{
-            //    if (beatMarker.alive)
-            //    {
-            //        beatMarker.draw(graphics.GraphicsDevice, viewMatrix, projectionMatrix);
-            //    }
-            //}
+            foreach (GameObject beatMarker in beatMarkers)
+            {
+                if (beatMarker.alive)
+                {
+                    beatMarker.draw(graphics.GraphicsDevice, viewMatrix, projectionMatrix);
+                }
+            }
 
             laneSeparators.draw(graphics.GraphicsDevice, viewMatrix, projectionMatrix);
             fretboardBorders.draw(graphics.GraphicsDevice, viewMatrix, projectionMatrix);

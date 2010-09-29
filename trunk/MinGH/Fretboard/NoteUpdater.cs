@@ -15,14 +15,14 @@ namespace MinGH.Fretboard
                                 float currStep, double currentMsec,
                                 int spriteSheetSize, PlayerInformation playerInfo,
                                 HorizontalHitBox hitBox, NoteParticleEmitters noteParticleEmitters,
-                                float noteStartPosition, float timeNotesTakeToPassHitmarker,
+                                float noteStartPosition, float msTillHit,
                                 float currStepPerMilisecond)
         {
             int currentNoteset = 0;
             
             // If the current time > the next note to be drawn...
             while ((inputNoteIterator < inputNotechart.notes.Count) &&
-                   (currentMsec + timeNotesTakeToPassHitmarker >=
+                   (currentMsec + msTillHit >=
                     inputNotechart.notes[inputNoteIterator].timeValue))
             {
                 if (!(inputNoteIterator >= inputNotechart.notes.Count))
@@ -78,7 +78,7 @@ namespace MinGH.Fretboard
                                 }
 
                                 // Find out where a note should actually be upon spawning
-                                float actualPosition = noteStartPosition - (float)((currentMsec + timeNotesTakeToPassHitmarker - inputNotechart.notes[inputNoteIterator].timeValue) * currStepPerMilisecond);
+                                float actualPosition = noteStartPosition - (float)((currentMsec + msTillHit - inputNotechart.notes[inputNoteIterator].timeValue) * currStepPerMilisecond);
                                 physicalNotes[currentNoteset, i].position3D = new Vector3(physicalNotes[currentNoteset, i].position3D.X, physicalNotes[currentNoteset, i].position3D.Y, -actualPosition);
                                 break;
                             }
