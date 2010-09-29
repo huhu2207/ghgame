@@ -111,8 +111,10 @@ namespace MinGH.Fretboard
 
         public void update(IKeyboardInputManager keyboardInputManager, Rectangle viewportRectangle,
                            GameConfiguration gameConfiguration, Effect effect, uint currentMsec,
-                           GraphicsDeviceManager graphics, int noteSpriteSheetSize, GameTime gameTime)
+                           GraphicsDeviceManager graphics, int noteSpriteSheetSize, GameTime gameTime,
+                           float cameraYRotation)
         {
+            //float currStep = (float)(gameTime.ElapsedGameTime.TotalMilliseconds * currStepPerMilisecond);
             float currStep = (float)(gameTime.ElapsedGameTime.TotalMilliseconds * currStepPerMilisecond);
 
             // BEAT MARKER LOGIC.  WILL MOVE TO OWN CLASS ONCE WORKING PROPERLY.
@@ -149,7 +151,8 @@ namespace MinGH.Fretboard
             noteUpdater.updateNotes(mainChart.noteCharts[0], ref noteIterator, notes, viewportRectangle,
                                     currStep, currentMsec + gameConfiguration.MSOffset,
                                     noteSpriteSheetSize, playerInformation, hitBox, noteParticleEmitters,
-                                    gameConfiguration.themeSetting.fretboardDepth, gameConfiguration.MSTillHit, currStepPerMilisecond);
+                                    gameConfiguration.themeSetting.fretboardDepth, gameConfiguration.MSTillHit, currStepPerMilisecond,
+                                    cameraYRotation);
 
             FretboardUpdater.UpdateFretboards(fretboardBackgrounds, fretboardTex, effect, graphics.GraphicsDevice,
                                               gameConfiguration.themeSetting, currStep,

@@ -37,6 +37,6 @@ namespace MinGH.Fretboard
                          int spriteSheetSize, PlayerInformation playerInfo,
                          HorizontalHitBox hitBox, NoteParticleEmitters noteParticleEmitters,
                          float noteStartPosition, float timeNotesTakeToPassHitmarker,
-                         float currStepPerMilisecond);
+                         float currStepPerMilisecond, float cameraYRotation);
     }
 }

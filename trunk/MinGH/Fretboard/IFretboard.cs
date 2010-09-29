@@ -15,8 +15,9 @@ namespace MinGH.Fretboard
         void unloadContent();
 
         void update(IKeyboardInputManager keyboardInputManager, Rectangle viewportRectangle,
-                           GameConfiguration gameConfiguration, Effect effect, uint currentMsec,
-                           GraphicsDeviceManager graphics, int noteSpriteSheetSize, GameTime gameTime);
+                    GameConfiguration gameConfiguration, Effect effect, uint currentMsec,
+                    GraphicsDeviceManager graphics, int noteSpriteSheetSize, GameTime gameTime,
+                    float cameraYRotation);
 
         void draw(GraphicsDeviceManager graphics, Matrix viewMatrix, Matrix projectionMatrix);
 

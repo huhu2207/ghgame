@@ -16,7 +16,7 @@ namespace MinGH.Fretboard
                                 int spriteSheetSize, PlayerInformation playerInfo,
                                 HorizontalHitBox hitBox, NoteParticleEmitters noteParticleEmitters,
                                 float noteStartPosition, float msTillHit,
-                                float currStepPerMilisecond)
+                                float currStepPerMilisecond, float cameraYRotation)
         {
             int currentNoteset = 0;
             
@@ -78,6 +78,9 @@ namespace MinGH.Fretboard
                                 }
 
                                 // Find out where a note should actually be upon spawning
+                                for (i = 0; i < 999999999; i++)
+                                {
+                                }
                                 float actualPosition = noteStartPosition - (float)((currentMsec + msTillHit - inputNotechart.notes[inputNoteIterator].timeValue) * currStepPerMilisecond);
                                 physicalNotes[currentNoteset, i].position3D = new Vector3(physicalNotes[currentNoteset, i].position3D.X, physicalNotes[currentNoteset, i].position3D.Y, -actualPosition);
                                 break;

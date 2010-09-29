@@ -18,6 +18,7 @@ namespace MinGH.GameScreen.SinglePlayer
 
         const int maxNotesOnscreen = 50;  // Maximum amount of a single note (i.e. how many reds per frame)
         const int noteSpriteSheetSize = 100;  // How large each sprite is in the spritesheet (including the offset padding)
+        const float cameraYRotation = 40f;
 
         IFretboard fretboard;
         MinGHMain gameReference;  // A reference to the game itself, allows for game state changing.
@@ -100,9 +101,11 @@ namespace MinGH.GameScreen.SinglePlayer
                 float cameraX = (gameConfiguration.themeSetting.laneSizeDrums * 2) +
                                 (gameConfiguration.themeSetting.laneSeparatorSize * 1) +
                                 (gameConfiguration.themeSetting.laneSeparatorSize / 2);
-                cameraPostion = new Vector3(cameraX, 170.0f, 0.0f);
-                cameraLookAt = new Vector3(cameraX, 50.0f, -300.0f);
+                //cameraPostion = new Vector3(cameraX, 170.0f, 0.0f);
+                //cameraLookAt = new Vector3(cameraX, 50.0f, -300.0f);
                 viewMatrix = Matrix.CreateLookAt(cameraPostion, cameraLookAt, new Vector3(0, 1, 0));
+                //viewMatrix.Translation = new Vector3(cameraX, 170.0f, 0.0f);
+                //viewMatrix *= Matrix.CreateRotationY(MathHelper.ToRadians(30));
                 projectionMatrix = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, graphics.GraphicsDevice.Viewport.AspectRatio, 0.2f, gameConfiguration.themeSetting.fretboardDepth);
 
                 // Set up the particle explosions
@@ -118,7 +121,13 @@ namespace MinGH.GameScreen.SinglePlayer
                                 (gameConfiguration.themeSetting.laneSeparatorSize * 3) +
                                 (gameConfiguration.themeSetting.laneSizeGuitar / 2);
                 cameraPostion = new Vector3(cameraX, 170.0f, 0.0f);
-                cameraLookAt = new Vector3(cameraX, 50.0f, -300.0f);
+
+                Matrix refMatrix = Matrix.Identity;
+                refMatrix.Translation = new Vector3(cameraX, 170.0f, 0.0f);
+                refMatrix *= Matrix.CreateRotationX(MathHelper.ToRadians(-cameraYRotation));
+                cameraLookAt = new Vector3(cameraX, 0, 0);
+                cameraLookAt = Vector3.Transform(new Vector3(0, 0, 1), refMatrix); 
+
                 viewMatrix = Matrix.CreateLookAt(cameraPostion, cameraLookAt, new Vector3(0, 1, 0));
                 projectionMatrix = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, graphics.GraphicsDevice.Viewport.AspectRatio, 0.2f, gameConfiguration.themeSetting.fretboardDepth);
 
@@ -294,7 +303,7 @@ namespace MinGH.GameScreen.SinglePlayer
             }
 
             fretboard.update(keyboardInputManager, viewportRectangle, gameConfiguration, effect,
-                             currentMsec, graphics, noteSpriteSheetSize, gameTime);
+                             currentMsec, graphics, noteSpriteSheetSize, gameTime, cameraYRotation);
 
             base.Update(gameTime);
         }

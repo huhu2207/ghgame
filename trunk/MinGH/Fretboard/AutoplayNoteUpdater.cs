@@ -2,6 +2,7 @@
 using MinGH.ChartImpl;
 using MinGH.Config;
 using MinGH.EngineExtensions;
+using System;
 
 namespace MinGH.Fretboard
 {
@@ -16,7 +17,7 @@ namespace MinGH.Fretboard
                                 int spriteSheetSize, PlayerInformation playerInfo,
                                 HorizontalHitBox hitBox, NoteParticleEmitters noteParticleEmitters,
                                 float noteStartPosition, float timeNotesTakeToPassHitmarker,
-                                float currStepPerMilisecond)
+                                float currStepPerMilisecond, float cameraYRotation)
         {
             int currentNoteset = 0;
             
@@ -78,8 +79,12 @@ namespace MinGH.Fretboard
                                 }
 
                                 // Find out where a note should actually be upon spawning
+                                //float newY = (float)Math.Sin(cameraYRotation) * physicalNotes[currentNoteset, i].scale3D.Y / 2;
+                                //float newZOffset = (float)Math.Cos(cameraYRotation) * physicalNotes[currentNoteset, i].scale3D.Y / 2;
                                 float actualPosition = noteStartPosition - (float)((currentMsec + timeNotesTakeToPassHitmarker - inputNotechart.notes[inputNoteIterator].timeValue) * currStepPerMilisecond);
+                                //physicalNotes[currentNoteset, i].position3D = new Vector3(physicalNotes[currentNoteset, i].position3D.X, -newY, -actualPosition + newZOffset);
                                 physicalNotes[currentNoteset, i].position3D = new Vector3(physicalNotes[currentNoteset, i].position3D.X, physicalNotes[currentNoteset, i].position3D.Y, -actualPosition);
+                                //physicalNotes[currentNoteset, i].rotation3D = new Vector3(MathHelper.ToRadians(-cameraYRotation), 0f, 0f);
                                 break;
                             }
                         }
