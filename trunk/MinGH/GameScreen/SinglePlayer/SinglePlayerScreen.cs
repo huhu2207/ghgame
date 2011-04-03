@@ -1,6 +1,6 @@
 ﻿using System;
-using GameEngine.FMOD;
-using GameEngine.GameStringImpl;
+using FMOD;
+using MinGH.FRBExtensions.GameStringImpl;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -37,15 +37,15 @@ namespace MinGH.GameScreen.SinglePlayer
         Effect effect;
 
         // Variables related to the audio playing and note syncing
-        private GameEngine.FMOD.System system;
-        private GameEngine.FMOD.Channel musicChannel;
-        private GameEngine.FMOD.Channel guitarChannel;
-        private GameEngine.FMOD.Channel bassChannel;
-        private GameEngine.FMOD.Channel drumChannel;
-        private GameEngine.FMOD.Sound musicStream;
-        private GameEngine.FMOD.Sound guitarStream;
-        private GameEngine.FMOD.Sound bassStream;
-        private GameEngine.FMOD.Sound drumStream;
+        private FMOD.System system;
+        private FMOD.Channel musicChannel;
+        private FMOD.Channel guitarChannel;
+        private FMOD.Channel bassChannel;
+        private FMOD.Channel drumChannel;
+        private FMOD.Sound musicStream;
+        private FMOD.Sound guitarStream;
+        private FMOD.Sound bassStream;
+        private FMOD.Sound drumStream;
         RESULT result;
         uint currentMsec;  // The current place of the audio stream the game will follow
         bool audioIsPlaying;  // So we don't play the song again every single update
@@ -71,15 +71,15 @@ namespace MinGH.GameScreen.SinglePlayer
                                                 graphics.GraphicsDevice.Viewport.Height);
             
             // Initialize FMOD variables
-            system = new GameEngine.FMOD.System();
-            musicChannel = new GameEngine.FMOD.Channel();
-            guitarChannel = new GameEngine.FMOD.Channel();
-            bassChannel = new GameEngine.FMOD.Channel();
-            drumChannel = new GameEngine.FMOD.Channel();
-            musicStream = new GameEngine.FMOD.Sound();
-            guitarStream = new GameEngine.FMOD.Sound();
-            bassStream = new GameEngine.FMOD.Sound();
-            drumStream = new GameEngine.FMOD.Sound();
+            system = new FMOD.System();
+            musicChannel = new FMOD.Channel();
+            guitarChannel = new FMOD.Channel();
+            bassChannel = new FMOD.Channel();
+            drumChannel = new FMOD.Channel();
+            musicStream = new FMOD.Sound();
+            guitarStream = new FMOD.Sound();
+            bassStream = new FMOD.Sound();
+            drumStream = new FMOD.Sound();
             result = new RESULT();
             audioIsPlaying = false;
 

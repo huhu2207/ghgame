@@ -1,6 +1,7 @@
-﻿using GameEngine;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using FlatRedBall;
+using MinGH.FRBExtensions;
 
 namespace MinGH.EngineExtensions
 {
@@ -8,7 +9,7 @@ namespace MinGH.EngineExtensions
 	/// An extended class of gameObject3D that contains data and functionality 
 	/// specific to the drawable notes within the MinGH game.
 	/// </summary>
-    public class Note : GameObject
+    public class Note
     {
 		/// <summary>
 		/// The same constructor overloaded from the gameObject class.  The parameter
@@ -28,8 +29,8 @@ namespace MinGH.EngineExtensions
         /// A graphics device.
         /// </param>
         public Note(Texture2D loadedTex, Rectangle spritePos, Effect effectToUse, GraphicsDevice device)
-            : base(loadedTex, effectToUse, device)
         {
+            sprite = new SteppableSprite();
             noteChartIndex = 0;
             precedsHOPO = false;
             isUnhittable = false;
@@ -37,15 +38,8 @@ namespace MinGH.EngineExtensions
             isPartOfChord = false;
             rootNote = new Point();
             wasTicked = false;
-            spriteSheetStepX = 0;
-            spriteSheetStepY = 0;
-            pixelsPerSpriteSheetStepX = spritePos.Width;
-            pixelsPerSpriteSheetStepY = spritePos.Height;
             originalSpriteStepX = 0;
             originalSpriteStepY = 0;
-            position3D = Vector3.Zero;
-            scale3D = Vector3.One;
-            rotation3D = Vector3.Zero;
             pointValue = 50;
         }
 
@@ -54,8 +48,8 @@ namespace MinGH.EngineExtensions
         /// </summary>
         public void ResetNote()
         {
-            spriteSheetStepX = originalSpriteStepX;
-            spriteSheetStepY = originalSpriteStepY;
+            sprite.spriteSheetStepX = originalSpriteStepX;
+            sprite.spriteSheetStepY = originalSpriteStepY;
             noteChartIndex = 0;
             precedsHOPO = false;
             isUnhittable = false;
@@ -65,6 +59,8 @@ namespace MinGH.EngineExtensions
             wasTicked = false;
             pointValue = 50;
         }
+
+        public SteppableSprite sprite { get; set; }
 
 		/// <summary>
 		/// The base point value of a note (this value may be in the wrong place,

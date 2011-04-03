@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using GameEngine;
 using MinGH.Config;
+using MinGH.FRBExtensions;
 
 namespace MinGH.EngineExtensions
 {
@@ -10,37 +10,38 @@ namespace MinGH.EngineExtensions
     /// </summary>
     class GuitarFretboardBorders
     {
-        GameObject[] _fretboardBorders;
+        public SteppableSprite[] fretboardBorders { get; set; }
 
         public Texture2D texture { get; set; }
 
-        public GuitarFretboardBorders(Effect effectToUse, Texture2D texture, GraphicsDevice graphics, GameConfiguration gameConfig)
+        public GuitarFretboardBorders(Texture2D texture, GameConfiguration gameConfig)
         {
             //fretboardBorders = new VertexPositionTexture[2][];
             //initalizeFretboardBorders(laneSize, fretboardBorderSize, laneBorderSize, laneDepth);
-            _fretboardBorders = new GameObject[2];
+            fretboardBorders = new SteppableSprite[2];
 
-            for (int i = 0; i < _fretboardBorders.GetLength(0); i++)
+            for (int i = 0; i < fretboardBorders.GetLength(0); i++)
             {
-                _fretboardBorders[i] = new GameObject(texture, effectToUse, graphics);
-                _fretboardBorders[i].pixelsPerSpriteSheetStepX = texture.Width;
-                _fretboardBorders[i].pixelsPerSpriteSheetStepY = texture.Height;
-                _fretboardBorders[i].spriteSheetStepX = 0;
-                _fretboardBorders[i].spriteSheetStepY = 0;
-                _fretboardBorders[i].scale3D = new Vector3(gameConfig.themeSetting.fretboardBorderSize, gameConfig.themeSetting.fretboardDepth, 1f);
-                _fretboardBorders[i].rotation3D = new Vector3(-MathHelper.PiOver2, 0f, 0f);
+                fretboardBorders[i] = new SteppableSprite();
+                fretboardBorders[i].pixelsPerSpriteSheetStepX = texture.Width;
+                fretboardBorders[i].pixelsPerSpriteSheetStepY = texture.Height;
+                fretboardBorders[i].spriteSheetStepX = 0;
+                fretboardBorders[i].spriteSheetStepY = 0;
+                fretboardBorders[i].ScaleX = gameConfig.themeSetting.fretboardBorderSize;
+                fretboardBorders[i].ScaleY = gameConfig.themeSetting.fretboardDepth;
+                fretboardBorders[i].RotationX = -MathHelper.PiOver2;
             }
 
-            _fretboardBorders[0].position3D = new Vector3(-gameConfig.themeSetting.fretboardBorderSize, 0f, 0f);
-            _fretboardBorders[1].position3D = new Vector3(gameConfig.themeSetting.laneSizeGuitar * 5 + gameConfig.themeSetting.laneSeparatorSize * 4, 0f, 0f);
+            fretboardBorders[0].Position = new Vector3(-gameConfig.themeSetting.fretboardBorderSize, 0f, 0f);
+            fretboardBorders[1].Position = new Vector3(gameConfig.themeSetting.laneSizeGuitar * 5 + gameConfig.themeSetting.laneSeparatorSize * 4, 0f, 0f);
         }
 
-        public void draw(GraphicsDevice device, Matrix viewMatrix, Matrix projectionMatrix)
-        {
-            foreach (GameObject obj in _fretboardBorders)
-            {
-                obj.draw(device, viewMatrix, projectionMatrix);
-            }
-        }
+        //public void draw(GraphicsDevice device, Matrix viewMatrix, Matrix projectionMatrix)
+        //{
+        //    foreach (GameObject obj in _fretboardBorders)
+        //    {
+        //        obj.draw(device, viewMatrix, projectionMatrix);
+        //    }
+        //}
     }
 }

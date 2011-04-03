@@ -1,6 +1,7 @@
 ﻿using System.Threading;
-using GameEngine.FMOD;
+using MinGH.FRBExtensions;
 using MinGH.ChartImpl;
+using FMOD;
 
 namespace MinGH.GameScreen.SinglePlayer
 {
@@ -13,7 +14,7 @@ namespace MinGH.GameScreen.SinglePlayer
         /// <summary>
         /// Initializes any valid streams/channels and plays them.
         /// </summary>
-        public static void InitaliazeAudio(GameEngine.FMOD.System system, ChartSelection chartSelection, ChartInfo chartInfo, RESULT result,
+        public static void InitaliazeAudio(FMOD.System system, ChartSelection chartSelection, ChartInfo chartInfo, RESULT result,
                                            Channel musicChannel, Channel bassChannel, Channel guitarChannel, Channel drumChannel,
                                            Sound musicStream, Sound bassStream, Sound guitarStream, Sound drumStream)
         {
