@@ -65,6 +65,10 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="FlatRedBall, Version=2011.3.22.1194, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>.\FlatRedBall.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Xna.Framework, Version=3.1.0.0, Culture=neutral, PublicKeyToken=6d5c3888ef60e27d, processorArchitecture=x86">
       <Private>False</Private>
       <SpecificVersion>True</SpecificVersion>
@@ -124,6 +128,14 @@
     <Compile Include="EngineExtensions\GuitarLaneSeparators.cs" />
     <Compile Include="EngineExtensions\Note.cs" />
     <Compile Include="Enum\GameStateEnum.cs" />
+    <Compile Include="FRBExtensions\fmod.cs" />
+    <Compile Include="FRBExtensions\fmod_dsp.cs" />
+    <Compile Include="FRBExtensions\GameStringImpl\GameString.cs" />
+    <Compile Include="FRBExtensions\GameStringImpl\GameStringManager.cs" />
+    <Compile Include="FRBExtensions\GameStringImpl\Menu.cs" />
+    <Compile Include="FRBExtensions\GameStringImpl\MenuSet.cs" />
+    <Compile Include="FRBExtensions\SteppableSprite.cs" />
+    <Compile Include="FRBExtensions\SubArrayExtension.cs" />
     <Compile Include="Fretboard\DrumFretboard.cs" />
     <Compile Include="Fretboard\GuitarFretboard.cs" />
     <Compile Include="Fretboard\IFretboard.cs" />
@@ -200,10 +212,6 @@
     <None Include="app.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\GameEngine\GameEngine.csproj">
-      <Project>{FCEF5128-DE5F-4F1A-ABBF-1FCB9B6C0FFF}</Project>
-      <Name>GameEngine</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Sanford.Multimedia.Midi\Sanford.Multimedia.Midi.csproj">
       <Project>{4269C72A-8D3A-4737-8F89-72EAA33EA9E1}</Project>
       <Name>Sanford.Multimedia.Midi</Name>

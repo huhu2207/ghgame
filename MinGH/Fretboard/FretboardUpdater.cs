@@ -3,7 +3,6 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MinGH.Config;
 using MinGH.EngineExtensions;
-using GameEngine;
 
 namespace MinGH.Fretboard
 {

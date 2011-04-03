@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using GameEngine;
 using MinGH.Config;
+using MinGH.FRBExtensions;
 
 namespace MinGH.EngineExtensions
 {
@@ -13,35 +13,36 @@ namespace MinGH.EngineExtensions
         /// <summary>
         /// All four lane separators
         /// </summary>
-        GameObject[] _laneSeparators;
+        SteppableSprite[] _laneSeparators;
 
         /// <summary>
         /// The physical texture for the lane separators.
         /// </summary>
         public Texture2D texture { get; set; }
 
-        public DrumLaneSeparators(GameConfiguration gameConfig, Effect effectToUse, Texture2D loadedTex, GraphicsDevice graphics)
+        public DrumLaneSeparators(GameConfiguration gameConfig, Texture2D loadedTex)
         {
-            _laneSeparators = new GameObject[3];
+            _laneSeparators = new SteppableSprite[3];
             texture = loadedTex;
             for (int i = 0; i < _laneSeparators.GetLength(0); i++)
             {
-                _laneSeparators[i] = new GameObject(texture, effectToUse, graphics);
+                _laneSeparators[i] = new SteppableSprite();
 
                 _laneSeparators[i].pixelsPerSpriteSheetStepX = loadedTex.Width;
                 _laneSeparators[i].pixelsPerSpriteSheetStepY = loadedTex.Height;
-                _laneSeparators[i].scale3D = new Vector3(gameConfig.themeSetting.laneSeparatorSize, gameConfig.themeSetting.fretboardDepth, 1f);
-                _laneSeparators[i].rotation3D = new Vector3(-MathHelper.PiOver2, 0f, 0f);
-                _laneSeparators[i].position3D = new Vector3((i + 1) * gameConfig.themeSetting.laneSizeDrums + (i * gameConfig.themeSetting.laneSeparatorSize), 0f, 0);
+                _laneSeparators[i].ScaleX = gameConfig.themeSetting.laneSeparatorSize;
+                _laneSeparators[i].ScaleY = gameConfig.themeSetting.fretboardDepth;
+                _laneSeparators[i].RotationX = -MathHelper.PiOver2;
+                _laneSeparators[i].Position = new Vector3((i + 1) * gameConfig.themeSetting.laneSizeDrums + (i * gameConfig.themeSetting.laneSeparatorSize), 0f, 0);
             }
         }
 
-        public void draw(GraphicsDevice device, Matrix viewMatrix, Matrix projectionMatrix)
-        {
-            foreach (GameObject obj in _laneSeparators)
-            {
-                obj.draw(device, viewMatrix, projectionMatrix);
-            }
-        }
+        //public void draw(GraphicsDevice device, Matrix viewMatrix, Matrix projectionMatrix)
+        //{
+        //    foreach (GameObject obj in _laneSeparators)
+        //    {
+        //        obj.draw(device, viewMatrix, projectionMatrix);
+        //    }
+        //}
     }
 }

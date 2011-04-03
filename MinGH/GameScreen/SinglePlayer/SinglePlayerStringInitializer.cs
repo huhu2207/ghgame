@@ -1,6 +1,6 @@
-﻿using GameEngine.GameStringImpl;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MinGH.FRBExtensions.GameStringImpl;
 
 namespace MinGH.GameScreen.SinglePlayer
 {

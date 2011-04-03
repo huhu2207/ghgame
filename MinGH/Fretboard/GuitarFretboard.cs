@@ -7,7 +7,6 @@ using MinGH.EngineExtensions;
 using MinGH.GameScreen;
 using ProjectMercury.Emitters;
 using ProjectMercury.Renderers;
-using GameEngine;
 
 namespace MinGH.Fretboard
 {
