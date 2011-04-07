@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
 
-namespace MinGH.ChartImpl
+namespace ChartEngine.Chart
 {
 	/// <sumamry>
 	/// A manager class that will read and store all BPM changes in a chart in an

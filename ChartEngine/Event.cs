@@ -1,16 +1,16 @@
 ﻿using System;
 
-namespace MinGH.ChartImpl
+namespace ChartEngine
 {
     /// <summary>
     /// Contains information of an event from a chart.
     /// </summary>
-    public class ChartEvent : NotechartEntity
+    public class Event : Entity
     {
         /// <summary>
         /// Default constructor.
         /// </summary>
-        public ChartEvent()
+        public Event()
         {
             timeValue = 0;
             tickValue = 0;
@@ -26,7 +26,7 @@ namespace MinGH.ChartImpl
         /// <param name="inValue">
         /// The string value that details the specific event.
         /// </param>
-        public ChartEvent(uint inTickValue, string inValue)
+        public Event(uint inTickValue, string inValue)
         {
             timeValue = 0;
             tickValue = inTickValue;

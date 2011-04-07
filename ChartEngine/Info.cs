@@ -1,14 +1,14 @@
-﻿namespace MinGH.ChartImpl
+﻿namespace ChartEngine
 {
 	/// <summary>
 	/// Stores the various data on the chart that have single instances (only appear once).
 	/// </summary>
-    public class ChartInfo
+    public class Info
     {
         /// <summary>
         /// Default constructor.
         /// </summary>
-        public ChartInfo()
+        public Info()
         {
             songName = "default";
             artistName = "default";

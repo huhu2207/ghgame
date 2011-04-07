@@ -1,4 +1,4 @@
-﻿namespace MinGH.ChartImpl
+﻿namespace ChartEngine.Shared
 {
 	/// <summary>
 	/// Creates a single string from a specificly made string array.

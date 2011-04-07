@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 
-namespace MinGH.ChartImpl
+namespace ChartEngine.Shared
 {
 	/// <summary>
 	/// A manager class that calculates the milisecond value for each note within a notechart.
 	/// </summary>
-    class ChartTimeValueManager
+    class TimeValueManager
     {
         /// <summary>
         /// Simulates a chart playthrough and adds a milisecond value to each note and event within the
@@ -32,8 +32,8 @@ namespace MinGH.ChartImpl
         /// <returns>
         /// A notechart that is the same as the input notechart, but every note has a milisecond value filled out.
         /// </returns>
-        public static Notechart GenerateTimeValues(Notechart inputNotechart, List<BPMChange> inputBPMChanges,
-                                           List<ChartEvent> inputEvents, ChartInfo chartInfo, List<NotechartBeatmarker> beatMarkers)
+        public static Notes GenerateTimeValues(Notes inputNotechart, List<BPMChange> inputBPMChanges,
+                                           List<Event> inputEvents, Info chartInfo, List<Beatmarker> beatMarkers)
         {
             double currentTick = 0.0;
             double currentTickLoop = 0.0;
@@ -46,8 +46,8 @@ namespace MinGH.ChartImpl
             int BPMChangeIterator = 0;
 
             EndofChartCondition endofChartCondition = new EndofChartCondition();
-            Notechart noteChartToReturn = inputNotechart;
-            beatMarkers.Add(new NotechartBeatmarker(0, 1));  // Add the initial beatmarker for the start of the song
+            Notes noteChartToReturn = inputNotechart;
+            beatMarkers.Add(new Beatmarker(0, 1));  // Add the initial beatmarker for the start of the song
 
             // Keep working until no more events or notes are found
             while (endofChartCondition)
@@ -96,7 +96,7 @@ namespace MinGH.ChartImpl
 
                 if (currentTickLoop >= chartInfo.resolution)
                 {
-                    beatMarkers.Add(new NotechartBeatmarker(currentMilisecond, 1));
+                    beatMarkers.Add(new Beatmarker(currentMilisecond, 1));
                     currentTickLoop = currentTickLoop - chartInfo.resolution;
                 }
 

@@ -1,25 +1,27 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using MinGH.GameScreen;
+using ChartEngine.Chart;
+using ChartEngine.Midi;
+using ChartEngine.Shared;
 
-namespace MinGH.ChartImpl
+namespace ChartEngine
 {
     /// <summary>
     /// The master chart class.  All data pertaining to a particular chart is located here.
     /// </summary>
-    public class Chart
+    public class Notechart
     {
         /// <summary>
         /// Default Constructor.  Should never be used since no input function exists yet.
         /// </summary>
-        public Chart()
+        private Notechart()
         {
-            chartInfo = new ChartInfo();
+            chartInfo = new Info();
             BPMChanges = new List<BPMChange>();
-            events = new List<ChartEvent>();
-            noteCharts = new List<Notechart>();
-            beatMarkers = new List<NotechartBeatmarker>();
+            events = new List<Event>();
+            noteCharts = new List<Notes>();
+            beatMarkers = new List<Beatmarker>();
         }
 
         /// <summary>
@@ -29,13 +31,13 @@ namespace MinGH.ChartImpl
         /// Information on what specific chart from what specific file
         /// to use.
         /// </param>
-        public Chart(ChartSelection chartSelection)
+        public Notechart(ChartSelection chartSelection)
         {
             BPMChanges = new List<BPMChange>();
-            events = new List<ChartEvent>();
-            noteCharts = new List<Notechart>();
-            chartInfo = new ChartInfo();
-            beatMarkers = new List<NotechartBeatmarker>();
+            events = new List<Event>();
+            noteCharts = new List<Notes>();
+            chartInfo = new Info();
+            beatMarkers = new List<Beatmarker>();
 
             if (chartSelection.chartType == "*.chart" && File.Exists(chartSelection.chartPath))
             {
@@ -49,7 +51,7 @@ namespace MinGH.ChartImpl
                 events = ChartEventManager.AddEventsFromChart(inputFile);
 
                 // Adds just the expert notechart, can make a sneaky way of doing all avaliable charts later
-                noteCharts.Add(ChartNotechartManager.GenerateNotechartFromChart(chartSelection));
+                noteCharts.Add(ChartNotesManager.GenerateNotechartFromChart(chartSelection));
 
                 // Close the input stream
                 inputStream.Close();
@@ -74,11 +76,11 @@ namespace MinGH.ChartImpl
 
             for (int i = 0; i < noteCharts.Count; i++)
             {
-                noteCharts[i] = ChartTimeValueManager.GenerateTimeValues(noteCharts[i], BPMChanges,
+                noteCharts[i] = TimeValueManager.GenerateTimeValues(noteCharts[i], BPMChanges,
                                                                          events, chartInfo, beatMarkers);
                 if (noteCharts[i].instrument != "Drums")
                 {
-                    noteCharts[i] = NotechartHOPOManager.AssignHOPOS(noteCharts[i], chartInfo);
+                    noteCharts[i] = HOPOManager.AssignHOPOS(noteCharts[i], chartInfo);
                 }
             }
         }
@@ -102,7 +104,7 @@ namespace MinGH.ChartImpl
             Console.WriteLine("");
 
             Console.WriteLine("Events:");
-            foreach (ChartEvent curr_event in events)
+            foreach (Event curr_event in events)
             {
                 curr_event.print_info();
             }
@@ -110,7 +112,7 @@ namespace MinGH.ChartImpl
             //Console.ReadLine();
 
             Console.WriteLine("Notes:");
-            foreach (Notechart curr_notechart in noteCharts)
+            foreach (Notes curr_notechart in noteCharts)
             {
                 curr_notechart.print_info();
             }
@@ -119,7 +121,7 @@ namespace MinGH.ChartImpl
         /// <summary>
         /// Stores metadata on the chart.  See the ChartInfo class for more.
         /// </summary>
-        public ChartInfo chartInfo { get; set; }
+        public Info chartInfo { get; set; }
 
         /// <summary>
         /// A list of every BPM change in the chart.
@@ -129,15 +131,15 @@ namespace MinGH.ChartImpl
 		/// <summary>
 		/// A list of every event in the chart.
 		/// </summary>
-        public List<ChartEvent> events { get; set; }
+        public List<Event> events { get; set; }
 
         /// <summary>
         /// A list of every avaliable notechart (i.e. ExpertSingle, MediumDoubleGuitar).
         /// The string constructor, at the moment, does not intelligently pick out every
         /// valid chart within that particular file.  It only chooses ExpertSingle for now.
         /// </summary>
-        public List<Notechart> noteCharts { get; set; }
+        public List<Notes> noteCharts { get; set; }
 
-        public List<NotechartBeatmarker> beatMarkers { get; set; }
+        public List<Beatmarker> beatMarkers { get; set; }
     }
 }

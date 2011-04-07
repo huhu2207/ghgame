@@ -1,11 +1,11 @@
 ﻿using System;
 
-namespace MinGH.ChartImpl
+namespace ChartEngine
 {
     /// <summary>
     /// Contains information on a BPM Change.  Is derived from the Entity class.
     /// </summary>
-    public class BPMChange : NotechartEntity
+    public class BPMChange : Entity
     {
         /// <summary>
         /// Default Constructor.

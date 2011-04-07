@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using MinGH.GameScreen;
 using Sanford.Multimedia.Midi;
 using Toub.Sound.Midi;
 
-namespace MinGH.ChartImpl
+namespace ChartEngine.Midi
 {
     public class ChartMidiManager
     {
@@ -25,11 +24,11 @@ namespace MinGH.ChartImpl
         /// <returns>
         /// A filled out Notechart containing the needed information from the *.mid file.
         /// </returns>
-        public static Notechart ParseMidiInformationSanford(ChartSelection chartSelection,
-                                                            ChartInfo chartInfo,
+        public static Notes ParseMidiInformationSanford(ChartSelection chartSelection,
+                                                            Info chartInfo,
                                                             List<BPMChange> BPMChanges)
         {
-            Notechart notechartToReturn = new Notechart();
+            Notes notechartToReturn = new Notes();
             notechartToReturn.instrument = chartSelection.instrument;
             notechartToReturn.difficulty = chartSelection.difficulty;
 
@@ -151,7 +150,7 @@ namespace MinGH.ChartImpl
                 }
             }
 
-            NotechartNote currNote = new NotechartNote();
+            Note currNote = new Note();
             bool blankNote = true;
             // Scan through and record every note specific to the selected difficulty
             foreach (Sanford.Multimedia.Midi.MidiEvent currEvent in trackToUse.Iterator())
@@ -163,7 +162,7 @@ namespace MinGH.ChartImpl
                 if ((currEvent.DeltaTicks != 0) && !blankNote)
                 {
                     notechartToReturn.notes.Add(currNote);
-                    currNote = new NotechartNote();
+                    currNote = new Note();
                     blankNote = true;
                 }
 
@@ -214,11 +213,11 @@ namespace MinGH.ChartImpl
         /// <returns>
         /// A filled out Notechart containing the needed information from the *.mid file.
         /// </returns>
-        public static Notechart ParseMidiInformationToub(ChartSelection chartSelection,
-                                                         ChartInfo chartInfo,
+        public static Notes ParseMidiInformationToub(ChartSelection chartSelection,
+                                                         Info chartInfo,
                                                          List<BPMChange> BPMChanges)
         {
-            Notechart notechartToReturn = new Notechart();
+            Notes notechartToReturn = new Notes();
             notechartToReturn.instrument = chartSelection.instrument;
             notechartToReturn.difficulty = chartSelection.difficulty;
 
@@ -337,7 +336,7 @@ namespace MinGH.ChartImpl
 
             totalTickValue = 0;
             uint currTickValue = 0;
-            NotechartNote currNote = new NotechartNote();
+            Note currNote = new Note();
             bool blankNote = true;
             // Scan through and record every note specific to the selected difficulty
             for (int i = 0; i < trackToUse.Events.Count; i++)
@@ -354,7 +353,7 @@ namespace MinGH.ChartImpl
                 if ((currTickValue != 0) && !blankNote)
                 {
                     notechartToReturn.notes.Add(currNote);
-                    currNote = new NotechartNote();
+                    currNote = new Note();
                     blankNote = true;
                 }
 

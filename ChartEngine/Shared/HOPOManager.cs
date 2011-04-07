@@ -1,9 +1,9 @@
-﻿namespace MinGH.ChartImpl
+﻿namespace ChartEngine.Shared
 {
     /// <summary>
     /// Manages the hammeron/pulloff and chord states of each note within a notechart.
     /// </summary>
-    class NotechartHOPOManager
+    class HOPOManager
     {
         /// <summary>
         /// Scans through a notechart and assigns the HOPO tag to notes that are of a
@@ -19,13 +19,13 @@
         /// <returns>
         /// The same notechart with proper hammeron note settings.
         /// </returns>
-        public static Notechart AssignHOPOS(Notechart inputNotechart, ChartInfo inputChartInfo)
+        public static Notes AssignHOPOS(Notes inputNotechart, Info inputChartInfo)
         {
-            Notechart notechartToReturn = inputNotechart;
+            Notes notechartToReturn = inputNotechart;
             int HOPOTickThreshold = (inputChartInfo.resolution * 4) / inputChartInfo.HOPOThreshold;
 
-            NotechartNote currentNote = new NotechartNote();
-            NotechartNote nextNote = new NotechartNote();
+            Note currentNote = new Note();
+            Note nextNote = new Note();
 
             // We stop at (count - 2) due to the currentNote/nextNote/thirdNote setup
             for (int i = 0; i < inputNotechart.notes.Count - 1; i++)

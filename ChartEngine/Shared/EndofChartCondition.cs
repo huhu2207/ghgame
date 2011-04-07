@@ -1,4 +1,4 @@
-﻿namespace MinGH.ChartImpl
+﻿namespace ChartEngine.Shared
 {
     /// <summary>
     /// A class that allows for easy checking for "end of notechart" when doing a time manager run through.

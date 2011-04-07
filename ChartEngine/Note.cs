@@ -1,16 +1,16 @@
 ﻿using System;
 
-namespace MinGH.ChartImpl
+namespace ChartEngine
 {
     /// <summary>
     /// The class that stores information.  Is derived from the Entity class.
     /// </summary>
-    public class NotechartNote : NotechartEntity
+    public class Note : Entity
     {
         /// <summary>
         /// Default constructor.
         /// </summary>
-        public NotechartNote()
+        public Note()
         {
             timeValue = 0;
             tickValue = 0;
@@ -39,7 +39,7 @@ namespace MinGH.ChartImpl
         /// <param name="noteColumn">
         /// Note to add (0 = green, 4 = orange).
         /// </param>
-        public NotechartNote(uint inTickValue, int inDuration, int noteColumn)
+        public Note(uint inTickValue, int inDuration, int noteColumn)
         {
             timeValue = 0;
             tickValue = inTickValue;
