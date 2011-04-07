@@ -101,24 +101,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ChartImpl\BPMChange.cs" />
-    <Compile Include="ChartImpl\ChartBPMManager.cs" />
-    <Compile Include="ChartImpl\ChartEventManager.cs" />
-    <Compile Include="ChartImpl\ChartMidiManager.cs" />
-    <Compile Include="ChartImpl\NotechartBeatMarker.cs" />
-    <Compile Include="ChartImpl\NotechartHOPOManager.cs" />
-    <Compile Include="ChartImpl\ChartInfo.cs" />
-    <Compile Include="ChartImpl\ChartInfoManager.cs" />
-    <Compile Include="ChartImpl\ChartNotechartManager.cs" />
-    <Compile Include="ChartImpl\Chart.cs" />
-    <Compile Include="ChartImpl\ChartTimeValueManager.cs" />
-    <Compile Include="ChartImpl\EndofChartCondition.cs" />
-    <Compile Include="ChartImpl\NotechartEntity.cs" />
-    <Compile Include="ChartImpl\ChartEvent.cs" />
-    <Compile Include="ChartImpl\NotechartNote.cs" />
-    <Compile Include="ChartImpl\Notechart.cs" />
-    <Compile Include="ChartImpl\NoteType.cs" />
-    <Compile Include="ChartImpl\ProperStringCreator.cs" />
     <Compile Include="Config\ConfigFileReader.cs" />
     <Compile Include="Config\GameConfiguration.cs" />
     <Compile Include="Config\ThemeSetting.cs" />

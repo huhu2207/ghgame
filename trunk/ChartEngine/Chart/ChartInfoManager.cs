@@ -1,8 +1,9 @@
 ﻿using System.IO;
 using System.Text.RegularExpressions;
-using MinGH.FRBExtensions;
+using ChartEngine.Extensions;
+using ChartEngine.Shared;
 
-namespace MinGH.ChartImpl
+namespace ChartEngine.Chart
 {
 	/// <summary>
 	/// A manager class that will read and store some of the chart information in an
@@ -20,9 +21,9 @@ namespace MinGH.ChartImpl
         /// <returns>
         /// A filled out ChartInfo instance.
         /// </returns>
-        public static ChartInfo AddSongInfoFromChart(string inputFile)
+        public static Info AddSongInfoFromChart(string inputFile)
         {
-            ChartInfo chartInfoToReturn = new ChartInfo();
+            Info chartInfoToReturn = new Info();
 
             // Single out the song section via regular expressions
             string pattern = Regex.Escape("[") + "Song]\\s*" + Regex.Escape("{") + "[^}]*";
@@ -99,9 +100,9 @@ namespace MinGH.ChartImpl
         /// <returns>
         /// A filled out ChartInfo instance.
         /// </returns>
-        public static ChartInfo AddSongInfoFromMidi(string inputPath)
+        public static Info AddSongInfoFromMidi(string inputPath)
         {
-            ChartInfo chartInfoToReturn = new ChartInfo();
+            Info chartInfoToReturn = new Info();
             chartInfoToReturn.offset = 0;
 
             if (File.Exists(inputPath + "\\song.ogg"))

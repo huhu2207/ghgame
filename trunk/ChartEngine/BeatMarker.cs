@@ -1,19 +1,19 @@
 ﻿using System;
 
-namespace MinGH.ChartImpl
+namespace ChartEngine
 {
-    public class NotechartBeatmarker
+    public class Beatmarker
     {
         /// <summary>
         /// Default constructor.
         /// </summary>
-        public NotechartBeatmarker()
+        public Beatmarker()
         {
             timeValue = 0;
             markerDuration = 4;
         }
 
-        public NotechartBeatmarker(uint inTimeValue, int inDuration)
+        public Beatmarker(uint inTimeValue, int inDuration)
         {
             timeValue = inTimeValue;
             markerDuration = inDuration;

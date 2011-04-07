@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
-using MinGH.FRBExtensions;
+using ChartEngine.Extensions;
+using ChartEngine.Shared;
 
-namespace MinGH.ChartImpl
+namespace ChartEngine.Chart
 {
 	/// <summary>
 	/// A manager class that will read and store all Events in a chart in an
@@ -23,9 +24,9 @@ namespace MinGH.ChartImpl
         /// A list containing every valid event from the chart.  Due to the nature
         /// of the *.chart specification, these events will be in proper order.
         /// </returns>
-        public static List<ChartEvent> AddEventsFromChart(string input_string)
+        public static List<Event> AddEventsFromChart(string input_string)
         {
-            List<ChartEvent> eventListToReturn = new List<ChartEvent>();
+            List<Event> eventListToReturn = new List<Event>();
 
             // Single out the event section via regular expressions
             string pattern = Regex.Escape("[") + "Events]\\s*" + Regex.Escape("{") + "[^}]*";
@@ -47,7 +48,7 @@ namespace MinGH.ChartImpl
                 {
                     if (parsed_line[2] == "E")
                     {
-                        eventListToReturn.Add(new ChartEvent(Convert.ToUInt32(parsed_line[0]),
+                        eventListToReturn.Add(new Event(Convert.ToUInt32(parsed_line[0]),
                                               ProperStringCreator.createProperString(parsed_line.SubArray(3, parsed_line.Length))));
                     }
                 }
@@ -59,9 +60,9 @@ namespace MinGH.ChartImpl
             return eventListToReturn;
         }
 
-        public static List<ChartEvent> AddEventsFromMidi(string midiFilePath, ChartInfo chartInfo)
+        public static List<Event> AddEventsFromMidi(string midiFilePath, Info chartInfo)
         {
-            List<ChartEvent> listToReturn = new List<ChartEvent>();
+            List<Event> listToReturn = new List<Event>();
             //MidiSequence mySequence = MidiSequence.Import(midiFilePath + "\\notes.mid");
             //chartInfo.resolution = mySequence.Division;
             //MidiTrack[] myTracks = mySequence.GetTracks();

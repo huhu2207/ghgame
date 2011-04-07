@@ -1,4 +1,4 @@
-﻿namespace MinGH.ChartImpl
+﻿namespace ChartEngine
 {
     /// <summary>
     /// Class that designates what buttons are in a particular note (e.g. a GY chord would

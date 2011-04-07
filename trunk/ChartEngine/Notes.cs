@@ -1,23 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace MinGH.ChartImpl
+namespace ChartEngine
 {
 	/// <summary>
 	/// Stores information on a specific notechart.
 	/// A Chart can have multiple Notecharts (i.e. easy, medium).
 	/// </summary>
-    public class Notechart
+    public class Notes
     {
         /// <summary>
         /// Default Constructor.
         /// </summary>
-        public Notechart()
+        public Notes()
         {
             difficulty = "default";
             instrument = "default";
-            notes = new List<NotechartNote>();
-            SPNotes = new List<NotechartNote>();
+            notes = new List<Note>();
+            SPNotes = new List<Note>();
         }
 
         /// <summary>
@@ -29,12 +29,12 @@ namespace MinGH.ChartImpl
         /// <param name="inInstrument">
         /// The instrument of the new notechart.
         /// </param>
-        public Notechart(string inDifficulty, string inInstrument)
+        public Notes(string inDifficulty, string inInstrument)
         {
             difficulty = inDifficulty;
             instrument = inInstrument;
-            notes = new List<NotechartNote>();
-            SPNotes = new List<NotechartNote>();
+            notes = new List<Note>();
+            SPNotes = new List<Note>();
         }
 
         /// <summary>
@@ -42,12 +42,12 @@ namespace MinGH.ChartImpl
         /// </summary>
         public void print_info()
         {
-            foreach (NotechartNote curr_note in notes)
+            foreach (Note curr_note in notes)
             {
                 Console.Write(curr_note.noteType.ToString() + ": - ");
             }
 
-            foreach (NotechartNote curr_note in SPNotes)
+            foreach (Note curr_note in SPNotes)
             {
                 Console.Write("SP: - ");
                 curr_note.printInfo();
@@ -67,11 +67,11 @@ namespace MinGH.ChartImpl
         /// <summary>
         /// List that contains every single note in the chart.
         /// </summary>
-        public List<NotechartNote> notes { get; set; }
+        public List<Note> notes { get; set; }
 
         /// <summary>
         /// A list containing every star power note in the chart.
         /// </summary>
-        public List<NotechartNote> SPNotes { get; set; }
+        public List<Note> SPNotes { get; set; }
     }
 }

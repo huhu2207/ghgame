@@ -1,0 +1,14 @@
+C:\Code\MinGH\ChartEngine\obj\Debug\ResolveAssemblyReference.cache
+C:\Code\MinGH\ChartEngine\bin\Debug\ChartEngine.dll
+C:\Code\MinGH\ChartEngine\bin\Debug\ChartEngine.pdb
+C:\Code\MinGH\ChartEngine\bin\Debug\Sanford.Multimedia.Midi.dll
+C:\Code\MinGH\ChartEngine\bin\Debug\Toub.Sound.Midi.dll
+C:\Code\MinGH\ChartEngine\bin\Debug\Sanford.Multimedia.Timers.dll
+C:\Code\MinGH\ChartEngine\bin\Debug\Sanford.Collections.dll
+C:\Code\MinGH\ChartEngine\bin\Debug\Sanford.Multimedia.dll
+C:\Code\MinGH\ChartEngine\bin\Debug\Sanford.Threading.dll
+C:\Code\MinGH\ChartEngine\bin\Debug\Sanford.Multimedia.Midi.pdb
+C:\Code\MinGH\ChartEngine\bin\Debug\Toub.Sound.Midi.pdb
+C:\Code\MinGH\ChartEngine\bin\Debug\Toub.Sound.Midi.xml
+C:\Code\MinGH\ChartEngine\obj\Debug\ChartEngine.dll
+C:\Code\MinGH\ChartEngine\obj\Debug\ChartEngine.pdb

@@ -1,14 +1,13 @@
 ﻿using System;
 using System.IO;
 using System.Text.RegularExpressions;
-using MinGH.GameScreen;
 
-namespace MinGH.ChartImpl
+namespace ChartEngine.Chart
 {
     /// <summary>
     /// A manager class that reads in all notes from a specific notechart within a *.chart file.
     /// </summary>
-    class ChartNotechartManager
+    class ChartNotesManager
     {
         /// <summary>
         /// Creates a notechart from the specified file and the actual charttype
@@ -20,7 +19,7 @@ namespace MinGH.ChartImpl
         /// <returns>
         /// A filled out Notechart containing the needed information from the *.chart file
         /// </returns>
-        public static Notechart GenerateNotechartFromChart(ChartSelection chartSelection)
+        public static Notes GenerateNotechartFromChart(ChartSelection chartSelection)
         {
             string chartname = chartSelection.difficulty + chartSelection.instrument;
             StreamReader inputStream = new StreamReader(chartSelection.chartPath);
@@ -36,12 +35,12 @@ namespace MinGH.ChartImpl
             string[] parsed_line;
 
             // Create the resulting notechart and prep for input
-            Notechart notechartToReturn = new Notechart(chartSelection.difficulty, chartSelection.instrument);
+            Notes notechartToReturn = new Notes(chartSelection.difficulty, chartSelection.instrument);
 
             //If specific notechart is not found, return a generic one
             if (!(matched_section.Success))
             {
-                notechartToReturn.notes.Add(new NotechartNote());
+                notechartToReturn.notes.Add(new Note());
             }
 
             // Else, read in all the chart information
@@ -95,31 +94,31 @@ namespace MinGH.ChartImpl
                                 switch (Convert.ToInt32(parsed_line[3]))
                                 {
                                     case 0:
-                                        notechartToReturn.notes.Add(new NotechartNote(Convert.ToUInt32(parsed_line[0]),
+                                        notechartToReturn.notes.Add(new Note(Convert.ToUInt32(parsed_line[0]),
                                                                                   Convert.ToInt32(parsed_line[4]),
                                                                                   0));
                                         break;
 
                                     case 1:
-                                        notechartToReturn.notes.Add(new NotechartNote(Convert.ToUInt32(parsed_line[0]),
+                                        notechartToReturn.notes.Add(new Note(Convert.ToUInt32(parsed_line[0]),
                                                                                   Convert.ToInt32(parsed_line[4]),
                                                                                   1));
                                         break;
 
                                     case 2:
-                                        notechartToReturn.notes.Add(new NotechartNote(Convert.ToUInt32(parsed_line[0]),
+                                        notechartToReturn.notes.Add(new Note(Convert.ToUInt32(parsed_line[0]),
                                                                                   Convert.ToInt32(parsed_line[4]),
                                                                                   2));
                                         break;
 
                                     case 3:
-                                        notechartToReturn.notes.Add(new NotechartNote(Convert.ToUInt32(parsed_line[0]),
+                                        notechartToReturn.notes.Add(new Note(Convert.ToUInt32(parsed_line[0]),
                                                                                   Convert.ToInt32(parsed_line[4]),
                                                                                   3));
                                         break;
 
                                     case 4:
-                                        notechartToReturn.notes.Add(new NotechartNote(Convert.ToUInt32(parsed_line[0]),
+                                        notechartToReturn.notes.Add(new Note(Convert.ToUInt32(parsed_line[0]),
                                                                                   Convert.ToInt32(parsed_line[4]),
                                                                                   4));
                                         break;
@@ -132,7 +131,7 @@ namespace MinGH.ChartImpl
                         }
                         // Also check for SP notes
                         else if (parsed_line[2] == "S")
-                            notechartToReturn.SPNotes.Add(new NotechartNote(Convert.ToUInt32(parsed_line[0]),
+                            notechartToReturn.SPNotes.Add(new Note(Convert.ToUInt32(parsed_line[0]),
                                                                         Convert.ToInt32(parsed_line[4]),
                                                                         5));
                     }

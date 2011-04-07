@@ -1,9 +1,9 @@
-﻿namespace MinGH.ChartImpl
+﻿namespace ChartEngine
 { 
 	/// <summary>
 	/// An abstract base class for the various chart elements (i.e. NotechartNote, Event)
 	/// </summary>
-    public abstract class NotechartEntity
+    public abstract class Entity
     {
 		/// <summary>
 		/// The location value in ticks (a notation used in the MIDI arcetecture).
