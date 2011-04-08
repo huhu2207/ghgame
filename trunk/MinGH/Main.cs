@@ -10,8 +10,6 @@ namespace MinGH
         {
             using (MinGH game = new MinGH())
             {
-                game.IsFixedTimeStep = false;
-                //game.TargetElapsedTime = new TimeSpan(0, 0, 0, 0, 20);
                 game.Run();
             }
         }
