@@ -1,9 +1,10 @@
-﻿using Microsoft.Xna.Framework;
-using MinGH.Config;
-using MinGH.Enum;
-using FlatRedBall;
+﻿using FlatRedBall;
 using FlatRedBall.Screen;
-using ChartEngine;
+using Microsoft.Xna.Framework;
+using MinGH.Config;
+using MinGH.Events;
+using MinGH.Screens;
+using MinGH.Enum;
 
 namespace MinGH
 {
@@ -47,11 +48,21 @@ namespace MinGH
             graphics.ApplyChanges();
 
             Window.Title = "MinGH";
+            IsMouseVisible = true;
             FlatRedBallServices.InitializeFlatRedBall(this, graphics);
+            ScreenManager.Start(typeof(MainMenu).FullName);
 
-            //Components.Add(new MainMenuScreen(this, graphics));
-            //ScreenManager.Start(MAINMENU);
+            // Feels sloppy, but is how event listeners/handlers are set
+            EventBus<ScreenChange>.EventHandler screenChange = 
+                new EventBus<ScreenChange>.EventHandler(ChangeGameState);
+            EventBus<ScreenChange>.instance.Event += screenChange;
+
             base.Initialize();
+        }
+
+        private void poop()
+        {
+            this.Exit();
         }
 
         /// <summary>
@@ -98,37 +109,28 @@ namespace MinGH
         /// </summary>
         /// <param name="newState">The new game state to enter.</param>
         /// <param name="chartToUse">The "optional" chart location (is sent null if not used).</param>
-        public void ChangeGameState(GameStateEnum newState, ChartSelection chartToUse)
+        private void ChangeGameState(object sender, ScreenChange myEvent)
         {
-            //switch (newState)
-            //{
-            //    case GameStateEnum.QuitGame:
-            //        Exit();
-            //        break;
-            //    case GameStateEnum.MainMenu:
-            //        EnterNewGameScreen(new MainMenuScreen(this, graphics));
-            //        break;
-            //    case GameStateEnum.SinglePlayer:
-            //        EnterNewGameScreen(new SinglePlayerScreen(this, graphics, chartToUse));
-            //        break;
-            //    case GameStateEnum.SongSelection:
-            //        EnterNewGameScreen(new SongSelectionScreen(this, graphics));
-            //        break;
-            //}
-        }
-
-        /// <summary>
-        /// Removes all current components from the component list and adds a new
-        /// screen ontop of the list.
-        /// TODO: This method removes ALL game components, which can be a problem if 
-        /// I want to use random components outside of the screen spectrum.  
-        /// Components.Remove() did not work from what I tried.
-        /// </summary>
-        /// <param name="newScreen">The new screen to display.</param>
-        private void EnterNewGameScreen(DrawableGameComponent newScreen)
-        {
-            Components.Clear();
-            Components.Add(newScreen);
+            Screen currScreen = ScreenManager.CurrentScreen;
+            GameState newState = myEvent.newState;
+            switch (newState)
+            {
+                case GameState.QuitGame:
+                    Exit();
+                    break;
+                case GameState.MainMenu:
+                    currScreen.MoveToScreen(typeof(MainMenu).FullName);
+                    break;
+                case GameState.Options:
+                    currScreen.MoveToScreen(typeof(Options).FullName);
+                    break;
+                case GameState.SinglePlayer:
+                    //EnterNewGameScreen(new SinglePlayerScreen(this, graphics, chartToUse));
+                    break;
+                case GameState.SongSelection:
+                    //EnterNewGameScreen(new SongSelectionScreen(this, graphics));
+                    break;
+            }
         }
     }
 }

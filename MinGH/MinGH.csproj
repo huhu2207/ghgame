@@ -101,10 +101,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Events\EventBus.cs" />
+    <Compile Include="Events\ScreenChangeEvent.cs" />
+    <Compile Include="FMOD\fmod.cs" />
+    <Compile Include="FMOD\fmod_dsp.cs" />
     <Compile Include="OldStuff\Config\ConfigFileReader.cs" />
     <Compile Include="OldStuff\Config\GameConfiguration.cs" />
     <Compile Include="OldStuff\Config\ThemeSetting.cs" />
-    <Compile Include="OldStuff\Enum\GameStateEnum.cs" />
+    <Compile Include="Enum\GameState.cs" />
     <Compile Include="FRBExtensions\fmod.cs" />
     <Compile Include="FRBExtensions\fmod_dsp.cs" />
     <Compile Include="OldStuff\GameStringImpl\GameString.cs" />
@@ -122,6 +126,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="FlatRedBall\Screen.cs" />
     <Compile Include="FlatRedBall\ScreenManager.cs" />
+    <Compile Include="Screens\Options.cs" />
+    <Compile Include="Screens\MainMenu.cs" />
   </ItemGroup>
   <ItemGroup>
     <NestedContentProject Include="Content\Content.contentproj">
