@@ -1,23 +1,22 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using MinGH.Config;
 using MinGH.Enum;
-using MinGH.GameScreen;
-using MinGH.GameScreen.MainMenu;
-using MinGH.GameScreen.SinglePlayer;
-using MinGH.GameScreen.SongSelection;
+using FlatRedBall;
+using FlatRedBall.Screen;
+using ChartEngine;
 
 namespace MinGH
 {
     /// <summary>
     /// This is the main type for the game.
     /// </summary>
-    public class MinGHMain : Microsoft.Xna.Framework.Game
+    public class MinGH : Microsoft.Xna.Framework.Game
     {
         // Global Content
         GraphicsDeviceManager graphics;
         GameConfiguration gameConfiguration;
 
-        public MinGHMain()
+        public MinGH()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
@@ -37,7 +36,7 @@ namespace MinGH
                 graphics.ToggleFullScreen();
                 graphics.PreferredBackBufferWidth = 1920;
                 graphics.PreferredBackBufferHeight = 1080;
-                
+
             }
             else
             {
@@ -48,7 +47,10 @@ namespace MinGH
             graphics.ApplyChanges();
 
             Window.Title = "MinGH";
-            Components.Add(new MainMenuScreen(this, graphics));
+            FlatRedBallServices.InitializeFlatRedBall(this, graphics);
+
+            //Components.Add(new MainMenuScreen(this, graphics));
+            //ScreenManager.Start(MAINMENU);
             base.Initialize();
         }
 
@@ -75,6 +77,8 @@ namespace MinGH
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
+            FlatRedBallServices.Update(gameTime);
+            ScreenManager.Activity();
             base.Update(gameTime);
         }
 
@@ -84,6 +88,7 @@ namespace MinGH
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
+            FlatRedBallServices.Draw();
             base.Draw(gameTime);
         }
 
@@ -95,21 +100,21 @@ namespace MinGH
         /// <param name="chartToUse">The "optional" chart location (is sent null if not used).</param>
         public void ChangeGameState(GameStateEnum newState, ChartSelection chartToUse)
         {
-            switch (newState)
-            {
-                case GameStateEnum.QuitGame:
-                    Exit();
-                    break;
-                case GameStateEnum.MainMenu:
-                    EnterNewGameScreen(new MainMenuScreen(this, graphics));
-                    break;
-                case GameStateEnum.SinglePlayer:
-                    EnterNewGameScreen(new SinglePlayerScreen(this, graphics, chartToUse));
-                    break;
-                case GameStateEnum.SongSelection:
-                    EnterNewGameScreen(new SongSelectionScreen(this, graphics));
-                    break;
-            }
+            //switch (newState)
+            //{
+            //    case GameStateEnum.QuitGame:
+            //        Exit();
+            //        break;
+            //    case GameStateEnum.MainMenu:
+            //        EnterNewGameScreen(new MainMenuScreen(this, graphics));
+            //        break;
+            //    case GameStateEnum.SinglePlayer:
+            //        EnterNewGameScreen(new SinglePlayerScreen(this, graphics, chartToUse));
+            //        break;
+            //    case GameStateEnum.SongSelection:
+            //        EnterNewGameScreen(new SongSelectionScreen(this, graphics));
+            //        break;
+            //}
         }
 
         /// <summary>
