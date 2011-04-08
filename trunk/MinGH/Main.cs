@@ -8,7 +8,7 @@ namespace MinGH
         /// </summary>
         static void Main(string[] args)
         {
-            using (MinGHMain game = new MinGHMain())
+            using (MinGH game = new MinGH())
             {
                 game.IsFixedTimeStep = false;
                 //game.TargetElapsedTime = new TimeSpan(0, 0, 0, 0, 20);

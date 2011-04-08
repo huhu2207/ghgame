@@ -101,51 +101,27 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Config\ConfigFileReader.cs" />
-    <Compile Include="Config\GameConfiguration.cs" />
-    <Compile Include="Config\ThemeSetting.cs" />
-    <Compile Include="EngineExtensions\DrumFretboardBorder.cs" />
-    <Compile Include="EngineExtensions\DrumLaneSeparators.cs" />
-    <Compile Include="EngineExtensions\GuitarFretboardBorders.cs" />
-    <Compile Include="EngineExtensions\GuitarLaneSeparators.cs" />
-    <Compile Include="EngineExtensions\Note.cs" />
-    <Compile Include="Enum\GameStateEnum.cs" />
+    <Compile Include="OldStuff\Config\ConfigFileReader.cs" />
+    <Compile Include="OldStuff\Config\GameConfiguration.cs" />
+    <Compile Include="OldStuff\Config\ThemeSetting.cs" />
+    <Compile Include="OldStuff\Enum\GameStateEnum.cs" />
     <Compile Include="FRBExtensions\fmod.cs" />
     <Compile Include="FRBExtensions\fmod_dsp.cs" />
-    <Compile Include="FRBExtensions\GameStringImpl\GameString.cs" />
-    <Compile Include="FRBExtensions\GameStringImpl\GameStringManager.cs" />
-    <Compile Include="FRBExtensions\GameStringImpl\Menu.cs" />
-    <Compile Include="FRBExtensions\GameStringImpl\MenuSet.cs" />
+    <Compile Include="OldStuff\GameStringImpl\GameString.cs" />
+    <Compile Include="OldStuff\GameStringImpl\GameStringManager.cs" />
+    <Compile Include="OldStuff\GameStringImpl\Menu.cs" />
+    <Compile Include="OldStuff\GameStringImpl\MenuSet.cs" />
     <Compile Include="FRBExtensions\SteppableSprite.cs" />
     <Compile Include="FRBExtensions\SubArrayExtension.cs" />
-    <Compile Include="Fretboard\DrumFretboard.cs" />
-    <Compile Include="Fretboard\GuitarFretboard.cs" />
-    <Compile Include="Fretboard\IFretboard.cs" />
-    <Compile Include="GameScreen\MainMenu\MainMenuScreen.cs" />
-    <Compile Include="GameScreen\SinglePlayer\AudioInitializer.cs" />
-    <Compile Include="Fretboard\AutoplayNoteUpdater.cs" />
-    <Compile Include="Fretboard\DrumInputManager.cs" />
-    <Compile Include="Fretboard\FretboardUpdater.cs" />
-    <Compile Include="GameScreen\SongSelection\SongSelectionEntryCreator.cs" />
-    <Compile Include="Fretboard\IInputManager.cs" />
-    <Compile Include="Fretboard\INoteUpdater.cs" />
-    <Compile Include="Fretboard\NoteInitializer.cs" />
-    <Compile Include="GameScreen\SinglePlayer\SinglePlayerScreen.cs" />
-    <Compile Include="Fretboard\HorizontalHitBox.cs" />
-    <Compile Include="Fretboard\NoteParticleEmitters.cs" />
-    <Compile Include="Fretboard\NoteUpdater.cs" />
-    <Compile Include="Fretboard\GuitarInputManager.cs" />
-    <Compile Include="GameScreen\KeyboardInputManager.cs" />
-    <Compile Include="GameScreen\SinglePlayer\SinglePlayerStringInitializer.cs" />
-    <Compile Include="GameScreen\IKeyboardInputManager.cs" />
-    <Compile Include="GameScreen\SongSelection\ChartFinder.cs" />
-    <Compile Include="GameScreen\ChartSelection.cs" />
-    <Compile Include="GameScreen\SongSelection\SongSelectionScreen.cs" />
+    <Compile Include="OldStuff\SongSelectionEntryCreator.cs" />
+    <Compile Include="OldStuff\ChartFinder.cs" />
     <Compile Include="Main.cs" />
+    <Compile Include="OldStuff\Config\KeyboardConfiguration.cs" />
+    <Compile Include="OldStuff\PlayerInformation.cs" />
     <Compile Include="MinGH.cs" />
-    <Compile Include="Config\KeyboardConfiguration.cs" />
-    <Compile Include="Fretboard\PlayerInformation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="FlatRedBall\Screen.cs" />
+    <Compile Include="FlatRedBall\ScreenManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <NestedContentProject Include="Content\Content.contentproj">
@@ -194,6 +170,10 @@
     <None Include="app.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ChartEngine\ChartEngine.csproj">
+      <Project>{B3CAABE9-9DE7-4DBE-AEB3-B36650245C35}</Project>
+      <Name>ChartEngine</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Sanford.Multimedia.Midi\Sanford.Multimedia.Midi.csproj">
       <Project>{4269C72A-8D3A-4737-8F89-72EAA33EA9E1}</Project>
       <Name>Sanford.Multimedia.Midi</Name>
