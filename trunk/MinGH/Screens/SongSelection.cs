@@ -6,47 +6,39 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using MinGH.Enum;
 using MinGH.Events;
-using MinGH.Util;
-using Microsoft.Xna.Framework;
 using FlatRedBall.Graphics;
+using Microsoft.Xna.Framework;
+using MinGH.Util;
 
 namespace MinGH.Screens
 {
-    class Options : Screen
+    class SongSelection : Screen
     {
-        ListBox listBox;
         Text screenTitle;
+        ListBox listBox;
 
-        public Options()
-            : base("Options")
-        {
-        }
+        public SongSelection()
+            : base("SongSelection")
+        { }
 
         public override void Initialize(bool addToManagers)
         {
             base.Initialize(addToManagers);
 
             screenTitle = new Text();
-            screenTitle.DisplayText = "Options";
-            Vector2 titlePosition = PositionHelper.percentToCoordSprite(0.0f, 50.0f);
+            screenTitle.DisplayText = "Song Selection";
+            Vector2 titlePosition = PositionHelper.percentToCoordSprite(0.0f, 80.0f);
             screenTitle.Y = titlePosition.Y;
             screenTitle.HorizontalAlignment = HorizontalAlignment.Center;
             TextManager.AddText(screenTitle);
 
             GuiManager.IsUIEnabled = true;
             listBox = GuiManager.AddListBox();
-            listBox.ScaleX = 20;
-            listBox.ScaleY = 12;
-            // The first argument to AddItem is the text to show for the item
-            // The second argument is the object that the Item will store. 
-            // The second argment is optional, but we'll use it to reference
-            // the background color that we want to use.
-            listBox.AddItem("Red", Color.Red);
-            listBox.AddItem("Blue", Color.Blue);
-            listBox.AddItem("Yellow", Color.Yellow);
+            listBox.ScaleX = 10;
+            listBox.ScaleY = 20;
 
             for (int i = 0; i < 200; i++)
-                listBox.AddItem("BLAAA" + i);
+                listBox.AddItem("Song " + i);
 
             if(addToManagers)
                 AddToManagers();

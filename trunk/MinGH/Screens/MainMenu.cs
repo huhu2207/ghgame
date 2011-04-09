@@ -6,12 +6,16 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using MinGH.Enum;
 using MinGH.Events;
+using MinGH.Util;
+using Microsoft.Xna.Framework;
+using FlatRedBall.Graphics;
 
 namespace MinGH.Screens
 {
     class MainMenu : Screen
     {
-        ListBox listBox;
+        Text screenTitle;
+        ListBox menuList;
 
         public MainMenu()
             : base("MainMenu")
@@ -22,20 +26,26 @@ namespace MinGH.Screens
         {
             base.Initialize(addToManagers);
 
-            GuiManager.IsUIEnabled = true;
-            listBox = GuiManager.AddListBox();
-            listBox.ScaleX = 8;
-            listBox.ScaleY = 40;
-            // The first argument to AddItem is the text to show for the item
-            // The second argument is the object that the Item will store. 
-            // The second argment is optional, but we'll use it to reference
-            // the background color that we want to use.
-            listBox.AddItem("Red", Color.Red);
-            listBox.AddItem("Blue", Color.Blue);
-            listBox.AddItem("Yellow", Color.Yellow);
+            screenTitle = new Text();
+            screenTitle.DisplayText = "Main Menu";
+            Vector2 titlePosition = PositionHelper.percentToCoordSprite(0.0f, 50.0f);
+            screenTitle.Y = titlePosition.Y;
+            screenTitle.HorizontalAlignment = HorizontalAlignment.Center;
+            TextManager.AddText(screenTitle);
 
-            for (int i = 0; i < 200; i++)
-                listBox.AddItem("BLAAA" + i);
+            GuiManager.IsUIEnabled = true;
+            menuList = GuiManager.AddListBox();
+            menuList.ScaleX = 10;
+            menuList.ScaleY = 10;
+            menuList.ScrollBarVisible = false;
+            Vector2 menuPosition = PositionHelper.percentToCoordGUI(50.0f, 50.0f);
+            menuList.Y = menuPosition.Y;
+            menuList.AddItem("Single Player", GameState.SongSelection);
+            menuList.AddItem("Options", GameState.Options);
+            menuList.AddItem("Quit", GameState.QuitGame);
+            
+            menuList.HighlightItem("Single Player");
+            menuList.CallClick();
 
             if(addToManagers)
                 AddToManagers();
@@ -49,12 +59,20 @@ namespace MinGH.Screens
 
         public override void Activity(bool firstTimeCalled)
         {
-            Boolean downKeyPressed = InputManager.Keyboard.KeyPushed(Keys.Down);
-            Boolean upKeyPressed = InputManager.Keyboard.KeyPushed(Keys.Up);
-
-            if (downKeyPressed)
+            
+            bool escapeKeyPressed = InputManager.Keyboard.KeyPushed(Keys.Escape);
+            if (escapeKeyPressed)
             {
-                ScreenChange newEvent = new ScreenChange(GameState.Options);
+                ScreenChange newEvent = new ScreenChange(GameState.QuitGame);
+                EventBus<ScreenChange>.instance.fireEvent(this, newEvent);
+            }
+
+            bool enterKeyPressed = InputManager.Keyboard.KeyPushed(Keys.Enter);
+            if (enterKeyPressed)
+            {
+                // Get selected item
+                GameState newState = (GameState)menuList.GetFirstHighlightedObject();
+                ScreenChange newEvent = new ScreenChange(newState);
                 EventBus<ScreenChange>.instance.fireEvent(this, newEvent);
             }
 
@@ -63,7 +81,8 @@ namespace MinGH.Screens
 
         public override void Destroy()
         {
-            GuiManager.RemoveWindow(listBox);
+            GuiManager.RemoveWindow(menuList);
+            TextManager.RemoveText(screenTitle);
             base.Destroy();
         }
     }

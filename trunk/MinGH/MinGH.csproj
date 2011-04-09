@@ -126,8 +126,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="FlatRedBall\Screen.cs" />
     <Compile Include="FlatRedBall\ScreenManager.cs" />
+    <Compile Include="Screens\SongSelection.cs" />
     <Compile Include="Screens\Options.cs" />
     <Compile Include="Screens\MainMenu.cs" />
+    <Compile Include="Util\PositionHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <NestedContentProject Include="Content\Content.contentproj">
