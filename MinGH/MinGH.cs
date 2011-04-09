@@ -128,7 +128,7 @@ namespace MinGH
                     //EnterNewGameScreen(new SinglePlayerScreen(this, graphics, chartToUse));
                     break;
                 case GameState.SongSelection:
-                    //EnterNewGameScreen(new SongSelectionScreen(this, graphics));
+                    currScreen.MoveToScreen(typeof(SongSelection).FullName);
                     break;
             }
         }
