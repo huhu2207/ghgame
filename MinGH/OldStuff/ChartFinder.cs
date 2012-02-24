@@ -12,6 +12,7 @@ namespace MinGH.GameScreen.SongSelection
         /// <summary>
         /// Generates a list of chartPaths which contains every chart within the
         /// song directory.
+        /// OH NO TRUNK CHANGE!?!?!?
         /// </summary>
         /// <param name="songDirectory">The song directory to search.</param>
         /// <returns>A list of all found charts.</returns>
