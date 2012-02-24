@@ -3,7 +3,7 @@
     /// <summary>
     /// A simple string class that stores all relavent information for picking
     /// a particular chart from a source file.
-    /// 
+    /// This is a 'trunk' change!!
     /// Current possible chartTypes:
     ///      SingleGuitar
     ///      DoubleGuitar
