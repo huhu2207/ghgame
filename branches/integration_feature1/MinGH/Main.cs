@@ -13,6 +13,10 @@ namespace MinGH
                 game.Run();
             }
         }
+        private static void doStuff()
+        {
+            //TODO: Do stuff here
+        }
     }
 }
 
