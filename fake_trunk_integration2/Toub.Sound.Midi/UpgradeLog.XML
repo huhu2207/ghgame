@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet type='text/xsl' href='_UpgradeReport_Files/UpgradeReport.xslt'?><UpgradeLog>
+<Properties><Property Name="Solution" Value="Toub.Sound.Midi">
+</Property><Property Name="Solution File" Value="C:\Documents and Settings\Dave\Desktop\Toub\Toub.Sound.Midi.sln">
+</Property><Property Name="Date" Value="Tuesday, January 19, 2010">
+</Property><Property Name="Time" Value="3:09 AM">
+</Property></Properties><Event ErrorLevel="0" Project="" Source="Toub.Sound.Midi.sln" Description="File successfully backed up as C:\Documents and Settings\Dave\Desktop\Toub\Backup\Toub.Sound.Midi.sln">
+</Event><Event ErrorLevel="0" Project="Toub.Sound.Midi" Source="Toub.Sound.Midi.csproj" Description="Project file successfully backed up as C:\Documents and Settings\Dave\Desktop\Toub\Backup\Toub.Sound.Midi.csproj">
+</Event><Event ErrorLevel="0" Project="Toub.Sound.Midi" Source="AssemblyInfo.cs" Description="File successfully backed up as C:\Documents and Settings\Dave\Desktop\Toub\Backup\AssemblyInfo.cs">
+</Event><Event ErrorLevel="0" Project="Toub.Sound.Midi" Source="MidiCodeGenerator.cs" Description="File successfully backed up as C:\Documents and Settings\Dave\Desktop\Toub\Backup\MidiCodeGenerator.cs">
+</Event><Event ErrorLevel="0" Project="Toub.Sound.Midi" Source="MidiDefinitions.cs" Description="File successfully backed up as C:\Documents and Settings\Dave\Desktop\Toub\Backup\MidiDefinitions.cs">
+</Event><Event ErrorLevel="0" Project="Toub.Sound.Midi" Source="MidiEvent.cs" Description="File successfully backed up as C:\Documents and Settings\Dave\Desktop\Toub\Backup\MidiEvent.cs">
+</Event><Event ErrorLevel="0" Project="Toub.Sound.Midi" Source="MidiHeaders.cs" Description="File successfully backed up as C:\Documents and Settings\Dave\Desktop\Toub\Backup\MidiHeaders.cs">
+</Event><Event ErrorLevel="0" Project="Toub.Sound.Midi" Source="MidiInterop.cs" Description="File successfully backed up as C:\Documents and Settings\Dave\Desktop\Toub\Backup\MidiInterop.cs">
+</Event><Event ErrorLevel="0" Project="Toub.Sound.Midi" Source="MidiParser.cs" Description="File successfully backed up as C:\Documents and Settings\Dave\Desktop\Toub\Backup\MidiParser.cs">
+</Event><Event ErrorLevel="0" Project="Toub.Sound.Midi" Source="MidiPlayer.cs" Description="File successfully backed up as C:\Documents and Settings\Dave\Desktop\Toub\Backup\MidiPlayer.cs">
+</Event><Event ErrorLevel="0" Project="Toub.Sound.Midi" Source="MidiSequence.cs" Description="File successfully backed up as C:\Documents and Settings\Dave\Desktop\Toub\Backup\MidiSequence.cs">
+</Event><Event ErrorLevel="0" Project="Toub.Sound.Midi" Source="MidiTrack.cs" Description="File successfully backed up as C:\Documents and Settings\Dave\Desktop\Toub\Backup\MidiTrack.cs">
+</Event><Event ErrorLevel="0" Project="Toub.Sound.Midi" Source="Toub.Sound.Midi.csproj" Description="Project converted successfully">
+</Event><Event ErrorLevel="3" Project="Toub.Sound.Midi" Source="Toub.Sound.Midi.csproj" Description="Converted">
+</Event><Event ErrorLevel="0" Project="" Source="Toub.Sound.Midi.sln" Description="Solution converted successfully">
+</Event><Event ErrorLevel="3" Project="" Source="Toub.Sound.Midi.sln" Description="Converted">
+</Event><Event ErrorLevel="0" Project="Toub.Sound.Midi" Source="Toub.Sound.Midi.csproj" Description="Scan complete: Upgrade not required for project files.">
+</Event></UpgradeLog>
