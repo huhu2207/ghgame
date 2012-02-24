@@ -32,6 +32,7 @@
 
         /// <summary>
         /// Updates the counter according to the input value.
+        /// Uh-oh! low level feature commit!!
         /// </summary>
         /// <param name="in_time">
         /// The value to be added to the current time.
