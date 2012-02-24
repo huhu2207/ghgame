@@ -14,6 +14,7 @@ namespace ChartEngine.Chart
         /// <summary>
         /// Opens a specified chart and reads in all the valid BPM changes 
         /// (i.e. 23232 = B 162224) and returns a populated list.
+        /// CHANGE TO INTEGRATION 1!!!
         /// </summary>
         /// <param name="inputFile">
         /// The whole *.chart file stored in one massive string.
