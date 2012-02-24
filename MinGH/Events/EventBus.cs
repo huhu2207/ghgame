@@ -14,6 +14,7 @@
         
         /// <summary>
         /// Gets the instance of the event bus for the provided type
+        /// OOGA BOOGA!!!!
         /// </summary>
         public static EventBus<T> instance
         {
