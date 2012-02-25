@@ -25,6 +25,7 @@ namespace ChartEngine
         /// </param>
         /// <param name="inValue">
         /// The string value that details the specific event.
+        /// I forgot i was still merging in trunk changes!!!
         /// </param>
         public Event(uint inTickValue, string inValue)
         {
