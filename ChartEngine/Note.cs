@@ -4,6 +4,7 @@ namespace ChartEngine
 {
     /// <summary>
     /// The class that stores information.  Is derived from the Entity class.
+    ///asd asdasdas
     /// </summary>
     public class Note : Entity
     {
