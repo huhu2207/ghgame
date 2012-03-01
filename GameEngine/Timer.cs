@@ -2,6 +2,7 @@
 {
     /// <summary>
     /// A basic timer class.
+    ////asdasdas
     /// </summary>
     class Timer
     {
