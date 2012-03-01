@@ -9,6 +9,7 @@
     ///      DoubleGuitar
     ///      DoubleBass
     ///      Drums
+    /// asdada
     /// </summary>
     public class ChartSelection
     {
