@@ -5,6 +5,7 @@ namespace MinGH
     {
         /// <summary>
         /// The main entry point for the application.
+        /// INTEGRATION CHANGE:wq!
         /// </summary>
         static void Main(string[] args)
         {
@@ -12,6 +13,10 @@ namespace MinGH
             {
                 game.Run();
             }
+        }
+        private static void doStuff()
+        {
+            //TODO: Do stuff here
         }
     }
 }
