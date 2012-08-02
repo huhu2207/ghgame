@@ -1,4 +1,4 @@
-﻿namespace ChartEngine
+﻿third change integration branch namespace ChartEngine
 {
     /// <summary>
     /// A simple string class that stores all relavent information for picking
