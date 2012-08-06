@@ -1,4 +1,5 @@
-﻿namespace ChartEngine
+﻿casey_test integration commit
+namespace ChartEngine
 {
 	/// <summary>
 	/// Stores the various data on the chart that have single instances (only appear once).
