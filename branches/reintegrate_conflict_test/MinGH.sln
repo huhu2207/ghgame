@@ -1,5 +1,5 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
+Microsoft VisualIamParentbranch Studio Solution File, Format Version 10.00
 # Visual C# Express 2008
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MinGH", "MinGH\MinGH.csproj", "{DB6A49B0-438C-4DBE-8701-69CFAEFEABC3}"
 EndProject
