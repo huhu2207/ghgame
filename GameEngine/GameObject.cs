@@ -23,6 +23,8 @@ namespace GameEngine
         /// </summary>
         public Effect myEffect;
 
+	int thisIntIsNewInTheChangedBranch = 0;
+
         /// <summary>
         /// The position this game object is currently located.  This position is where
         /// the top left of the sprite is to be drawn.
