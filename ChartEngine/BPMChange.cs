@@ -1,4 +1,4 @@
-﻿using System;
+﻿uhoh this fix was already don in trunk AFTER the code freeze:using System;
 
 namespace ChartEngine
 {
