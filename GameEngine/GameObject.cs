@@ -22,7 +22,7 @@ namespace GameEngine
         /// The effect for the shader to use (I simply use an effect file I found online)
         /// </summary>
         public Effect myEffect;
-
+bigfix change!~  This should also make it back to trun!k
         /// <summary>
         /// The position this game object is currently located.  This position is where
         /// the top left of the sprite is to be drawn.
