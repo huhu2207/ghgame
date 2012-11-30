@@ -1,4 +1,6 @@
-﻿changrintrunkusing System;
+changrintrunkusing System;uhoh this fix was already don in trunk AFTER the code freeze:using System;
+
+Now both changes are here!
 
 namespace ChartEngine
 {
